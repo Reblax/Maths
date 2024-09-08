@@ -1,0 +1,696 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsfonts, amsthm}
+\usepackage[english]{babel}
+\usepackage{geometry}[textwidth=10cm]
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{nicefrac}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.pathmorphing}
+
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\op}{\mathrm{op}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\U}{\mathbb{U}}
+\newcommand{\F}{\mathbb{F}}
+\renewcommand{\H}{\mathbb{H}}
+
+\renewcommand{\P}{\mathbb{P}}
+\renewcommand{\d}{{\rm \, d}}
+
+\newcommand{\asympt}{\mathop{\sim}}
+\newcommand{\lin}{\mathcal{L}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\catt}{\mathcal{D}}
+\newcommand{\rel}{\mathcal{R}}
+
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\Top}{\mathbf{Top}}
+\newcommand{\Grp}{\mathbf{Grp}}
+\newcommand{\Mod}{\mathbf{Mod}}
+\newcommand{\Ab}{\mathbf{Ab}}
+\newcommand{\Vectcat}{\mathbf{Vect}}
+
+%Operators
+\DeclareMathOperator{\Acc}{Acc}
+\DeclareMathOperator{\arccosh}{arccosh}
+\DeclareMathOperator{\Card}{Card}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\PSL}{PSL}
+\DeclareMathOperator{\PGL}{PGL}
+\DeclareMathOperator{\SO}{SO}
+\DeclareMathOperator{\pgcd}{pgcd}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\rg}{rg}
+\DeclareMathOperator{\ch}{ch}
+\DeclareMathOperator{\sh}{sh}
+\DeclareMathOperator{\Vect}{Vect}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\rk}{rk}
+\DeclareMathOperator{\Fix}{Fix}
+\DeclareMathOperator{\Ob}{Ob}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Int}{Int}
+\DeclareMathOperator{\Mor}{Mor}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Fun}{Fun}
+\DeclareMathOperator{\Nat}{Nat}
+\renewcommand{\th}{\mathop{\rm th}}
+\renewcommand{\Re}{\mathop{\rm Re}}
+\renewcommand{\Im}{\mathop{\rm Im}}
+
+\newcommand{\todo}{\textbf{TODO}}
+
+\renewcommand{\epsilon}{\varepsilon}
+
+\newcommand{\esh}{{\textstyle \int}}
+
+%Macros
+\newcommand{\applic}[4]{\begin{array}[t]{rcl}
+#1 & \to & #2 \\
+#3 & \mapsto & #4
+\end{array}}
+\newcommand{\warning}{\faExclamationTriangle \hspace{3pt}}
+
+\setlength{\parindent}{0pt}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{examples}[theorem]{Examples}
+
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{exercise}{Exercise}
+
+\title{Homological Algebra}
+\author{Original lectures notes by Baptiste Rognerud, but now typeset in \LaTeX}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Introduction to category theory}
+
+References:
+\begin{itemize}
+    \item Emily Riehl, Category Theory in Context (chapter I)
+    \item Saunders Mac Lane, Categories for the Working Mathematician
+    \item Ibrahim Assem, Introduction au langage catégorique (chapters I, II)
+\end{itemize}
+
+\faChevronRight \space Near 1945 Eilenberg and Mac Lane gave the good formalism for a ``natural isomorphism'' (the general theory of natural transformations). For instance, if $V$ is a finite-dimensional vector space, $V \simeq V^*$ and $V \simeq V^{**}$, but the first isomorphism is not natural (``a choice needs to be made''), while the second is. But why? \\
+It turns out solving this question gave a formalism, category theory, that unified already existing mathematical concepts, gave new links between different notions and also gave new questions! \\
+\warning Category theory is not a theory that trivializes mathematics. \\
+It is used today by (almost) everyone: algebraic geometry, algebra, representation theory, topology, combinatorics, \dots
+
+\subsection{Categories and functors}
+
+\begin{definition}
+    A \emph{category} $\cat$ is the data of
+    \begin{itemize}
+        \item A collection of \emph{morphisms} $\Mor(\cat)$
+        \item A collection of \emph{objects} $\Ob(\cat)$
+    \end{itemize}
+    such that
+    \begin{enumerate}
+        \item Every morphism $f \in \Mor(\cat)$ has a specified domain $X \in \Ob(\cat)$ and codomain $Y \in \Ob(\cat)$. We write $f : X \to Y$.
+        \item For every object $X \in \Ob(\cat)$ there exists a morphism $1_X : X \to X$ (the \emph{identity} of $X$), also written $\id_X$
+        \item For any three objects $X,Y,Z \in \Ob(\cat)$ and morphims $f : X \to Y$ and $g : Y \to Z$ there exists a morphism $g\circ f : X \to Z$ (we often omit $\circ$ and just write $gf$)
+    \end{enumerate}
+    satisfying
+    \begin{description}
+        \item[(Identity)] $\forall f : X \to Y, 1_Y f = f = f 1_X$
+        \item[(Associativity)] $\forall f : W \to X, g : X \to Y, h : Y \to Z$, $h(gf) = (hg)f$
+    \end{description}
+\end{definition}
+
+\begin{remark} \leavevmode
+    \begin{enumerate}
+        \item We use the term ``collection'' because we don't want to worry about set-theoretical issues
+        \item If $\Mor(\cat)$ is a set, we say that $\cat$ is \emph{small}
+        \item We denote by $\Hom_\cat (X,Y)$ (or $\cat(X,Y)$) the collection of $f : X \to Y \in \Mor(\cat)$
+    \end{enumerate}
+\end{remark}
+
+\begin{examples}[Concrete categories] \leavevmode
+    \begin{enumerate}
+        \item The category $\Set$, where objects are sets and morphisms are just maps.
+        \item $\Top$, where objects are topological spaces and morphisms are continuous maps.
+        \item Groups together with group homomorphisms form a category called $\Grp$. The same can be said about rings, fields\dots
+        \item $k$-vector spaces, or more generally left/right $R$-modules, together with linear maps, form a category denoted $R\Mod$ or $\Mod R$ (for left or right $R$-modules).
+    \end{enumerate}
+\end{examples}
+
+In these previous examples, objects are sets with additional structure, and morphisms between two objects are in particular maps between the two underlying sets. Such categories are called \emph{concrete categories} (a rigorous definition will be given later). However, a category need not be concrete.
+
+\begin{examples}[Abstract categories] \leavevmode
+    \begin{enumerate}
+        \item Let $k$ be a field. There exists a category $\mathbf{Mat}_k$ where objects are the natural numbers $\N$ and morphisms are $\Hom(m,n) = \mathrm{Mat}_{n,m} (k)$, where composition is given by matrix multiplication.
+        \item If $G$ is a group, there exists a category $BG$ which has only one object $\bullet$, and morphisms $\Hom(\bullet, \bullet) = G$, where composition is multiplication in $G$.
+        \item If $(P,\le)$ is a \emph{poset} (a partially ordered set, that is a set $P$ together with a reflexive, transitive relation $\le$), then one can construct a category $\hat{P}$ by setting $\Ob(\hat{P}) = P$ and $|\Hom(x,y)| = \begin{cases}
+            1 & \text{if $x\le y$} \\ 0 & \text{otherwise}
+        \end{cases}$, where composition is defined in the only possible way.
+        \item The homotopy category of topological spaces: objects are topological spaces, and $\Hom(X,Y)$ is $\Hom_\Top(X,Y)/\sim$ where $\sim$ is homotopy of continuous maps.
+    \end{enumerate}
+\end{examples}
+
+\begin{exercise}
+    Check the categories defined above really are categories. In (2), what are the minimal hypotheses needed on $G$ for $BG$ to be a category? In (3), what are the minimal hypotheses needed on $\le$ for $\hat{P}$ to be a category?
+\end{exercise}
+
+\begin{examples}[Categories constructed from categories] \leavevmode
+    \begin{enumerate}
+        \item If $\cat$ is a category, one can construct its \emph{opposite category} $\cat^\op$, defined by $\Ob(\cat^\op) = \Ob(\cat)$ and $\Hom_{\cat^\op}(X,Y) = \Hom_\cat(Y,X)$, with composition described by the following diagram:
+        \begin{center}
+            \begin{tikzcd}
+                X \arrow[d, "f"] \arrow[dd, "gf", bend right, '] \arrow[dd,phantom,bend left,""{name=U}] & X \\
+                Y \arrow[d, "g"] & Y \arrow[u,"f^\text{op}"] \\
+                Z & Z \arrow[u, "g^\text{op}"] \arrow[uu, "f^\text{op}g^\text{op}", ', bend right] \arrow[uu,bend left,""{name=V},phantom]
+                \arrow[from=U,to=V,squiggly]
+            \end{tikzcd}
+        \end{center}
+        \item Let $\cat$ be a category. A \emph{subcategory} $\catt$ of $\cat$ is another category such that $\Ob(\catt) \subset \Ob(\cat)$ and $\Mor(\catt) \subset \Mor(\cat)$ and the composition in $\catt$ is induced by the one in $\cat$. For instance, $\Ab$, the category of abelian groups and group homomorphisms, is a subcategory of $\Grp$.
+        \item Let $\cat$ and $\catt$ be categories. The \emph{product category} of $\cat$ and $\catt$ is the category $\cat \times \catt$ defined by $\Ob(\cat \times \catt) = \Ob(\cat) \times \Ob(\catt)$ and $\Mor(\cat \times \catt) = \Mor(\cat) \times \Mor(\catt)$, composition and identities being defined componentwise.
+    \end{enumerate}
+\end{examples}
+
+\begin{exercise}
+    Describe $(BG)^\op$ for $G$ a group and $\hat{P}^\op$ for $(P,\le)$ a poset.
+\end{exercise}
+
+\warning $\Set^\op$ is not $\Set$. \todo
+
+\begin{remark}
+    In a category $\cat$ the objects can be anything, so saying $x \in X$ for $X \in \Ob(\cat)$ doesn't make sense. Hence, categorical notions are defined using arrows and not elements.
+\end{remark}
+
+\begin{definition}
+    Let $\cat$ be a category.
+    \begin{enumerate}
+        \item $f : X \to Y$ is an \emph{isomorphism} if there exists $g : Y \to X$ such that $gf = \id_X$ and $fg = \id_Y$.
+        \item $f : X \to Y$ is a \emph{monomorphism} if for all $g,h : W \to X$ such that $fg = fh$, $g=h$ ($f$ is left-cancellable).
+        \item $f : X \to Y$ is an \emph{epimorphism} if for all $g,h : Y \to Z$ such that $gf = hf$, $g=h$ ($f$ is right-cancellable).
+    \end{enumerate}
+\end{definition}
+
+\warning Being both a mono and an epi doesn't imply being an iso. \todo
+
+\begin{definition}
+    Let $\cat,\catt$ be two categories. A \emph{(covariant) functor} $F : \cat \to \catt$ is the data of
+    \begin{itemize}
+        \item An object $F(X) \in \Ob(\catt)$ for all $X \in \Ob(\cat)$
+        \item A morphism $F(f) \in \Hom_\catt(F(X), F(Y))$ for all $f \in \Hom_\cat (X,Y)$
+    \end{itemize}
+    such that $F(\id_X) = \id_{F(X)}$ for all $X \in \Ob(\cat)$ and $F(gf) = F(g)F(f)$ whenever $f,g \in \Mor(\cat)$ are composable. 
+\end{definition}
+
+\begin{definition}
+    A \emph{contravariant} functor from $\cat$ to $\catt$ is a functor from $\cat^\op$ to $\catt$ (so composition is reversed, i.e. $F(gf) = F(f)F(g)$).
+\end{definition}
+
+\begin{examples} \leavevmode
+    \begin{enumerate}
+        \item $U : \Grp \to \Set, U(G) = G, U(f) = f$ the functor that to a group assigns it its underlying set and to a homomorphism the underlying map. It is called the \emph{forgetful functor} from groups to sets, because it forgets the group structure.
+        \item $U : \applic{\mathbf{Ass}}{\mathbf{Lie}}{(A,+,\cdot)}{(A,+,[-,-])}$ the forgetful functor from the category of associative algebras to the category of Lie algebras. It forgets the ``associative structure'' but remembers the underlying abelian group.
+        \item $F : \Set \to \Ab, X \mapsto \Z[X], f \mapsto \Z[f]$, which to a set assigns the free abelian group with basis $X$ (the group of finite linear combinations of elements of $X$). A map $f : X \to Y$ can then be uniquely extended to a linear map $\Z[f] : \Z[X] \to \Z[Y]$ that agrees with $f$ on the bases of $\Z[X]$ and $\Z[Y]$.
+        \item Suppose $\cat$ is locally small (i.e. for any $X,Y$, $\Hom_\cat(X,Y)$ is a set). For all $X \in \cat$, $\Hom(X,-)$ is a functor $\cat \to \Set$. Similarly, $\Hom_\cat(-,X)$ is a contravariant functor $\cat \to \Set$. $\Hom_\cat(-,-)$ is a functor $\cat \times \cat^\op \to \Set$.
+        \item Functors $\cat \xrightarrow[F]{} \catt \xrightarrow[G]{} \mathcal{E}$ can be composed in the obvious sense.
+    \end{enumerate}
+\end{examples}
+
+\todo : DRAW DIAGRAMS
+
+\begin{definition}
+    Let \begin{tikzcd}
+        \cat \arrow[r,bend left, "F"] \arrow[r,bend right, "G",'] & \catt
+    \end{tikzcd} be two functors. A \emph{natural transformation} $\eta$ from $F$ to $G$ is the data of morphisms $\eta_X : F(X) \to G(X) \in \Mor(\catt)$ for all $X \in \Ob(\cat)$ such that for all $f : X \to Y \in \Mor(\cat)$, the diagram
+    \begin{center}
+        \begin{tikzcd}
+            F(X) \arrow[r, "\eta_X"] \arrow[d, "F(f)"] & G(X) \arrow[d, "G(f)"] \\
+            F(Y) \arrow[r, "\eta_Y"] & G(Y)
+        \end{tikzcd}
+    \end{center}
+    commutes, that is $G(f)\eta_X = \eta_Y F(f)$. We write $\eta : F \Rightarrow G$ or draw \begin{tikzcd}
+        \cat \arrow[r,bend left, "F"] \arrow[r,bend left, phantom, ""{name=U}] \arrow[r,bend right, "G"{name=V},'] \arrow[r,bend right, phantom, ""{name=V},'] & \catt \arrow[Rightarrow, from=U,to=V,"\eta"]
+    \end{tikzcd}
+\end{definition}
+
+\begin{example}
+    Let $V$ be a $k$-vector space. $\id_{\mathbf{Vect}_k}$ and $D^2 = \Hom_{\mathbf{Vect}_k}(\Hom_{\mathbf{Vect}_k}(-,k),k)$ are two endofunctors of $\mathbf{Vect}_k$. $\mathrm{ev}_- : \applic{V}{V^{**}}{v}{\applic{\Hom(V,k)}{k}{\phi}{\phi(v)}}$ defines a natural transformation between them:
+    \begin{center}
+        \begin{tikzcd}
+            V \arrow[r, "\mathrm{ev}"] \arrow[d, "f",'] & V^{**} \arrow[d, "D^2(f)"] \\
+            W \arrow[r, "\mathrm{ev}",'] & W^{**}
+        \end{tikzcd}
+    \end{center}
+    For $a \in V$, $D^2 (f) \circ \mathrm{ev}_a : \applic{W^*}{k}{\phi}{\phi(f(a))} \in W^{**}$ and in the other direction $(\mathrm{ev} \circ f)(a) = \mathrm{ev}_{f(a)}$. \\
+    However, there is no natural transformation from $\id_{\Vectcat_k}$ to $D$. For one, the first is covariant and the second is contravariant. To get a natural transformation from a covariant to a contravariant functor, we can modify the definition of naturality to be that \begin{tikzcd}[column sep=tiny, row sep = small]
+        V \arrow[r] \arrow[d] & V^* \\ W \arrow[r] & W^* \arrow[u]
+    \end{tikzcd}
+    commutes, but even such natural transformations do not exist from $\id_{\Vectcat_k}$ to $D$.
+\end{example}
+
+\begin{definition}
+    A natural transformation \begin{tikzcd}
+        \cat \arrow[r,bend left, "F"] \arrow[r,bend left, phantom, ""{name=U}] \arrow[r,bend right, "G"{name=V},'] \arrow[r,bend right, phantom, ""{name=V},'] & \catt \arrow[Rightarrow, from=U,to=V,"\eta"]
+    \end{tikzcd} is a \emph{natural isomorphism} if $\eta_X$ is an isomorphism for all $X \in \Ob(\cat)$.
+\end{definition}
+
+\begin{remark}
+    One can compose natural transformations in two ways, ``vertical composition'':
+    \begin{center}
+        \begin{tikzcd}[row sep=huge]
+            \mathcal{C}
+             \arrow[r, bend left=65, "F"{name=F}]
+             \arrow[r, "G"{inner sep=0,fill=white,anchor=center,name=G}]
+             \arrow[r, bend right=65, "H"{name=H, swap}]
+             \arrow[from=F.south-|G,to=G,Rightarrow,shorten=2pt,"\alpha"] 
+             \arrow[from=G,to=H.north-|G,Rightarrow,shorten=2pt,"\beta"] &
+           \mathcal{D} \arrow[r,squiggly] &
+           \mathcal{C} \arrow[r, bend left=30,"F"{name=U}] \arrow[r,bend right=30, "H"{name=D},'] \arrow[from=U.south,to=D.north,Rightarrow, "\beta \circ \alpha",shorten=2pt] &
+           \mathcal{D}
+        \end{tikzcd}
+        where $(\beta\circ \alpha)_X = \beta_X \circ \alpha_X$
+    \end{center}
+    or ``horizontal composition'':
+    \begin{center}
+        \begin{tikzcd}[row sep=huge]
+            \mathcal{C}
+             \arrow[r, bend left=30, "F_1"{name=F}]
+             \arrow[r, bend right=30, "G_1"{name=H, swap}]
+             \arrow[from=F.south-|H,to=H.north,Rightarrow,shorten=2pt,"\alpha_1"] &
+           \mathcal{D}
+           \arrow[r, bend left=30, "F_2"{name=FF}]
+             \arrow[r, bend right=30, "G_2"{name=HH, swap}]
+             \arrow[from=FF.south-|HH,to=HH.north,Rightarrow,shorten=2pt,"\alpha_2"] &
+            \mathcal{E} \arrow[r,squiggly] &
+            \mathcal{C} \arrow[rr, bend left=30,"F_2\circ F_1"{name=U}] \arrow[rr,bend right=30, "G_2\circ G_1"{name=D},'] \arrow[from=U.south,to=D.north,Rightarrow, "\alpha_2 * \alpha_1",shorten=2pt] & &
+           \mathcal{E}
+        \end{tikzcd}
+        where $(\alpha_2 * \alpha_1)_X = G_2({(\alpha_1)}_{X}) \circ {(\alpha_2)}_{F_1(X)} $
+    \end{center}
+    Horizontal composition can also be defined in another equivalent way using commutativity of
+    \begin{center}
+        \begin{tikzcd}
+            F_2 F_1(X) \arrow[r,"(\alpha_2)_{F_1(X)}"] \arrow[d,"F_2((\alpha_1)_X)",'] & G_2 F_1(X) \arrow[d,"G_2((\alpha_1)_X)"]  \\
+            F_2 G_1(X) \arrow[r,"(\alpha_2)_{G_1(X)}"] & G_2 G_1 (X)
+        \end{tikzcd}
+    \end{center}
+    The diagram commutes by naturality of $\alpha_2$, so $(\alpha_2 * \alpha_1) = (\alpha_2)_{G_1(X)} \circ F_2((\alpha_1)_X)$.
+\end{remark}
+
+\begin{definition}
+    Let $\cat,\catt$ be two categories. Then the \emph{functor category from $\cat$ to $\catt$} written $\Fun(\cat,\catt)$ or $\catt^\cat$ is the category whose objects are functors from $\cat$ to $\catt$ and morphisms are natural transformations.
+\end{definition}
+
+\begin{remark}
+    Categories, together with functors and natural transformations between them is the prototypal example of a 2-category.
+\end{remark}
+
+\subsection{Equivalences of categories}
+
+\begin{definition}
+    Let $\cat$ and $\catt$ be two categories. An \emph{equivalence of categories} from $\cat$ to $\catt$ is the data of
+    \begin{enumerate}
+        \item $F : \cat \to \catt$ and $G : \catt \to \cat$ wo functors
+        \item Natural isomorphisms $\eta : 1_\cat \Rightarrow GF$ and $\epsilon : FG \Rightarrow 1_\catt$ where $1_\cat$ and $1_\catt$ are the identity functors of $\cat$ and $\catt$.
+    \end{enumerate}
+\end{definition}
+
+\begin{remark} \leavevmode
+    \begin{enumerate}
+        \item $G$ is called a \emph{quasi-inverse} of $F$.
+        \item Most of the time we say that $F$ is an equivalence if there exists $G$ such that $(F,G)$ is an equivalence.
+        \item If $F,G$ are contravariant, we speak of \emph{duality} between $\cat$ and $\catt$.
+        \item If two categories are equivalent, every property that can be expressed ``in terms of arrows'' is preserved.
+    \end{enumerate}
+\end{remark}
+
+\begin{definition}
+    Let $F : \cat \to \catt$ be a functor. Then, we say
+    \begin{enumerate}
+        \item $F$ is \emph{faithful} if $\forall X,Y \in \Ob(\cat)$, $F : \applic{\Hom_\cat(X,Y)}{\Hom_\catt(F(X),F(Y))}{f}{F(f)}$ is injective.
+        \item $F$ is \emph{full} if the previous map is surjective.
+        \item $F$ is \emph{essentially surjective} if for all $ Y \in \Ob(\catt)$ there is $X \in \Ob(\cat)$ such that $F(X) \simeq Y$ in $\catt$.
+    \end{enumerate}
+\end{definition}
+
+\begin{theorem}
+    Let $F : \cat \to \catt$ be a functor. Then $F$ is an equivalence of categories if and only if it is fully faithful and essentially surjective. 
+\end{theorem}
+
+\begin{proof}
+    \warning There is a little set-theoretic issue: an equivalence of categories is always fully faithful and essentially surjective, but the converse requires the axiom of choice for the class $\Ob(\cat)$. \\
+    Suppose $F : \cat \to \catt$ is an equivalence of categories, and let $G : \catt \to \cat$ be a quasi-inverse of $F$, together with natural isomorphisms $\eta : 1_\cat \to GF$ and $\epsilon : 1_\catt \to FG$. If $Y$ is an object of $\catt$, then $Y \simeq FG(Y)$, so $F$ is essentially surjective. Let $X,Y$ be objects of $\cat$. To show $F$ is fully faithful we will construct an inverse to $F : \Hom_\cat (X,Y) \to \Hom_\catt (F(X),F(Y))$. For any $f \in \Hom_\catt(F(X),F(Y))$, we have a commutative diagram
+    \begin{center}
+        \begin{tikzcd}[cramped]
+            X \arrow[r, "\eta_X"] \arrow[d, "f",'] & GF(X) \arrow[d, "GF(f)"] \\
+            Y \arrow[r, "\eta_Y"] & GF(Y)
+        \end{tikzcd}
+    \end{center}
+    which prompts us to define $\phi : \applic{\Hom_\catt (F(X),F(Y))}{\Hom_\cat (X,Y)}{g}{\eta_Y^{-1} \circ G(g) \circ \eta_X}$. We now check it is the map we're looking for. If $f : X \to Y$, since the above diagram commutes and $\eta_Y$ is invertible, we get that $\phi(F(f)) = f$, so $\phi \circ F = \id_{\Hom_\cat (X,Y)}$, which means $F$ is faithful. We have two commutative diagrams, by definition of $\phi$ and by naturality of $\eta$:
+    \begin{center}
+        \begin{tikzcd}[cramped]
+            X \arrow[r, "\eta_X"] \arrow[d, "\phi(g)",'] & GF(X) \arrow[d, "G(g)"] \\
+            Y \arrow[r, "\eta_Y"] & GF(Y)
+        \end{tikzcd}
+        \hspace{1.5cm}
+        \begin{tikzcd}[cramped]
+            X \arrow[r, "\eta_X"] \arrow[d, "\phi(g)",'] & GF(X) \arrow[d, "GF(\phi(g))"] \\
+            Y \arrow[r, "\eta_Y"] & GF(Y)
+        \end{tikzcd}
+    \end{center}
+    therefore, $G(g) \circ \eta_X = GF(\phi(g)) \circ \eta_X$.
+    Since $\eta_X$ is invertible, $G(g) = GF(\phi(g))$. The previous point shows that $G$ is faithful, so $g = F(\phi(g))$, hence $F$ is full. \\
+    Now suppose $F$ is fully faithful and essentially surjective. Our goal is to construct $G$. For any $Y \in \Ob(\catt)$, since $F$ is essentially surjective, there exists $X_Y \in \Ob(\cat)$ and an isomorphism $\epsilon_Y : Y \to F(X_Y)$. Therefore, for any $Y,Z\in \Ob(\catt)$ and $f:Y \to Z$, we have a commutative diagram
+    \begin{center}
+        \begin{tikzcd}
+            Y \arrow[d, "\epsilon_Y"] \arrow[r, "f"] & Z \arrow[d, "\epsilon_Z"] \\
+            F(X_Y) \arrow[r, "\epsilon_Z \circ f \circ \epsilon_Y^{-1}",'] & F(X_Z)
+        \end{tikzcd}
+    \end{center}
+    Which leads us to define $G(Y) = X_Y$ and $G(f)$ to be the unique morphism $m_f : X_Y \to X_Z$ such that $F(m_f) = \epsilon_Z \circ f \circ \epsilon_Y^{-1}$ (this works because $F$ is fully faithful). We have $G(\id_Y) = \id_{X_Y}$ since $\varepsilon_Y \circ \id_Y \circ \varepsilon_Y^{-1} = \id_Y$ and $F(\id_{X_Y}) = \id_Y$. The next diagram shows $G(g\circ f) = G(g)\circ G(f)$:
+    \begin{center}
+        \begin{tikzcd}
+            W \arrow[d, "\epsilon_W"] \arrow[r,"f"] \arrow[rr, bend left, "g\circ f"] & Y \arrow[d, "\epsilon_Y"] \arrow[r, "g"] & Z \arrow[d, "\epsilon_Z"] \\
+            F(X_W) \arrow[r,"F(m_f)",'] \arrow[rr, bend right,',"F(m_g \circ m_f) = F(m_g) \circ F(m_f)"] & F(X_Y) \arrow[r, "F(m_g)",'] & F(X_Z)
+        \end{tikzcd}
+    \end{center}
+    By this construction, $\epsilon$ is a natural isomorphism $\id_\catt \Rightarrow FG$ (look at the above diagrams). Now, pick $Y,Z\in \Ob(\cat)$ and $f : Y \to Z$. We have $GF(Y) = X_{F(Y)}$ and $\varepsilon_Y : F(Y) \xrightarrow{\sim} F(X_{F(Y)})$. Since $F$ is fully faithful, there exists a unique $\eta_Y : Y \to X_{F(Y)} = GF(Y)$ such that $F(\eta_Y) = \varepsilon_Y$. Here, $\eta_Y = G(\epsilon_Y)$, which means that $\eta_Y$ is an isomorphism since functors preserve isomorphisms. We obtain the diagram
+    \begin{center}
+        \begin{tikzcd}
+            Y \arrow[d,"f"] \arrow[r, "\eta_Y"] & GF(Y) \arrow[d,"GF(f)"] \\
+            Z \arrow[r,"\eta_Z"] & GF(Z)
+        \end{tikzcd}
+    \end{center}
+    The diagram commutes because $GF(f)$ is the unique morphism such that
+    \[F(GF(f)) = \varepsilon_Z \circ F(f) \circ \varepsilon_Y^{-1} = F(\eta_Z \circ f \circ \eta_Y^{-1})\] and $F$ is faithful. $\eta$ is then a natural isomorphism $\id_\cat \Rightarrow GF$.
+\end{proof}
+
+\begin{example}
+    $\Vectcat_k \simeq \mathbf{Mat}_k$ through the functor $n \mapsto k^n$ and $(A : n \to m) \mapsto (f_A : k^n \to k^m)$.
+\end{example}
+\newpage
+\section{Universal properties}
+References:
+\begin{itemize}
+    \item Riehl (Chapters II, III, IV)
+    \item Mac Lane (Chapters III, IV, V)
+    \item Assem (Chapters III, IV, V)
+\end{itemize}
+
+\faChevronRight \space Let $S$ be a set together with an equivalence relation $\sim$. Let $\nicefrac{S}{\sim}$ be the quotient set, and $\pi : S \to \nicefrac{S}{\sim}$ be the projection. For any $f : S \to X$ compatible with $\sim$, there exists a unique map $\bar{f} : \nicefrac{S}{\sim} \to X$ such that $f = \bar{f} \circ \pi$. This is represented by the following commutative diagram : \begin{center}\begin{tikzcd}
+    S \arrow[d,"\pi",'] \arrow[r,"f"] & X \\ \nicefrac{S}{\sim} \arrow[ur, "\exists!\bar{f}", dashed,']
+\end{tikzcd}\end{center}
+We say that $S \xrightarrow{\pi} \nicefrac{S}{\sim}$ is a solution to the universal problem posed by the compatible maps. Such a solution is unique up to unique isomorphism: if $S \xrightarrow{p} S'$ is another solution, then we get the three commutative diagrams
+\begin{center}
+    \begin{tikzcd}
+    S \arrow[d,"\pi",'] \arrow[r,"p"] & S' \\ \nicefrac{S}{\sim} \arrow[ur, "\exists!a", dashed,']
+    \end{tikzcd}
+    \begin{tikzcd}
+        S \arrow[d,"p",'] \arrow[r,"\pi"] & \nicefrac{S}{\sim} \\ S' \arrow[ur, "\exists!b", dashed,']
+    \end{tikzcd}
+    \begin{tikzcd}
+        S \arrow[d,"p",'] \arrow[r,"p"] & S' \\
+        S' \arrow[r, "b",'] \arrow[ur, "\id_{S'}",'] & \nicefrac{S}{\sim} \arrow[u, "a",']
+    \end{tikzcd}
+\end{center}
+then $abp = a\pi = p$. The identity of $S'$ also makes this diagram commute so by uniqueness $ab = \id_{S'}$ and similarly $ba = \id_{\nicefrac{S}{\sim}}$.
+
+\subsection{Initial and final objects}
+\begin{definition}
+    Let $\cat$ be a category. An object $c \in \Ob(\cat)$ is \emph{initial} (\emph{final}) if for all $d \in \Ob(\cat)$ there exists a unique morphism $c \to d$ (a unique morphism $d \to c$).
+\end{definition}
+\begin{proposition}
+    If an initial/final object exists, then it is unique up to unique isomorphism.
+\end{proposition}
+\begin{proof}
+    Let $c,c'$ be two initial objects. Then there exists a unique morphism $f : c \to c'$ and a unique morphism $g : c' \to c$. There also exists a unique morphism $c \to c$, that is $\id_c$. Therefore, $gf = \id_c$. In the same way, $fg = \id_{c'}$. Therefore, $c$ and $c'$ are isomorphic and the isomorphism is unique.
+\end{proof}
+\begin{examples} \leavevmode
+    \begin{enumerate}
+        \item $\varnothing$ is initial in $\Set$ and any singleton is final.
+        \item $\{0\}$ is both initial and final in $\Vectcat_k$ (or $R\Mod$).
+        \item The category of fields does not have initial/final objects (reason on field characteristics).
+    \end{enumerate}
+\end{examples}
+
+We want to say a universal object is an initial or final object. A category has at most 2, so this may seem a little restrictive, but this is solved by thinking of a good category.
+\begin{definition}
+    Let $F : \cat \to \Set$ be a functor. Let $\esh F$ be the category defined by
+    \begin{align*}
+        & \Ob(\esh F) = \{(c,x) \mid c \in \Ob(\cat) \text{ and } x \in F(c)\} \\
+        & \Hom((c,x),(c',x')) = \{f \in \Hom(c,c') \mid F(f)(x) = x'\}
+    \end{align*}
+    where composition is composition in $\cat$, and $\id_{(c,x)} = \id_c$ for all $x$. If $F$ is contravariant, let $\esh F$ have the same objects and morphisms $\Hom((c,x),(c',x')) = \{f \in \Hom(c,c') \mid F(f)(x') = x\}$.
+\end{definition}
+
+\begin{proposition}
+    There is a forgetful functor $\pi : \esh F \to \cat$ defined by $\pi(c,x) = c$ and $\pi(f : (c,x) \to (c',x')) = f : c\to c'$.
+\end{proposition}
+
+\begin{example}
+    Let $S$ be a set, and $\sim$ an equivalence relation on $S$. Let $F : \Set \to \Set$ be defined by $F(X) = \{f : S \to X \mid x \sim y \Rightarrow f(x) = f(y)\}$ and $F(\alpha : X \to Y) = \alpha \circ -$. \\
+    $\esh F$ has for objects $(X, S\xrightarrow{f}X)$ where $f$ is compatible with $\sim$, and for morphisms $\alpha$ that makes this diagram commute: \begin{tikzcd}
+        S \arrow["f'", r] \arrow["f",d,'] & X' \\ X \arrow[ur, "\alpha",']
+    \end{tikzcd} \\
+    $(\nicefrac{S}{\sim}, S\xrightarrow{\pi} \nicefrac{S}{\sim})$ is an initial object of $\esh F$.
+\end{example}
+
+\begin{definition}
+    Let $F : \cat \to \Set$ be a functor. A \emph{universal element} for $F$ is an initial object of $\esh F$, that is a pair $(c,x)$ with $c \in \Ob(\cat)$ and $x \in F(c)$ such that
+    \[\forall (d,y), d \in \Ob(\cat), y \in F(d), \exists! \alpha : c\to d, y= F(\alpha)(x)\]
+\end{definition}
+
+\begin{definition}
+    Let $F : \cat \to \catt$ be a functor and $d \in \Ob(\catt)$. A \emph{universal arrow from $d$ to $F$} is a pair $(c,f)$ where $c \in \Ob(\cat)$ and $f \in \Hom_{\catt} (d,F(c))$, such that
+    \[\forall (c',f'), c' \in \Ob(\cat), f' : d \to F(c'), \exists! \alpha \in \Hom_\cat(c,c'), F(\alpha) \circ f = f'\]
+    \begin{center}
+        \begin{tikzcd}[column sep=tiny]
+            & d \arrow[ld, "f",'] \arrow[rd, "\forall f'"] \\
+            F(c) \arrow[rr, dashed, "F(\alpha)",'] & & F(c') \\
+            c \arrow[rr, "\exists ! \alpha"] & & c'
+        \end{tikzcd}
+    \end{center}
+\end{definition}
+
+\begin{exercise}
+    Define a category $d \downarrow F$ such that a universal arrow is an initial object of $d \downarrow F$.
+\end{exercise}
+
+\begin{example}
+    Let $U : \Vectcat_k \to \Set$ be the forgetful functor. Let $X \in \Set$. A universal arrow from $X$ to $U$ is the ``best'' $k$-vector space $V_X$ with a map $X \to V_X$. Set $V_X = k[X]$ the $k$-vector space with basis $X$, and $i : X \to V_X$ that maps $x \in X$ to the corresponding basis element. Then, for any vector space $V$ and map $f : X \to U(V)$, $f$ can be extended by linearity into a linear map $\tilde{f} : k[X] \to V$, which makes this diagram commute:
+    \begin{center}
+        \begin{tikzcd}[column sep=tiny]
+            & X \arrow[ld, "i",'] \arrow[rd, "f"] \\
+           k[X] \arrow[rr, dashed, "\tilde{f}",'] & & U(V)
+        \end{tikzcd}
+    \end{center}
+    If $\alpha$ is another map that makes the diagram commute then $\alpha$ and $\tilde{f}$ coincide on a basis of $k[X]$ and therefore are equal.
+\end{example}
+
+\begin{proposition}
+    Universal elements and arrows are two equivalent notions.
+\end{proposition}
+
+\begin{proof}
+    Let $F : \cat \to \Set$ be a functor and $(c,x)$ a universal element  for $F$. Consider $f_x : \applic{\{*\}}{F(c)}{*}{x}$. Then, $(c,f_x)$ is a universal arrow $*\to F$, because $F(\alpha)(x)=y$ iff $F(\alpha)\circ f_x = f_y$.
+    \begin{center}
+        \begin{tikzcd}[column sep=tiny]
+            & \{*\} \arrow[ld, "f_x",'] \arrow[rd, "f_y"] \\
+           F(c) \arrow[rr, dashed, "F(\alpha)",'] & & F(c')
+        \end{tikzcd}
+    \end{center}
+    Conversely, if $F : \cat \to \catt$ is a functor and $(c,f)$ is a universal arrow $d \to F$, then consider the functor $\Hom_\catt (d,F(-)) : \applic{\cat}{\Set}{x}{\Hom_\catt (d,F(x))}$ (we need to assume $\catt$ is locally small so the functor is set-valued). Then, $f \in \Hom_\catt (d,F(c))$ is a universal element for this functor.
+\end{proof}
+
+\subsection{Representable functors}
+
+\begin{definition}
+    Let $\cat$ be a (locally small) category, and $F : \cat \to \Set$ a functor.
+    \begin{enumerate}
+        \item We say that $F$ is \emph{representable} if there is some $c \in \Ob(\cat)$ such that $F$ and $\Hom_\cat (c,-)$ are naturally isomorphic (if $F$ is contravariant, use $\Hom_\cat(-,c)$ instead).
+        \item A \emph{representation} of $F$ is the data of $c \in \Ob(\cat)$ and a natural isomorphism $\eta : \Hom(c,-) \Rightarrow F$.
+    \end{enumerate}
+\end{definition}
+
+\begin{example}
+    The forgetful functor $U : \Grp \to \Set$ is representable since $\Hom_\Grp (\Z,-) \simeq U$. The natural isomorphism is given by $\alpha \in \Hom_\Grp (\Z,G) \mapsto \alpha(1) \in G$.
+\end{example}
+
+The following theorem explains how to find the natural isomorphism $\alpha : \Hom_\cat (c,-) \Rightarrow F$ in general.
+
+\begin{theorem}[Yoneda lemma]
+    Let $F : \cat \to \Set$ be a functor with $\cat$ locally small, and $c \in \Ob(\cat)$. Then,
+    \[\begin{array}[t]{rcl}
+        \Nat(\Hom(c,-),F) & \xrightarrow{\sim} & F(c)\\
+        \alpha & \mapsto & \alpha_c(\id_c)
+        \end{array}\]
+    and this isomorphism is natural in $c$ and in $F$.
+\end{theorem}
+
+\begin{proof}
+    Let $\alpha \in \Nat(\Hom(c,-),F)$. Let $d \in \cat$ and $f : c \to d$. By naturality, we have a commutative diagram
+    \begin{center}
+        \begin{tikzcd}
+            \Hom(c,c) \arrow[r,"\alpha_c"] \arrow[d,"f\circ -"] & F(c) \arrow[d,"F(f)"] \\
+            \Hom(c,d) \arrow[r,"\alpha_d"] & F(d)
+        \end{tikzcd}
+    \end{center}
+    This means that $F(f) \circ \alpha_c = \alpha_d \circ (f\circ -)$. Evaluating at $\id_c$, we get $F(f) \circ \alpha_c(\id_c) = \alpha_d(f)$. This shows that the natural transformation $\alpha$ is entirely determined by the value of $\alpha_c(\id_c)$, which shows the map defined above is injective. Conversely, if $e \in F(c)$, then we define $\alpha^e : \Hom(c,-) \Rightarrow F$ by $\alpha_d^e : g \mapsto F(g)(e)$. We check it is a natural transformation:
+    \begin{center}
+        \begin{tikzcd}[column sep=large]
+            \Hom(c,c) \arrow[r,"g \mapsto F(g)(e)"] \arrow[d,"f\circ -"] & F(c) \arrow[d,"F(f)"] \\
+            \Hom(c,d) \arrow[r,"h \mapsto F(h)(e)"] & F(d)
+        \end{tikzcd}
+    \end{center}
+    and this diagram commutes since for $g : c\to c$ we have
+    \[F(f)(F(g)(e)) = F(f \circ g)(e) = F((f\circ -)(g))(e)\]
+    This shows the map in the theorem is surjective, therefore an isomorphism, and its inverse is given by $e \in F(c) \mapsto \alpha^e$.
+    We now check naturality. We first need to understand what it means to say the isomorphism is natural in $c$. Let $f : c \to d$. $\Nat(\Hom(c,-),F)$ is functorial in $c$, as it is the composition of two contravariant hom-functors. More concretely:
+    \[c \xrightarrow{f} d \rightsquigarrow \Hom(d,-) \xrightarrow{- \circ f}\Hom(c,-) \rightsquigarrow \Nat(\Hom(c,-),F) \xrightarrow{- \circ (- \circ f)} \Nat(\Hom(d,-),F)\]
+    ($\Nat$ is the hom-functor of the functor category $\cat^\Set$). One thing to note is that the morphism $f : c\to d$ induces a natural transformation $\Hom(d,-) \xrightarrow{-\circ f} \Hom(c,-)$, and this makes the whole thing work. This is in general a property of functors defined on a product category, see the remark below. Now, saying the isomorphism, which we'll write $\Phi_{d,F}$, is natural means that the square
+    \begin{center}
+        \begin{tikzcd}
+            \Nat(\Hom(c,-),F) \arrow[r,"\Phi_{c,F}"] \arrow[d,"-\circ(-\circ f)"] & F(c) \arrow[d,"F(f)"]\\
+            \Nat(\Hom(d,-),F) \arrow[r,"\Phi_{d,F}"] & F(d)
+        \end{tikzcd}
+    \end{center}
+    commutes. And indeed, if $\alpha : \Hom(c,-)\Rightarrow F$ is a natural transformation,
+    \begin{align*}
+        \Phi_{d,F}(\alpha \circ (- \circ f)) & = (\alpha \circ (-\circ f))_d (\id_d) = [\alpha_d \circ (- \circ f)] (\id_d) = \alpha_d (f) \\
+        F(f)(\Phi_{c,F}(\alpha)) & = F(f)(\alpha_c(\id_c)) = \alpha_d(f\circ \id_c) = \alpha_d(f)
+    \end{align*}
+    The second to last equality comes from the naturality of $\alpha$. \\
+    We now turn to naturality in $F$. Let $G$ be another functor $\cat \to \Set$ and $\beta : F \Rightarrow G$ be a natural transformation. We check that
+    \begin{center}
+        \begin{tikzcd}
+            \Nat(\Hom(c,-),F) \arrow[r,"\Phi_{c,F}"] \arrow[d,"\beta \circ -"] & F(c) \arrow[d, "\beta_c"] \\
+            \Nat(\Hom(c,-),G) \arrow[r,"\Phi_{c,G}"] & G(c)
+        \end{tikzcd}
+    \end{center}
+    commutes. For $\alpha : \Hom(c,-) \Rightarrow F$, we have
+    \[\beta_c (\Phi_{c,F}(\alpha)) = \beta_c(\alpha_c(\id_c)) = (\beta \circ \alpha)_c (\id_c) = \Phi_{c,G}(\beta \circ \alpha)\]
+    which completes the proof of naturality.
+\end{proof}
+\newpage
+
+\begin{remark} \leavevmode
+    \begin{enumerate}
+        \item If $F : \cat \to \Set$, then $(c,x)$ is a universal element for $F$ if and only if the natural transformation $\alpha_x : \Hom(c,-) \Rightarrow F$ induced by $x$ is an isomorphism. Indeed, $\alpha_x$ is an isomorphism iff $\forall c' \in \cat$, $(\alpha_x)_{c'} : \applic{\Hom(c,c')}{F(c')}{f}{F(f)(x)}$ is bijective iff
+        \[\forall c' \in \cat, \forall y \in F(c'), \exists ! f : c \to c', F(f)(x) = y\]
+        \item For universal arrows, use $\Hom_\catt (d,F(-))$ as before.
+        \item Let $\cat,\catt$ and $\mathcal{E}$ be categories, and $F : \cat \times \catt \to \mathcal{E}$ be a functor. Let $c,d \in \Ob(\cat)$, $x,y \in \Ob(\catt)$ and morphisms $f : c \to d$, $g : x\to y$. The morphism $f$ induces a natural transformation $F(f,\id_-) : F(c,-) \Rightarrow F(d,-)$, see the commutative square:
+        \begin{center}
+            \begin{tikzcd}[column sep=large]
+                F(c,x) \ar{r}{F(f,\id_x)} \ar{d}{F(\id_c,g)} & F(d,x) \ar{d}{F(\id_d,g)} \\
+                F(c,y) \ar{r}[']{F(f,\id_y)} & F(d,y)
+            \end{tikzcd}
+        \end{center}
+    \end{enumerate}
+\end{remark}
+
+\subsection{Examples of objects defined by universal properties}
+
+\subsubsection{Products, coproducts}
+Let $\cat$ be a small category and $X,Y \in \Ob(\cat)$. We define a category $\cat_{X,Y}$ whose objects are tuples $(Z,f,g)$ where $Z \in \Ob(\cat)$ and $f : Z \to X$, $g : Z \to Y$ and morphisms are maps $\alpha : Z \to Z'$ in $\cat$ such that the following diagram commutes:
+\begin{center}
+    \begin{tikzcd}[column sep=tiny, row sep=small]
+        & Z \arrow[dl,"f",'] \arrow[dd,"\alpha"] \arrow[dr,"g"] \\
+        X & & Y \\
+        & Z' \arrow[ul,"f'"] \arrow[ur,"g'",']
+    \end{tikzcd}
+\end{center}
+
+\begin{definition}
+    A \emph{product} of $X$ and $Y$ is a final object in $\cat_{X,Y}$. Concretely, it is an object $X \times Y$ together with two maps $\pi_X : X \times Y \to X$ and $\pi_Y : X \times Y \to Y$ such that for any $(Z,f,g) \in \Ob(\cat_{X,Y})$, we have a commutative diagram
+    \begin{center}
+        \begin{tikzcd}[column sep=scriptsize]
+            & Z \arrow[dl,"\forall f",'] \arrow[dr,"\forall g"] \arrow[d,"\exists!\alpha", dashed] \\
+            X & X \times Y \arrow[l,"\pi_X"] \arrow[r,"\pi_Y",'] & Y
+        \end{tikzcd}
+    \end{center}
+\end{definition}
+
+Since it is defined as being a final object, if it exists, a product is unique up to unique isomorphism.
+
+\begin{examples}
+    In $\Set$, the product of $X$ and $Y$ is the cartesian product. In $\Grp$, it is the product group. In $\Top$, it is the cartesian product equipped with the product topology. In these examples, the maps in the definition are the canonical projections.
+\end{examples}
+
+The notion dual to the one of a product is called a coproduct.
+
+\begin{definition}
+    A \emph{coproduct} of $X$ and $Y$ is a product in $\cat^\op$. Concretely, it satisfies the universal property expressed by this commutative diagram:
+    \begin{center}
+        \begin{tikzcd}
+            X \arrow[r,"i_X"] \arrow[dr, "\forall f",'] & X \sqcup Y \arrow[d,"\exists!\alpha",dashed] & Y \arrow[dl,"\forall g"] \arrow[l,"i_Y",'] \\
+            & Z
+        \end{tikzcd}
+    \end{center}
+\end{definition}
+
+\begin{examples}
+    In $\Set$, the coproduct of $X$ and $Y$ is the disjoint union together with canonical inclusion. In $\Top$, the coproduct of $X$ and $Y$ is their disjoint union equipped with the disjoint union topology. However, in $\Grp$, the underlying set of the coproduct of two groups is not the disjoint union.
+\end{examples}
+
+\subsubsection{Equalizers and coequalizers}
+
+\begin{definition}
+    Let $\cat$ be a category and $X,Y \in \Ob(\cat)$, $f,g : X \to Y$. Consider the contravariant functor $F : \cat \to \Set$ defined by $F(c) = \{\alpha : c \to X \mid f\alpha = g \alpha\}$ and $F(\beta) = - \circ \beta$. An \emph{equalizer} in $\cat$ is a representation of the contravariant functor $F$.
+\end{definition}
+
+By the Yoneda lemma, a natural transformation $\Hom(-,c) \Rightarrow F$ is the same as an element of $F(c)$, so a representation of $F$ is a pair $(c,e)$ with $c \in \Ob(\cat)$ and $e \in F(c)$ such that the natural transformation given by the Yoneda lemma is an isomorphism. Concretely, we want $\eta_e : \applic{\Hom(d,c)}{F(d)}{h}{F(h)(e)}$ to be an isomorphism for all $d \in \Ob(c)$. This translates into the follwing diagram:
+\begin{center}
+    \begin{tikzcd}
+        & d \arrow[dl, "\exists!\alpha",dashed,'] \arrow[d,"\forall h"] \\
+        c \arrow[r,"e"] & X \arrow[r,"f",shift left] \arrow[r,"g",shift right,'] & Y
+    \end{tikzcd}
+\end{center}
+
+\begin{example}
+    In $\Set$, $E = \{x \in X \mid f(x) = g(x)\} \hookrightarrow X$ is an equalizer.
+\end{example}
+
+The dual notion is that of a coequalizer.
+
+\begin{definition}
+    A \emph{coequalizer} of \begin{tikzcd}
+        X \arrow[r,"f",shift left] \arrow[r,"g",shift right,'] & Y
+    \end{tikzcd} is an object $Z \in \Ob(\cat)$ together with a morphism $\pi : Y\to Z$ such that $\pi f = \pi g$ and that universal to this property:
+    \begin{center}
+        \begin{tikzcd}
+            X \arrow[r,"f",shift left] \arrow[r,"g",shift right,'] & Y \arrow[r, "\pi"] \arrow[d, "\forall h"] & Z \arrow[dl, dashed, "\exists! \alpha"] \\
+            & Z'
+        \end{tikzcd}
+    \end{center}
+\end{definition}
+
+\begin{example}
+    In $\Set$, consider the equivalence relation $\sim$ on $Y$ generated by $f(x)\sim g(x)$ (the smallest equivalence relation on $Y$ with this property). Then $y \xrightarrow{\pi} \nicefrac{Y}{\sim}$ is a coequalizer.
+\end{example}
+
+\subsection{Adjoint functors}
+
+This notion was introduced by Kan in 1958.
+
+\begin{definition}
+    An \emph{adjunction} $(G,D)$ is a pair of functors $G : \cat \to \catt$ and $D : \catt \to \cat$ together with an isomorphism $\Hom_\catt (G(c),d) \simeq \Hom_\cat (c,D(d))$ which is natural in both $c$ and $d$. \\
+    We write $G \dashv D$ and say $G$ is left adjoint to $D$ and $D$ is right adjoint to $G$.
+\end{definition}
+
+\end{document}
