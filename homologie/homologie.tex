@@ -693,4 +693,54 @@ This notion was introduced by Kan in 1958.
     We write $G \dashv D$ and say $G$ is left adjoint to $D$ and $D$ is right adjoint to $G$.
 \end{definition}
 
+If $G \dashv D$ we have $\forall c,d \in \Ob(\cat)\times \Ob(\catt)$,
+\[\Hom_\catt (G(c),d) \xrightarrow[\alpha_c,d]{\sim} \Hom_\cat (c,D(d))\]
+and in particular when $d=G(c)$ we get $\Hom_\catt (G(c),G(c)) \xrightarrow[\alpha_{c,G(c)}]{\sim} \Hom_\cat (c,DG(c))$. \\
+Let $\eta_c : c \to DG(c)$ be the image of $\id_{G(c)}$. This gives a collection of morphisms $- \to DG(-)$.
+\begin{proposition}
+    These morphisms make up a natural transformation $\id_\cat \Rightarrow DG$.
+\end{proposition}
+\begin{proof}
+    Let $f : c\to d$. We want to show that
+    \begin{center}
+        \begin{tikzcd}[column sep=large]
+            c \arrow[d,"f"] \arrow[rr,"\eta_c = \alpha_{c,G(c)} (\id_{G(c)})"] & & DG(c) \arrow[d,"DG(f)"] \\
+            d \arrow[rr, "\eta_d = \alpha_{d,G(d)} (\id_{G(d)})"] & & DG(d)
+        \end{tikzcd}
+    \end{center}
+    commutes. By naturality of the isomorphism $\alpha$ given by the adjunction, we get the following commutative diagram
+    \begin{center}
+        \begin{tikzcd}
+            \Hom(G(c),G(c)) \arrow[d, "G(f) \circ -",'] \arrow[r,"\sim","\alpha_{c,G(c)}"'] & \Hom(c,DG(c)) \arrow[d,"DG(f)\circ -",']\\  
+            \Hom(G(c),G(d)) \arrow[r,"\sim","\alpha_{c,G(d)}"'] & \Hom(c,DG(d)) \\
+            \Hom(G(d),G(d)) \arrow[u, "- \circ G(f)"] \arrow[r,"\sim","\alpha_{d,G(d)}"'] & \Hom(d,DG(d)) \arrow[u,"- \circ f"]
+        \end{tikzcd}
+    \end{center}
+    which gives us these equations:
+    \begin{align*}
+        DG(f) \circ \eta_c & = DG(f) \circ \alpha_{c,G(c)}(\id_{G(c)}) = \alpha_{c,G(d)}(G(f)\circ \id_{G(c)}) = \alpha_{c,G(d)} (G(f)) \\
+        \eta_d \circ f & = \alpha_{d,G(d)}(\id_{G(d)}) \circ f = \alpha_{c,G(d)}(\id_{G(c)} \circ G(f)) = \alpha_{c,G(d)} (G(f))
+    \end{align*}
+    which completes the proof.
+\end{proof}
+
+In much the same way, we get a natural transformation $\Sigma : GD \Rightarrow \id_\catt$ when $c=D(d)$.
+
+\begin{definition}
+    The natural transformation $\eta : \id_\cat \Rightarrow DG$ is called the \emph{unit} of the adjunction. The natural transformation $\Sigma : GD \Rightarrow \id_\catt$ is called its $\emph{counit}$.
+\end{definition}
+
+\begin{proposition}
+    Let \begin{tikzcd}
+        \cat \arrow[r, bend left, "G"] & \catt \arrow[l,bend left,"D"]
+    \end{tikzcd} be two functors. Then, $G \dashv D$ if and only if there are natural transformations $\eta : \id_\cat \Rightarrow DG$ and $\Sigma : GD \Rightarrow \id_\catt$ such that the following diagrams commute:
+    \begin{center}
+        \begin{tikzcd}
+            G \arrow[r, "G\eta", Rightarrow] \arrow[dr, "\id_G", equal] & GDG \arrow[d, "\Sigma G", Rightarrow] & & D \arrow[r,"\eta D",Rightarrow] \arrow[dr, "\id_D",equal] & DGD \arrow[d, "D \Sigma", Rightarrow] \\
+            & G & & & D
+        \end{tikzcd}
+    \end{center}
+\end{proposition}
+
+
 \end{document}
