@@ -694,7 +694,7 @@ This notion was introduced by Kan in 1958.
 \end{definition}
 
 If $G \dashv D$ we have $\forall c,d \in \Ob(\cat)\times \Ob(\catt)$,
-\[\Hom_\catt (G(c),d) \xrightarrow[\alpha_c,d]{\sim} \Hom_\cat (c,D(d))\]
+\[\Hom_\catt (G(c),d) \xrightarrow[\alpha_{c,d}]{\sim} \Hom_\cat (c,D(d))\]
 and in particular when $d=G(c)$ we get $\Hom_\catt (G(c),G(c)) \xrightarrow[\alpha_{c,G(c)}]{\sim} \Hom_\cat (c,DG(c))$. \\
 Let $\eta_c : c \to DG(c)$ be the image of $\id_{G(c)}$. This gives a collection of morphisms $- \to DG(-)$.
 \begin{proposition}
@@ -724,23 +724,29 @@ Let $\eta_c : c \to DG(c)$ be the image of $\id_{G(c)}$. This gives a collection
     which completes the proof.
 \end{proof}
 
-In much the same way, we get a natural transformation $\Sigma : GD \Rightarrow \id_\catt$ when $c=D(d)$.
+We also get a natural transformation $\epsilon : GD \Rightarrow \id_\catt$ when $c=D(d)$ by setting $\epsilon_d = \alpha_{D(d),d}^{-1}(\id_{D(d)})$.
 
 \begin{definition}
-    The natural transformation $\eta : \id_\cat \Rightarrow DG$ is called the \emph{unit} of the adjunction. The natural transformation $\Sigma : GD \Rightarrow \id_\catt$ is called its $\emph{counit}$.
+    The natural transformation $\eta : \id_\cat \Rightarrow DG$ is called the \emph{unit} of the adjunction. The natural transformation $\epsilon : GD \Rightarrow \id_\catt$ is called its $\emph{counit}$.
 \end{definition}
 
 \begin{proposition}
     Let \begin{tikzcd}
         \cat \arrow[r, bend left, "G"] & \catt \arrow[l,bend left,"D"]
-    \end{tikzcd} be two functors. Then, $G \dashv D$ if and only if there are natural transformations $\eta : \id_\cat \Rightarrow DG$ and $\Sigma : GD \Rightarrow \id_\catt$ such that the following diagrams commute:
+    \end{tikzcd} be two functors. Then, $G \dashv D$ if and only if there are natural transformations $\eta : \id_\cat \Rightarrow DG$ and $\epsilon : GD \Rightarrow \id_\catt$ such that the following diagrams commute:
     \begin{center}
         \begin{tikzcd}
-            G \arrow[r, "G\eta", Rightarrow] \arrow[dr, "\id_G", equal] & GDG \arrow[d, "\Sigma G", Rightarrow] & & D \arrow[r,"\eta D",Rightarrow] \arrow[dr, "\id_D",equal] & DGD \arrow[d, "D \Sigma", Rightarrow] \\
+            G \arrow[r, "G\eta", Rightarrow] \arrow[dr, "\id_G", equal,'] & GDG \arrow[d, "\epsilon G", Rightarrow] & & D \arrow[r,"\eta D",Rightarrow] \arrow[dr, "\id_D",equal,'] & DGD \arrow[d, "D \epsilon", Rightarrow] \\
             & G & & & D
         \end{tikzcd}
     \end{center}
+    where $G\eta$ is the natural transformation given by the morphisms $G(\eta_c)$ and $\epsilon G$ is the one give by morphisms $\epsilon_{G(c)}$ (and similarly for $\eta D$ and $D\epsilon$).
 \end{proposition}
+
+\begin{proof}
+    Suppose $G \dashv D$. Let $\eta : \id_\cat \Rightarrow DG$ and $\epsilon : GD \Rightarrow \id_\catt$ be the unit and counit of the adjunction. Let $c \in \cat$. We have
+    \[(\epsilon G)_c \circ (G\eta)_c = \varepsilon_{G(c)} \circ G(\eta_c) = \alpha_{DG(c),G(c)}^{-1} (\id_{DG(c)}) \circ G(\alpha_{c,G(c)}(\id_{G(c)}))\]
+\end{proof}
 
 
 \end{document}

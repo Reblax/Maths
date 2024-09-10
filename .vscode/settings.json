@@ -3,6 +3,7 @@
         "cartesian",
         "coequalizer",
         "coproduct",
+        "counit",
         "epimorphism",
         "functorial",
         "functors",
