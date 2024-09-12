@@ -37,6 +37,7 @@
 \newcommand{\Mod}{\mathbf{Mod}}
 \newcommand{\Ab}{\mathbf{Ab}}
 \newcommand{\Vectcat}{\mathbf{Vect}}
+\newcommand{\Rep}{\mathbf{Rep}}
 
 %Operators
 \DeclareMathOperator{\Acc}{Acc}
@@ -85,6 +86,7 @@
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{proposition}[theorem]{Proposition}
+\newtheorem*{corollary}{Corollary}
 
 \theoremstyle{definition}
 \newtheorem{definition}[theorem]{Definition}
@@ -746,7 +748,145 @@ We also get a natural transformation $\epsilon : GD \Rightarrow \id_\catt$ when 
 \begin{proof}
     Suppose $G \dashv D$. Let $\eta : \id_\cat \Rightarrow DG$ and $\epsilon : GD \Rightarrow \id_\catt$ be the unit and counit of the adjunction. Let $c \in \cat$. We have
     \[(\epsilon G)_c \circ (G\eta)_c = \varepsilon_{G(c)} \circ G(\eta_c) = \alpha_{DG(c),G(c)}^{-1} (\id_{DG(c)}) \circ G(\alpha_{c,G(c)}(\id_{G(c)}))\]
+    and the naturality of $\alpha$ gives the following commutative diagram
+    \begin{center}
+        \begin{tikzcd}[column sep=huge]
+            \Hom(G(c),G(c))
+            &
+            \Hom(c,DG(c))
+                \arrow[l,"\sim"',"\alpha_{c,G(c)}^{-1}"]
+            \\
+
+            \Hom(GDG(c), G(c))
+                \arrow[u, "- \circ G(\alpha_{c,G(c)}(\id_{G(c)}))"]
+            &
+            \Hom(DG(c),DG(c))
+                \arrow[u,"- \circ \alpha_{c,G(c)}(\id_{G(c)})"']
+                \arrow[l,"\sim"',"\alpha_{DG(c),G(c)}^{-1}"]
+        \end{tikzcd}
+    \end{center}
+    which shows that $(\epsilon G)_c \circ (G\eta)_c = \id_{G(c)}$, hence $\epsilon G \circ G\eta = \id_G$. The commutativity of the other triangle is treated in a similar way. \\
+    Now assume that there are natural transformations $\eta$ and $\epsilon$ that make both triangles commute. \\
+    We define two maps
+    \begin{align*}
+        \alpha_{c,d} & : \applic{\Hom(G(c),d)}{\Hom(c,D(d))}{f}{D(f)\circ \eta_c} \\
+        \beta_{c,d} & : \applic{\Hom(c,D(d))}{\Hom(G(c),d)}{g}{\epsilon_d \circ G(g)}
+    \end{align*}
+    and we show these are natural isomorphisms that give us the adjunction. First we check naturality of $\alpha$. Let $f : c \to c' \in \Mor(\cat)$ and $g : d\to d' \in \Mor(\catt)$. We need to check that the diagrams
+    \begin{center}
+        \begin{tikzcd}
+            \Hom_\catt (G(c),d)
+                \arrow[r, "\alpha_{c,d}"]
+            &
+            \Hom_\cat (c,D(d))
+            \\
+            \Hom_\catt (G(c'),d)
+                \arrow[u, "- \circ G(f)"]
+                \arrow[r,"\alpha_{c',d}"]
+            &
+            \Hom_\cat(c',D(d))
+                \arrow[u,"-\circ f"]
+        \end{tikzcd}
+        \hspace{1cm}
+        \begin{tikzcd}
+            \Hom_\catt (G(c),d)
+                \arrow[r, "\alpha_{c,d}"]
+                \arrow[d, "g \circ -"]
+            &
+            \Hom_\cat (c,D(d))
+                \arrow[d, "D(g) \circ -"]
+            \\
+            \Hom_\catt (G(c),d')
+                \arrow[r,"\alpha_{c,d'}"]
+            &
+            \Hom_\cat(c,D(d'))
+        \end{tikzcd}
+    \end{center}
+    commute. We only check the left diagram and leave the right to the reader (sorry). We have
+    \begin{align*}
+        \alpha_{c,d} \circ (- \circ G(f)) & = (D(-) \circ \eta_c) \circ (- \circ G(f)) = D(-\circ G(f)) \circ \eta_c = D(-) \circ DG(f) \circ \eta_c \\
+        (-\circ f) \circ \alpha_{c',d} & = (-\circ f) \circ (D(-)\circ \eta_{c'}) = D(-) \circ \eta_{c'} \circ f = D(-) \circ DG(f) \circ \eta_c
+    \end{align*}
+    One shows $\beta$ is natural in $c$ and $d$ in a similar way. We leave it to the reader (sorry again). Now we need to check that $\alpha$ and $\beta$ are inverses of each other, and that's where the triangle diagrams come into play.
+    \[\alpha_{c,d} \circ \beta_{c,d} = D(\epsilon_d \circ G(-)) \circ \eta_c = D(\varepsilon_d) \circ DG(-) \circ \eta_c = D(\varepsilon_d) \circ \eta_{D(d)} \circ - = -\]
+    We used the definitions of $\alpha$ and $\beta$, the functoriality of $D$, the naturality of $\eta$ and the second triangle diagram. We leave to the reader (sorry) to check that $\beta_{c,d} \circ \alpha_{c,d}$ is also the identity.
 \end{proof}
+
+\begin{examples} \leavevmode
+    \begin{enumerate} 
+        \item The forgetful functor $\Ab \to \Set$ is right adjoint to the free abelian group functor $\Set \to \Ab$.
+        \item The forgetful functor $\Ab \to \Grp$ is right adjoint to the abelianization functor $\Grp \to \Ab$ that sends a group $G$ to its abelianization $G^{ab} = G/[G,G]$ and a morphism $f : G \to H$ to the induced morphism $f^{ab} : G^{ab} \to H^{ab}$.
+        \item The forgetful functor $\Top \to \Set$ is right adjoint to the functor $\Set \to \Top$ that takes a set and equips it with the coarse topology. The forgetful functor $\Top \to \Set$ is also left adjoint to the functor $\Set \to \Top$ that equips a set with the discrete topology.
+        \item Let $G$ be a group, $H$ one of its subgroups and $k$ be a field. We have a functor from the category $\Rep_k(G)$ of representations of $G$ on $k$-vector spaces to the category $\Rep_k(H)$ of representations of $H$ on $k$-vector spaces. It is the restriction functor $\mathrm{Res}_H^G$. Its left adjoint is $\mathrm{Ind}_H^G$, the induced representation functor.
+    \end{enumerate}
+\end{examples}
+
+\begin{theorem}
+    Let $F : \cat \to \catt$ be a functor. The following are equivalent:
+    \begin{enumerate}
+        \item $F$ admits a left adjoint
+        \item For all $X \in \Ob(\catt)$, $\Hom_\catt (X,F(-))$ is representable
+        \item For all $X \in \Ob(\catt)$, there exists a universal arrow $X \to F$
+    \end{enumerate}
+\end{theorem}
+
+\begin{corollary}
+    If they exist, adjoints are unique up to isomorphism.
+\end{corollary}
+
+\begin{proof}
+    $2 \iff 3$ was the subject of a previous remark right after the Yoneda lemma. We prove $1 \iff 2$. Suppose $F$ admits a left adjoint $G$. Let $X \in \Ob(\catt)$. Then for all $Y \in \Ob(\cat)$ we have a bijection $\Hom_\catt(X,F(Y)) \simeq \Hom_\cat(G(X),Y)$ which is natural in $Y$, so $G(X)$ represents $\Hom_\catt(X,F(-))$. For the converse, suppose all functors $\Hom_\catt(X,F(-))$ are representable. We define $G(X)$ to be an object of $\cat$ that represents $\Hom_\catt(X,F(-))$. Now choose $X,Y \in \Ob(\catt)$ and $f : X \to Y$. We need to define $G(f)$. We wish to have a commuting square
+    \begin{center}
+        \begin{tikzcd}
+            \Hom(G(X),-)
+                \arrow[r, "\sim"]
+            &
+            \Hom(X,F(-))
+            \\
+            \Hom(G(Y),-)
+                \arrow[r,"\sim"]
+                \arrow[u,"\exists! \gamma", dashed]
+            &
+            \Hom(Y,F(-))
+                \arrow[u,"- \circ f"]
+        \end{tikzcd}
+    \end{center}
+    We need to recover a map $G(X) \to G(Y)$ such that composing with it gives us $\gamma$. This works by the Yoneda lemma, which tells us that the natural transformation $\gamma$ comes from an element $\Hom(G(X),G(Y))$. Call it $G(f)$. Using this diagram with $X=Y$ and $f = \id_X$ shows that $G(\id_X)= \id_{G(X)}$. It remains to check this does define a functor. Let $X \xrightarrow{f} Y \xrightarrow{g} Z$ in $\cat$. Then we have the diagram
+    \begin{center}
+        \begin{tikzcd}
+            \Hom(G(Z),-)
+                \arrow[r,"- \circ G(g)"]
+                \arrow[rr,bend left=10,"- \circ G(g\circ f)",start anchor=north,end anchor=north,shorten=2mm]
+                \arrow[d,"\sim" sloped]
+            &
+            \Hom(G(Y),-)
+                \arrow[r,"- \circ G(f)"]
+                \arrow[d,"\sim" sloped]
+            &
+            \Hom(G(X),-)
+                \arrow[d,"\sim" sloped]
+            \\
+            \Hom(Z,F(-))
+                \arrow[r,"- \circ g"]
+                \arrow[rr,bend right=10,"- \circ (g \circ f)",',start anchor=south,end anchor=south,shorten=2mm]
+            &
+            \Hom(Y,F(-))
+                \arrow[r,"- \circ f"]
+            &
+            \Hom(X,F(-))
+        \end{tikzcd}
+    \end{center}
+    Which shows $G(g\circ f) = G(g) \circ G(f)$ (because the map $\gamma$ above is unique).
+\end{proof}
+
+This theorem shows there is a deep link between universal properties and adjoint functors.
+
+\subsection{Limits and colimits}
+(This subsection may be skipped on a first reading.)
+
+\begin{definition}
+    
+\end{definition}
 
 
 \end{document}
