@@ -3,6 +3,7 @@
         "abelian",
         "abelianization",
         "cartesian",
+        "cocone",
         "coequalizer",
         "colimits",
         "coproduct",

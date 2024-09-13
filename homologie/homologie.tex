@@ -30,6 +30,7 @@
 \newcommand{\cat}{\mathcal{C}}
 \newcommand{\catt}{\mathcal{D}}
 \newcommand{\rel}{\mathcal{R}}
+\newcommand{\Jcat}{\mathcal{J}}
 
 \newcommand{\Set}{\mathbf{Set}}
 \newcommand{\Top}{\mathbf{Top}}
@@ -882,11 +883,55 @@ We also get a natural transformation $\epsilon : GD \Rightarrow \id_\catt$ when 
 This theorem shows there is a deep link between universal properties and adjoint functors.
 
 \subsection{Limits and colimits}
-(This subsection may be skipped on a first reading.)
-
+(This subsection may be skipped on a first reading.) \\
+Let us recall the definition of a functor category.
 \begin{definition}
-    
+    Let $\cat,\catt$ be two categories. Then $\Fun(\cat,\catt)$, also written $\catt^\cat$, is the category whose objects are functors $\cat \to \catt$ and morphisms are natural transformations between such functors, with composition given by vertical composition. It is called the \emph{functor category category from $\cat$ to $\catt$}. When $\Jcat$ is a small category we also say that $\Fun(\cat,\catt)$ is the category of \emph{diagrams of shape $\Jcat$ in $\cat$}.
 \end{definition}
 
+\begin{examples} \leavevmode
+    \begin{enumerate}
+        \item Let $\mathbf{2}$ be the category \begin{tikzcd}
+            \bullet \arrow[r] & \bullet
+        \end{tikzcd} which has two objects $1$ and $2$ and three morphisms (two of them being identities). \\
+        Then $\mathbf{2\times 2}$ is the category \begin{tikzcd}
+            \bullet
+                \arrow[r] \arrow[d] \arrow[rd]
+            &
+            \bullet
+                \arrow[d]
+            \\
+            \bullet
+                \arrow[r]
+            &
+            \bullet
+        \end{tikzcd} which has 4 objects and 9 morphisms (4 of them being identities). Then, a functor from  $\mathbf{2 \times 2}$ to $\cat$ is a commutative diagram of this shape in $\cat$.
+        \item If $\Jcat$ is a small category, there is a map $\Delta : \Ob(\cat) \to \Fun(\Jcat,\cat)$ where $\Delta(c)$ is the constant functor at $c$, that is the functor that sends all objects to $c$ and all morphisms to $\id_c$.
+    \end{enumerate}
+\end{examples}
+
+\begin{definition}
+    A \emph{cone above a diagram $F : \Jcat \to \cat$ with summit $c\in \cat$} is a natural transformation $\lambda : \Delta(c) \Rightarrow F$. Dually, a cone \emph{under} $F$ with summit $c$, also called a \emph{cocone}, is a natural transformation $\lambda : F \Rightarrow \Delta(c)$.
+\end{definition}
+
+Let us unwrap this definition. A cone is a collection of maps $\lambda_j : c \to F(j)$ for all $j \in \Ob(\Jcat)$, such that for any morphism $f : i \to j \in \Mor(\Jcat)$, this diagram commutes:
+\begin{center}
+    \begin{tikzcd}[column sep=tiny]
+    &
+    c
+        \arrow[dl,"\lambda_i" '] \arrow[dr,"\lambda_j"]
+    \\
+    F(i)
+        \arrow[rr, "F(f)" ']
+    & &
+    F(j)
+    \end{tikzcd}
+\end{center}
+
+\begin{definition}
+    Let $F : \Jcat \to \cat$ be a diagram. A \emph{limit} (or \emph{projective limit} or \emph{inverse limit}) of $F$ is a universal cone above $F$, in the sense that it is a final object in the category of cones above $F$. Dually, a \emph{colimit} (or \emph{inductive limite} or \emph{direct limit}) is a universal cocone, that is an initial object in the category of cones under $F$.
+\end{definition}
+
+Concretely, a limit of $F : \Jcat \to \cat$ is a pair $(\lim F, \phi)$ with $\lim F \in \Ob(\cat)$ and $\phi : \Delta(\lim F) \Rightarrow F$ is such that for any \todo
 
 \end{document}
