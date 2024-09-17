@@ -39,6 +39,7 @@
 \newcommand{\Ab}{\mathbf{Ab}}
 \newcommand{\Vectcat}{\mathbf{Vect}}
 \newcommand{\Rep}{\mathbf{Rep}}
+\newcommand{\Ring}{\mathbf{Ring}}
 
 %Operators
 \DeclareMathOperator{\Acc}{Acc}
@@ -65,6 +66,7 @@
 \DeclareMathOperator{\Hom}{Hom}
 \DeclareMathOperator{\Fun}{Fun}
 \DeclareMathOperator{\Nat}{Nat}
+\DeclareMathOperator{\colim}{colim}
 \renewcommand{\th}{\mathop{\rm th}}
 \renewcommand{\Re}{\mathop{\rm Re}}
 \renewcommand{\Im}{\mathop{\rm Im}}
@@ -72,6 +74,8 @@
 \newcommand{\todo}{\textbf{TODO}}
 
 \renewcommand{\epsilon}{\varepsilon}
+\newcommand{\invlim}{\varprojlim}
+\newcommand{\dirlim}{\varinjlim}
 
 \newcommand{\esh}{{\textstyle \int}}
 
@@ -132,7 +136,7 @@ It is used today by (almost) everyone: algebraic geometry, algebra, representati
     \begin{enumerate}
         \item Every morphism $f \in \Mor(\cat)$ has a specified domain $X \in \Ob(\cat)$ and codomain $Y \in \Ob(\cat)$. We write $f : X \to Y$.
         \item For every object $X \in \Ob(\cat)$ there exists a morphism $1_X : X \to X$ (the \emph{identity} of $X$), also written $\id_X$
-        \item For any three objects $X,Y,Z \in \Ob(\cat)$ and morphims $f : X \to Y$ and $g : Y \to Z$ there exists a morphism $g\circ f : X \to Z$ (we often omit $\circ$ and just write $gf$)
+        \item For any three objects $X,Y,Z \in \Ob(\cat)$ and morphism $f : X \to Y$ and $g : Y \to Z$ there exists a morphism $g\circ f : X \to Z$ (we often omit $\circ$ and just write $gf$)
     \end{enumerate}
     satisfying
     \begin{description}
@@ -822,7 +826,7 @@ We also get a natural transformation $\epsilon : GD \Rightarrow \id_\catt$ when 
     \end{enumerate}
 \end{examples}
 
-\begin{theorem}
+\begin{theorem} \label{thmadjoints}
     Let $F : \cat \to \catt$ be a functor. The following are equivalent:
     \begin{enumerate}
         \item $F$ admits a left adjoint
@@ -852,16 +856,16 @@ We also get a natural transformation $\epsilon : GD \Rightarrow \id_\catt$ when 
                 \arrow[u,"- \circ f"]
         \end{tikzcd}
     \end{center}
-    We need to recover a map $G(X) \to G(Y)$ such that composing with it gives us $\gamma$. This works by the Yoneda lemma, which tells us that the natural transformation $\gamma$ comes from an element $\Hom(G(X),G(Y))$. Call it $G(f)$. Using this diagram with $X=Y$ and $f = \id_X$ shows that $G(\id_X)= \id_{G(X)}$. It remains to check this does define a functor. Let $X \xrightarrow{f} Y \xrightarrow{g} Z$ in $\cat$. Then we have the diagram
+    We need to recover a map $G(X) \to G(Y)$ such that composing with it gives us $\gamma$. This works by the Yoneda lemma, which tells us that the natural transformation $\gamma$ comes from an element $\Hom(G(X),G(Y))$. Call it $G(f)$. It remains to check this does define a functor. Using this diagram with $X=Y$ and $f = \id_X$ shows that $G(\id_X)= \id_{G(X)}$. Let $X \xrightarrow{f} Y \xrightarrow{g} Z$ in $\cat$. Then we draw
     \begin{center}
         \begin{tikzcd}
             \Hom(G(Z),-)
-                \arrow[r,"- \circ G(g)"]
-                \arrow[rr,bend left=10,"- \circ G(g\circ f)",start anchor=north,end anchor=north,shorten=2mm]
+                \arrow[r,"- \circ G(g)" ']
+                \arrow[rr,bend left=10,"- \circ G(g\circ f)"]
                 \arrow[d,"\sim" sloped]
             &
             \Hom(G(Y),-)
-                \arrow[r,"- \circ G(f)"]
+                \arrow[r,"- \circ G(f)" ']
                 \arrow[d,"\sim" sloped]
             &
             \Hom(G(X),-)
@@ -869,7 +873,7 @@ We also get a natural transformation $\epsilon : GD \Rightarrow \id_\catt$ when 
             \\
             \Hom(Z,F(-))
                 \arrow[r,"- \circ g"]
-                \arrow[rr,bend right=10,"- \circ (g \circ f)",',start anchor=south,end anchor=south,shorten=2mm]
+                \arrow[rr,bend right=10,"- \circ (g \circ f)",',]
             &
             \Hom(Y,F(-))
                 \arrow[r,"- \circ f"]
@@ -877,7 +881,7 @@ We also get a natural transformation $\epsilon : GD \Rightarrow \id_\catt$ when 
             \Hom(X,F(-))
         \end{tikzcd}
     \end{center}
-    Which shows $G(g\circ f) = G(g) \circ G(f)$ (because the map $\gamma$ above is unique).
+    and this diagram shows that $G(g\circ f) = G(g) \circ G(f)$ (because the map $\gamma$ above is unique).
 \end{proof}
 
 This theorem shows there is a deep link between universal properties and adjoint functors.
@@ -906,7 +910,7 @@ Let us recall the definition of a functor category.
             &
             \bullet
         \end{tikzcd} which has 4 objects and 9 morphisms (4 of them being identities). Then, a functor from  $\mathbf{2 \times 2}$ to $\cat$ is a commutative diagram of this shape in $\cat$.
-        \item If $\Jcat$ is a small category, there is a map $\Delta : \Ob(\cat) \to \Fun(\Jcat,\cat)$ where $\Delta(c)$ is the constant functor at $c$, that is the functor that sends all objects to $c$ and all morphisms to $\id_c$.
+        \item If $\Jcat$ is a small category, there is a functor $\Delta : \Ob(\cat) \to \Fun(\Jcat,\cat)$ where $\Delta(c)$ is the constant functor at $c$, that is the functor that sends all objects to $c$ and all morphisms to $\id_c$, and $\Delta(f) = f$, which works since a natural transformation $\Delta(c) \Rightarrow \Delta(d)$ is just the data of one morphism $c\to d$.
     \end{enumerate}
 \end{examples}
 
@@ -932,6 +936,131 @@ Let us unwrap this definition. A cone is a collection of maps $\lambda_j : c \to
     Let $F : \Jcat \to \cat$ be a diagram. A \emph{limit} (or \emph{projective limit} or \emph{inverse limit}) of $F$ is a universal cone above $F$, in the sense that it is a final object in the category of cones above $F$. Dually, a \emph{colimit} (or \emph{inductive limite} or \emph{direct limit}) is a universal cocone, that is an initial object in the category of cones under $F$.
 \end{definition}
 
-Concretely, a limit of $F : \Jcat \to \cat$ is a pair $(\lim F, \phi)$ with $\lim F \in \Ob(\cat)$ and $\phi : \Delta(\lim F) \Rightarrow F$ is such that for any \todo
+Concretely, a limit of $F : \Jcat \to \cat$ is a pair $(\lim F, \phi)$ with $\lim F \in \Ob(\cat)$ and $\phi : \Delta(\lim F) \Rightarrow F$ is such that for any cone $\lambda : \Delta(c) \Rightarrow F$, there exists a unique morphism $f : X \to \lim F \in \Mor(\cat)$, such that the diagram on the left commutes:
+\begin{center}
+    \begin{tikzcd}[column sep=tiny]
+        \Delta(c)
+            \arrow[rr, "\Delta(f)",dashed]
+            \arrow[dr, "\lambda" ', Rightarrow]
+        &&
+        \Delta(\lim F)
+            \arrow[dl, "\phi", Rightarrow]
+        \\
+        &
+        F
+    \end{tikzcd}
+    \hspace{1cm}
+    which is equivalent to
+    \hspace{1cm}
+    $\forall j \in \Jcat$,
+    \begin{tikzcd}[column sep=tiny]
+        c
+            \arrow[rr, "f",dashed]
+            \arrow[dr, "\lambda_j" ', Rightarrow]
+        &&
+        \lim F
+            \arrow[dl, "\phi_j", Rightarrow]
+        \\
+        &
+        F(j)
+    \end{tikzcd}
+\end{center}
+
+In compact form, $\Hom_\cat(-, \lim F) \simeq \Hom_{\Fun(\Jcat,\cat)} (\Delta(-),F)$.
+
+\begin{exercise}
+    Do the same for colimits.
+\end{exercise}
+
+\begin{remark}\leavevmode
+    \begin{enumerate}
+        \item If a limit exists it is unique up to isomorphism (unique isomorphism that commutes with the legs of the cone)
+        \item If all limits exist, then $\lim$ becomes a functor $\lim : \Fun(\Jcat, \cat) \to \cat$ in the following way. Recall that theorem \ref{thmadjoints} says a functor $D$ admits a left adjoint iff for all objects $X$ in its codomain, $\Hom(X,D(-))$ is representable. The compact form of the definition of a limit says that the functor $\Hom(\Delta(-),F)$ is representable for all $F$ (since we assume all limits exist). A dual version of the theorem gives that $\Delta$ admits a right adjoint, which is $\lim$ since $\Hom(c,\lim F) \simeq \Hom(\Delta(c),F)$. If $\eta : F \Rightarrow G$ is a natural transformation, then $\lim(\eta)$ can be constructed in the following way: $\lim F \Rightarrow F \underset{\eta}{\Rightarrow} G$ is a cone above $G$, and $\lim(\eta) : \lim F \to \lim G$ comes from the universality of $\lim G$.
+    \end{enumerate}
+\end{remark}
+
+\begin{corollary} \leavevmode
+    \begin{enumerate}
+        \item If $\cat$ has all $\Jcat$-limits, then $\lim : \Fun(\Jcat,\cat) \to \cat$ is a right adjoint to $\Delta$.
+        \item If $\cat$ has all $\Jcat$-colimits, then $\colim : \Fun(\Jcat,\cat) \to \cat$ is a left adjoint to $\Delta$.
+    \end{enumerate}
+\end{corollary}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item If $\Jcat$ is discrete, that is has no morphisms other than identities, then a functor $F : \Jcat \to \cat$ is the same as a collection $(X_i)_{i \in \Jcat}$ of objects of $\cat$. Then, a limit of $F$ is an object $\lim F \in \Ob(\cat)$ with morphisms $f_i : \lim F \to X_i$ such that for all objects $X \in \Ob(\cat)$ with morphisms $p_i : X \to X_i$, we have a unique map $\alpha : X \to \lim F$ that makes this diagram commute for all $i,j \in \Jcat$:
+        \begin{center}
+            \begin{tikzcd}
+                &
+                X
+                    \arrow[dl,"p_i" ']
+                    \arrow[d,"\alpha",dashed]
+                    \arrow[dr,"p_j"]
+                \\
+                X_i
+                &
+                \lim F
+                    \arrow[l,"f_i"]
+                    \arrow[r,"f_j" ']
+                &
+                X_j
+            \end{tikzcd}
+        \end{center}
+        We write $\lim F = \prod\limits_{j \in \Jcat} F(j)$ and call it the \emph{product of the $F(j)$s}. Morphisms $f_i$ are written $\pi_i$ and called \emph{canonical projections}. \\
+        Dually, the colimit of $F$ is called a coproduct and written $\bigsqcup\limits_{j \in \Jcat} F(j)$.
+        \item If $\Jcat =$ \begin{tikzcd}[column sep=small]
+            \bullet \arrow[r,shift left] \arrow[r, shift right] & \bullet
+        \end{tikzcd}, then a functor $F : \Jcat \to \cat$ is the data of two parallel morphisms in $\cat$. A limit is an equalizer and a colimit is a coequalizer.
+        \item If $\Jcat =$ \begin{tikzcd}[column sep=small,row sep=scriptsize]
+            & \bullet \arrow[d] \\ \bullet \arrow[r] & \bullet
+        \end{tikzcd} then $F : \Jcat \to \cat$ is the data of $A,B,C \in \Ob(\cat)$ with two morphisms $f : A \to C$ and $g : B \to C$. The limit $\lim F$ is called a \emph{pullback} of $f$ and $g$, with universal property depicted here:
+        \begin{center}
+        \begin{tikzcd}
+            X
+                \arrow[rrd,bend left]
+                \arrow[ddr,bend right]
+                \arrow[dr,dashed,"\exists !"]
+            \\
+            &
+            A \times_C B
+                \arrow[d,"\pi_B" ']
+                \arrow[r,"\pi_A"]
+            &
+            A
+                \arrow[d,"f"]
+            \\
+            &
+            B
+                \arrow[r,"g" ']
+            &
+            C
+        \end{tikzcd}
+    \end{center}
+    \item If $\Jcat = \omega^\op$, that is $\Jcat = \cdots \to 2 \to 1 \to 0$, then $\lim F$ is often called the ``inverse limit'' of $F$. Concretely, $F$ is the data of $\cdots \to F(2) \xrightarrow[\alpha_2]{} F(1) \xrightarrow[\alpha_1]{} F(0)$, and a cone above $F$ looks like
+    \begin{center}
+        \begin{tikzcd}
+            & & c
+                \arrow[dl,"\lambda_2" ']
+                \arrow[d,"\lambda_1"]
+                \arrow[dr,"\lambda_0"]
+            \\
+            \cdots
+                \arrow[r]
+            &
+            F(2)
+                \arrow[r,"\alpha_2" ']
+            &
+            F(1)
+                \arrow[r,"\alpha_1" ']
+            &
+            F(0)
+        \end{tikzcd}
+        \hspace{2em}
+        we have $(\alpha_i \circ \cdots \circ \alpha_n) \circ \lambda_n = \lambda_i$.
+    \end{center}
+    The typical example of an inverse limit is the one given by $F(n) = \nicefrac{\Z}{p^n\Z}$ in $\Ring$ with morphisms $\nicefrac{\Z}{p^{n+1}\Z} \to \nicefrac{\Z}{p^n\Z}$ being reduction mod $p^n$. The inverse limit $\invlim \nicefrac{\Z}{p^n\Z}$ is the ring of $p$-adic integers. Concretely, $a \in \invlim \nicefrac{\Z}{p^n\Z}$ iff $a = (a_i)_{i\in \N}$ such that $a_i \equiv a_j \mod p^i \forall i \le j$.
+    \item The dual notion, given by $\Jcat = 0 \to 1 \to 2 \to \cdots$, is obtained by taking the colimit. It is called a \emph{direct limit}. The typical example here is the Prüfer $p$-group $\dirlim \nicefrac{\Z}{p^n \Z} = \Z(p^\infty)$.
+    \end{enumerate}
+\end{example}
 
 \end{document}

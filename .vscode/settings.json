@@ -5,6 +5,7 @@
         "cartesian",
         "cocone",
         "coequalizer",
+        "colimit",
         "colimits",
         "coproduct",
         "counit",
