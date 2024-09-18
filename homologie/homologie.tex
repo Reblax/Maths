@@ -1072,7 +1072,43 @@ In compact form, $\Hom_\cat(-, \lim F) \simeq \Hom_{\Fun(\Jcat,\cat)} (\Delta(-)
 \end{theorem}
 
 \begin{proof}
-    \todo
+    Let $\Jcat$ be a small category and $D : \Jcat \to \cat$ be a diagram. We have the products $\prod\limits_{i \in \Ob(\Jcat)} D(i)$ and $\prod\limits_{f : i \to j \in \Mor(\Jcat)} D(j)$. We have two morphisms
+    \begin{center}
+        \begin{tikzcd}
+            \prod\limits_{i \in \Ob(\Jcat)} D(i)
+                \arrow[r,shift left, "s"]
+                \arrow[r,shift right, "t" ']
+            & \prod\limits_{f : i \to j} D(j)
+        \end{tikzcd}
+    \end{center}
+    given by $\pi_{(f : i \to j)}s = D(f)\pi_i$ and $\pi_{(f : i \to j)}t = \pi_j$, or in terms of diagrams:
+    \begin{center}
+        \begin{tikzcd}
+            \prod\limits_{i \in \Ob(\Jcat)} D(i)
+                \arrow[d, "\pi_k"]
+                \arrow[r, "\exists! s", dashed]
+            &
+            \prod\limits_{f : i \to j} D(j)
+                \arrow[d,"\pi_\alpha"]
+            \\
+            D(k)
+                \arrow[r,"D(\alpha)"]
+            & D(j)
+        \end{tikzcd}
+        \hspace{1cm}
+        \begin{tikzcd}[column sep=tiny]
+            \prod\limits_{i \in \Ob(\Jcat)} D(i)
+                \arrow[dr, "\pi_k" ']
+                \arrow[rr, "\exists! t", dashed]
+            & &
+            \prod\limits_{f : i \to j} D(j)
+                \arrow[dl,"\pi_\alpha"]
+            \\
+            & D(k)
+        \end{tikzcd}
+    \end{center}
+    We check $\lim D$ is an equalizer of $s$ and $t$. A cone above $D$ is given by compositions \[\lim D \to \prod\limits_{i \in \Ob(\Jcat)} \xrightarrow{\pi_i} D(i)\]
+    Indeed, \todo
 \end{proof}
 
 \begin{definition}
