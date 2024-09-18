@@ -1063,4 +1063,91 @@ In compact form, $\Hom_\cat(-, \lim F) \simeq \Hom_{\Fun(\Jcat,\cat)} (\Delta(-)
     \end{enumerate}
 \end{example}
 
+\begin{definition}
+    Let $\cat$ be a category. We say $\cat$ is \emph{(co)complete} if it has all small (co)limits i.e. if for all diagrams $F : \Jcat \to \cat$ with $\Jcat$ small, $F$ has a (co)limit.
+\end{definition}
+
+\begin{theorem}
+    A category $\cat$ is (co)complete if and only if it has all small (co)products and (co)equalizers.
+\end{theorem}
+
+\begin{proof}
+    \todo
+\end{proof}
+
+\begin{definition}
+    $F : \cat \to \catt$ \emph{preserves (co)limits} if for every diagram $D : \Jcat \to \cat$ and any (co)limit cone $(c,\phi)$ of $D$, the image $(F(c),F\phi)$ is a (co)limit cone over $FD : \Jcat \to \catt$.
+\end{definition}
+
+\begin{remark}
+    Preserving limits is like having $F(\lim D) \simeq \lim FD$, but stronger:
+    \begin{center}
+        \begin{tikzcd}
+            \lim D \arrow[d,"\phi_i"] \\ D(i)
+        \end{tikzcd}
+        \hspace{2em}$\rightsquigarrow$\hspace{2em}
+        \begin{tikzcd}
+            F(\lim D) \arrow[r,"\exists! \alpha",dashed] \arrow[d,"FD(\phi_i)" '] & \lim FD \arrow[dl,"\lambda_i"] \\ FD(i) 
+        \end{tikzcd}
+    \end{center}
+    and $\alpha$ is an isomorphism since $(F(\lim D), F\phi)$ is a limit cone.
+\end{remark}
+
+\begin{proposition}
+    Let $\cat$ be a locally small category and $X \in \Ob(\cat)$. Then
+    \begin{enumerate}
+        \item $\Hom_\cat (X,-)$ preserves all limits that exist in $\cat$
+        \item The contravariant functor $\Hom_\cat(-,X)$ transforms colimits in $\cat$ into limits in $\Set$.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    Let $\Jcat$ be a small category and $D : \Jcat \to \cat$ be a diagram. Let $F : \cat \to \Set$ be te hom-functor $\Hom_\cat (X,-)$. Let $(L,\lambda)$ be a limit cone for $D$. Then, $(F(L),F(\lambda))$ is a cone in $\Set$ over $FD$, since for any $\alpha : i\to j \in \Mor(\Jcat)$ we have the commutative diagram
+    \begin{center}
+        \begin{tikzcd}[column sep=tiny]
+            & F(L)
+                \arrow[dl,"F(\lambda)" ']
+                \arrow[dr,"F(\lambda_i)"]
+            \\
+            \Hom_\cat(X,D(i))
+                \arrow[rr,"D(\alpha) \circ -" ']
+            &&
+            \Hom_\cat(X,D(j))
+        \end{tikzcd}
+    \end{center}
+    It remains to show that $(F(L),F(\lambda))$ is a limit cone for $FD$. Let $S \underset{f}{\Rightarrow} FD$ be another cone. We have $f(i) : \applic{S}{\Hom(X,D(i))}{s}{f_i(s)}$ (we work in $\Set$ so morphisms are actual maps here). Fixing $S$, we get commutative diagrams:
+    \begin{center}
+        \begin{tikzcd}[column sep=tiny]
+            & X
+                \arrow[dl,"f_i(s)" ']
+                \arrow[dr,"f_j(s)"]
+            \\
+            D(i)
+                \arrow[rr,"D(\alpha) \circ -" ']
+            &&
+            D(j)
+        \end{tikzcd}
+    \end{center}
+    so $(X,f_i(s))$ is a cone over $D$ hence there exists a unique morphism $u_s : X \to L$ such that $\lambda_i \circ u_s = f_i(s)$ for all $i \in \Ob(\Jcat)$. Now set $u : \applic{S}{\Hom(X,L)}{s}{u_s}$ and we have $(F\lambda \circ u)(s) = (F\lambda)(u_s) = f$ so $u : S \to F(L)$ is a morphism of cones. We need to check it is unique. If $v$ is another one then $\lambda_i \circ v(s) = f_i(s)$ so $v(s)=u_s$ by uniqueness of $u_s$, which shows $v=u$. \\
+    Another proof is given here:
+    \begin{align*}
+        \Hom_\cat (X,\lim D) & \simeq \Hom_{\Fun(\Jcat,\cat)} (\Delta X,D) \\
+        & \simeq \Hom_{\Fun(\Jcat,\Set)} (\Delta 1,\Hom_\cat (X,D(-))
+        \\
+        & \simeq \Hom_\Set(1,\lim \Hom_\cat(X,D(-)))
+        \\
+        & \simeq \lim \Hom_\cat (X,D(-))
+    \end{align*}
+    ($1$ is a singleton.) The first and third isomorphisms are by definition of a limit. The last isomorphism comes from the fact that for any set $A$, maps $1 \to A$ correspond to elements of $A$. The second isomorphism works since a natural transformation $\Delta X \Rightarrow D$ is the same as a collection of morphisms $f_i : X \to D(i)$ indexed by $\Ob(\Jcat)$.
+\end{proof}
+
+\begin{theorem}
+    Right adjoints preserve limits. Left adjoints preserve colimits.
+\end{theorem}
+
+\begin{proof}
+    We only need to prove the statement about right adjoints and then use opposite categories for left adjoints. 
+\end{proof}
+
+
 \end{document}
