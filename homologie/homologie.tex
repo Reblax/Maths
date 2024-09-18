@@ -1146,8 +1146,36 @@ In compact form, $\Hom_\cat(-, \lim F) \simeq \Hom_{\Fun(\Jcat,\cat)} (\Delta(-)
 \end{theorem}
 
 \begin{proof}
-    We only need to prove the statement about right adjoints and then use opposite categories for left adjoints. 
+    We only need to prove the statement about right adjoints and then use opposite categories for left adjoints. Let \begin{tikzcd}
+        \cat \arrow[r,bend left,"F"] & \catt \arrow[l,bend left, "G"]
+    \end{tikzcd} be two functors with $F \dashv G$ and $D : \Jcat \to \catt$ be a diagram, with $\eta : \Delta(\lim D) \Rightarrow D$ its limit cone. Our goal is to show that $(G\lim D,G\eta)$ is a limit cone for $G\circ D$. The fact that it is a cone above $G \circ D$ is clear. Now let $\mu : \Delta(c) \Rightarrow GD$ be another cone. For any $j \in \Ob(\Jcat)$, we have $\mu_j \in \Hom(c,GD(j))$. By adjunction, it corresponds to a morphism $\mu_j^* \in \Hom(F(c),D(j))$. We claim these morphisms make up a natural transformation $\mu^* : \Delta(F(c)) \Rightarrow D$. Indeed, for any morphism $f : i \to j \in \Mor(\Jcat)$, we have by naturality of the adjunction a commutative diagram
+    \begin{center}
+        \begin{tikzcd}
+            \Hom(F(c),D(i))
+                \arrow[r,"\sim"]
+                \arrow[d,"D(f) \circ -"]
+            &
+            \Hom(c,GD(i))
+                \arrow[d,"GD(f) \circ -"]
+            \\
+            \Hom(F(c),D(j))
+                \arrow[r,"\sim"]
+            &
+            \Hom(c,GD(j))
+        \end{tikzcd}
+    \end{center}
+    so $D(f) \circ \mu_i^* = (GD(f)\circ \mu_i)^* = \mu_j^*$. By universality of $\lim D$, there exists a unique morphism $\tau : F(c) \to \lim D$ that makes the appropriate diagram commute. Using the adjunction, we get a morphism $\tau^* : c \to G(\lim D)$, which is the morphism we are looking for. The commutativity of the appropriate diagram comes from naturality of the adjunction. Uniqueness comes from the uniqueness of $\tau$. \\
+    In compact form:
+    \begin{align*}
+        \Hom_\cat (c,\lim GD) & \simeq \Hom_{\Fun(\Jcat,\cat)} (\Delta c,GD) \\
+        & \simeq \Hom_{\Fun(\Jcat,\catt)}(F\Delta c,D) \\
+        & \simeq \Hom_{\Fun(\Jcat,\catt)}(\Delta F c,D) \\
+        & \simeq \Hom_\catt (Fc, \lim D) \\
+        & \simeq \Hom_\cat (C,G \lim D)
+    \end{align*}
 \end{proof}
+
+\section{Tensor products}
 
 
 \end{document}
