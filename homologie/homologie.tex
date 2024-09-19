@@ -67,6 +67,7 @@
 \DeclareMathOperator{\Fun}{Fun}
 \DeclareMathOperator{\Nat}{Nat}
 \DeclareMathOperator{\colim}{colim}
+\DeclareMathOperator{\cod}{cod}
 \renewcommand{\th}{\mathop{\rm th}}
 \renewcommand{\Re}{\mathop{\rm Re}}
 \renewcommand{\Im}{\mathop{\rm Im}}
@@ -1072,43 +1073,49 @@ In compact form, $\Hom_\cat(-, \lim F) \simeq \Hom_{\Fun(\Jcat,\cat)} (\Delta(-)
 \end{theorem}
 
 \begin{proof}
-    Let $\Jcat$ be a small category and $D : \Jcat \to \cat$ be a diagram. We have the products $\prod\limits_{i \in \Ob(\Jcat)} D(i)$ and $\prod\limits_{f : i \to j \in \Mor(\Jcat)} D(j)$. We have two morphisms
+    Let $\Jcat$ be a small category and $D : \Jcat \to \cat$ be a diagram. We have the products $\prod\limits_{k \in \Ob(\Jcat)} D(k)$ and $\prod\limits_{g \in \Mor(\Jcat)} D(\cod(g))$ where $\cod(g)$ is the codomain of $g$. We have two morphisms
     \begin{center}
         \begin{tikzcd}
-            \prod\limits_{i \in \Ob(\Jcat)} D(i)
+            \prod\limits_{k \in \Ob(\Jcat)} D(k)
                 \arrow[r,shift left, "s"]
                 \arrow[r,shift right, "t" ']
-            & \prod\limits_{f : i \to j} D(j)
+            & \prod\limits_{g \in \Mor(\Jcat)} D(\cod(g))
         \end{tikzcd}
     \end{center}
-    given by $\pi_{(f : i \to j)}s = D(f)\pi_i$ and $\pi_{(f : i \to j)}t = \pi_j$, or in terms of diagrams:
+    given by $s = \prod_{f : i \to j} D(f)\pi_i$ and $t = \prod_{f : i \to j} \pi_j$, or with diagrams, for any $f : i \to j \in \Mor(\Jcat)$ :
     \begin{center}
         \begin{tikzcd}
-            \prod\limits_{i \in \Ob(\Jcat)} D(i)
-                \arrow[d, "\pi_k"]
+            \prod\limits_{k \in \Ob(\Jcat)} D(k)
+                \arrow[d, "\pi_i"]
                 \arrow[r, "\exists! s", dashed]
             &
-            \prod\limits_{f : i \to j} D(j)
-                \arrow[d,"\pi_\alpha"]
+            \prod\limits_{g \in \Mor(\Jcat)} D(\cod(g))
+                \arrow[d,"\pi_f"]
             \\
-            D(k)
-                \arrow[r,"D(\alpha)"]
+            D(i)
+                \arrow[r,"D(f)"]
             & D(j)
         \end{tikzcd}
         \hspace{1cm}
         \begin{tikzcd}[column sep=tiny]
-            \prod\limits_{i \in \Ob(\Jcat)} D(i)
-                \arrow[dr, "\pi_k" ']
+            \prod\limits_{k \in \Ob(\Jcat)} D(k)
+                \arrow[dr, "\pi_j" ']
                 \arrow[rr, "\exists! t", dashed]
             & &
-            \prod\limits_{f : i \to j} D(j)
-                \arrow[dl,"\pi_\alpha"]
+            \prod\limits_{g \in \Mor(\Jcat)} D(\cod(g))
+                \arrow[dl,"\pi_f"]
             \\
-            & D(k)
+            & D(j)
         \end{tikzcd}
     \end{center}
-    We check $\lim D$ is an equalizer of $s$ and $t$. A cone above $D$ is given by compositions \[\lim D \to \prod\limits_{i \in \Ob(\Jcat)} \xrightarrow{\pi_i} D(i)\]
-    Indeed, \todo
+    We call $\lim D$ an equalizer of $s$ and $t$. A cone above $D$ is given by compositions \[\lim D \xrightarrow{\alpha} \prod\limits_{k \in \Ob(\Jcat)} D(k)\xrightarrow{\pi_i} D(i)\]
+    Indeed, for any morphism $f: i \to j \in \Mor(\Jcat)$, $D(f)\pi_i\alpha = \pi_f s \alpha = \pi_f t \alpha = \pi_j \alpha$. \\
+    Now let $\Delta(c) \underset{\lambda}{\Rightarrow} D$ be another cone above $D$. For any $k \in \Ob(\Jcat)$, we have $\lambda_k : c \to D(k)$, which gives a unique morphism $\lambda_* : c \to \prod\limits_{k \in \Ob(\Jcat)} D(k)$ such that $\pi_i \lambda_* = \lambda_i$. Then, for any $f : i \to j \in \Mor(\Jcat)$, we have
+    \begin{align*}
+        \pi_f s \lambda_* & = D(f)\pi_i \lambda_* = D(f)\lambda_i = \lambda_j \\
+        \pi_f t \lambda_* & = \pi_j \lambda_* = \lambda_j
+    \end{align*} 
+    and applying the universal property of the product shows that $s \lambda_* = t \lambda_*$. By the universal property of equalizers this gives the existence of a unique morphism $c \to \lim D$ and completes the proof.
 \end{proof}
 
 \begin{definition}
@@ -1210,8 +1217,92 @@ In compact form, $\Hom_\cat(-, \lim F) \simeq \Hom_{\Fun(\Jcat,\cat)} (\Delta(-)
         & \simeq \Hom_\cat (C,G \lim D)
     \end{align*}
 \end{proof}
-
+\newpage
 \section{Tensor products}
+All rings considered here are assumed to be associative and to have a multiplicative unit $1$. Let $A$ be a ring.
+\begin{definition} \leavevmode
+    \begin{itemize}
+        \item A \emph{right $A$-module} is an abelian group $(M,+)$ with a map $\applic{M\times A}{M}{(m,a)}{m\cdot a}$ such that
+        \begin{align*}
+            (1) \quad & (m+n)\cdot a = m\cdot a +n\cdot a & (3)\quad & m\cdot(ab) = (m \cdot a)b \\
+            (2) \quad & m \cdot (a+b) = m\cdot a + m \cdot b & (4)\quad & m\cdot 1_A = m
+        \end{align*}
+        by symmetry one gets the notion of a \emph{left $A$-module} (which is the equivalent of a vector space, but with a ring in place of the field).
+        \item If $A,B$ are two rings, an \emph{$A$-$B$-bimodule} is an abelian group $M$ with a left $A$-module and a right $B$-module structure such that for $(a,b) \in A \times B$ and $m \in M$, $a \cdot (m\cdot b) = (a\cdot m) \cdot b$.
+        \item Let $M$ be a right $A$-module, $N$ be a left $A$-module and $G$ be an abelian group. \\ A \emph{bilinear} (or \emph{balanced}) map $f : M\times N \to G$ is a map $f$ such that
+        \begin{align*}
+            (1) \quad & f(m_1 + m_2, n) = f(m_1,n) + f(m_2,n)\\
+            (2) \quad & f(m,n_1 + n_2) = f(m,n_1) + f(m,n_2)\\
+            (3) \quad & f(ma,n) = f(m,an)
+        \end{align*}
+    \end{itemize}
+\end{definition}
 
+The following theorem shows that there exists an abelian group $M \otimes_A N$ that is ``universal'' with respect to bilinear maps.
+
+\begin{theorem}
+    Let $M$ be a right $A$-module and $N$ be a left $A$-module. There exists an abelian group $M \otimes_A N$ together with a bilinear map $t : M \times N \to M \otimes_A N$ such that for any abelian group $G$ and bilinear map $b : M \times N \to G$, there exists a unique group homomorphism $\tilde{b}$ that makes this diagram commute:
+    \begin{center}
+        \begin{tikzcd}
+            M \times N
+                \arrow[r, "\forall b"]
+                \arrow[d,"t" ']
+            & G
+            \\
+            M \otimes_A N \arrow[ru,"\exists! \tilde{b}" ', dashed]
+        \end{tikzcd}
+    \end{center}
+\end{theorem}
+
+\begin{proof}
+    Let $L = \Z[M\times N]$ be the free abelian group on $M\times N$. It has a basis, namely $\{(m,n) \mid m \in M, n\in N\}$. Now consider the subgroup
+    \[I = \langle (m_1+m_2,n) - (m_1,n) - (m_2,n), (m,n_1+n_2) - (m,n_1) - (m,n_2), (ma,n) - (m,an)\rangle\]
+    It is chosen so the relations we want hold in $\nicefrac{L}{I}$, for instance $(ma,n) = (m,an)$ in the quotient group. Set $M \otimes_A N = \nicefrac{L}{I}$ and $t : \applic{M\times N}{\nicefrac{L}{I}}{(m,n)}{[(m,n)]}$. By construction $M \otimes_A N$ is an abelian group and $t$ is bilinear. We need to check the universal property. Pick a bilinear map $b : M \times N \to G$. We have a diagram
+    \begin{center}
+        \begin{tikzcd}
+            M\times N
+                \arrow[r, "b"]
+                \arrow[d,"i" ']
+            &
+            G
+            \\
+            \Z[M\times N]
+                \arrow[ru,dashed,"\exists ! \tilde{b}" ']
+                \arrow[d,"\pi" ']
+            \\
+            M \otimes_A N
+                \arrow[ruu, bend right, "\exists! \overline{b}" ', dashed]
+        \end{tikzcd}
+    \end{center}
+    where $i : (m,n) \mapsto (m,n)$ is the inclusion map and $\pi : L\to \nicefrac{L}{I}$ is the canonical projection. The map $\tilde{b}$ exists by universal property of the free abelian group. Moreover it passes to the quotient ($I \subset \ker (\tilde{b})$), so we get the map $\overline{b}$. We now check uniqueness. Let $f : M\otimes_A N \to G$ be another linear map that makes the diagram commute. Then, $f \circ \pi$ makes the top triangle commute, so by the universal property of the free abelian group, $f \circ \pi = \tilde{b}$. Applying the universal property of the quotient allows us to conclude $f = \overline{b}$.
+\end{proof}
+
+\begin{remark} \leavevmode
+    \begin{enumerate}
+        \item The abelian group $M \otimes_A N$ is a unique up to unique isomorphism.
+        \item The class $[(m,n)] \in M \otimes_A N$ is written $m \otimes n$. It is called a ``\emph{pure tensor}''. Pure tensors generate the tensor product:
+        \[x \in M\otimes_A N \iff \exists (m_i,n_i) \in M^n \times N^n, x= \sum_{i=1}^n m_i \otimes n_i\]
+    \end{enumerate}
+\end{remark}
+
+\faChevronRight \space The tensor product is a functor. Precisely, it is a bifunctor $- \otimes_A - : \Mod A  \times A \Mod \to \Ab$. If $M,M'$ are two right $A$-modules, $N,N'$ are two left $A$-modules and $f : M \to M', g : N \to N'$ are linear maps, then writing $(f\otimes g)(m\otimes n) = f(m)\otimes g(n)$ gives a commutative diagram
+\begin{center}
+    \begin{tikzcd}[column sep=large]
+        M \otimes_A N
+            \arrow[r,"\id_M\otimes g"]
+            \arrow[d,"f\otimes \id_N" ']
+            \arrow[rd,"f\otimes g" description,dashed]
+        &
+        M \otimes_A N'
+            \arrow[d,"f\otimes \id_{N'}"]
+        \\
+        M' \otimes_A N
+            \arrow[r,"\id_{M'}\otimes g" ']
+        &
+        M' \otimes_A N'
+    \end{tikzcd}
+\end{center}
+
+One needs to be careful as $M\otimes_A N$ can be defined using a quotient or a universal property. \todo
 
 \end{document}
