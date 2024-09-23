@@ -1,0 +1,285 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsfonts, amsthm}
+\usepackage[english]{babel}
+\usepackage{geometry}[textwidth=10cm]
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{nicefrac}
+\usepackage{stmaryrd}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.pathmorphing}
+
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\op}{\mathrm{op}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\U}{\mathbb{U}}
+\newcommand{\F}{\mathcal{F}}
+\renewcommand{\H}{\mathbb{H}}
+
+\renewcommand{\P}{\mathcal{P}}
+\renewcommand{\d}{{\rm \, d}}
+
+\newcommand{\asympt}{\mathop{\sim}}
+\newcommand{\lin}{\mathcal{L}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\catt}{\mathcal{D}}
+\newcommand{\rel}{\mathcal{R}}
+\newcommand{\Jcat}{\mathcal{J}}
+\newcommand{\topo}{\mathcal{O}}
+
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\Top}{\mathbf{Top}}
+\newcommand{\Grp}{\mathbf{Grp}}
+\newcommand{\Mod}{\mathbf{Mod}}
+\newcommand{\Ab}{\mathbf{Ab}}
+\newcommand{\Vectcat}{\mathbf{Vect}}
+\newcommand{\Rep}{\mathbf{Rep}}
+\newcommand{\Ring}{\mathbf{Ring}}
+
+%Operators
+\DeclareMathOperator{\Acc}{Acc}
+\DeclareMathOperator{\arccosh}{arccosh}
+\DeclareMathOperator{\Card}{Card}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\PSL}{PSL}
+\DeclareMathOperator{\PGL}{PGL}
+\DeclareMathOperator{\SO}{SO}
+\DeclareMathOperator{\pgcd}{pgcd}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\rg}{rg}
+\DeclareMathOperator{\ch}{ch}
+\DeclareMathOperator{\sh}{sh}
+\DeclareMathOperator{\Vect}{Vect}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\rk}{rk}
+\DeclareMathOperator{\Fix}{Fix}
+\DeclareMathOperator{\Ob}{Ob}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Int}{Int}
+\DeclareMathOperator{\Mor}{Mor}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Fun}{Fun}
+\DeclareMathOperator{\Nat}{Nat}
+\DeclareMathOperator{\colim}{colim}
+\DeclareMathOperator{\cod}{cod}
+\renewcommand{\th}{\mathop{\rm th}}
+\renewcommand{\Re}{\mathop{\rm Re}}
+\renewcommand{\Im}{\mathop{\rm Im}}
+
+\newcommand{\todo}{\textbf{TODO}}
+
+\renewcommand{\epsilon}{\varepsilon}
+\newcommand{\invlim}{\varprojlim}
+\newcommand{\dirlim}{\varinjlim}
+
+\newcommand{\esh}{{\textstyle \int}}
+
+%Macros
+\newcommand{\applic}[4]{\begin{array}[t]{rcl}
+#1 & \to & #2 \\
+#3 & \mapsto & #4
+\end{array}}
+\newcommand{\warning}{\faExclamationTriangle \hspace{3pt}}
+
+\setlength{\parindent}{0pt}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Théorème}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem*{corollary}{Corollaire}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Définition}
+\newtheorem{example}[theorem]{Exemple}
+\newtheorem{question}{Question}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remarque}
+
+\renewcommand{\thequestion}{\Alph{question}}
+
+\title{Limites de suites de parties}
+\author{Reblax}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\section{Introduction}
+
+Le but de ce document est de développer des mathématiques inutiles mais je l'espère marrantes concernant la convergence de suites de parties d'un ensemble. Il est écrit de manière chronologique donc pas forcément ordonnée.
+
+\begin{definition}
+    Soit $E$ un ensemble et $(U_n) \in \P(E)^\N$ une suite de parties de $E$. On dit que :
+    \begin{itemize}
+        \item $U_n$ \emph{converge fortement} vers $L \subset E$ si à partir d'un certain rang, $U_n \subset L$ :
+        \[\exists N \in \N, \forall n \ge N, U_n \subset L\]
+        On note $U_n \to_s L$.
+        \item $U_n$ \emph{converge faiblement} vers $L \subset E$ si à partir d'un certain rang, $U_n \cap L \ne \varnothing$:
+        \[\exists N \in \N, \forall n \ge N, U_n \cap L \ne \varnothing\]
+        On note $U_n \to_w L$.
+    \end{itemize}
+    On étend ces notions aux suites d'éléments de $E$ en identifiant une suite $(u_n) \in E^\N$ à la suite $(\{u_n\}) \in \P(E)^\N$.
+    On définit aussi
+    \begin{itemize}
+        \item La \emph{partie limite} de $U_n$ :
+        \[\lim U_n = \bigcap_{\begin{subarray}{c} L \subset E \\ U_n \to_s L \end{subarray}} L\]
+        On note $U_n \to \lim U_n$. J'appelle ça ``converger en partie''.
+    \end{itemize}
+\end{definition}
+
+Quelques exemples :
+
+\begin{example}
+    On prend $E = \N$.
+    \begin{itemize}
+        \item $U_n = \llbracket 1,n\rrbracket$. On a $U_n \to_s E$, $\lim U_n = E$ et $U_n \to_w A$ pour tout $A$ non vide.
+        \item $U_n = \{1,n\}$. On a $U_n \not \to_s \{1\}$, mais pour tout $m$, $U_n \to_s \{1\} \cup \llbracket m, +\infty \llbracket$, donc $\lim U_n = \{1\}$. Cela démontre que a priori $(U_n)$ ne converge pas fortement vers sa partie limite. Par contre, $(U_n) \to_w \{1\}$.
+    \end{itemize}
+\end{example}
+
+\begin{remark} \leavevmode
+    \begin{itemize}
+        \item Si $(U_n)$ est non vide APCR et $U_n \to_s L$, alors $U_n \to_w L$. On a toujours $U_n \to_s E$ et jamais $U_n \to_w \varnothing$. En particulier $\lim U_n$ existe toujours et est non vide. Plus c'est gros plus c'est facile de converger vers.
+        \item Si $E$ est fini, alors $U_n \to_s \lim U_n$. En effet, $\lim U_n$ est une intersection finie, et on peut donc prendre le max des rangs. La réciproque, que si pour tout $(U_n)$, on a $U_n \to_s \lim U_n$, alors $E$ est fini, est très certainement vraie, par contraposée avec l'exemple précédent. J'écrirai une proposition plus tard.
+    \end{itemize}
+\end{remark}
+
+\begin{proposition}
+    L'ensemble $\{L \subset E \mid U_n \to_s L\}$ est un filtre sur $E$ si $U_n \not \to_s \varnothing$.
+\end{proposition}
+
+\begin{proof}
+    $U_n \not \to_s \varnothing$ par hypothèse. Si $L \subset K$ et $U_n \to_s L$, alors $U_n \to_s K$. Si $U_n \to_s L_i$ pour $i = 1,\dots,k$, alors $U_n \to_s \bigcap\limits_{i=1}^k L_i$ parce qu'on peut prendre maximum des rangs à partir duquel $U_n$ est inclus dans un $L_i$.
+\end{proof}
+
+\begin{definition}
+    On note $\F_U$ ce filtre. On l'appelle le filtre associé à $U$.
+\end{definition}
+
+\begin{remark}
+    Ce filtre n'est a priori pas un ultrafiltre, par exemple si $U_n = \{1,2,3\}$ dans $\N$, alors $U_n \not \to_s \{1,2\}$ et $U_n \not \to_s \{1,2\}^c$.
+\end{remark}
+
+\section{Questions}
+
+Voici la liste de questions auxquelles j'essaierai de répondre :
+
+\begin{question} \label{Qdefs}
+    Est-ce que ce serait pas une bonne idée de bricoler les def histoire que $\to_s \implies \to_w$ ? Ou juste est-ce que je peux trouver des defs mieux dans un certain sens ?
+\end{question}
+
+\begin{question} \label{Qweakconv}
+    Est-ce que $U_n \to_w \lim U_n$ ?
+\end{question}
+
+\begin{question} \label{Qlimsup}
+    Quels sont les liens entre ce que j'ai défini et les $\limsup$, $\liminf$ ?
+\end{question}
+
+\begin{question} \label{Qfiltre}
+    Quelles sont les propriétés du filtre $\F_U$ pour une suite $U$ ?
+\end{question}
+
+\begin{question} \label{Qtopo}
+    La convergence en partie est-elle topologique ?
+\end{question}
+
+\begin{question}
+    Si la convergence est topologique, que dire des propriétés des espaces obtenus ?
+\end{question}
+
+\begin{question}
+    Si la convergence n'est pas topologique, peut-on se restreindre à un sous-ensemble bien choisi de $\P(E)$ afin qu'elle le soit ?
+\end{question}
+
+\begin{question} \label{Qsubsets}
+    Quels sont les sous-ensembles de $\P(E)$ intéressants à considérer du point de vue de la discussion présente ?
+\end{question}
+
+\begin{question} \label{Qalg}
+    Comment les limites se marient-elles aux lois de composition sur $E$ ?
+\end{question}
+
+\section{Question \ref{Qdefs} : définitions}
+
+Le concept de la convergence forte est que c'est fort : \emph{tous} les trucs de $U_n$ doivent être dans la limite. Le concept de la convergence faible est plus faible : \emph{un} des trucs de $U_n$ doit être dans la limite. On peut écrire
+\[U_n \to_s L \iff \exists N \in \N, \forall n \ge N, \forall x \in U_n, x \in L\]
+\[U_n \to_w L \iff \exists N \in \N, \forall n \ge N, \exists x \in U_n, x \in L\]
+Le hic étant que si $U_n$ est vide APCR, il converge fortement vers tout, mais faiblement vers rien. Si $U_n$ est non vide APCR, alors la convergence forte implique la faible. Si $U_n$ est vide infiniment souvent, elle converge faiblement vers rien, mais fortement vers\dots
+
+\section{Question \ref{Qweakconv} : convergence faible vers la limite}
+
+\section{Question \ref{Qlimsup} : liminf, limsup}
+
+\begin{definition}[Rappel sur les $\liminf$, $\limsup$]
+    Pour $(U_n) \in \P(E)^\N$ une suite de parties, on définit
+    \begin{align*}
+        \liminf U_n & = \bigcup_{k\in \N} \bigcap_{n\ge k} U_n \\
+        \limsup U_n & = \bigcap_{k \in \N} \bigcup_{n \ge k} U_n
+    \end{align*}
+\end{definition}
+
+\begin{proposition}
+    $\liminf U_n$ est l'ensemble des éléments qui sont APCR dans $U_n$. $\limsup U_n$ est l'ensemble des éléments qui apparaissent une infinité de fois dans les $U_n$.
+\end{proposition}
+
+\section{Question \ref{Qfiltre} : filtres}
+
+\section{Question \ref{Qtopo} : topologie}
+
+\section{Question \ref{Qsubsets} : sous-ensembles de $\P(E)$ intéressants}
+
+\section{Question \ref{Qalg} : lois de composition}
+
+\section{Grosse table d'exemples pour tester des trucs}
+
+Ici $E = \N^*$.
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+    \hline
+    $U_n$ & $\lim U_n$ & $L : U_n \to_s L$ & $L : U_n \to_w L$ & Remarques
+    \\ \hline
+    $A \subset E, A \ne \varnothing$ & $A$ & $B, B\supset A$ & $B, B\cap A \ne \varnothing$ &
+    \\ \hline
+    $\varnothing$ & $\varnothing$ & $B \subset E$ & rien &
+    \\ \hline
+    $\llbracket 1,n\rrbracket$ & $E$ & $E$ & $B \ne \varnothing$ &
+    \\ \hline
+    $\{1,n\}$ & $\{1\}$ & $\{1\} \cup \llbracket m,+\infty \llbracket$ & $B \ni 1$ ou $B = \llbracket m,+\infty \llbracket$ &
+    \\ \hline
+    $\{n\}$ & $\varnothing$ & $\llbracket m,+\infty \llbracket$ & $B = \llbracket m,+\infty \llbracket$ &
+    \\ \hline
+    $\begin{cases}
+        \{1\} & \text{si $n$ pair} \\
+        \{1,2\} & \text{si $n$ impair} \\
+    \end{cases}$
+    & $\{1,2\}$ & $B \supset \{1,2\}$ & $B \ni 1$ &
+    \\ \hline
+    $\begin{cases}
+        \{1\} & \text{si $n$ pair} \\
+        \{2\} & \text{si $n$ impair} \\
+    \end{cases}$
+    & $\{1,2\}$ & $B \supset \{1,2\}$ & $B \supset \{1,2\}$ &
+    \\ \hline
+    $\begin{cases}
+        \{1\} & \text{si $n$ pair} \\
+        \{2,n\} & \text{si $n$ impair} \\
+    \end{cases}$
+    & $\{1,2\}$ & $\{1,2\} \cup \llbracket m, +\infty \llbracket$ & $B \cap \{1,2\} \ne \varnothing$ &
+    \\ \hline
+\end{tabular}
+\end{center}
+
+\end{document}
