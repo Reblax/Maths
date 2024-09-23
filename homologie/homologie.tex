@@ -68,6 +68,7 @@
 \DeclareMathOperator{\Nat}{Nat}
 \DeclareMathOperator{\colim}{colim}
 \DeclareMathOperator{\cod}{cod}
+\DeclareMathOperator{\End}{End}
 \renewcommand{\th}{\mathop{\rm th}}
 \renewcommand{\Re}{\mathop{\rm Re}}
 \renewcommand{\Im}{\mathop{\rm Im}}
@@ -92,7 +93,8 @@
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{proposition}[theorem]{Proposition}
-\newtheorem*{corollary}{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
 
 \theoremstyle{definition}
 \newtheorem{definition}[theorem]{Definition}
@@ -1303,6 +1305,107 @@ The following theorem shows that there exists an abelian group $M \otimes_A N$ t
     \end{tikzcd}
 \end{center}
 
-One needs to be careful as $M\otimes_A N$ can be defined using a quotient or a universal property. \todo
+One needs to be careful as $M\otimes_A N$ can be defined using a quotient or a universal property. Obtaining the arrow $f \otimes g$ is easier with the universal property:
+
+\begin{center}
+    \begin{tikzcd}
+        M \times N
+            \ar{r}{(f,g)}
+            \arrow[d,"t"]
+
+        &
+        M' \times N'
+            \arrow[d, "t'"]
+        \\
+        M \otimes_A N
+            \arrow[r, dashed, "f \otimes g"]
+        &
+        M' \otimes_A N'
+    \end{tikzcd}
+\end{center}
+
+Since $t' \circ (f,g)$ is bilinear, we obtain the unique map $f \otimes g$ using the universal property of $M \otimes_A N$. Hence we obtain the lemma:
+
+\begin{lemma}
+    $- \otimes_A -$ is a bifunctor.
+\end{lemma}
+
+\begin{corollary}
+    \begin{enumerate}
+        \item If $M$ is a $B$-$A$-bimodule, then $M \otimes_A N$ is a left $B$-module
+        \item If $N$ is an $A$-$C$-bimodule, then $M \otimes_A N$ is a right $C$-module
+        \item If $M$ is a $B$-$A$-bimodule and $N$ is a $A$-$C$-bimodule then $M \otimes_A N$ is a $B$-$C$-bimodule.
+    \end{enumerate}
+\end{corollary}
+
+\begin{proof}
+    We do the proof of 1. We set $b \bullet (m \otimes n) = (bm) \otimes n$ and now we need to check that it is well defined. A good way is to fix $b \in B$ and let $\ell_b : \applic{M}{M}{m}{b\cdot m}$ and notice that $\ell_b \in \End_A(M)$. By functoriality, we get a map $\ell_b \otimes \id_N : \applic{M\otimes_A N}{M \otimes_A N}{m\otimes n}{(bm) \otimes n}$ so our action is well defined and this is a $B$-module structure on the tensor product. The proof of 2. is similar. The proof of 3. comes from the fact that $\ell_b \otimes \id_N$ and $\id_M \otimes r_c$ commutes.
+\end{proof}
+
+\begin{examples} \leavevmode
+    \begin{enumerate}
+        \item $A\otimes_A N \simeq N$ as left $A$-modules. Isomorphisms are given by $a \otimes n \mapsto a \cdot n$ and $n\mapsto 1\otimes n$. The well-definition of these maps comes from the universal property.
+        \item If $R$ is a commutative ring (e.g. a field) then an $R$-module $M$ is an $R$-$R$-bimodule $\applic{R\times M\times R}{(x,m,y)}{M}{mxy = myx}$ so $M\otimes_R N$ is always an $R$-module.
+    \end{enumerate}
+\end{examples}
+
+\warning For a field, $\dim(V \otimes W) = \dim(V)\dim(W)$ but this is false in general for a ring.
+
+\begin{exercise}
+    Show that $\nicefrac{\Z}{n\Z} \otimes_\Z \nicefrac{\Z}{m\Z} = \{0\}$ when $\gcd(m,n) = 1$.
+\end{exercise}
+
+\begin{theorem}[Tensor-hom adjunction]
+    Let $A,B$ be two rings and $M$ be an $A$-$B$-bimodule. We have a functor $- \otimes_A M : \Mod A \to \Mod B$ and a functor $\Hom_B (M,-) : \Mod B \to \Mod A$. Then $-\otimes_A M$ is left adjoint to $\Hom_B (M,-)$.
+\end{theorem}
+
+The $A$-module structure on $\Hom_B (M,Y)$ for $Y$ a $B$-module is given by
+\[\applic{\Hom_B(M,Y) \times A}{\Hom_B(M,Y)}{(f,a)}{f\cdot a : \applic{M}{Y}{m}{f(am)}}\]
+
+\begin{proof}
+    \todo
+\end{proof}
+
+\section{Additive categories}
+\subsection{Preadditive and additive categories}
+
+\begin{definition}
+    A \emph{zero object} in a category $\cat$ is an object that is both final and initial.
+\end{definition}
+
+\begin{example}
+    $\{0\}$ is a zero objet in $\Mod A$ for $A$ a ring.
+\end{example}
+
+\begin{definition}
+    Let $k$ be a commutative ring. A \emph{$k$-category} is a category $\cat$ such that all hom-sets are $k$-modules and composition is bilinear. When $k = \Z$ we say that $\cat$ is \emph{preadditive}.
+\end{definition}
+
+\begin{lemma}
+    Let $\cat$ be a $k$-category. For $X,Y \in \Ob(\cat)$, the product $X \times Y$ exists iff the coproduct $X \sqcup Y$ exists. If so, they are isomorphic.
+\end{lemma}
+
+\begin{proof}
+    Suppose $X \times Y$ exists. Define $i_X = (\id_X, 0) : X \to X\times Y$ and $i_Y = (0,\id_Y) : Y \to X \times Y$. We claim these maps together with the product are the coproduct of $X$ and $Y$. Let $Z \in \Ob(\cat)$ and $f : X \to Z$, $g : Y \to Z$. Then, define $f \sqcup g : X \times Y \to Z$ by $f \sqcup g = f\pi_X + g \pi_Y$. This makes this diagram commute:
+    \begin{center}
+        \begin{tikzcd}
+            X
+                \arrow[r,"i_X"]
+                \arrow[rd,"f" ',bend right]
+            &
+            X \times Y
+                \arrow[d,"f \sqcup g"]
+            &
+            Y
+                \arrow[l,"i_Y" ']
+                \arrow[ld,"g", bend left]
+            \\
+            & Z
+        \end{tikzcd}
+    \end{center}
+    Now let $h : X\times Y \to Z$ be another arrow that makes the diagram commute. Then
+    \[f \sqcup g = f\pi_X + g \pi_Y = \]
+    \todo
+\end{proof}
 
 \end{document}
