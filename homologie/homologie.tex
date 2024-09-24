@@ -1345,11 +1345,11 @@ Since $t' \circ (f,g)$ is bilinear, we obtain the unique map $f \otimes g$ using
 \begin{examples} \leavevmode
     \begin{enumerate}
         \item $A\otimes_A N \simeq N$ as left $A$-modules. Isomorphisms are given by $a \otimes n \mapsto a \cdot n$ and $n\mapsto 1\otimes n$. The well-definition of these maps comes from the universal property.
-        \item If $R$ is a commutative ring (e.g. a field) then an $R$-module $M$ is an $R$-$R$-bimodule $\applic{R\times M\times R}{(x,m,y)}{M}{mxy = myx}$ so $M\otimes_R N$ is always an $R$-module.
+        \item If $R$ is commutative then an $R$-module $M$ is an $R$-$R$-bimodule $\applic{R\times M\times R}{(x,m,y)}{M}{mxy = myx}$ so $M\otimes_R N$ is always an $R$-module.
     \end{enumerate}
 \end{examples}
 
-\warning For a field, $\dim(V \otimes W) = \dim(V)\dim(W)$ but this is false in general for a ring.
+\warning Over a field, $\dim(V \otimes W) = \dim(V)\dim(W)$ but this is false in general for a ring.
 
 \begin{exercise}
     Show that $\nicefrac{\Z}{n\Z} \otimes_\Z \nicefrac{\Z}{m\Z} = \{0\}$ when $\gcd(m,n) = 1$.
@@ -1381,6 +1381,10 @@ The $A$-module structure on $\Hom_B (M,Y)$ for $Y$ a $B$-module is given by
     Let $k$ be a commutative ring. A \emph{$k$-category} is a category $\cat$ such that all hom-sets are $k$-modules and composition is bilinear. When $k = \Z$ we say that $\cat$ is \emph{preadditive}.
 \end{definition}
 
+\begin{remark}
+    One says that $\cat$ is ``enriched'' over $\Mod k$.
+\end{remark}
+
 \begin{lemma}
     Let $\cat$ be a $k$-category. For $X,Y \in \Ob(\cat)$, the product $X \times Y$ exists iff the coproduct $X \sqcup Y$ exists. If so, they are isomorphic.
 \end{lemma}
@@ -1404,8 +1408,80 @@ The $A$-module structure on $\Hom_B (M,Y)$ for $Y$ a $B$-module is given by
         \end{tikzcd}
     \end{center}
     Now let $h : X\times Y \to Z$ be another arrow that makes the diagram commute. Then
-    \[f \sqcup g = f\pi_X + g \pi_Y = \]
+    \[h \circ (i_X \pi_X + i_Y \pi_Y) = h i_X \pi_X + h i_Y \pi _Y = f\pi_X + g \pi_Y = f \sqcup g\]
+    And uniqueness follows since $\id_{X\times Y} = i_X \pi_X + i_Y \pi_Y$. This comes from the universal property of the product and the diagram
+    \begin{center}
+        \begin{tikzcd}
+            & X\times Y
+                \arrow[ld, bend right, "\pi_X" ']
+                \arrow[rd, bend left, "\pi_Y"]
+                \arrow[d, "i_X \pi_X + i_Y \pi_Y" description]
+            \\
+            X &
+            X \times Y
+                \arrow[l, "\pi_X"]
+                \arrow[r, "\pi_Y" ']
+            & Y
+        \end{tikzcd}
+    \end{center}
+\end{proof}
+
+\begin{definition}
+    Let $\cat$ be a $k$-category. A \emph{biproduct} of $X$ and $Y$ is an object $X \oplus Y \in \cat$ with morphisms \begin{tikzcd}
+        X \arrow[r, shift left, "i_X"] &
+        X \oplus Y \arrow[l, shift left, "\pi_X"] \arrow[r,shift left, "\pi_Y"] &
+        Y \arrow[l,shift left,"i_Y"]
+    \end{tikzcd} such that
+    \begin{enumerate}
+        \item $i_X \pi_X + i_Y \pi_Y = \id_{X\oplus Y}$
+        \item $\pi_X i_Y = 0$, $\pi_Y i_X = 0$, $\pi_X i_X = \id_X$, $\pi_Y i_Y = \id_Y$
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    Let $k$ be a commutative ring. A \emph{$k$-additive} (or \emph{$k$-linear}) category is a $k$-category with finite products and finite coproducts.
+\end{definition}
+
+\begin{remark} \leavevmode
+    \begin{enumerate}
+        \item When $k = \Z$, we simply say the category is \emph{additive}.
+        \item As seen above, finite products are finite coproducts and vice versa. Both are finite biproducts.
+        \item For $\cat$ a $k$-category, the following are equivalent:
+        \begin{enumerate}
+            \item $\cat$ is $k$-additive
+            \item $\cat$ has a zero object and every pair of objects has a product
+            \item $\cat$ has a zero object and every pair of objects has a coproduct
+            \item $\cat$ has a zero object and every pair of objects has a biproduct
+        \end{enumerate}
+        Moreover $(b) \iff (c) \iff (d)$, and for $(a)$ we are just missing the empty product (or coproduct), which is the zero object.
+        \item If $A$ is additive there is a canonical interpretation of the group structure on $\Hom(-,-)$ using $-\oplus -$. See exercise sheets.
+    \end{enumerate}
+\end{remark}
+
+\begin{examples} \leavevmode
+    \begin{enumerate}
+        \item[0.] The category $\Ab$ of abelian groups is additive.
+        \item If $A$ is a ring (or $k$-algebra) then $\Mod A$, $A \Mod$ and finitely generated versions are $k$-additive.
+        \item If $\cat$ is additive, then $\cat^\op$ is additive.
+        \item If $\cat$ is additive and $I$ is a category then $\Fun(I,\cat)$ is additive.
+        \item If $A$ is a ring, then the category $BA$ with one object $\bullet$ and $\Hom(\bullet,\bullet) = A$ is preadditive but not additive. 
+    \end{enumerate}
+\end{examples}
+
+\begin{definition}
+    Let $F : \cat \to \cat'$ be a functor between two $k$-linear categories. The functor $F$ is said to be \emph{$k$-linear} (or \emph{additive} when $k = \Z$) if for any $X,Y \in \Ob(\cat)$, $\applic{\Hom(X,Y)}{\Hom(FX,FY)}{f}{F(f)}$ is a $k$-linear map.
+\end{definition}
+
+\begin{proposition}
+    A functor $F : \cat \to \cat'$ is additive if and only if $F(0) \simeq 0$ and $F(X \oplus Y) \simeq F(X) \oplus F(Y)$.
+\end{proposition}
+
+\begin{proof}
     \todo
 \end{proof}
+
+\begin{example}
+    Let $A,B$ be two rings and $M$ be an $A$-$B$-bimodule. Then, $- \otimes_A M_B : \Mod A \to \Mod B$ is additive. This can be quickly proven using the proposition above: the functor is a left adjoint so it preserves coproducts!
+\end{example}
 
 \end{document}
