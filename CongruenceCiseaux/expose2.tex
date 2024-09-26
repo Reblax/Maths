@@ -1,0 +1,188 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsthm,amsfonts,stmaryrd}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}[textwidth=10cm]
+\usepackage{tikz}
+
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\F}{\mathbb{F}}
+
+\renewcommand{\P}{\mathcal{P}}
+\renewcommand{\d}{{\rm \, d}}
+
+%Operators
+
+\newcommand{\todo}{\textbf{TODO}}
+
+\renewcommand{\epsilon}{\varepsilon}
+\renewcommand{\Im}{\mathop{\mathrm{Im}}}
+
+%Macros
+\newcommand{\applic}[4]{\begin{array}[t]{rcl}
+#1 & \to & #2 \\
+#3 & \mapsto & #4
+\end{array}}
+\newcommand{\warning}{\faExclamationTriangle \hspace{3pt}}
+
+\setlength{\parindent}{0pt}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Théorème}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemme}
+\newtheorem{corollary}[theorem]{Corollaire}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Définition}
+\newtheorem{example}[theorem]{Exemple}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remarque}
+
+\title{GT Congruence Ciseaux : exposé 2}
+\author{Hadrien}
+\date{}
+
+\begin{document}
+
+Le but de cet exposé est :
+\begin{itemize}
+    \item D'introduire l'invariant de Dehn, en démontrant que c'est bien un invariant pour la congruence ciseaux
+    \item De présenter la résolution au troisième problème de Hilbert par Dehn, utilisant son invariant
+    \item De donner l'énoncé du théorème de Dehn-Sydler-Jessen
+    \item De commencer la preuve n démontrant un petit lemme.
+\end{itemize}
+
+\section{L'invariant de Dehn}
+
+\subsection{Produit tensoriel de groupes abéliens}
+
+\begin{definition}
+    Soient $A,B$ deux groupes abéliens. On définit leur \emph{produit tensoriel} par \todo
+\end{definition}
+
+\subsection{Définition et preuve de l'invariance}
+
+\begin{definition}
+    Soit $P$ un polyèdre dans $\E^3$. Pour une arête $e$ de $P$, on note $\ell(e)$ sa longueur et $\alpha(e)$ son angle dièdre, c'est-à-dire l'angle entre les deux faces de $P$ qui se rejoignent en $e$. \\
+    L'\emph{invariant de Dehn de $P$}, noté $D(P)$ est défini par
+    \[D(P) = \sum_e \ell(e) \otimes \alpha(e) \in \R \otimes_\Z \R/\pi\Z\]
+    où la somme porte sur les arêtes de $P$.
+\end{definition}
+
+\begin{proposition}
+    La fonction $D$ est constante sur les classes de congruence ciseaux. Elle définit un morphisme de groupes abéliens $D : \P(\E^3) \to \R \otimes_\Z \R/\pi \Z$.
+\end{proposition}
+
+\begin{proof}
+    \todo
+\end{proof}
+
+\subsection{Troisième problème de Hilbert}
+
+On applique maintenant la proposition pour résoudre le troisième problème de Hilbert. Le troisième problème de Hilbert, posé en 1900 avec vingt-deux autres, demande si deux polyèdres de même volume sont ciseaux-congruents. Dehn, qui était un étudiant d'Hilbert, l'a résolu la même année. Dehn ne connaissait pas les produits tensoriels (introduits par Whitney en 1938) et raisonnait directement sur les relations entre longueurs et angles.
+
+\begin{proposition} \label{propcube}
+    Soient $C$ le cube de volume 1 et $T$ le tétraèdre régulier de volume 1. Alors, $D(C) = 0$ et $D(T) \ne 0$, d'où le troisième problème de Hilbert a une réponse négative.
+\end{proposition}
+
+\begin{proof}
+    \todo
+\end{proof}
+
+\begin{lemma}
+    $\frac{1}{\pi}\arccos(1/3)$ est irrationnel.
+\end{lemma}
+
+\begin{proof}
+    \todo
+\end{proof}
+
+\section{Le théorème de Dehn-Sydler-Jessen}
+
+\subsection{Prismes}
+
+\begin{definition}
+    Un \emph{prisme} dans $\E^n$ est la somme d'un polyèdre dans $\E^{n-1}$ avec un intervalle, c'est-à-dire un ensemble de la forme
+    \[P + I = \{x + t \mid x \in P, t \in I\}\]
+    où $P$ est un polyèdre dans $\E^{n-1}$ est $I = [a,b]$ avec $a,b \in \E^n$.
+\end{definition}
+
+\begin{example}
+    Voici quelques prismes : \todo
+\end{example}
+
+Les prismes généralisent les produit d'un polyèdre par un intervalle de $\R$, car ils peuvent être penchés.
+
+\begin{proposition}
+    Un prisme est un polyèdre.
+\end{proposition}
+
+\begin{proof}
+    \todo
+\end{proof}
+
+\begin{proposition}
+    Un prisme dans $\E^3$ est équidécomposable à un cube de même volume.
+\end{proposition}
+
+\begin{proof}
+    \todo
+\end{proof}
+
+\begin{definition}
+    On pose $p : \P(\E^2) \to \P(\E^3)$ l'application qui envoie la classe d'un polygone $P$ sur celle du prisme $P\times [0,1]$. La preuve précédente justifie la bonne définition de $p$.
+\end{definition} 
+
+$p$ est injective et son image est le sous-groupe engendré par les prismes. Un isomorphisme $\Im p \simeq \R$ est donné par le volume. De plus, comme un prisme est équidécomposable à un cube, la proposition \ref{propcube} montre que $\Im p \subset \ker D$. Ainsi, $D$ induit une application $\P(\E^3)/p(\P(\E^2)) \to \R \otimes_\Z \R/\pi\Z$, ce qui conduit à poser $\P^1(\E^3) = \P(\E^3)/p(\P(\E^2))$, le groupe des \og polyèdres modulo les prismes \fg.
+
+\subsection{Énoncé du théorème}
+Le théorème de Sydler dit que $D : \P^1(\E^3) \to \R \otimes \R/\pi\Z$ est injective. Jessen a calculé son conoyau, c'est-à-dire son défaut de surjectivité. L'énoncé du théorème complet se résume comme suit:
+\begin{theorem}[Dehn-Sydler-Jessen]
+    On a une suite exacte
+    \[0 \to \P(\E^2) \xrightarrow{p} \P(\E^3) \xrightarrow{D} \R \otimes_\Z \R/\pi\Z \xrightarrow{J} \Omega_{\R/\Z}^1 \to 0\]
+\end{theorem}
+
+On va maintenant définir $J$ et $\Omega_{\R/\Z}^1$, puis démontrer que $J$ est surjective et $JD = 0$.
+
+\begin{definition}
+    Le groupe $\Omega_{\R/\Z}^1$ est le groupe des \emph{différentielles de Kähler de $\R$ sur $\Z$} défini par
+    \[\Omega_{\R/\Z}^1 = \R[\d r\mid r \in \R]/\langle \d(rs) - r\d s - s\d r, \d (r+s) - \d r - \d s, \d q \mid r,s \in \R, q \in \Q\rangle\]
+    C'est donc le $\R$-espace vectoriel dont les éléments sont les $\d r$ pour $r \in \R$ soumis aux relations
+    \begin{enumerate}
+        \item $\d (rs) = r \d s + s \d r$ pour $r,s \in \R$
+        \item $\d (r + s) = \d r + \d s$ pour $r,s \in \R$
+        \item $\d q = 0$ pour $q \in \Q$
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    On définit $J : \R\otimes_\Z \R/\pi\Z \to \Omega_{\R/\Z}^1$ par
+    \[J(\ell \otimes \alpha) = \ell \frac{\d \sin(\alpha)}{\cos(\alpha)}\] quand $\alpha \notin \Q\pi$, et $J(0) = 0$ sinon.
+\end{definition}
+
+\begin{proposition}
+    Pour $n \in \Z$, $J(n \ell \otimes \alpha) = J(\ell \otimes n\alpha)$
+\end{proposition}
+
+\begin{proof}
+    \todo
+\end{proof}
+
+\begin{lemma}
+    L'application $J$ est surjective et $JD = 0$.
+\end{lemma}
+
+\begin{proof}
+    \todo
+\end{proof}
+
+\end{document}
