@@ -4,6 +4,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{geometry}[textwidth=10cm]
 \usepackage{tikz}
+\usetikzlibrary{3d}
 
 \newcommand{\id}{\mathrm{id}}
 \newcommand{\N}{\mathbb{N}}
@@ -78,6 +79,8 @@ Le but de cet exposé est :
     où la somme porte sur les arêtes de $P$.
 \end{definition}
 
+Pour rappel, une arête de $P$ est une face de $P$ de dimension 1 (le plus petit sous-espace affine la contenant est de dimension 1). Comme un polyèdre a un nombre fini de faces, il a un nombre fini d'arêtes, ce qui assure la bonne définition de son invariant de Dehn.
+
 \begin{proposition}
     La fonction $D$ est constante sur les classes de congruence ciseaux. Elle définit un morphisme de groupes abéliens $D : \P(\E^3) \to \R \otimes_\Z \R/\pi \Z$.
 \end{proposition}
@@ -95,15 +98,28 @@ On applique maintenant la proposition pour résoudre le troisième problème de 
 \end{proposition}
 
 \begin{proof}
-    \todo
+    Le cube a 12 arêtes de même longueur et tous leurs angles dièdres sont égaux à $\frac{\pi}{4}$. Ainsi, $D(C) = 1 \otimes (12 \times \frac{\pi}{4}) = 1 \otimes 3 \pi = 0$. \\
+    On a un le tétraèdre
+    \begin{tikzpicture}
+        \coordinate (A) at (xyz spherical cs:radius=1);
+        \coordinate (B) at (xyz spherical cs:radius=1,longitude=60);
+        \coordinate (C) at (xyz spherical cs:radius=1,longitude=120);
+        \coordinate (D) at (xyz spherical cs:radius=0.816,latitude=90);
+        \draw[blue] (A) -- (B) -- (C) -- (A);
+        \draw (D) -- (A) (D) -- (B) (D) -- (C);
+    \end{tikzpicture}
+    \todo (aled) \\
+    Ainsi, on obtient $D(T) = 6 \ell \otimes \alpha$. Le lemme suivant affirme que $\alpha \notin \pi \Q$, ce qui force $D(T) \ne 0$.
 \end{proof}
 
 \begin{lemma}
-    $\frac{1}{\pi}\arccos(1/3)$ est irrationnel.
+    $\frac{1}{\pi}\arccos \left( \frac{1}{3} \right)$ est irrationnel.
 \end{lemma}
 
 \begin{proof}
-    \todo
+    Soit $\alpha = \arccos \left( \frac{1}{3} \right)$. Pour $k\in \N$, on a
+    \[\cos((k+1)\alpha) + \cos((k-1)\alpha) = 2 \cos(k\alpha)\cos(\alpha) = \frac{2}{3} \cos(k \alpha)\]
+    De plus, on a $\cos(\alpha) = \frac{1}{3}$ et $\cos(2\alpha) = \frac{2}{3^2} - 1 = - \frac{7}{3^2}$. On montre alors par récurrence double sur $k$ que $\cos(k\alpha)$ s'écrit toujours de la forme $\frac{a_k}{3^k}$ avec $a_k \in \N$ non divisible par $3$. Or, si $\frac{\alpha}{\pi}$ était rationnel, on aurait $\cos(k\alpha) = \pm 1$ pour un certain $k \in \N$, ce qui n'est pas possible.
 \end{proof}
 
 \section{Le théorème de Dehn-Sydler-Jessen}
@@ -142,7 +158,7 @@ Les prismes généralisent les produit d'un polyèdre par un intervalle de $\R$,
     On pose $p : \P(\E^2) \to \P(\E^3)$ l'application qui envoie la classe d'un polygone $P$ sur celle du prisme $P\times [0,1]$. La preuve précédente justifie la bonne définition de $p$.
 \end{definition} 
 
-$p$ est injective et son image est le sous-groupe engendré par les prismes. Un isomorphisme $\Im p \simeq \R$ est donné par le volume. De plus, comme un prisme est équidécomposable à un cube, la proposition \ref{propcube} montre que $\Im p \subset \ker D$. Ainsi, $D$ induit une application $\P(\E^3)/p(\P(\E^2)) \to \R \otimes_\Z \R/\pi\Z$, ce qui conduit à poser $\P^1(\E^3) = \P(\E^3)/p(\P(\E^2))$, le groupe des \og polyèdres modulo les prismes \fg.
+L'application $p$ est injective et son image est le sous-groupe engendré par les prismes. Un isomorphisme $\Im p \simeq \R$ est donné par le volume. De plus, comme un prisme est équidécomposable à un cube, la proposition \ref{propcube} montre que $\Im p \subset \ker D$. Ainsi, $D$ induit une application $\P(\E^3)/p(\P(\E^2)) \to \R \otimes_\Z \R/\pi\Z$, ce qui conduit à poser $\P^1(\E^3) = \P(\E^3)/p(\P(\E^2))$, le groupe des \og polyèdres modulo les prismes \fg.
 
 \subsection{Énoncé du théorème}
 Le théorème de Sydler dit que $D : \P^1(\E^3) \to \R \otimes \R/\pi\Z$ est injective. Jessen a calculé son conoyau, c'est-à-dire son défaut de surjectivité. L'énoncé du théorème complet se résume comme suit:
@@ -170,19 +186,33 @@ On va maintenant définir $J$ et $\Omega_{\R/\Z}^1$, puis démontrer que $J$ est
 \end{definition}
 
 \begin{proposition}
-    Pour $n \in \Z$, $J(n \ell \otimes \alpha) = J(\ell \otimes n\alpha)$
+    L'application $J$ est bien définie et un morphisme de groupes.
 \end{proposition}
 
 \begin{proof}
-    \todo
+    On considère
+    \[J : \applic{\R \times \R/\pi \Z}{\Omega_{\R/\Z}^1}{(\ell,\alpha)}{\begin{cases} \ell \frac{\d \sin(\alpha)}{\cos(\alpha)} & \text{si $\alpha \notin \pi \Q$} \\ 0 & \text{sinon}\end{cases}}\]
+    Cette application est bien définie car $\sin(\alpha + \pi) = - \sin(\alpha)$ et $\cos(\alpha + \pi) = - \cos(\alpha)$, donc les signes s'annulent dans le quotient et le résultat ne dépend pas du représentant de $\alpha$ choisi dans $\R/\pi\Z$. On vérifie maintenant que $J$ est bilinéaire. Sa linéarité à gauche est claire. On vérifie la linéarité à droite :
+    \begin{align*}
+        \d \sin(\alpha + \beta) & = \d (\sin (\alpha) \cos(\beta)) + \d (\cos(\alpha) \sin (\beta)) \\
+        & = \sin(\alpha) \d \cos(\beta) + \cos(\beta) \d \sin (\alpha) + \cos(\alpha) \d \sin(\beta) + \sin(\beta) \d \cos (\alpha)
+    \end{align*}
 \end{proof}
 
 \begin{lemma}
-    L'application $J$ est surjective et $JD = 0$.
+    L'application $J$ est surjective.
 \end{lemma}
 
 \begin{proof}
-    \todo
+    Soit $s \d r \in \Omega_{\R/\Z}^1$. Si $|r| < 1$, on a \todo
+\end{proof}
+
+\begin{proposition}
+    On a $JD = 0$.
+\end{proposition}
+
+\begin{proof}
+    \todo (DUR)
 \end{proof}
 
 \end{document}
