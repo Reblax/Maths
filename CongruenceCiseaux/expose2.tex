@@ -4,7 +4,9 @@
 \usepackage[T1]{fontenc}
 \usepackage{geometry}[textwidth=10cm]
 \usepackage{tikz}
-\usetikzlibrary{3d}
+\usepackage{xspace}
+\usetikzlibrary{calc}
+\usetikzlibrary{angles}
 
 \newcommand{\id}{\mathrm{id}}
 \newcommand{\N}{\mathbb{N}}
@@ -48,11 +50,15 @@
 \theoremstyle{remark}
 \newtheorem*{remark}{Remarque}
 
+\AtBeginDocument{\renewcommand\labelitemi{$\bullet$}}
+
 \title{GT Congruence Ciseaux : exposé 2}
 \author{Hadrien}
 \date{}
 
 \begin{document}
+
+\maketitle
 
 Le but de cet exposé est :
 \begin{itemize}
@@ -67,10 +73,36 @@ Le but de cet exposé est :
 \subsection{Produit tensoriel de groupes abéliens}
 
 \begin{definition}
-    Soient $A,B$ deux groupes abéliens. On définit leur \emph{produit tensoriel} par \todo
+    Soient $A,B$ deux groupes abéliens. On définit leur \emph{produit tensoriel} formellement par
+    \[A \otimes_\Z B = \Z[a \otimes b \mid a \in A, b \in B]/\left\langle \begin{array}{c}
+        (a+a') \otimes b - a \otimes b - a' \otimes b \\
+        a \otimes (b+b') - a \otimes b - a \otimes b'
+    \end{array} \Big| \begin{array}{c}
+        a,a' \in A \\
+        b,b' \in B
+    \end{array} \right\rangle\]
+    Pratiquement, c'est un groupe abélien ayant pour générateurs $a\otimes b$ avec $a \in A$ et $b \in B$ et soumis aux relations :
+    \begin{itemize}
+        \item $(a+a') \otimes b = a \otimes b + a' \otimes b$
+        \item $a \otimes (b+b') = a \otimes b + a \otimes b'$
+    \end{itemize}
 \end{definition}
+L'intérêt du produit tensoriel est qu'il \og représente \fg les applications bilinéaires :
+\begin{proposition}
+    Soient $A,B,C$ trois groupes abéliens. On a une bijection
+    \begin{align*}
+        \{f : A \times B \to C \mid f \text{ bilinéaire}\} & \longleftrightarrow \{f : A \otimes_\Z B \to C \mid f \text{ linéaire}\} \\
+        f & \longleftrightarrow \overline{f} : a\otimes b \mapsto f(a,b)
+    \end{align*}
+\end{proposition}
+
+\begin{proof}
+    Pour passer de $f : A \times B \to C$ à $\overline{f}$, on part de l'application de $\Z[a\otimes b] \to C$ donnée par prolongement à partir de $a\otimes b \mapsto f(a,b)$, puis on remarque que la bilinéarité de $f$ permet de passer cette application au quotient et d'obtenir $\overline{f} : A\otimes_Z B \to C$. Pour obtenir l'autre sens, on remarque que $- \otimes- : \applic{A\times B}{A\otimes_Z B}{(a,b)}{a \otimes b}$ est bilinéaire. En particulier, pour $g : A \otimes_Z B \to C$ linéaire, $g (- \otimes -) : A \times B \to C$ est bilinéaire. Ces deux constructions sont réciproques l'une de l'autre et donnent la bijection souhaitée.
+\end{proof}
 
 \subsection{Définition et preuve de l'invariance}
+
+Une arête de $P$ est une face de $P$ de dimension 1 (une face telle que le plus petit sous-espace affine la contenant est de dimension 1). Comme un polyèdre a un nombre fini de faces, il a un nombre fini d'arêtes. En une arête se recoupent deux faces de dimension 
 
 \begin{definition}
     Soit $P$ un polyèdre dans $\E^3$. Pour une arête $e$ de $P$, on note $\ell(e)$ sa longueur et $\alpha(e)$ son angle dièdre, c'est-à-dire l'angle entre les deux faces de $P$ qui se rejoignent en $e$. \\
@@ -79,15 +111,25 @@ Le but de cet exposé est :
     où la somme porte sur les arêtes de $P$.
 \end{definition}
 
-Pour rappel, une arête de $P$ est une face de $P$ de dimension 1 (le plus petit sous-espace affine la contenant est de dimension 1). Comme un polyèdre a un nombre fini de faces, il a un nombre fini d'arêtes, ce qui assure la bonne définition de son invariant de Dehn.
-
 \begin{proposition}
     La fonction $D$ est constante sur les classes de congruence ciseaux. Elle définit un morphisme de groupes abéliens $D : \P(\E^3) \to \R \otimes_\Z \R/\pi \Z$.
 \end{proposition}
 
 \begin{proof}
-    \todo
+    Pour montrer que l'invariant de Dehn est invariant par congruence ciseaux, il suffit de montrer que $D(P) = D(A) + D(B)$ quand le polyèdre $P$ est divisé en $A$ et $B$ par un plan affine $\P$ (car l'invariant de Dehn est inchangé par isométrie). On partitionne l'ensemble $E_P$ des arêtes de $P$ de la manière suivante :
+    \[E_P = \{e \in E_P \mid e \cap \P = \varnothing\} \sqcup \{e \in E_P \mid |e \cap \P| = 1\} \sqcup \{e \in E_P \mid e \subset \P\}\]
+    Cette partition fonctionne car une arête est contenue dans une droite affine.
+    \begin{itemize}
+        \item Une arête $e$ telle que $e\cap \P = \varnothing$ est incluse dans $A$ ou dans $B$.
+        \item Une arête $e$ telle que $|e\cap \P| = 1$ est coupée en deux arêtes, une dans $A$ et une dans $B$. Les angles dièdres des deux arêtes sont identiques à celui de $e$ et leurs longueurs s'additionnent.
+        \item Une arête $e$ incluse dans $\P$ donne deux arêtes de même longueur dans $A$ et dans $B$, dont la somme des angles dièdres donne celui de $e$.
+    \end{itemize}
+    De plus, quand $\P$ coupe une face de dimension 2 de $P$, deux nouvelles arêtes apparaissent dans $A$ et $B$. La somme de leurs angles dièdres fait $\pi$ donc leurs contributions font $0$ dans $\R \otimes_\Z \R/\pi\Z$.
+    Ainsi les propriétés du produit tensoriel garantissent que $D(P) = D(A)+ D(B)$. \\
+    Le fait que l'invariant de Dehn est un morphisme de groupes abéliens se déduit de ce qui précède. 
 \end{proof}
+
+J'ai eu une idée informelle pour rendre la preuve plus rigoureuse. Le problème essentiel est que parler d'angle dièdre est compliqué. Néanmoins, on sait ce qu'est un angle dièdre dans le cas d'un simplexe (parce que c'est un simplexe, y a rien de bizarre qui se passe). Ainsi, on pourrait définir l'invariant de Dehn d'un polytope à partir d'une triangulation. Il resterait à vérifier que la valeur de l'invariant ne dépend pas de la triangulation choisie - pour ça, j'ai envie de prendre deux triangulations différentes, et d'en construire une troisième \og plus fine \fg en un certain sens, et qui est bien choisie pour montrer qu'on obtient la même valeur de l'invariant de Dehn avec les deux triangulations. Si ça fonctionne, alors l'invariance de l'invariant de Dehn est une conséquence de la définition. Le problème, c'est qu'on pert la jolie formule géométrique présentée ici comme définition (car elle demande de savoir parler d'un angle dièdre dans un polytope en général).
 
 \subsection{Troisième problème de Hilbert}
 
@@ -99,17 +141,41 @@ On applique maintenant la proposition pour résoudre le troisième problème de 
 
 \begin{proof}
     Le cube a 12 arêtes de même longueur et tous leurs angles dièdres sont égaux à $\frac{\pi}{4}$. Ainsi, $D(C) = 1 \otimes (12 \times \frac{\pi}{4}) = 1 \otimes 3 \pi = 0$. \\
-    On a un le tétraèdre
-    \begin{tikzpicture}
-        \coordinate (A) at (xyz spherical cs:radius=1);
-        \coordinate (B) at (xyz spherical cs:radius=1,longitude=60);
-        \coordinate (C) at (xyz spherical cs:radius=1,longitude=120);
-        \coordinate (D) at (xyz spherical cs:radius=0.816,latitude=90);
-        \draw[blue] (A) -- (B) -- (C) -- (A);
-        \draw (D) -- (A) (D) -- (B) (D) -- (C);
-    \end{tikzpicture}
-    \todo (aled) \\
-    Ainsi, on obtient $D(T) = 6 \ell \otimes \alpha$. Le lemme suivant affirme que $\alpha \notin \pi \Q$, ce qui force $D(T) \ne 0$.
+    On a un tétraèdre
+    \begin{center}
+        \begin{tikzpicture}[rotate around x=-90,scale=2,rotate around z=30]
+            \coordinate (A) at (0:1);
+            \coordinate (B) at (120:1);
+            \coordinate (C) at (240:1);
+            \coordinate (D) at (0,0,1);
+            \draw (A) -- (B) -- (C) -- (A);
+            \draw (D) -- (A) (D) -- (B) (D) -- (C);
+
+            \coordinate (E) at ($(C)!0.5!(A)$);
+            \coordinate (E2) at ($(E)!0.1!(B)$);
+            \coordinate (E1) at ($(E)!0.1!(D)$);
+            \draw[blue] (E) -- (D) -- (B) -- (E);
+
+            \draw pic[fill = blue!50] {angle = D--E--B};
+          \end{tikzpicture}
+    \end{center}
+    On souhaite calculer l'angle dièdre du tétraèdre régulier. Le triangle bleu ci-dessus est isocèle et donne la figure
+    \begin{center}
+        \begin{tikzpicture}[scale=2]
+            \coordinate (A) at (-0.5,0);
+            \coordinate (B) at (0.5,0);
+            \coordinate (C) at (0,0.707);
+            \draw (A) -- (B) -- (C) -- node[left] {$\frac{\sqrt{3}}{2} \ell$} (A);
+            \coordinate (E) at ($(A)!0.5!(B)$);
+            \draw[dashed] (C) -- (E);
+            \path (A) -- node[below] {$\frac{\ell}{2}$} (E);
+            \coordinate (C1) at ($(C)!0.1!(A)$);
+            \draw pic[fill = blue!50] {angle = A--C--B};
+        \end{tikzpicture}
+    \end{center}
+    La base de ce triangle est un côté du tétraèdre donc de longueur $\ell$. Les deux autres côtés sont des hauteurs de faces du tétraèdre c'est-à-dire des hauteurs de triangles équilatéraux de côté $\ell$, donc égales à $\frac{\sqrt{3}}{2} \ell$. Comme le triangle est isocèle, la hauteur en pointillés est une bissectrice de l'angle $\alpha$ qu'on cherche. Ainsi
+    \[\cos(\alpha) = 1 - 2\sin^2\left(\frac{\alpha}{2}\right) = 1 - 2 \left(\frac{\ell/2}{\sqrt{3}\ell/2}\right)^2 = \frac{1}{3}\]
+    D'où $\alpha = \arccos\left(\frac{1}{3}\right)$. Ainsi, on obtient $D(T) = 6 \ell \otimes \alpha$. Le lemme suivant affirme que $\alpha \notin \pi \Q$, ce qui force $D(T) \ne 0$.
 \end{proof}
 
 \begin{lemma}
@@ -129,12 +195,8 @@ On applique maintenant la proposition pour résoudre le troisième problème de 
 \begin{definition}
     Un \emph{prisme} dans $\E^n$ est la somme d'un polyèdre dans $\E^{n-1}$ avec un intervalle, c'est-à-dire un ensemble de la forme
     \[P + I = \{x + t \mid x \in P, t \in I\}\]
-    où $P$ est un polyèdre dans $\E^{n-1}$ est $I = [a,b]$ avec $a,b \in \E^n$.
+    où $P$ est un polyèdre dans $\E^{n-1}$ est $I = [a,b]$ avec $a,b \in \E^n$. On suppose implicitement que $I$ n'est pas inclus dans un plan affine qui contient $P$ pour exclure les cas dégénérés. 
 \end{definition}
-
-\begin{example}
-    Voici quelques prismes : \todo
-\end{example}
 
 Les prismes généralisent les produit d'un polyèdre par un intervalle de $\R$, car ils peuvent être penchés.
 
@@ -143,41 +205,93 @@ Les prismes généralisent les produit d'un polyèdre par un intervalle de $\R$,
 \end{proposition}
 
 \begin{proof}
-    \todo
+    Soit $\P$ le plan affine qui contient $P$. On dispose d'un nombre fini de demi-plans $\P_i$ inclus dans $\P$ dont l'intersection est $P$. Le prisme $P+I$ est l'intersection des demi-espaces $\{\P_i + \lambda (b-a) + a \mid \lambda \in \R\}$, $\{\P + b + \lambda (b-a) \mid \lambda \le 0 \}$ et $\{\P + a + \lambda (b-a) \mid \lambda \ge 0 \}$.
 \end{proof}
 
 \begin{proposition}
-    Un prisme dans $\E^3$ est équidécomposable à un cube de même volume.
+    Un prisme dans $\E^3$ est équidécomposable à un parallélépipède rectangle.
 \end{proposition}
 
 \begin{proof}
-    \todo
+    Soit $P + I$ un prisme, où $P$ est un polygone dans $\E^2$ et $I$ un intervalle. Quand on découpe $P$ selon une droite $d$ dans $\E^2$, on peut considérer le plan affine qui contient $d + I$, et l'utiliser pour découper $P+I$. Comme le théorème de Bolyai-Gerwien dit que $P$ est équidécomposable à un rectangle $R$ de côtés $1$ et $\mathrm{aire}(P)$, la construction précédente permet de démontrer que $P+I$ est équidécomposable avec $R + I$. \\
+    On montre que deux parallélépipèdes rectangles qui ont même base et même volume sont équidécomposables avec un argument essentiellement identique à celui de la preuve de Bolyai-Gerwien (mais cette fois-ci on doit faire la somme avec $I$ à chaque fois). Ainsi, le prisme $P+I$ est équidécomposable avec un parallélépipède rectangle dont les côtés de la base font $1$ et $\mathrm{aire}(P)$.
 \end{proof}
 
 \begin{definition}
-    On pose $p : \P(\E^2) \to \P(\E^3)$ l'application qui envoie la classe d'un polygone $P$ sur celle du prisme $P\times [0,1]$. La preuve précédente justifie la bonne définition de $p$.
+    On pose $p : \P(\E^2) \to \P(\E^3)$ l'application qui envoie la classe d'un polygone $P$ sur celle du prisme $P\times [0,1]$ (le prisme obtenu par somme avec un intervalle de longueur 1 orthogonal au plan affine qui contient $P$). La preuve précédente justifie la bonne définition de $p$.
 \end{definition} 
 
-L'application $p$ est injective et son image est le sous-groupe engendré par les prismes. Un isomorphisme $\Im p \simeq \R$ est donné par le volume. De plus, comme un prisme est équidécomposable à un cube, la proposition \ref{propcube} montre que $\Im p \subset \ker D$. Ainsi, $D$ induit une application $\P(\E^3)/p(\P(\E^2)) \to \R \otimes_\Z \R/\pi\Z$, ce qui conduit à poser $\P^1(\E^3) = \P(\E^3)/p(\P(\E^2))$, le groupe des \og polyèdres modulo les prismes \fg.
+L'application $p$ est un morphisme de groupes, injective et son image est le sous-groupe engendré par les prismes. Un isomorphisme $\Im p \simeq \R$ est donné par le volume. De plus, un prisme est équidécomposable à un parallélépipède rectangle et le raisonnement de la proposition \ref{propcube} montre que l'invariant de Dehn d'un parallélépipède rectangle est nul\footnote{Pas tous les côtés font la même longueur, mais comme chaque longueur d'arête apparaît 4 fois et que tous les angles dièdres sont de $\pi/2$, le résultat subsiste.}. On a donc $\Im p \subset \ker D$. Ainsi, $D$ induit une application $\P(\E^3)/p(\P(\E^2)) \to \R \otimes_\Z \R/\pi\Z$, ce qui conduit à poser $\P^1(\E^3) = \P(\E^3)/p(\P(\E^2))$, le groupe des \og polyèdres modulo les prismes \fg.
+
+Soit $P$ un polyèdre et $\mu \in \R^+$. On pose $\mu \cdot P$ le polyèdre obtenu par dilatation de $P$ de facteur $\mu$. Cette opération de munit pas $\P(\E^3)$ d'une structure de $\R$-espace vectoriel, parce que le volume est multiplié par $\mu^3$. Toutefois, on le lemme suivant.
+\begin{lemma}
+    L'opération $P \mapsto \mu \cdot P$ munit $\P^1(\E^3)$ d'une structure de $\R$-espace vectoriel.
+\end{lemma}
+
+\begin{proof}
+    Par triangulation, il suffit de démontrer la proposition pour les tétraèdres. Soit $P$ un tétraèdre. Soit $e$ une arête de $P$ ayant pour sommets $x$ et $y$. On peut alors inclure $\mu \cdot P$ dans $(\mu+\lambda) \cdot P$ de sorte que les sommets correspondants à $x$ coïncident. De même, on inclut $\lambda \cdot P$ dans $(\mu+\lambda) \cdot P$ de sorte que les sommets correspondants à $y$ coïncident. Alors, $(\mu + \lambda)\cdot P - \mu \cdot P - \lambda \cdot P$ est une union de deux prismes :
+    \begin{center}
+        \begin{tikzpicture}[scale = 3]
+            \coordinate (A) at (0,0,0);
+            \coordinate (B) at (2,0,0);
+            \coordinate (C) at (1,0,1);
+            \coordinate (D) at (1,1,0);
+    
+            \draw[dashed,thick] (A) -- (B);
+            \draw[thick] (B) -- (C) -- (A);
+            \draw[thick] (D) -- (A) (D) -- (B) (D) -- (C);
+    
+            \coordinate (E) at (1.5,0.5,0);
+            \coordinate (F) at (0.5,0.5,0);
+            \coordinate (G) at (1,0.5,0.5);
+
+            \draw[dashed] (E) -- (F);
+            \draw (F) -- (G) -- (E);
+
+            \coordinate (I) at (1,0,0);
+            \coordinate (J) at (1.5,0,0.5);
+
+            \draw (E) -- (J);
+            \draw[dashed] (E) -- (I) -- (J);
+
+            \coordinate (K) at (0.5,0,0.5);
+
+            \draw (F) -- (K);
+            \draw[dashed] (K) -- (J);
+        \end{tikzpicture}
+    \end{center}
+\end{proof}
+
+\begin{remark}
+    Si en plus on munit $\R \otimes_\Z \R/\pi\Z$ de la structure de $\R$-espace vectoriel donnée par
+    \[a \cdot (\ell \otimes \alpha) = (a\ell) \otimes \alpha\]
+    alors $D : \P^1(\E^3) \to \R \otimes_\Z \R/\pi\Z$ est une application $\R$-linéaire.
+\end{remark}
 
 \subsection{Énoncé du théorème}
-Le théorème de Sydler dit que $D : \P^1(\E^3) \to \R \otimes \R/\pi\Z$ est injective. Jessen a calculé son conoyau, c'est-à-dire son défaut de surjectivité. L'énoncé du théorème complet se résume comme suit:
+Le théorème de Sydler\footnote{Le théorème a été publié en 1965 chez Springer dans les Commentarii Mathematici Helvetici, volume 40, pages 43 à 80, sous le DOI 10.1007 BF02564364.} affirme que $D : \P^1(\E^3) \to \R \otimes_\Z \R/\pi\Z$ est injective. Jessen a calculé son conoyau, c'est-à-dire son défaut de surjectivité. L'énoncé du théorème complet se résume comme suit:
 \begin{theorem}[Dehn-Sydler-Jessen]
     On a une suite exacte
     \[0 \to \P(\E^2) \xrightarrow{p} \P(\E^3) \xrightarrow{D} \R \otimes_\Z \R/\pi\Z \xrightarrow{J} \Omega_{\R/\Z}^1 \to 0\]
 \end{theorem}
 
-On va maintenant définir $J$ et $\Omega_{\R/\Z}^1$, puis démontrer que $J$ est surjective et $JD = 0$.
+\begin{remark}
+    Comme on a déjà dit que $p$ était injective et $Dp = 0$, il reste à montrer que la suite
+    \[0 \to \P^1 (\E^3) \xrightarrow{D} \R \otimes_\Z \R/\pi\Z \xrightarrow{J} \Omega_{\R/\Z}^1 \to 0\]
+    est exacte.
+\end{remark}
+
+On va maintenant définir $\Omega_{\R/\Z}^1$ et $J$, puis démontrer que $J$ est surjective et $JD = 0$.
 
 \begin{definition}
     Le groupe $\Omega_{\R/\Z}^1$ est le groupe des \emph{différentielles de Kähler de $\R$ sur $\Z$} défini par
     \[\Omega_{\R/\Z}^1 = \R[\d r\mid r \in \R]/\langle \d(rs) - r\d s - s\d r, \d (r+s) - \d r - \d s, \d q \mid r,s \in \R, q \in \Q\rangle\]
     C'est donc le $\R$-espace vectoriel dont les éléments sont les $\d r$ pour $r \in \R$ soumis aux relations
-    \begin{enumerate}
+    \begin{itemize}
         \item $\d (rs) = r \d s + s \d r$ pour $r,s \in \R$
         \item $\d (r + s) = \d r + \d s$ pour $r,s \in \R$
         \item $\d q = 0$ pour $q \in \Q$
-    \end{enumerate}
+    \end{itemize}
 \end{definition}
 
 \begin{definition}
@@ -192,11 +306,27 @@ On va maintenant définir $J$ et $\Omega_{\R/\Z}^1$, puis démontrer que $J$ est
 \begin{proof}
     On considère
     \[J : \applic{\R \times \R/\pi \Z}{\Omega_{\R/\Z}^1}{(\ell,\alpha)}{\begin{cases} \ell \frac{\d \sin(\alpha)}{\cos(\alpha)} & \text{si $\alpha \notin \pi \Q$} \\ 0 & \text{sinon}\end{cases}}\]
-    Cette application est bien définie car $\sin(\alpha + \pi) = - \sin(\alpha)$ et $\cos(\alpha + \pi) = - \cos(\alpha)$, donc les signes s'annulent dans le quotient et le résultat ne dépend pas du représentant de $\alpha$ choisi dans $\R/\pi\Z$. On vérifie maintenant que $J$ est bilinéaire. Sa linéarité à gauche est claire. On vérifie la linéarité à droite :
+    Cette application est bien définie car $\sin(\alpha + \pi) = - \sin(\alpha)$ et $\cos(\alpha + \pi) = - \cos(\alpha)$, donc les signes s'annulent dans le quotient et le résultat ne dépend pas du représentant de $\alpha$ choisi dans $\R/\pi\Z$. On vérifie maintenant que $J$ est bilinéaire. Sa linéarité à gauche est claire. On vérifie la linéarité à droite. Pour $\alpha,\beta \notin \pi \Q$ :
     \begin{align*}
         \d \sin(\alpha + \beta) & = \d (\sin (\alpha) \cos(\beta)) + \d (\cos(\alpha) \sin (\beta)) \\
         & = \sin(\alpha) \d \cos(\beta) + \cos(\beta) \d \sin (\alpha) + \cos(\alpha) \d \sin(\beta) + \sin(\beta) \d \cos (\alpha)
     \end{align*}
+    Comme $\cos(\alpha + \beta) = \cos(\alpha)\cos(\beta) - \sin(\alpha) \sin(\beta)$, on obtient
+    \begin{align*}
+        \cos(\alpha + \beta) \left(\frac{\d \sin(\alpha)}{\cos(\alpha)} + \frac{\d \sin(\beta)}{\cos(\beta)}\right) & = \cos(\beta) \d \sin(\alpha) + \cos(\alpha) \d \sin(\beta) \\
+        & - \sin(\beta) \frac{\sin(\alpha) \d \sin(\alpha)}{\cos(\alpha)} - \sin(\alpha)\frac{\sin(\beta) \d \sin(\beta)}{\cos(\beta)}
+    \end{align*}
+    Or, pour tout réel $a$, $\d (a^2) = 2 a \d a$ et $d(-a) = -da$ (car $d(-1) = 0$). Ainsi
+    \begin{align*}
+        \frac{\sin(\alpha) \d \sin(\alpha)}{\cos(\alpha)} = 
+        \frac{\d \sin(\alpha)^2}{2\cos(\alpha)} = \frac{\d \sin(\alpha)^2}{2\cos(\alpha)} = \frac{\d(1 -  \cos(\alpha)^2)}{2\cos(\alpha)} = &- \frac{\d(\cos(\alpha)^2)}{2\cos(\alpha)} = \d \cos(\alpha)
+    \end{align*}
+    et de même pour $\beta$. Il vient
+    \begin{align*}
+        \cos(\alpha + \beta) \left(\frac{\d \sin(\alpha)}{\cos(\alpha)} + \frac{\d \sin(\beta)}{\cos(\beta)}\right) & = \cos(\beta) \d \sin(\alpha) + \cos(\alpha) \d \sin(\beta) + \sin(\beta) \d \cos(\alpha) + \sin(\alpha) \d \cos(\beta) \\
+        & = \d \sin(\alpha + \beta)
+    \end{align*}
+    D'où $\displaystyle \d \sin(\alpha + \beta) = \cos(\alpha+\beta) \left(\frac{\d \sin(\alpha)}{\cos(\alpha)} + \frac{\d \sin(\beta)}{\cos(\beta)}\right)$ et la linéarité de $J$ à droite suit.
 \end{proof}
 
 \begin{lemma}
@@ -204,7 +334,7 @@ On va maintenant définir $J$ et $\Omega_{\R/\Z}^1$, puis démontrer que $J$ est
 \end{lemma}
 
 \begin{proof}
-    Soit $s \d r \in \Omega_{\R/\Z}^1$. Si $|r| < 1$, on a \todo
+    Soit $s \d r \in \Omega_{\R/\Z}^1$. Si $r \in \Q$, $\d r =0$, donc le seul cas intéressant est quand $r\notin \Q$. Si $|r| < 1$, on a $r = \sin(\alpha)$ pour un certain $\alpha$. Ainsi $s \d r = J((s \cos(\alpha)) \otimes \alpha)$. Si $|r| > 1$, on a la relation $0 = \d (rr^{-1}) = r^{-1} \d r + r \d r^{-1}$ qui donne $s \d r = s r^2 \d r^{-1}$ et le cas précédent conclut.
 \end{proof}
 
 \begin{proposition}
@@ -212,7 +342,9 @@ On va maintenant définir $J$ et $\Omega_{\R/\Z}^1$, puis démontrer que $J$ est
 \end{proposition}
 
 \begin{proof}
-    \todo (DUR)
+    Pour une petite déformation d'un polyèdre (c'est-à-dire un petit déplacement d'un sommet), la formule différentielle de Schläfli nous dit que
+    \[\sum_e \ell_e \d \alpha_e = 0\]
+    où la somme est sur les arêtes, $\ell_e$ est la longueur de l'arête considérée et $\d \alpha_e$ est la petite variation de l'angle dièdre de l'arête obtenue quand on fait un petit déplacement d'un sommet. L'idée est que l'équation $JD = 0$ est une sorte de \og version algébrique \fg de cette formule : le but pour démontrer $JD = 0$ serait alors de procéder à l'aide de calculs à base de trigonométrie. Je n'ai pas souhaité effectuer les calculs ni ne les ai trouvé dans la littérature. Je n'ai pas trouvé de preuve élémentaire de la formule de Schläfli non plus ; toutes les preuves disponibles semblent faire appel à de la géométrie hyperbolique. Mon intuition me dit qu'il suffirait essentiellement de prendre un simplexe quelconque et de montrer que $JD = 0 $ dessus en faisant manuellement des calculs d'angle et de différentielles de Kähler bourrins.
 \end{proof}
 
 \end{document}
