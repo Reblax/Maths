@@ -3,6 +3,7 @@
         "abelian",
         "abelianization",
         "cartesian",
+        "cochain",
         "cocone",
         "codomain",
         "coequalizer",
