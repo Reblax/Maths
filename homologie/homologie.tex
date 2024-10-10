@@ -1526,6 +1526,25 @@ In this subsection, all categories are assumed to be additive.
     If $\cat$ is an additive category, then the category $\Ch(\cat)$ is the category whose objects are chain complexes in $\cat$ and morphisms are morphisms of chain complexes. We also write $\Ch_\bullet (\cat)$.
 \end{definition}
 
+\begin{remark}
+    One can check that $\Ch(\cat)$ is an additive category.
+\end{remark}
+
+\begin{example}
+    Let $\Delta_n = \{(x_0,\dots,x_n) \in \R^{n+1} \mid \sum\limits_{i=1}^n x_i = 1 \text{ and } x_i \ge 0\} = \mathrm{Conv}(e_0,\dots,e_n)$ be the standard $n$-simplex. $\Delta_n$ appears $n+1$ times as a face of the standard $n+1$-simplex, and
+    \[d^i : \applic{\Delta_n}{\Delta_{n+1}}{(x_0,\dots,x_n)}{(x_0,\dots,x_{i-1},0,x_{i+1},\dots,x_n)}\]
+    is the $i$-th face map. $\Delta_n$ is a topological space, so when $X$ is a topological space we can consider
+    \[\Hom_\Top (\Delta_n,X) = \{f : \Delta_n \to X \mid f \text{ continuous}\}\]
+    and we get
+    \[d_i : \applic{\Hom_\Top(\Delta_{n+1},X)}{\Hom_\Top(\Delta_n,X)}{\sigma}{(\Delta_{n+1} \xrightarrow{d^i} \Delta_{n} \xrightarrow{\sigma} X)}\]
+    for $0 \le i \le n+1$. \\
+    Singular Chain Complex \todo
+\end{example}
+
+\begin{definition}
+    Singular simplices \todo
+\end{definition}
+
 \begin{example}
     Singular chain complex. \todo
 \end{example}
@@ -1542,7 +1561,7 @@ In this subsection, all categories are assumed to be additive.
 
 \begin{definition} \leavevmode
     \begin{itemize}
-        \item We define the \emph{simplicial category} $\Delta$ whose objects are $[n] = \{0,1,\dots,n\}$ for $n \in \N$, and $\Hom([n],[m]) = \{f : [n] \to [m] \mid f \text{ increasing}\}$. This category is equivalent to the category of non-empty, finite, totally ordered sets with increasing maps as morphisms.
+        \item We define the \emph{simplicial category} (or \emph{simplex category}) $\Delta$ whose objects are $[n] = \{0,1,\dots,n\}$ for $n \in \N$, and $\Hom([n],[m]) = \{f : [n] \to [m] \mid f \text{ increasing}\}$. This category is equivalent to the category of non-empty, finite, totally ordered sets with increasing maps as morphisms.
         \item A \emph{simplicial set} is a contravariant functor $\Delta \to \Set$. More generally, if $\cat$ is a category, a \emph{simplicial object} in $\cat$ is a contravariant functor from $\Delta$ to $\cat$.
         \item Simplicial objects in a category $\cat$ are objects of the category $\cat^{\Delta^\op}$. We write $s\cat = \cat^{\Delta^\op}$ (so $s\Set$ is the category of simplicial sets).
         \item If $X : \Delta^\op \to \cat$ is a simplicial object, we define $X_n = X([n])$ the \emph{$n$-simplices} of $X$.
@@ -1562,7 +1581,7 @@ In this subsection, all categories are assumed to be additive.
     You can do it. I believe in you. (\todo)
 \end{proof}
 
-If $X : \Delta^\op \to \Ab$ is a simplicial abelian groupe, then we can define $(X_\bullet,d)$ with $X_n = X([n])$ and $d_n : \applic{X_n}{X_{n-1}}{x}{\sum_{i=0}^n (-1)^i X(d^i)(x)}$.
+If $X : \Delta^\op \to \Ab$ is a simplicial abelian group, then we can define $(X_\bullet,d)$ with $X_n = X([n])$ and $d_n : \applic{X_n}{X_{n-1}}{x}{\sum_{i=0}^n (-1)^i X(d^i)(x)}$.
 \begin{proposition}
     If $X \in s\Ab$, then $(X_\bullet,d)$ is a chain complex of abelian groups. Moreover, $X \mapsto X_\bullet$ is a functor $s\Ab \to \Ch_\bullet (\Ab)$.
 \end{proposition}
@@ -1571,19 +1590,24 @@ If $X : \Delta^\op \to \Ab$ is a simplicial abelian groupe, then we can define $
     \todo
 \end{proof}
 
-\begin{remark}
-    One can check that $\Ch(\cat)$ is an additive category.
-\end{remark}
+Let $s^i : \applic{[n+1]}{[n]}{k}{\begin{cases}
+    k & \text{if } k \le i \\
+    k-1 & \text{if } k > i
+\end{cases}}$ be the map that ``hits $i$ twice''.
 
-\begin{example}
-    Let $\Delta_n = \{(x_0,\dots,x_n) \in \R^{n+1} \mid \sum\limits_{i=1}^n x_i = 1 \text{ and } x_i \ge 0\} = \mathrm{Conv}(e_0,\dots,e_n)$ be the standard $n$-simplex. $\Delta_n$ appears $n+1$ times as a face of the standard $n+1$-simplex, and
-    \[d^i : \applic{\Delta_n}{\Delta_{n+1}}{(x_0,\dots,x_n)}{(x_0,\dots,x_{i-1},0,x_{i+1},\dots,x_n)}\]
-    is the $i$-th face map. $\Delta_n$ is a topological space, so when $X$ is a topological space we can consider
-    \[\Hom_\Top (\Delta_n,X) = \{f : \Delta_n \to X \mid f \text{ continuous}\}\]
-    and we get
-    \[d_i : \applic{\Hom_\Top(\Delta_{n+1},X)}{\Hom_\Top(\Delta_n,X)}{\sigma}{(\Delta_{n+1} \xrightarrow{d^i} \Delta_{n+1} \xrightarrow{\sigma} X)}\]
-    \todo (notations à chier)
-\end{example}
+\begin{theorem}
+    Every morphism in $\Delta$ is a composition 
+\end{theorem}
+
+\begin{proof}
+    ``Voir annexe.'' \todo
+\end{proof}
+
+The maps $d^i$s generate 
+
+\begin{theorem}
+    If $F : \delta_inj$
+\end{theorem}
 
 
 
