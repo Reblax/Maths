@@ -6,11 +6,14 @@
 \usepackage{tikz}
 \usepackage{fontawesome5}
 \usepackage{nicefrac}
+\usepackage{cancel}
 \usetikzlibrary{positioning}
 \usetikzlibrary{decorations.pathmorphing}
 
 \newcommand{\id}{\mathrm{id}}
 \newcommand{\op}{\mathrm{op}}
+\newcommand{\inj}{\mathrm{inj}}
+\newcommand{\sing}{\mathrm{sing}}
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\Q}{\mathbb{Q}}
@@ -1550,7 +1553,7 @@ In this subsection, all categories are assumed to be additive.
 \end{example}
 
 \begin{proposition}
-    $C^\text{sing} : \Top \to \Ch_\bullet (\Ab)$ is a functor.
+    $C^\sing : \Top \to \Ch_\bullet (\Ab)$ is a functor.
 \end{proposition}
 
 \begin{proof}
@@ -1582,7 +1585,7 @@ In this subsection, all categories are assumed to be additive.
 \end{proof}
 
 If $X : \Delta^\op \to \Ab$ is a simplicial abelian group, then we can define $(X_\bullet,d)$ with $X_n = X([n])$ and $d_n : \applic{X_n}{X_{n-1}}{x}{\sum_{i=0}^n (-1)^i X(d^i)(x)}$.
-\begin{proposition}
+\begin{proposition} \label{ccfromsab}
     If $X \in s\Ab$, then $(X_\bullet,d)$ is a chain complex of abelian groups. Moreover, $X \mapsto X_\bullet$ is a functor $s\Ab \to \Ch_\bullet (\Ab)$.
 \end{proposition}
 
@@ -1596,18 +1599,121 @@ Let $s^i : \applic{[n+1]}{[n]}{k}{\begin{cases}
 \end{cases}}$ be the map that ``hits $i$ twice''.
 
 \begin{theorem}
-    Every morphism in $\Delta$ is a composition 
+    Every morphism in $\Delta$ is a composition of maps of the form $d^i$ and $s^i$. These maps are subject to the so-called \emph{simplicial} relations
+    \[
+    \tag{$*$}
+    \begin{cases}
+        d^j \circ d^i = d^i \circ d^{j-1} & i < j \quad (1) \\
+        s^i \circ s^j = s^j \circ s^{i-1} & i > j \quad (2) \\
+        d^i \circ s^j = \begin{cases}
+            s^{j-1} \circ d^i & i < j \\
+            \id & i \in \{j,j+1\} \\
+            s^j \circ d^{i-1} & i > j+1
+        \end{cases} \quad (3)
+    \end{cases}
+    \]
+    \todo better typography \\
+    and this is a presentation of $\Delta$ by generators and relations
 \end{theorem}
+
+This theorem says that to define a functor $F$ from $\Delta$ to $\cat$ it is enough to define $F(d^i), F(s^i)$ and show that $(*)$ holds.
 
 \begin{proof}
     ``Voir annexe.'' \todo
 \end{proof}
 
-The maps $d^i$s generate 
+The maps $d^i$s generate $\Delta_\inj$ so to construct $F : \Delta_\inj^\op \to \cat$ and use proposition \ref{ccfromsab} we only need to define $F(d^i)$ and check $(1)$. 
+
+\begin{theorem} \label{thmccfroms}
+    If $F : \Delta_\inj^\op \to \Ab$ is a (semisimplicial abelian group) functor then $(F([n]),d_\bullet)$ with $d_n : \applic{F([n])}{F[n-1]}{x}{\sum_i (-1)^i F(d^i)(x)}$ is a chain complex of abelian groups. This also works if $\Ab$ is replaced by any additive category $\cat$.
+\end{theorem}
+
+\begin{examples} \leavevmode
+    \begin{enumerate}
+        \item Writing
+        \begin{center}
+            \begin{tikzcd}[row sep=tiny,/tikz/column 1/.append style={anchor=base east}
+                ,/tikz/column 2/.append style={anchor=base west}
+                ,/tikz/column 3/.append style={anchor=base west}]
+                \Top \arrow[r] & s\Set \arrow[r] & s\Ab \\
+
+            X \arrow[r,mapsto] & \Hom_\Top (\Delta(-),X) \arrow[r,mapsto] & \Z[\Hom_\Top (\Delta(-),X)]
+            \end{tikzcd}
+        \end{center}
+        allows us to use the theorem to recover what we said about the singular chain complex before.
+        \item Let $G$ be a finite group, and $F_n$ be the free abelian group on $G^{n+1} = \{(g_0,\dots,g_n) \mid g_i \in G\}$. $F_n$ is a $\Z[G]$-module for $g \bullet (g_0,\dots,g_n) = (gg_0,\dots,gg_n)$, so $F_n \in \Z[G]\Mod$. We define maps
+        \[\partial_i : \applic{F_n}{F_{n-1}}{(g_0,\dots,g_n)}{(g_0,\dots,g_{i-1},g_{i+1},\dots,g_n)}\]
+        (the map removes $g_i$). For $i < j$, we have
+        \begin{align*}
+            \partial_i \circ \partial_j (g_0,\dots,g_n) & = \partial_i (-,\cancel{g_j},-) = (-,\cancel{g_i},-,\cancel{g_j},-) \\
+            \partial_{j-1} \circ \partial_i (g_0,\dots,g_n) & = \partial_{j-1} (-,\cancel{g_i},-) = (-,\cancel{g_i},-,\cancel{g_j},-)
+        \end{align*}
+        so setting $F([n]) = F_n$ and $F(d^i) = \partial_i$ defines a functor $F : \Delta_\inj^\op \to \Z[G]\Mod$. Applying theorem \ref{thmccfroms} we have $(F_n,\partial_\bullet) \in \Ch(\Z[G]\Mod)$ called the \emph{bar resolution} of $G$.
+        \item Koszul complex, Hochschild complex\dots
+    \end{enumerate}
+\end{examples}
+
+\begin{definition}
+    Let $\cat$ be an additive category, $C_\bullet,D_\bullet \in \Ch_\bullet (\cat)$ and $f,g \in \Hom(C_\bullet,D_\bullet)$. \\ A \emph{homotopy $H$ from $f$ to $g$} is the data of maps $h_i : C_i \to D_{i+1}$ in $\cat$ such that the following diagram commutes
+    \begin{center}
+        \begin{tikzcd}[row sep =large,column sep=large]
+            C_{n+1}
+                \arrow[r,"d_{n+1}^C"]
+                \arrow[d,"f_{n+1}-g_{n+1}" ']
+                &
+            C_n
+                \arrow[r,"d_n^C"]
+                \arrow[d,"f_n-g_n" description]
+                \arrow[dl,"h_n" description]
+                &
+            C_{n-1}
+                \arrow[d,"f_{n-1}-g_{n-1}"]
+                \arrow[dl,"h_{n-1}" description]
+                &
+            \\
+            D_{n+1}
+                \arrow[r,"d_{n+1}^D" ']
+                &
+            D_n
+                \arrow[r,"d_n^D" ']
+                &
+            D_{n-1}
+        \end{tikzcd}
+    \end{center}
+    which means $f_n - g_n = h_{n-1}d_n^C + d_{n+1}^D h_n$ (``$f-g = hd+dh$''). We write $f \sim g$ if $f$ and $g$ are homotopic. $f$ and $g$ are \emph{homotopy equivalences} if $fg \sim \id_D$ and $gf \sim \id_C$.
+\end{definition}
+
+The motivation for this definition comes from topology. Let $f,g : X\to Y$ be continuous maps between topological spaces. We say $f$ and $g$ are homotopic if there exists a continuous map $H : X \times I \to Y$ (here $I$ is the unit interval $[0,1]$) such that $H(-,0) = f$ and $H(-,1) = g$. The map $H$ is a called a homotopy from $f$ to $g$.
 
 \begin{theorem}
-    If $F : \delta_inj$
+    Let $X,Y$ be two topological spaces and $f,g : X \to Y$ be two homotopic continuous maps. Then the induced maps $C^\sing(f),C^\sing(g) : C^\sing(X) \to C^\sing(Y)$ are homotopic as morphisms of chain complexes.
 \end{theorem}
+
+\begin{proof}
+    \todo
+\end{proof}
+
+\begin{lemma} \label{homotopylemma}
+    Let $X,Y,Z \in \Ch(\cat)$ and $f : X_\bullet \to Y_\bullet,g: Y_\bullet \to Z_\bullet$ be morphisms of chain complexes. Then $f \sim 0$ implies $g\circ f \sim 0$.
+\end{lemma}
+
+\begin{proof}
+    Let $h_\bullet$ be a homotopy between $f$ and $0$. Then $g_\bullet \circ h_\bullet$ is a homotopy between $g\circ f$ and $0$.
+\end{proof}
+
+\begin{definition}
+    Let $\cat$ be a category. The homotopy category $K(\cat)$ is the category defined by $\Ob(K(\cat)) = \Ob(\Ch(\cat))$ and $\Hom_{K(\cat)} (X,Y) = \Hom_{\Ch(\cat)}(X,Y)/\sim$.
+\end{definition}
+
+Lemma \ref{homotopylemma} above shows that composition in $K(\cat)$ is well-defined: if $f \sim g$, then $f-g \sim 0$ so $h(f-g) \sim 0$, so $hf \sim hg$. In the same vein, if $f - g \sim 0$, $(f-g)h \sim 0$, so $fh \sim fg$. This shows composition in $K(\cat)$ is well-defined.
+
+\begin{remark}\leavevmode
+    \begin{enumerate}
+        \item $K(\cat)$ is an additive category.
+        \item \warning In general, $K(\cat)$ is a complicated object: it is a triangulated category.
+    \end{enumerate}
+\end{remark}
+
 
 
 
