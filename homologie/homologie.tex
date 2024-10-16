@@ -34,6 +34,7 @@
 \newcommand{\catt}{\mathcal{D}}
 \newcommand{\rel}{\mathcal{R}}
 \newcommand{\Jcat}{\mathcal{J}}
+\newcommand{\Acat}{\mathcal{A}}
 
 \newcommand{\Set}{\mathbf{Set}}
 \newcommand{\Top}{\mathbf{Top}}
@@ -72,6 +73,9 @@
 \DeclareMathOperator{\colim}{colim}
 \DeclareMathOperator{\cod}{cod}
 \DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\coim}{coim}
 \renewcommand{\th}{\mathop{\rm th}}
 \renewcommand{\Re}{\mathop{\rm Re}}
 \renewcommand{\Im}{\mathop{\rm Im}}
@@ -1702,7 +1706,7 @@ The motivation for this definition comes from topology. Let $f,g : X\to Y$ be co
 \end{proof}
 
 \begin{definition}
-    Let $\cat$ be a category. The homotopy category $K(\cat)$ is the category defined by $\Ob(K(\cat)) = \Ob(\Ch(\cat))$ and $\Hom_{K(\cat)} (X,Y) = \Hom_{\Ch(\cat)}(X,Y)/\sim$.
+    Let $\cat$ be a category. The \emph{homotopy category $K(\cat)$ of chain complexes in $\cat$} is the category defined by $\Ob(K(\cat)) = \Ob(\Ch(\cat))$ and $\Hom_{K(\cat)} (X,Y) = \Hom_{\Ch(\cat)}(X,Y)/\sim$.
 \end{definition}
 
 Lemma \ref{homotopylemma} above shows that composition in $K(\cat)$ is well-defined: if $f \sim g$, then $f-g \sim 0$ so $h(f-g) \sim 0$, so $hf \sim hg$. In the same vein, if $f - g \sim 0$, $(f-g)h \sim 0$, so $fh \sim fg$. This shows composition in $K(\cat)$ is well-defined.
@@ -1714,7 +1718,234 @@ Lemma \ref{homotopylemma} above shows that composition in $K(\cat)$ is well-defi
     \end{enumerate}
 \end{remark}
 
+\section{Abelian categories}
 
+\begin{definition}
+    Let $\cat$ be an additive category. A \emph{kernel} of $f \in \Mor(\cat)$ is an equalizer of $(f,0)$. Dually, a \emph{cokernel} of $f$ is a coequalizer of $(f,0)$.
+\end{definition}
 
+Concretely, we have universal arrows for any $\alpha$ such that $f\alpha = 0$ (or $\alpha f = 0$ for a cokernel)
+
+\begin{center}
+    \begin{tikzcd}
+        & Z \arrow[ld,dashed] \arrow[d,"\alpha"] \\
+        \ker f \arrow[r,"\iota"] & X \arrow[r,"f"] & Y & X \arrow[r,"f"] & Y \arrow[r, "\pi"] \arrow[d,"\alpha"] & \coker f \arrow[ld,dashed] \\
+        & & & & Z
+    \end{tikzcd}
+\end{center}
+
+If we assume that every morphism in $\cat$ has a kernel and a cokernel, then
+\begin{center}
+    \begin{tikzcd}[column sep=small]
+        \ker f \arrow[r, "\iota"] & X \arrow[r,"f"] & Y \arrow[r,"\pi"] & \coker f \\
+        & \coker(\ker f) \arrow[from=u,"p"] & \ker(\coker f) \arrow[u]
+    \end{tikzcd}
+\end{center}
+where $\coker(\ker f)$ is notation for $\coker(\iota)$ and $\ker(\coker f)$ is notation for $\ker(\pi)$. \\
+Since $f \circ \iota = 0$, we have a unique map $\tilde{f} : \coker(\ker f) \to Y$  by the universal property of the cokernel.
+\begin{center}
+    \begin{tikzcd}[column sep=small]
+        \ker f \arrow[r, "\iota"] & X \arrow[r,"f"] & Y \arrow[r,"\pi"] & \coker f \\
+        & \coker(\ker f) \arrow[from=u,"p"] \arrow[ru,dashed,"\tilde{f}" ']
+    \end{tikzcd}
+\end{center}
+
+And we have $\pi \circ \tilde{f} \circ p = \pi \circ f = 0$.
+
+\begin{lemma}
+    Kernels are monomorphisms and cokernels are epimorphisms.
+\end{lemma}
+
+\begin{proof}
+    Draw a diagram
+    \begin{center}
+        \begin{tikzcd}
+            W \arrow[d,shift left,"a"] \arrow[d,shift right,"b" '] \\
+            \ker f \arrow[r,"\iota"] & X \arrow[r,"f"] & Y
+        \end{tikzcd}     
+    \end{center}
+    such that $\iota a = \iota b$. Then $f\iota (a-b) = 0$, so there is a unique map $c : W \to \ker f$ such that we have a commutative diagram
+    \begin{center}
+        \begin{tikzcd}
+            W \arrow[r d,"\iota (a-b)"] \arrow[d,dashed,"c"] \\
+            \ker f \arrow[r,"\iota"] & X \arrow[r,"f"] & Y
+        \end{tikzcd}  
+    \end{center}
+    However $a-b$ and $0$ already make the diagram commute, so $a-b = 0$, so $a = b$. \\
+    The proof that a cokernel is an epimorphism is similar.
+\end{proof}
+
+Hence, $\pi \circ \tilde{f} \circ p = \pi \circ f = 0 = 0 \circ p$ means that $\pi \circ \tilde{f} = 0$ since $p$ is an epimorphism. This means that $\tilde{f}$ factorizes through $\ker(\coker f)$. Setting $\coim f = \coker(\ker f)$ and $\im f = \ker(\coker f)$, we obtain the following commutative diagram
+\begin{center}
+    \begin{tikzcd}
+        \ker f \arrow[r, "\iota"] & X \arrow[r,"f"] & Y \arrow[r,"\pi"] & \coker f \\
+        & \coim f \arrow[from=u] \arrow[r, dashed, "\overline{f}" ']  & \im f \arrow[u]
+    \end{tikzcd}
+\end{center}
+
+\begin{example}
+    In $\cat = A\Mod$, we have the canonical factorization
+    \begin{center}
+        \begin{tikzcd}
+            \ker f \arrow[r, "\iota"] & X \arrow[r,"f"] & Y \arrow[r,"\pi"] & \nicefrac{Y}{\im f} \\
+            & \nicefrac{X}{\ker f} \arrow[from=u] \arrow[r, dashed, "\overline{f}" ']  & \im f \arrow[u]
+        \end{tikzcd}
+    \end{center}
+    and $\overline{f}$ is an isomorphism by the first isomorphism theorem.
+\end{example}
+
+\begin{definition}
+    Let $\cat$ be an additive category. Then $\cat$ is \emph{abelian} if
+    \begin{enumerate}
+        \item Every morphism has a kernel and a cokernel in $\cat$.
+        \item $\forall f : X \to Y$, the canonical morphism $\overline{f} : \coim f \to \im f$ is an isomorphism.
+    \end{enumerate}
+\end{definition}
+
+\begin{examples}\leavevmode
+    \begin{enumerate}
+        \item If $A$ is a ring, $\Mod A$ is abelian. If $A$ is noetherian, then the full subcategory $\mathbf{mod}A$ of finitely generated modules is abelian.
+        \item If $\cat$ is abelian, then so is $\cat^\op$.
+        \item There are examples of categories that satisfy $1$ but not $2$. For instance, Hausdorff topological abelian groups, where kernels are given by the usual kernel and cokernels are the quotients by the closure of the image. We have
+        \begin{center}
+            \begin{tikzcd}
+                0 \arrow[r] & \Q \arrow[r,hookrightarrow] \arrow[d] & \R \arrow[r] & 0 \\
+                & \Q \arrow[r,"\not \simeq"] & \R \arrow[u,hookrightarrow]
+            \end{tikzcd}
+        \end{center}
+    \end{enumerate}
+\end{examples}
+
+\begin{proposition}
+    Let $\Acat$ be an abelian category and $\Jcat$ a small category. Then
+    \begin{enumerate}
+        \item $\Fun(\Jcat,\Acat)$ is an abelian category.
+        \item $\Ch_\bullet (\Acat)$ is an abelian category.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}[Sketch of proof]
+    Let $F,G \in \Fun(\Jcat,\Acat)$ and $\eta : F \Rightarrow G$. We want to construct $\ker \eta$. For any morphism $f : i \to j \in \Mor(\Jcat)$, we have a diagram
+    \begin{center}
+        \begin{tikzcd}
+            \ker(\eta_i)
+                \arrow[r,"\iota_i"]
+                \arrow[d,dashed,"\alpha_f"]
+            &
+            F(i)
+                \arrow[r,"\eta_i"]
+                \arrow[d,"F(f)"]
+            &
+            G(i)
+                \arrow[d,"G(f)"]
+            \\
+            \ker(\eta_j)
+                \arrow[r,"\iota_j"]
+            &
+            F(j)
+                \arrow[r,"\eta_j"]
+            &
+            G(j)
+        \end{tikzcd}
+    \end{center}
+    We have $0 = G(f) \eta_i \iota = \eta_j F(f) \iota$ so $F(f)\iota$ factorizes through $\ker(\eta_j)$, which gives the morphism $\alpha_f$. One can check $\ker(\eta)$, defined by $\ker(\eta)(i)=\ker(\eta_i)$ and $\ker(\eta)(f)=\alpha_f$ is a functor (this is proved using uniqueness of $\alpha_f$). One can check that $\iota : \ker(\eta) \Rightarrow F$ is a kernel of $\eta$ by drawing the adequate diagrams. Constructing cokernels is done similarly. The canonical factorization is an isomorphism since its evaluation at every object is an isomorphism because $\Acat$ is abelian. \\
+    $\Ch_\bullet(\Acat)$ is a subcategory of $\Fun(\Z,\Acat)$ so kernels and cokernels exist in $\Fun(\Z,\Acat)$. There is a commutative diagram
+    \begin{center}
+        \begin{tikzcd}[column sep=small]
+            \ker f_{i+1}
+                \arrow[r,"\alpha_{i+1}",dashed]
+                \arrow[d]
+            &
+            \ker f_{i}
+                \arrow[r,"\alpha_{i}",dashed]
+                \arrow[d]
+            &
+            \ker f_{i-1}
+                \arrow[d]
+            \\
+            C_{i+1}
+                \arrow[r,"d_{i+1}"]
+                \arrow[d,"f_{i+1}"]
+            &
+            C_{i}
+                \arrow[r,"d_{i}"]
+                \arrow[d,"f_i"]
+            &
+            C_{i-1}
+                \arrow[d,"f_{i-1}"]
+            \\
+            D_{i+1}
+                \arrow[r,"d_{i+1}"]
+                \arrow[d]
+            &
+            D_{i}
+                \arrow[r,"d_{i}"]
+                \arrow[d]
+            &
+            D_{i-1}
+                \arrow[d]
+            \\
+            \coker f_{i+1}
+                \arrow[r,"\beta_{i+1}" ',dashed]
+            &
+            \coker f_{i}
+                \arrow[r,"\beta_{i}" ',dashed]
+            &
+            \coker f_{i-1}
+        \end{tikzcd}
+    \end{center}
+    And the universal property of $\ker(f_{i-1})$ means that $\alpha_i \alpha_{i-1}$ is the unique morphism induced by $d_{i+1} d_i = 0$, so $\alpha_i \alpha{i-1} = 0$ and kernels, cokernels of chain complexes are again chain complexes.
+\end{proof}
+
+\begin{remark} \leavevmode
+    \begin{enumerate}
+        \item There is another equivalent definition of abelian categories: a category is abelian iff it is preabelian (additive, and all kernels/cokernels exist) and every monomorphism is a kernel of some morphism and every epimorphism is a cokernel of some morphism.
+        \item Abelian categories have finite limits and colimits.
+        \item If $f \in \Mor(\Acat)$ with $\Acat$ abelian, then $f$ is a monomorphism if and only if $\ker f = 0$ and $f$ is an epimorphism if and only if $\coker f = 0$. Moreover, a monomorphism that is also an epimorphism is an isomorphism.
+    \end{enumerate}
+\end{remark}
+
+Let $X \xrightarrow{f} Y \xrightarrow{g} Z$ be two composable morphisms in an abelian category such that $gf = 0$. The left diagram below shows that $0 = gf = g\alpha \overline{f} \pi = 0$, however $\overline{f} \pi$ is an epi so $g\alpha = 0$. Therefore, $\alpha$ factorizes into a map $\im f \to \ker g$ as shown in the right diagram.
+\begin{center}
+    \begin{tikzcd}
+        X
+            \arrow[r, "f"]
+            \arrow[d,"\pi", two heads]
+        &
+        Y
+            \arrow[r,"g"]
+        &
+        Z
+        \\
+        \coim f
+            \arrow[r,"\overline{f}" ']
+        &
+        \im f
+            \arrow[u,"\alpha" ',hookrightarrow]
+    \end{tikzcd} \hspace{3em}
+    \begin{tikzcd}
+        \ker g
+            \arrow[r, "\iota", hookrightarrow]
+        &
+        Y
+            \arrow[r,"g"]
+        &
+        Z
+        \\
+        &
+        \im f
+            \arrow[u,"\alpha" ',hookrightarrow]
+            \arrow[lu,"\exists! \overline{\alpha}",dashed]
+    \end{tikzcd}
+\end{center}
+
+\begin{definition}
+    Let $X \xrightarrow{f} Y \xrightarrow{g} Z$ such that $gf = 0$.
+    \begin{itemize}
+        \item We say it is \emph{exact} if the canonical map $\im f \to \ker g$ is an isomorphism.
+        \item A chain complex $(C_\bullet,d_\bullet)$ is \emph{exact} if the canonical maps $\Im(d_i) \simeq \ker(d_i)$ are isomorphisms for all $i \in \Z$. 
+        \item A \emph{short exact sequence} if an exact complex of the form $0 \to X \xrightarrow{f} Y \xrightarrow{g} Z \to 0$.
+    \end{itemize}
+\end{definition}
 
 \end{document}
