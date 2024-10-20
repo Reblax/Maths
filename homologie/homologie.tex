@@ -1948,4 +1948,121 @@ Let $X \xrightarrow{f} Y \xrightarrow{g} Z$ be two composable morphisms in an ab
     \end{itemize}
 \end{definition}
 
+\begin{example}
+    In $\Mod A$, $gf = 0$ means that $\im f \subset \ker g$, so exactness is equivalent to $\im f = \ker g$.
+\end{example}
+
+\begin{remark}
+    $0 \to X \xrightarrow{f} Y \xrightarrow{g} Z$ is exact if and only if $f = \ker g$. \\
+    The sequence $0 \to X \xrightarrow{f} Y \xrightarrow{g} Z \to 0$ is exact if and only if $f$ is a monomorphism, $g$ is an epimorphism and $\im f \xrightarrow{\sim} \ker g$ is an isomorphism, which is equivalent to $g = \coker f$ and $f = \ker g$.
+\end{remark}
+
+\begin{remark}
+    There is a difficult theorem of Freyd and Mitchell that says any abelian category can be seen as a full subcategory of $\Mod A$ for some ring $A$ in such a way that the abelian structure is induced by the usual one in $\Mod A$.
+\end{remark}
+
+\begin{definition}
+    Let $\Acat$ be an abelian category and $0 \to A \xrightarrow{f} B \xrightarrow{g} C \to 0$, $0 \to D \xrightarrow{h} E \xrightarrow{k} F \to 0$ be two short exact sequences. A \emph{morphism of short exact sequences} between them is the data of three morphisms $\alpha : A \to D$, $\beta : B\to E$ and $\gamma : C \to F$ such that the following diagram commutes:
+    \begin{center}
+        \begin{tikzcd}
+            0 \arrow[r] & A \arrow[r,"f"] \arrow[d,"\alpha"] & B \arrow[r,"g"] \arrow[d,"\beta"] & C \arrow[r] \arrow[d,"\gamma"] & 0 \\
+            0 \arrow[r] & D \arrow[r,"h"] & E \arrow[r, "k"] & F \arrow[r] & 0
+        \end{tikzcd}
+    \end{center}
+\end{definition}
+
+\begin{lemma}[Short five lemma]
+    Using the same notations as in the definition above:
+    \begin{itemize}
+        \item If $\alpha$ and $\gamma$ are monomorphisms, so is $\beta$.
+        \item If $\alpha$ and $\gamma$ are epimorphisms, so is $\beta$.
+        \item If $\alpha$ and $\gamma$ are isomorphisms, so is $\beta$.
+    \end{itemize}
+\end{lemma}
+We give two proofs of this result.
+\begin{proof}[Proof by diagram chase]
+    Assume we work in a category of modules $\Mod A$. Assume $\alpha,\gamma$ are monos. Let $x \in \ker \beta$. Then $\gamma g(x) = k\beta (x)=0$ and $\gamma$ is a mono so $g(x) = 0$. By exactness at $B$, there exists $y \in A$ such that $f(y) = x$. Then $0 = \beta f(y) = h \alpha(y)$. By exactness at $D$, $h$ is a mono, so $\alpha(y) = 0$. since $\alpha$ is a mono, $y = 0$, so $x=0$, which means $\beta$ is a mono. \\
+    Now assume $\alpha,\gamma$ are epis. Let $x \in E$. Since $\gamma,g$ are epis, there exists $y \in B$ such that $\gamma(g(y)) = k(x)$. Then, $k(\beta(y)-x) = 0$. By exactness at $E$ and since $\alpha$ is epi, there exists $z \in A$ such that $h(\alpha(z)) = \beta(y) - x$. Therefore $\beta f(z) = \beta(y) - x$, so $\beta(y - f(z)) = x$ and $\beta$ is epi.
+\end{proof}
+
+\begin{proof}[Categorical proof in any abelian category]
+    Assume $\alpha,\gamma$ are monos. Let us add $\ker \beta$ to the diagram.
+    \begin{center}
+        \begin{tikzcd}
+            & & \ker \beta \arrow[d,"i"] \arrow[ld,dashed,"\exists j" '] \\
+            0 \arrow[r] & A \arrow[r,"f"] \arrow[d,"\alpha"] & B \arrow[r,"g"] \arrow[d,"\beta"] & C \arrow[r] \arrow[d,"\gamma"] & 0 \\
+            0 \arrow[r] & D \arrow[r,"h"] & E \arrow[r, "k"] & F \arrow[r] & 0
+        \end{tikzcd}
+    \end{center}
+    We have $\beta i = 0$, so $\gamma g i = k \beta i = 0$. Since $\gamma$ is a mono, $gi = 0$. Exactness tells us $f = \ker g$, so we obtain the map $j : \ker \beta \to A$ with the universal property of $\ker g$. Since the diagram commutes, $0 = \beta i = \beta f j = h \alpha j$. Since $h$ and $\alpha$ are both monos, $j = 0$, so $i = 0$, so $\beta$ is a mono. \\
+    Now assume $\alpha,\gamma$ are epis and consider the commutative diagram
+    \begin{center}
+        \begin{tikzcd}
+            0 \arrow[r] & A \arrow[r,"f"] \arrow[d,"\alpha"] & B \arrow[r,"g"] \arrow[d,"\beta"] & C \arrow[r] \arrow[d,"\gamma"] & 0 \\
+            0 \arrow[r] & D \arrow[r,"h"] & E \arrow[r, "k"] & F \arrow[r] & 0 \\
+            & & \coker \beta \arrow[from=u,"\pi"] \arrow[from=ru,dashed,"\exists \eta"]
+        \end{tikzcd}
+    \end{center}
+    We have $\pi \beta = 0$, so $\pi \beta f = \pi h \alpha = 0$. Since $\alpha$ is an epi, $\pi h = 0$. Exactness tells us $k = \coker h$, which gives us $\eta$. Then, $\eta k \beta = 0$, so $\eta \gamma g = 0$. Since $\gamma,g$ are epis, $\eta = 0$, so $\pi = 0$, so $\beta$ is an epi.
+\end{proof}
+
+\begin{theorem}[Splitting lemma]
+    Let $0 \to A \xrightarrow{f} B \xrightarrow{g} C \to 0$ be a short exact sequence in an abelian category $\Acat$. The following are equivalent:
+    \begin{enumerate}
+        \item[(1)] $\exists r : B \to A, rf = \id_A$ 
+        \item[(2)] $\exists s : C \to B, gs = \id_C$
+        \item[(3)] $\exists h : B \xrightarrow{\sim} A \oplus C$ such that
+        \begin{center}
+            \begin{tikzcd}
+                0 \arrow[r] & A \arrow[r,"f"] \arrow[d,equal] & B \arrow[r,"g"] \arrow[d,"h"] & C \arrow[r] \arrow[d,equals] & 0 \\
+            0 \arrow[r] & A \arrow[r,"i_A"] & A \oplus C \arrow[r, "\pi_C"] & C \arrow[r] & 0
+            \end{tikzcd}
+        \end{center}
+        is an isomorphism of short exact sequences.
+    \end{enumerate}
+    When these conditions are satisfied, we say the short exact sequence \emph{splits}.
+\end{theorem}
+
+\begin{proof}
+    Assume we have (3). Then we have the projection $\pi_A : A \oplus C \to A$. Letting $r = \pi_A h$, we have $rf = \pi_A h f = \pi_A i_A = \id_A$. Similarly, setting $s = h^{-1} i_C$ gives $gs = \pi_C h h^{-1} i_C = \id_C$. \\
+    Now assume (1). We have $r : B \to A$ and $g : B \to C$. This gives a morphism $r \oplus g : B \to A \oplus C$ defined by $r \oplus g = i_A r + i_C g$. Then, $(r \oplus g)f = i_A$ since $gf = 0$ and $\pi_C (r \oplus g) = g$ by properties of the biproduct. This means that $r\oplus g$ makes the diagram above commute. The short five lemma then tells us $r\oplus g$ is an isomorphism. \\
+    Assume (2). Then $f : A \to B$ and $s : C \to B$ induce a morphism $f \oplus s : A \oplus C \to B$ defined by $f \oplus s = f \pi_A + s \pi_C$. This morphism satisfies
+    \[(f\oplus s)i_A = f \quad \text{and} \quad g (f\oplus s) = \pi_C\]
+    so again we get an isomorphism of short exact sequences by the short five lemma.
+\end{proof}
+
+\begin{definition}
+    Let $\cat$ and $\catt$ be two abelian categories. Let $F : \cat \to \catt$ be a functor.
+    \begin{enumerate}
+        \item We say $F$ is \emph{left exact} if $F$ preserves finite limits.
+        \item We say $F$ is \emph{right exact} if $F$ preserves finite colimits.
+        \item We say $F$ is \emph{exact} if it preserves finite limits and finite colimits.
+    \end{enumerate}
+\end{definition}
+
+\begin{lemma}
+    Let $F : \cat \to \catt$ be an additive functor between abelian categories. The following are equivalent;
+    \begin{enumerate}
+        \item[(1)] The functor $F$ is left exact.
+        \item[(2)] The functor $F$ preserves kernels i.e. $F(\ker f) \simeq \ker(F(f))$.
+        \item[(3)] If $0 \to X \xrightarrow{f} Y \xrightarrow{g} Z$ is an exact sequence in $\cat$, the sequence $0 \to F(X) \xrightarrow{F(f)} F(Y) \xrightarrow{F(g)} F(Z)$ is also exact.
+        \item[(4)] If $0 \to X \xrightarrow{f} Y \xrightarrow{g} Z \to 0 $ is a short exact sequence in $\cat$, the sequence $0 \to F(X) \xrightarrow{F(f)} F(Y) \xrightarrow{F(g)} F(Z)$ is also exact.
+    \end{enumerate}
+\end{lemma}
+
+\begin{proof} \leavevmode
+    \begin{itemize}
+        \item[$(1) \Rightarrow (2)$] This is clear since a kernel is a limit (an equalizer).
+        \item[$(2) \Rightarrow (3)$] Assume we have (2). Then $0 \to X \xrightarrow{f} Y \xrightarrow{g} Z$ is an exact sequence in $\cat$ if and only if $f = \ker g$, so $F(f)$ is a kernel of $F(g)$, so $0 \to F(X) \xrightarrow{F(f)} F(Y) \xrightarrow{F(g)} F(Z)$ is exact.
+        \item[$(3) \Rightarrow (4)$] This is clear.
+        \item[$(2) \Rightarrow (1)$] The functor $F$ is additive so it preserves products. The equalizer of \begin{tikzcd}[column sep = small]
+            X \arrow[r,"f", shift left] \arrow[r,"g" ',shift right] & Y
+        \end{tikzcd} is the kernel of $f-g$, so $F$ preserving kernels means it also preserves equalizers. Since any finite limit can be built out of products and equalizers, $F$ is left-exact.
+        \item[$(4) \Rightarrow (3)$] Let $0 \to X \xrightarrow{f} Y \xrightarrow{g} Z$ be an exact sequence. Consider $0 \to X \xrightarrow{f} Y \to \coker(f) \to 0$. Applying $F$ shows that $F(f)$ is a monomorphism, so $F$ preserves monos. Moreover we have the exact sequence $0 \to X \xrightarrow{f} Y \xrightarrow{\overline{g}} \Im g \to 0$ so $0 \to F(X) \xrightarrow{F(f)} F(Y) \xrightarrow{F(\overline{g})} F(\Im g)$ is also exact.
+        \todo : FINISH This
+        \todo : UNDERSTAND ABOVE REMARK
+    \end{itemize}
+
+\end{proof}
+
 \end{document}
