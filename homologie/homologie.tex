@@ -1952,8 +1952,72 @@ Let $X \xrightarrow{f} Y \xrightarrow{g} Z$ be two composable morphisms in an ab
     In $\Mod A$, $gf = 0$ means that $\im f \subset \ker g$, so exactness is equivalent to $\im f = \ker g$.
 \end{example}
 
+\begin{proposition}
+    The sequence $0 \to X \xrightarrow{f} Y$ is exact if and only if $f$ is a monomorphism. The sequence $X \xrightarrow{f} Y \to 0$ is exact if and only if $f$ is an epimorphism.
+\end{proposition}
+
+\begin{proof}
+    We have $\im(0 \to X) = \ker(\coker(0 \to X))$. One shows that the cokernel of $0 \to X$ is $X \xrightarrow{\id} X$ since it satisfies the required universal property. Similarly, one can prove the kernel of $X \xrightarrow{\id} X$ is $0 \to X$ by checking the universal property. Therefore, $\im(0\to X) = 0$. Exactness is therefore equivalent to asking $\ker f = 0$. Let $i$ be the universal morphism $\ker f \xrightarrow{i} X$. If $f$ is a mono, we have $\ker f = 0$ since $fi$ is a mono and $fi0 = fi\id_{ker f} = 0$. Conversely, if $\ker f = 0$ and $fg = fh$, then $f(g-h) = 0$ and the factorization shows that $g = h$. \\
+    A similar ``dual proof'' shows the second part of the proposition is true.
+\end{proof}
+
+\begin{proposition}
+    The sequence $0 \to X \xrightarrow{f} Y \xrightarrow{g} Z$ is exact if and only if $f = \ker g$.
+\end{proposition}
+
+\begin{proof}
+    Assume $f = \ker g$. Since kernels are monomorphisms, we have exactness at $X$. Now we need to show the canonical map $\im f \to \ker g$ is an isomorphism. Draw the diagram
+    \begin{center}
+        \begin{tikzcd}
+            & & & \coker f \\
+            0 \arrow[r] & X \arrow[r,"f"] \arrow[d] & Y \arrow[ru,"\pi_f"] \arrow[r,"g"] & Z \\
+            & \coim f \arrow[r,"\sim"] & \im f \arrow[u] \arrow[r] & \ker g \arrow[lu,"i_g"]
+        \end{tikzcd}
+    \end{center}
+    By $f = \ker g$ we mean $X \simeq \ker g$ as kernels. This means that there is an isomorphism $\ker g \xrightarrow[\sim]{\phi} X$ such that $i_g = f\phi$. Then, $\pi_f i_g = \pi_f f \phi = 0$, so $i_g$ factorizes through $\ker(\coker f) = \im f$ in a way that makes the whole diagram commute which shows the canonical map $\im f \to \ker g$ is an isomorphism, so we have exactness at $Y$. \\
+    Conversely, assume the sequence is exact. We just need to check $X \xrightarrow{f} Y$ satisfies the universal property of $\ker g$. Exactness tells us we have a diagram
+    \begin{center}
+        \begin{tikzcd}
+            0 \arrow[r]
+            &
+            X
+                \arrow[r, "f"]
+                \arrow[d,"\pi", two heads]
+            &
+            Y
+                \arrow[r,"g"]
+            &
+            Z
+            \\
+            &
+            \coim f
+                \arrow[r,"\overline{f}" ',"\sim"]
+            &
+            \im f
+                \arrow[u,"\alpha" ',hookrightarrow]
+                \arrow[r,"\sim","t" ']
+            & \ker g
+                \arrow[lu,"i_g" ']
+        \end{tikzcd} 
+    \end{center}
+    We have $\coim f = \coker(\ker f)$. The proof above shows that exactness at $X$ implies $\ker f \simeq 0$. One can then check that $\coim f = X$ and $\pi = \id$. Therefore we obtain an isomorphism $\phi : X \to \ker g$ such that $i_g \circ \phi = f$ or equivalently $f \circ \phi^{-1} = i_g$. Let $h : T \to Y$ be a morphism such that $gh = 0$, then we have a commutative diagram
+    \begin{center}
+        \begin{tikzcd}
+            X \arrow[r,"f"] & Y \arrow[r,"g"] & Z \\
+            \ker g \arrow[u,"\phi^{-1}"] \arrow[ru,"i_g" description] & T \arrow[u,"h" '] \arrow[l,dashed,"\overline{h}"]
+        \end{tikzcd}
+    \end{center}
+    So $\phi^{-1} \overline{h}$ is a factorization of $h$ through $f$. If we have another factorization $\psi$ then
+    \begin{center}
+        \begin{tikzcd}
+            \ker g \arrow[r,"i_g"] & Y \arrow[r] & Z \\
+            X \arrow[u,"\phi"] \arrow[ru,"f" description] & T \arrow[l,"\psi"] \arrow[u, "h"']
+        \end{tikzcd}
+    \end{center}
+    so $i_g \phi \psi = f \psi = h$ and $\phi \psi = \overline{h}$, so $\psi = \phi^{-1} \overline{h}$.
+\end{proof}
+
 \begin{remark}
-    $0 \to X \xrightarrow{f} Y \xrightarrow{g} Z$ is exact if and only if $f = \ker g$. \\
     The sequence $0 \to X \xrightarrow{f} Y \xrightarrow{g} Z \to 0$ is exact if and only if $f$ is a monomorphism, $g$ is an epimorphism and $\im f \xrightarrow{\sim} \ker g$ is an isomorphism, which is equivalent to $g = \coker f$ and $f = \ker g$.
 \end{remark}
 
@@ -2058,11 +2122,29 @@ We give two proofs of this result.
         \item[$(2) \Rightarrow (1)$] The functor $F$ is additive so it preserves products. The equalizer of \begin{tikzcd}[column sep = small]
             X \arrow[r,"f", shift left] \arrow[r,"g" ',shift right] & Y
         \end{tikzcd} is the kernel of $f-g$, so $F$ preserving kernels means it also preserves equalizers. Since any finite limit can be built out of products and equalizers, $F$ is left-exact.
-        \item[$(4) \Rightarrow (3)$] Let $0 \to X \xrightarrow{f} Y \xrightarrow{g} Z$ be an exact sequence. Consider $0 \to X \xrightarrow{f} Y \to \coker(f) \to 0$. Applying $F$ shows that $F(f)$ is a monomorphism, so $F$ preserves monos. Moreover we have the exact sequence $0 \to X \xrightarrow{f} Y \xrightarrow{\overline{g}} \Im g \to 0$ so $0 \to F(X) \xrightarrow{F(f)} F(Y) \xrightarrow{F(\overline{g})} F(\Im g)$ is also exact.
-        \todo : FINISH This
-        \todo : UNDERSTAND ABOVE REMARK
+        \item[$(4) \Rightarrow (3)$] Let $0 \to X \xrightarrow{f} Y \xrightarrow{g} Z$ be an exact sequence. Consider $0 \to X \xrightarrow{f} Y \to \coker(f) \to 0$. Applying $F$ shows that $F(f)$ is a monomorphism, so $F$ preserves monos. Moreover we have the exact sequence $0 \to X \xrightarrow{f} Y \xrightarrow{\overline{g}} \Im g \to 0$ so $0 \to F(X) \xrightarrow{F(f)} F(Y) \xrightarrow{F(\overline{g})} F(\Im g)$ is also exact. Since $i : \im g \hookrightarrow Z$ is a mono and $F$ preserves monos, we know that $F(i) : \im g \to F(Z)$ is a mono so $F$ does not change the kernel. This means that $0 \to F(X) \xrightarrow{F(f)} F(Y) \xrightarrow{F(g)} F(Z)$ is exact.
     \end{itemize}
+\end{proof}
 
+\begin{corollary}
+    For an additive functor $F : \cat \to \catt$ between abelian categories, the following are equivalent:
+    \begin{enumerate}
+        \item $F$ is exact.
+        \item For any short exact sequence $0 \to A \xrightarrow{\alpha} B \xrightarrow{\beta} C\to 0$ in $\cat$, the sequence $0 \to F(A) \xrightarrow{F(\alpha)} F(B) \xrightarrow{F(\beta)} F(C) \to 0$ is exact.
+    \end{enumerate}
+\end{corollary}
+
+\begin{proposition} 
+    Let $\cat$ be an abelian category.
+    \begin{enumerate}
+        \item $\Hom_\cat (-,-) : \cat^\op \times \cat \to \Mod \Z$ is left exact in each variable.
+        \item $- \otimes_A - : \Mod A \times A \Mod \to \Z \Mod$ is right exact in each variable.
+        \item If $F \dashv G$, then $F$ is right exact and $G$ is left exact.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    Since left adjoints preserve colimits, they are right exact, and dually for right adjoints.
 \end{proof}
 
 \end{document}
