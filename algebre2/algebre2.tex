@@ -1,0 +1,822 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsfonts, amsthm}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{geometry}[textwidth=10cm]
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{nicefrac}
+\usepackage{cancel}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.pathmorphing}
+
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\op}{\mathrm{op}}
+\newcommand{\inj}{\mathrm{inj}}
+\newcommand{\sing}{\mathrm{sing}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\U}{\mathbb{U}}
+\newcommand{\F}{\mathbb{F}}
+\renewcommand{\H}{\mathbb{H}}
+
+\newcommand{\prem}{\mathfrak{p}}
+\newcommand{\maxid}{\mathfrak{m}}
+
+\renewcommand{\P}{\mathbb{P}}
+\renewcommand{\d}{{\rm \, d}}
+
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\base}{\mathcal{B}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\catt}{\mathcal{D}}
+\newcommand{\rel}{\mathcal{R}}
+\newcommand{\Jcat}{\mathcal{J}}
+\newcommand{\Acat}{\mathcal{A}}
+
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\Top}{\mathbf{Top}}
+\newcommand{\Grp}{\mathbf{Grp}}
+\newcommand{\Mod}{\mathbf{Mod}}
+\newcommand{\Ab}{\mathbf{Ab}}
+\newcommand{\Vectcat}{\mathbf{Vect}}
+\newcommand{\Rep}{\mathbf{Rep}}
+\newcommand{\Ring}{\mathbf{Ring}}
+
+%Operators
+\DeclareMathOperator{\Acc}{Acc}
+\DeclareMathOperator{\arccosh}{arccosh}
+\DeclareMathOperator{\degtr}{degtr}
+\DeclareMathOperator{\Card}{Card}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\PSL}{PSL}
+\DeclareMathOperator{\PGL}{PGL}
+\DeclareMathOperator{\SO}{SO}
+\DeclareMathOperator{\pgcd}{pgcd}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\rg}{rg}
+\DeclareMathOperator{\Ch}{Ch}
+\DeclareMathOperator{\sh}{sh}
+\DeclareMathOperator{\Vect}{Vect}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\Frob}{Frob}
+\DeclareMathOperator{\rk}{rk}
+\DeclareMathOperator{\Fix}{Fix}
+\DeclareMathOperator{\Ob}{Ob}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Int}{Int}
+\DeclareMathOperator{\Mor}{Mor}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Fun}{Fun}
+\DeclareMathOperator{\Nat}{Nat}
+\DeclareMathOperator{\colim}{colim}
+\DeclareMathOperator{\cod}{cod}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\coim}{coim}
+\DeclareMathOperator{\Frac}{Frac}
+\renewcommand{\th}{\mathop{\rm th}}
+\renewcommand{\Re}{\mathop{\rm Re}}
+\renewcommand{\Im}{\mathop{\rm Im}}
+
+\newcommand{\todo}{\textbf{TODO}}
+
+\renewcommand{\epsilon}{\varepsilon}
+\newcommand{\invlim}{\varprojlim}
+\newcommand{\dirlim}{\varinjlim}
+
+\newcommand{\esh}{{\textstyle \int}}
+\newcommand{\midbar}{\, \middle|\,}
+
+%Macros
+\newcommand{\applic}[4]{\begin{array}[t]{rcl}
+#1 & \to & #2 \\
+#3 & \mapsto & #4
+\end{array}}
+
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+
+\newcommand{\warning}{\faExclamationTriangle \hspace{3pt}}
+
+\renewcommand{\subset}{\subseteq}
+
+\setlength{\parindent}{0pt}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Théorème}[section]
+% TODO : améliorer la numérotation des machins
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemme}
+\newtheorem{corollary}[theorem]{Corollaire}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Définition}
+\newtheorem{example}[theorem]{Exemple}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remarque}
+\newtheorem*{exercise}{Exercice}
+
+\title{Algèbre 2}
+\author{Cours de Vlerë Mehmeti\footnote{Notes originales trouvables à \url{https://webusers.imj-prg.fr/~vlere.mehmeti/teaching.html}}}
+\date{}
+
+\setlist[enumerate]{label=(\arabic*)}
+
+\begin{document}
+
+\maketitle
+
+\setcounter{section}{-1}
+\section{Rappels sur les anneaux}
+
+\subsection{Anneaux}
+
+\begin{definition}
+    Un \emph{anneau} $(A,+,\cdot)$ est un ensemble muni de deux lois de composition internes $+$ et $\cdot$ telles que
+    \begin{enumerate}
+        \item $(A,+)$ est un groupe abélien (on note son élément neutre $0_A$)
+        \item $\cdot$ est associative
+        \item $\cdot$ se distribue sur $+$.
+    \end{enumerate}
+    S'il existe un élément neutre pour $\cdot$, on le note $1_A$ et on dit que $A$ est \emph{unitaire}. Si $\cdot$ est commutatif, on dit que $A$ est \emph{commutatif}. 
+\end{definition}
+
+\begin{remark}
+    Dans ce cours, sauf mention explicite, tout anneau considéré sera unitaire et commutatif.
+\end{remark}
+
+\begin{definition}
+    Un élément $a \in A \setminus\{0\}$ est dit \emph{un diviseur de zéro} s'il existe $b \in A \setminus \{0\}$ tel que $ab = 0$. Si $A$ ne possède pas de diviseurs de zéros, on dit que $A$ est \emph{intègre}. Un élément $a \in A$ est dit \emph{inversible} s'il existe $b \in A$ tel que $ab = ba = 1$. On notera l'ensemble des éléments inversibles $A^\times$.
+\end{definition}
+
+\begin{remark} \leavevmode
+    \begin{enumerate}
+        \item Si $a \in A^\times$ est inversible, l'élément $b \in A$ tel que $ab = 1$ est unique\footnote{En effet, si $ab = b'a = 1$, alors $b' = b'ab = b$}. On le note $a^{-1}$.
+        \item Un élément inversible n'est pas un diviseur de zéro.
+    \end{enumerate}
+\end{remark}
+
+Dans un anneau intègre $A$, pour tous $a,b \in A$, $ab = ac$ implique $a = 0$ ou $b = c$. En particulier, si $a \ne 0$, on peut simplifier par $a$.
+
+\begin{example}
+    \begin{enumerate}
+        \item $(\Z,+,\cdot)$ est un anneau.
+        \item $(\Z[\sqrt{d}],+,\cdot)$ est un anneau.
+        \item $(\Z/n\Z,+_n,\cdot_n)$ l'est aussi.
+        \item $(\M_n(\R),+,\cdot)$ est un anneau non commutatif.
+        \item L'anneau des quaternions $(\H_\C,+,\cdot)$ est aussi non commutatif.
+    \end{enumerate}
+    Tous ces exemples sont des anneaux intègres.
+    \begin{enumerate}
+        \setcounter{enumi}{5}
+        \item Si $A,B$ sont des anneaux, alors $A\times B$ muni des lois produits (composante par composante) est un anneau en général non intègre car $(1_A,0) \cdot (0,1_B) = (0,0)$. On peut généraliser à un produit quelconque d'anneaux.
+        \item Soit $A$ un anneau. Alors $(A[X],+,\cdot)$ est un anneau où $+$,$\cdot$ sont l'addition et la multiplication usuelle des polynômes à coefficients dans $A$. On peut définir récursivement, pour $n \in \N^*$, $A[X_1,\dots,X_n] = A[X_1,\dots,X_{n-1}][X_n]$, et les lois internes $+$ et $\cdot$ induites de celles de $A[X_1,\dots,X_{n-1}]$. Par convention, pour $n = 0, A[X_1,\dots,X_n] = A$.
+        \item Soit $A$ un anneau et $X$ un ensemble. Alors $A^X = \{f \mid f : X \to A\}$ muni des lois données par
+        \[\begin{cases}
+            (f+g)(x) & = f(x) +_A g(x) \\
+            (f\cdot g)(x) & = f(x) \cdot_A g(x)
+        \end{cases}\]
+        est un anneau.
+        \item L'ensemble $\{f : \R \to \R \mid \exists [a_f,b_f] \subseteq \R, f_{\mid [a_f,b_f]^c} = 0\}$ est un anneau.
+        \item L'anneau nul $\{0\}$ est l'unique anneau où $0 = 1$.
+    \end{enumerate}
+\end{example}
+
+\begin{proposition}
+    Soit $A$ un anneau. Alors
+    \begin{enumerate}
+        \item $a 0 = 0 a = 0$ pour tout $a \in A$
+        \item $(-a)b = a(-b) = -(ab)$ pour tous $a,b\in A$
+        \item $(-a)(-b) = ab$ pour tous $a,b \in A$
+        \item $-a = (-1)a$ pour tout $a \in A$.
+    \end{enumerate}
+\end{proposition}
+
+\begin{definition}
+    Un \emph{sous-anneau} $R$ d'un anneau $(A,+,\cdot)$ est un sous-groupe $R$ de $(A,+)$ tel que pour tous $a,b \in R$, $ab \in R$.
+\end{definition}
+
+\begin{remark}
+    $R$ est un sous-anneau si et seulement si $0 \in R$ (ou $R \ne \varnothing$) et pour tous $a,b \in R$, $a-b \in R$ et $ab \in R$.
+\end{remark}
+
+\begin{remark}
+    L'anneau nul n'est pas intègre.
+\end{remark}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item $n\Z$ est un sous-anneau de $\Z$ pour tout $n \in \Z$.
+        \item $(\Q,+,\cdot)$ est un anneau et $\{\frac{m}{n} \mid m,n \in \Z \setminus\{0\}, m \wedge n = 1, n\text{ impair}\} \cup \{0\}$ est un sous-anneau. Si on remplace ``$n$ impair'' par ``$m$ impair'', ce n'est plus le cas.
+    \end{enumerate}
+\end{example}
+
+\begin{definition}
+    Un \emph{morphisme d'anneaux unitaires} est une application $\varphi : A \to B$ telle que
+    \begin{enumerate}
+        \item $\varphi(a+b) = \varphi(a)+\varphi(b)$
+        \item $\varphi(ab) = \varphi(a)\varphi(b)$
+        \item $\varphi(1_A) = 1_B$
+    \end{enumerate}
+    Le morphisme $\varphi$ est dit un \emph{isomorphisme} s'il est bijectif. \\
+    Si $\varphi$ est un isomorphisme et $A=B$, on dit que $\varphi$ est un \emph{automorphisme de $A$}.
+\end{definition}
+
+\begin{remark}
+    On notera par $\Aut(A)$ l'ensemble des automorphismes de $A$. Muni de la composition, c'est un groupe.
+\end{remark}
+
+\begin{proposition}
+    Soit $\varphi : A \to B$ un morphisme d'anneaux. Alors
+    \begin{enumerate}
+        \item $\Im(\varphi)$ est un sous-anneau de $B$.
+        \item $\varphi$ est injectif si et seulement si
+        \[\ker (\varphi) = \{a \in A \mid \varphi(a) = 0_B\} = \{0_A\}\]
+    \end{enumerate}
+\end{proposition}
+
+\begin{proposition}
+    Si $\varphi : A \to B$ et $\psi : B \to C$ sont deux morphismes d'anneaux, alors $\psi \circ \varphi : A \to C$ en est un aussi.
+\end{proposition}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item $\pi : \applic{\Z}{\Z/n\Z}{m}{m \mod n}$ est un morphisme d'anneaux (surjectif, mais pas injectif).
+        \item $\psi_n : \applic{\Z}{\Z}{x}{nx}$ n'est pas un morphisme d'anneaux unitaires si $n \ne 1$.
+        \item $\theta : \applic{\C}{\C}{z}{\overline{z}}$ est un automorphisme de $\C$.
+        \item $\applic{\Q[X]}{\Q}{P(X)}{P(0)}$ est un morphisme d'anneaux (surjectif, non injectif).
+        \item $\applic{\Z\times\Z}{\Z\times\Z}{(a,b)}{(a,0)}$ n'est pas un morphisme d'anneaux unitaires.
+    \end{enumerate}
+\end{example}
+
+\begin{definition}
+    Un \emph{corps} est un anneau commutatif unitaire non nul où tout élément non nul est inversible.
+\end{definition}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item $\Q,\R,\C$ sont des corps (de nombres).
+        \item Le corps des fractions rationnelles $\Q(T) = \{\frac{P}{Q} \mid P,Q \in \Q[T]\}$ est un corps.
+        \item Le corps des nombres algébriques $\overline{Q} = \{x \in \C \mid \exists P \in \Q[X] \setminus\{0\}, P(x) = 0\}$ est un corps.
+    \end{enumerate}
+\end{example}
+
+\begin{definition}
+    Soit $A$ un anneau sans diviseur de zéro. Le \emph{corps des fractions de $A$}, noté $\Frac A$, est
+    \[\left\{\frac{a}{b} \midbar a \in A, b \in A\setminus\{0\}\right\}/\sim \quad \text{où} \quad \frac{a}{b} \sim \frac{c}{d} \iff ad-bc = 0\]
+\end{definition}
+
+\begin{proposition}
+    Les lois suivantes sont bien définies sur $\Frac A$ et en font un corps :
+    \begin{align*}
+        \frac{a}{b} + \frac{c}{d} & = \frac{ad+bc}{bd} \\
+        \frac{a}{b} \frac{c}{d} & = \frac{ac}{bd}
+    \end{align*}
+\end{proposition}
+
+\begin{proposition}
+    L'application $\varphi : \applic{A}{\Frac A}{a}{\frac{a}{1}}$ est un morphisme d'anneaux injectif. Si $A$ est un corps, c'est un isomorphisme.
+\end{proposition}
+
+\begin{remark}
+    $\Frac A$ est le plus petit corps contenant $A$.
+\end{remark}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item $\Frac \Z = \Q$
+        \item Pour $n\in \N^*$, $\Z/n\Z$ a des diviseurs de zéro, sauf si $n$ est premier et dans ce cas c'est un corps.
+        \item $\Frac \Q[X] = \Q(X)$. Plus généralement, on définit $K(X_1,\dots,X_n) = \Frac K[X_1,\dots,X_n]$ pour $K$ un corps.
+    \end{enumerate}
+\end{example}
+
+\subsection{Idéaux}
+
+\begin{definition}
+    Soit $A$ un anneau (commutatif, unitaire). Un idéal de $A$ est un sous-ensemble $I \subseteq A$ tel que
+    \begin{enumerate}
+        \item $(I,+)$ est un sous-groupe de $(A,+)$
+        \item Pour tous $a \in A$ et $b \in I$, $ab \in I$.
+    \end{enumerate}
+    On note $I \lhd A$.
+\end{definition}
+
+\begin{remark}
+    Comme $(A,+)$ est un groupe abélien et $I$ en est un sous-groupe, il est distingué, donc $A/I$ est un groupe abélien muni de l'addition $(a+I) + (b+I) = (a+b) + I$.
+\end{remark}
+
+\begin{proposition}
+    Soit $I$ un idéal de l'anneau $A$. Alors $(A/I,+,\cdot)$ est un anneau de loi multiplicative $(a+I) (b+I) = ab + I$. En particulier, cette opération est bien définie. On appelle $A/I$ \emph{l'anneau quotient de $A$ par $I$}. De plus, la projection canonique $\pi : \applic{A}{A/I}{x}{x+I}$ est un morphisme d'anneaux surjectif.
+\end{proposition}
+
+\begin{remark}
+    La définition d'idéal est précisément faite pour que la proposition ci-dessus fonctionne.
+\end{remark}
+
+\begin{theorem}[Premier théorème d'isomorphisme] \leavevmode
+    \begin{enumerate}
+        \item Si $\varphi : A \to B$ est un morphisme d'anneaux, alors $\ker \varphi$ est un idéal de $A$ et $A/\ker \varphi \simeq \im \varphi$.
+        \item Si $I$ est un idéal de $A$ alors $\pi : A \to A/I$ est surjective de noyau $I$.
+    \end{enumerate}
+\end{theorem}
+
+\begin{remark}
+    Les autres théorèmes d'isomorphisme fonctionnent aussi, par exemple si $I \subset J$ sont deux idéaux de $A$, alors $A/J \simeq (A/I)(J/I)$.
+\end{remark}
+
+\begin{theorem}[Propriété universelle du quotient]
+    Soit $\varphi : A \to B$ un morphisme d'anneaux. Soit $I$ un idéal de $A$ tel que $\varphi(I) = \{0_B\}$. Alors il existe un unique $\overline{\varphi} : A/I \to B$ tel que $\varphi = \overline{\varphi} \circ \pi$ avec $\pi : A \to A/I$ la projection canonique.
+    \begin{center}
+        \begin{tikzcd}[column sep=tiny]
+            A \arrow[rr, "\varphi"] \arrow[rd,"\pi" '] & & B \\
+            & A/I \arrow[ru, dashed, "\exists ! \overline{\varphi}" ']
+        \end{tikzcd}
+    \end{center}
+\end{theorem}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item $n\Z$ est un idéal de $\Z$ pour $n \in \N$
+        \item $\{0\}$ et $A$ sont des idéaux de $A$
+        \item $\{X P(X) \mid P \in \Q[X]\}$ est un idéal de $Q[X]$
+    \end{enumerate}
+\end{example}
+
+\begin{proposition}
+    Soit $I$ un idéal de $A$. L'application
+    \[\applic{\{\text{idéaux de $A$ contenant $I$}\}}{\{\text{idéaux de $A/I$}\}}{J}{J/I}\]
+    est une bijection.
+\end{proposition}
+
+\begin{proof}
+    \todo
+\end{proof}
+
+\begin{example}
+    Les idéaux de $\Z/n\Z$ sont $m\Z/n\Z$ tel que $m\Z \supseteq n\Z$ c'est-à-dire tels que $m \mid n$.
+\end{example}
+
+\begin{proposition}
+    Un anneau $A$ est un corps si et seulement si ses seuls idéaux sont $\{0\}$ et $A$.
+\end{proposition}
+
+\begin{proof}
+    Si $A$ est un corps et $J \subseteq A$ un idéal non nul, alors $J$ contient un élément $x \in A \setminus\{0\}$. Ainsi pour tout $a \in A$, $a = ax^{-1}x \in J$, donc $J=A$. Réciproquement, si les seuls idéaux de $A$ sont $\{0\}$ et $A$, pour $x\in A\setminus\{0\}$, l'ensemble $\{ax \mid a \in A\}$ est un idéal non nul de $A$, donc égal à $A$, d'où il existe $a \in A$ tel que $ax = 1$.
+\end{proof}
+
+\begin{corollary}
+    Soit $A \ne 0$ un anneau et $K$ un corps. Tout morphisme d'anneaux $\varphi : K \to A$ est injectif.
+\end{corollary}
+
+\begin{proof}
+    Le noyau $\ker \varphi$ est un idéal de $K$ et $1_K \notin \ker \varphi$ car $\varphi(1_K) = 1_A$ donc $\ker \varphi = \{0\}$.
+\end{proof}
+
+\begin{proposition}
+    Une intersection d'idéaux est un idéal.
+\end{proposition}
+
+\begin{definition}
+    Soit $A$ un anneau et $S \subseteq A$. \emph{L'idéal engendré par $S$} est le plus petit idéal de $A$ contenant $S$. On le note $(S)$.
+\end{definition}
+
+\begin{remark} \leavevmode
+    \begin{enumerate}
+        \item $(S) = \bigcap\limits_{\begin{subarray}{c} I \lhd A \\ S \subseteq I \end{subarray}} I$
+        \item $(S) = \left\{\sum\limits_{\text{finie}} as \midbar a \in A, s \in S\right\}$
+        \item Si $S = \{a\}$, alors $(a) = \{ax \mid x\in A\}$ et $(a) = A$ si et seulement si $a \in A^\times$ et $(a) = \{0\}$ si et seulement si $a = 0$.
+    \end{enumerate}
+\end{remark}
+
+\begin{definition}
+    Un idéal $I$ de $A$ est dit \emph{principal} s'il existe $a \in A$ tel que $I = (a)$. Si $A$ est intègre et que tout idéal de $A$ est principal, $A$ est dit \emph{principal}. L'idéal $I$ est dit de \emph{type fini} s'il existe $S \subseteq A$ finie telle que $I = (S)$.
+\end{definition}
+
+\begin{remark}
+    Soit $A$ intègre et $a,b \in A \setminus \{0\}$. Alors
+    \[(a) = (b) \iff \exists x \in A^\times, a=bx\]
+\end{remark}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item L'idéal $(X,Y^2 +1)$ de $\Q[X,Y]$ est celui des polynômes de la forme $P(X,Y)X + Q(X,Y)(Y^2+1)$ avec $P,Q \in \Q[X,Y]$.
+        \item On a $(X,X-1) = \Q[X]$ car $1 = X - (X-1)$.
+    \end{enumerate}
+\end{example}
+
+\begin{remark}
+    Il est en général difficile de déterminer si un idéal est de type fini et de trouver un ensemble générateur. Un ensemble générateur d'un idéal n'est pas unique, par exemple $(1) = (X,X-1)$ ou $(X-Y,Y) = (X,Y) = (X,Y,X+Y)$.
+\end{remark}
+
+\subsection{Idéaux premiers et maximaux}
+\begin{definition} \leavevmode
+    \begin{enumerate}
+        \item Un idéal $\prem$ de $A$ est dit \emph{premier} si $\prem \ne A$ et pour tous $a,b \in A$, $ab \in \prem$ implique $a \in \prem$ ou $b \in \prem$.
+        \item Un idéal $\maxid$ de $A$ est dit \emph{maximal} si $\maxid \ne A$ et que les seuls idéaux de $A$ qui le contiennent sont $\maxid$ et $A$.
+    \end{enumerate}
+\end{definition}
+
+\begin{theorem} \leavevmode
+    \begin{enumerate}
+        \item Un idéal $\prem$ de $A$ est premier si et seulement si $A/\prem$ est intègre.
+        \item Un idéal $\maxid$ de $A$ est maximal si et seulement si $A/\maxid$ est un corps.
+    \end{enumerate}
+    En particulier, tout idéal maximal est premier.
+\end{theorem}
+
+\begin{proof}
+    Soient $a,b \in A$. Alors, $(a+\prem)(b+\prem) = \prem$ si et seulement si $ab \in \prem$ si et seulement si $a \in \prem$ ou $b \in \prem$ si et seulement si $(a+\prem) = \prem$ ou $b +\prem = \prem$. De cela découle $(1)$.\\
+    On sait qu'on a une bijection entre les idéaux de $A$ qui contiennent $\maxid$ et les idéaux de $A/\maxid$. De cette bijection et du fait que $A/\maxid$ est un corps si et seulement si ses seuls idéaux sont $\{0\}$ et lui-même, on déduit $(2)$.
+\end{proof}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item $n\Z$ est un idéal premier (ou maximal) de $\Z$ si et seulement si $n$ est premier.
+        \item $(P) \subseteq \Q[X_1,\dots,X_n]$ est premier si et seulement si $P$ nul ou irréductible c'est-à-dire non constant et que si $P=AB$, alors $A$ ou $B$ est constant.
+        \item Si $K$ est un corps, $(X)$ est un idéal maximal de $K[X]$ car $K[X]/(X) \simeq K$ (premier théorème d'isomorphisme appliqué au morphisme d'évaluation en $0_K$).
+        \item Pour $\alpha_1,\dots,\alpha_n \in K$, l'idéal $(X_1-\alpha_1,\dots,X_n-\alpha_n) \subseteq K[X_1,\dots,X_n]$ est maximal.
+    \end{enumerate}
+\end{example}
+
+\begin{proposition}
+    Soit $A$ un anneau commutatif unitaire. Tout idéal propre de $A$ est inclus dans un idéal maximal.
+\end{proposition}
+
+\begin{proof}
+    Soit $I$ un idéal de $A$ distinct de $A$. On considère $\Jcat = \{J \lhd $A$ \mid I \subseteq J, J \ne A\}$. Par propreté de $I$, cet ensemble est non vide. Il est ordonné pour l'inclusion. Soit $\Acat \subset \Jcat$ une partie de $\Jcat$ totalement ordonnée pour l'inclusion. On pose $\bigcup\limits_{J \in \Acat} J$. C'est un idéal car $\Acat$ est totalement ordonnée pour l'inclusion. De plus, pour tout $J \in \Acat$, $1 \notin J$, donc $1 \notin \bigcup\limits_{J \in \Acat} J$. Ainsi, $\bigcup\limits_{J \in \Acat} J$ est une borne supérieure de $\Acat$ dans $\Jcat$. Cela démontre que $\Jcat$ est un ensemble inductif. Ainsi, le lemme de Zorn donne l'existence d'un élément maximal $\maxid \in \Jcat$. Par l'absurde, si $\maxid$ n'est pas un idéal maximal, on dispose de $J \ne A$ idéal qui contient strictement $\maxid$. Cela contredit la maximalité de $\maxid$ dans $(\Jcat,\subseteq)$.
+\end{proof}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item $(X)$ est un idéal premier mais non maximal de $\Z[X]$.
+        \item $(X,2)$ est un idéal maximal de $\Z[X]$.
+        \item $(\Q,+,\cdot_0)$ où $\cdot_0$ est définie par $a\cdot_0 b = 0$ pour tous $a,b \in \Q$ n'a pas d'idéaux maximaux. C'est un anneau non unitaire.
+    \end{enumerate}
+\end{example}
+
+\subsection{Anneaux principaux}
+
+Remarquons que $\Z$ est un exemple d'anneau principal et $\Z[X]$ un exemple d'anneau non-principal, car $(X,2) \lhd \Z[X]$ n'est pas principal.
+
+\begin{proposition}
+    Soit $A$ un anneau principal. Alors, un idéal propre (distinct de $A$) et non-trivial (distinct de $\{0\}$) est premier si et seulement s'il est maximal.
+\end{proposition}
+
+\begin{proof}
+    Un idéal maximal est toujours premier. Soit $(a)$ avec $a \in A$ un idéal premier. On a $(a) \ne A$. Soit $(b) \supseteq (a)$ un autre idéal le contenant. Alors, $a = bx$ avec $x \in A$. Par primalité de $(a)$, ou bien $b \in (a)$, dans ce cas $(a) = (b)$, ou bien $x \in (a)$, dans ce cas $x = ay$ avec $y \in A$, donc $a = aby$, donc $by = 1$ par intégrité, donc $(b) = A$. Ainsi $(a)$ est maximal.
+\end{proof}
+
+\begin{definition}
+    Pour $a,b \in A$, on dit que \emph{$a$ divise $b$} et on écrit $a \mid b$ s'il existe $x\in A$ tel que $b = ax$.
+\end{definition}
+
+\begin{remark}
+    Pour $a,b \in A$, $a \mid b$ équivaut à $(b) \subseteq (a)$. Si $x \in A^\times$, alors $x \mid a$ pour tout $a \in A$.
+\end{remark}
+
+Brièvement, quelques rappels sur $K[X]$.
+
+\begin{theorem}
+    Soit $K$ un corps. Alors $K[X]$ est un anneau principal.
+\end{theorem}
+
+\begin{theorem}
+    Soit $K$ un corps. Pour tout polynôme $P \in K[X] \setminus \{0\}$, il existe une unique décomposition $P = \alpha \prod\limits_{i=1}^d P_i^{n_i}$ (unique à permutation près des $P_i$) avec $\alpha \in K^\times$, $P_i$ unitaires et irréductibles et deux à deux distincts.
+\end{theorem}
+
+\begin{lemma}
+    Un idéal $(P)$ est premier si et seulement si $P = 0$ ou $P$ est irréductible.
+\end{lemma}
+
+Quelques rappels :
+
+\begin{enumerate}
+    \item L'algorithme de division euclidienne fonctionne dans $K[X]$.
+    \item Si $P,Q \in K[X]$ alors leur PGCD est bien défini (à multiplication par un élément de $K^\times$ près) et $(P,Q) = (\pgcd(P,Q))$.
+    \item Si $K \subseteq L$ avec $L$ un corps, pour $P,Q \in K[X]$, on a $\pgcd_K(P,Q) = \pgcd_L (P,Q)$.
+\end{enumerate}
+
+Référence : Abstract Algebra de Dummit and Foote.
+
+\section{Théorie des corps}
+
+\subsection{Extensions de corps}
+
+\begin{definition}
+    Soit $K$ un corps. Une \emph{$K$-algèbre} est un anneau $A$ muni d'un morphisme d'anneaux $i : K \to A$ (forcément injectif car $K$ est un corps). Si $K \xrightarrow{i} A$ et $K \xrightarrow{j} B$ sont deux $K$-algèbres, un \emph{morphisme de $K$-algèbres} (parfois appelé un \emph{$K$-morphisme}) est un morphisme d'anneaux $\varphi : A \to B$ tel que $\varphi \circ i = j$.
+\end{definition}
+
+\begin{definition}
+    Soit $K$ un corps. Une \emph{extension de corps de $K$} est un corps $L$ muni d'un morphisme de corps $K \xrightarrow{\theta} L$. On écrit $L/K$. Une \emph{sous-extension de $L/K$} est un corps $E$ muni de morphismes de corps $K \xrightarrow{i} E \xrightarrow{j} L$ tels que $j \circ i = \theta$. On écrit $L/E/K$ et on parle de \emph{tour de corps}.
+\end{definition}
+
+\begin{remark}
+    Comme le morphisme $\theta$ dans la définition précédente est injectif, on fait régulièrement l'abus de notation d'identifier $K$ à $\theta(K)$ pour écrire $K \subseteq L$.
+\end{remark}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item $\R/\Q$, $\C/\Q$, $\C/\R$ sont des extensions de corps.
+        \item $\applic{\Q(i)}{\C}{i}{i}$ et $\applic{\Q(i)}{\C}{i}{-i}$ sont deux $\Q$-morphismes (où $\Q(i) = \{a+bi \mid a,b \in \Q\}$).
+        \item $\applic{\Q(\sqrt[3]{2})}{\C}{\sqrt[3]{2}}{\sqrt[3]{2}}$ et $\applic{\Q(\sqrt[3]{2})}{\C}{\sqrt[3]{2}}{j\sqrt[3]{2}}$  sont deux $\Q$-morphismes, où $j^3 = 1$ et $j \ne 1$ et $\Q(\sqrt[3]{2}) = \{a + b \sqrt[3]{2} + c \sqrt[3]{4} \mid a,b,c \in \Q\}$.
+        \item Pour $\F_p = \Z/p\Z$ avec $p$ premier, l'application $\Frob : \applic{\F_p(T)}{\F_p(T)}{x}{x^p}$ est un morphisme de corps (donc est injective) mais n'est pas surjective. Le fait que $\Frob(1) = 1$ et $\Frob(xy) = \Frob(x)\Frob(y)$ est clair. De plus,
+        \[(x+y)^p = \sum_{k=0}^p \binom{p}{k} x^k y^{p-k}\]
+        Et par primalité de $p$ et comme $p = 0$ dans $\Z/p\Z$, pour $0 < k < p$, $\binom{p}{k} = 0$. Ainsi, $(x+y)^p = x^p + y^p$.
+        \item Soit $f : \R \to \R$ un morphisme de corps. Comme $f(1) = 1$, on a $f(n) = n$ pour tout $n \in \Z$, puis $f(r) = r$ pour tout $r \in \Q$, donc $f$ stabilise $\Q$. Pour $x \ge 0$, $x = \sqrt{x}^2$, donc $f(x) = f(\sqrt{x})^2 \ge 0$, donc $f$ préserve $\R^+$. Ainsi, si $x \ge y$, $x-y \ge 0$, donc $f(x - y) \ge 0$, donc $f(x) \ge f(y)$, donc $f$ est croissante. Soit $(x_n)$ une suite réelle telle que $x_n \to x \in \R$. Alors, $x-x_n \to 0$, donc on peut trouver deux suites de rationnels $(r_n), (s_n)$ de limites nulles telles que pour tout $n$, $r_n \le x-x_n \le s_n$. Par croissance de $f$ et comme $f$ préserve $\Q$, $r_n \le f(x) - f(x_n) \le s_n$. Ainsi, $f(x_n) \to f(x)$, ce qui démontre que $f$ est continue. Par densité de $\Q$ dans $\R$ et comme $f_{\mid \Q} = \id$, on en déduit que $f = \id$. Ainsi, le seul automorphisme de corps de $\R$ est l'identité.
+    \end{enumerate}
+\end{example}
+
+\begin{definition}
+    Soit $I$ un ensemble et $S = (X_i)_{i\in I}$ une famille d'indéterminées indexée par $I$. On définit :
+    \[K[X_i \mid i \in I] = \{P(X_{i_n}, \dots,X_{i_m}) \mid \exists \{i_1,\dots,i_n\} \subseteq I, P \in K[X_{i_1},\dots,X_{i_n}]\}\]
+\end{definition}
+
+Remarquons que  $K[X_i \mid i\in I] = \bigcup\limits_{E \subseteq I \text{ fini}} K[X_i \mid i \in E]$, ce qui permet de définir les lois internes $+$ et $\cdot$ sur $K[X_i \mid i\in I]$. On construit ainsi une structure de $K$-algèbre sur $K[X_i \mid i\in I]$. De plus, $K[X_i \mid i\in I]$ est intègre.
+
+\begin{definition}
+    On définit $K(X_i \mid i \in I) = \Frac K[X_i \mid i\in I]$. C'est une extension de corps de $K$.
+\end{definition}
+
+\begin{example}
+    Soit $I = \N$. Le $K$-morphisme $\applic{K(X_i \mid i \in I)}{X_i}{K(X_i \mid i \in I)}{X_{i+1}}$ est un morphisme de corps non surjectif.
+\end{example}
+
+Si $I$ est fini, on écrit $I = \{1,2,\dots,n\}$ et on a $K[X_i \mid i\in I] = K[X_1,\dots,X_n]$ et $K(X_i \mid i \in I) = K(X_1,\dots,X_n)$.
+
+\begin{proposition}
+    Si $L/K$ est une extension de corps, alors $L$ est muni d'une structure de $K$-espace vectoriel par la loi externe $\applic{K\times L}{L}{(k,v)}{k \cdot_L v}$ (ou si on ne fait pas l'identification, $(k,v) \mapsto i(k)\cdot_L v$).
+\end{proposition}
+
+\begin{definition}
+    Le \emph{degré} d'une extension de corps $L/K$ est la dimension de $L$ vu comme $K$-espace vectoriel. On le note $[L : K]$. Si $[L : K] < \infty$, on dira que $L/K$ est une \emph{extension finie}. Si $[L : K] = \infty$, elle est dite \emph{infinie}.
+\end{definition}
+
+\begin{remark}
+    Le résultat bien connu d'algèbre linéaire qui dit qu'en dimension finie, toutes les bases ont même cardinal est vrai en général (deux bases dans un espace vectoriel sont toujours en bijection). Ainsi, on peut parler du degré d'une extension infinie de manière plus précise en parlant du cardinal des bases.
+\end{remark}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item On a $[\C : \R] = 2 = [\Q(i) : \Q]$ et $[\Q(\sqrt[3]{2}) : \Q] = 3$.
+        \item $[\R : \Q]$ est non dénombrable sinon $\R$ serait dénombrable.
+        \item $[K(X): K] = \max (\Card(K),\Card(\N))$. Une base est donnée par
+        \[\left\{X^j, \frac{X^i}{P^n} \midbar j \in \N, i,n \in \N^*, i < \deg P, P \text{ unitaire irréductible dans } K[X]\right\}\]
+    \end{enumerate}
+\end{example}
+
+\begin{theorem} \label{thmdeg}
+    Soit $M/L/K$ une tour de corps. Alors
+    \[[M : K] = [M : L] [L : K]\]
+    En particulier, $M/K$ est finie si et seulement si $M/L$ et $L/K$ le sont.
+\end{theorem}
+
+\begin{remark}
+    La relation est à lire : si $\base_1$ est une base de $M/L$ et $\base_2$ une base de $L/K$, alors $\dim_K M = \Card(\base_1 \times \base_2)$.
+\end{remark}
+
+\begin{proof}
+    Soit $(e_i)_{i\in I}$ une base du $L$-espace vectoriel $M$ et $(f_j)_{j \in J}$ une base du $K$-espace vectoriel $L$. On montre que $(e_i f_i)_{(i,j) \in I \times J}$ est une base de $M/K$. \\
+    Cette famille est libre : si $\sum\limits_{i,j} \lambda_{ij} e_i f_j = 0$ avec $\lambda_{ij} \in K$ presque nulle, alors $\sum\limits_{i \in I} e_i \left(\sum\limits_{j \in J} \lambda_{ij} f_j\right) = 0$. Comme $(e_i)$ est libre sur $L$, on a pour tout $i \in I$, $\sum\limits_{j \in J} \lambda_{ij} f_j = 0$. Comme $(f_j)$ est libre sur $K$, les $\lambda_{ij}$ sont nuls, d'où la liberté. Cette famille est génératrice : pour $x \in M$,
+    \[x = \sum_{j\in J} \lambda_j f_j = \sum_{j \in J} \sum_{i \in I} \mu_i e_i f_j\]
+    Où les $\lambda_j \in L$ existent car $(f_j)$ engendre $M$ et les $\mu_i \in K$ existent car $(e_i)$ engendre $L$.
+\end{proof}
+
+\begin{definition}
+    Soit $L/K$ une extension de corps et $S \subseteq L$.
+    \begin{enumerate}
+        \item Le \emph{sous-anneau de $L/K$ engendré par $S$}, noté $K[S]$, est défini par
+        \[K[S] = \bigcap\limits_{\begin{subarray}{c} K \cup S \subseteq A \subseteq L \\ A \text{ sous-anneau} \\ \text{de } L\end{subarray}} A\]
+        C'est le plus petit sous-anneau de $L$ qui contient $K$ et $S$.
+        \item La \emph{sous-extension $L/K$ engendrée par $S$}, notée $K(S)$ est définie par
+        \[K(S) = \bigcap\limits_{\begin{subarray}{c} K \cup S \subseteq E \subseteq L \\ E \text{ sous-corps} \\ \text{de } L\end{subarray}} E\]
+        C'est le plus petit sous-corps de $L$ qui contient $K$ et $S$.
+        \item On dira que $L/K$ est \emph{de type fini} s'il existe $S \subseteq L$ fini tel que $L = K(S)$.
+    \end{enumerate}
+\end{definition}
+
+\begin{remark} \leavevmode
+    \begin{enumerate}
+        \item On a $K[S] = \Vect_K (\base)$ avec $\base = \left\{\prod\limits_{\text{fini}} \alpha \midbar \alpha \in S\right\}$.
+        \item On a $K(S) = \Frac K[S]$. Si $S = \{a_1,\dots,a_n\} \subseteq L$, on écrira $K[a_1,\dots,a_n]$ et $K(a_1,\dots,a_n)$ pour $K[S]$ et $K(S)$, respectivement. \\
+        On a alors $K[a_1,\dots,a_n] = \{P(a_1,\dots,a_n) \mid P \in K[X_1,\dots,X_n]\}$.
+        \item $K(S) = \bigcup\limits_{\begin{subarray}{c} A \subseteq S \\ \text{finie}\end{subarray}} K(A)$ car $\bigcup\limits_{A \text{ finie}} K(A)$ est un corps.
+        \item Toute extension de corps finie est de type fini (car une base est un ensemble générateur).
+    \end{enumerate}
+\end{remark}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item $\Q(\mu_n)/\Q$ avec $\mu_n \in \C$ une racine primitive $n$-ième de l'unité où $n \in \N^*$ est une extension finie. On remarque que $\Q(\mu_n) = \Q[\mu_n]$ car $\mu_n^n = 1$. On dit que $\Q(\mu_n)/\Q$ est une \emph{extension cyclotomique}.
+        \item $\Q(\sqrt[3]{2},j)/\Q$ est finie.
+        \item $K(X)/K$ est de type fini, mais pas finie.
+        \item $K(X_n \mid n \in \N)/K$ n'est pas de type fini. $\R/\Q$, $\C/\Q$ ne le sont pas non plus. On verra cela en utilisant des bases de transcendance.
+    \end{enumerate}
+\end{example}
+
+\subsection{Extensions algébriques et transcendantes}
+
+\begin{definition}
+    Soit $L/K$ une extension de corps. Un élément $\alpha \in L$ est dit \emph{algébrique sur $K$} s'il existe $P \in K[X] \setminus \{0\}$ tel que $P(\alpha) = 0$. Sinon, il est dit \emph{transcendant sur $K$}. L'extension $L/K$ est dite \emph{algébrique} si tout élément de $L$ est algébrique sur $K$. Sinon, on dira qu'elle est \emph{transcendante}.
+\end{definition}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item $e$ est transcendant dans $\C/\Q$ (Hermite 1873). $\pi$ est transcendant dans $\C/\Q$ (Lindemann 1882).
+        \item $\sqrt{2}$ et $\sqrt[n]{n}$ sont algébriques dans $\C/\Q$.
+        \item $2^{\sqrt{2}}$ est transcendant dans $\R/\Q$ (Gelfond-Schneider 1934).
+        \item On ne sait pas si $e+\pi$ ou $e-\pi$ sont transcendants.
+    \end{enumerate}
+\end{example}
+
+\begin{theorem} \label{thmpolmin}
+    Soit $\alpha \in L$. Soit $E_\alpha : \applic{K[X]}{L}{P(X)}{P(\alpha)}$. C'est un $K$-morphisme d'anneaux. De plus :
+    \begin{enumerate}
+        \item L'élément $\alpha$ est transcendant dans $L/K$ si et seulement si $E_\alpha$ est injectif. Dans ce cas, il induit un isomorphisme de $K$-algèbres $K[X] \simeq K[\alpha]$ qui se prolonge en un $K$-isomorphisme $K(X) \to K(\alpha)$. Dans ce cas, $\dim_K K[\alpha]$ et $\dim_K K(\alpha)$ sont infinies.
+        \item L'élément $\alpha$ est algébrique dans $L/K$ si et seulement si $E_\alpha$ n'est pas injectif. Dans ce cas, il existe un unique polynôme unitaire $P_\alpha$ dans $K[X]$ de degré minimal tel que $P_\alpha (\alpha) = 0$. Ce polynôme est irréductible sur $K$. De plus, $K[\alpha] = K(\alpha) \simeq K[X]/(P_\alpha)$ et $[K(\alpha) : K] = \deg P_\alpha$.
+    \end{enumerate}
+\end{theorem}
+
+\begin{definition}
+    Le polynôme $P_\alpha \in K[X]$ issu du théorème précédent est appelé le \emph{polynôme minimal de $\alpha \in L$ sur $K$}.
+\end{definition}
+
+\begin{proof}[Preuve du théorème \ref{thmpolmin}] \leavevmode
+    \begin{enumerate}
+        \item L'élément $\alpha$ est transcendant si et seulement si $E_\alpha$ est injectif par définition. Alors, $E_\alpha (K[X]) \simeq \Im(E_\alpha) = K[\alpha]$, donc $E_\alpha$ induit un $K$-isomorphisme $K[X] \xrightarrow{\sim} K[\alpha]$ et il se prolonge à $K(X) \xrightarrow{\sim} K(\alpha)$ par $\frac{P}{Q} \mapsto P(\alpha)Q(\alpha)^{-1}$ (bien défini car $Q(\alpha) \ne 0$ pour $Q \in K[X]\setminus\{0\}$).
+        \item L'élément $\alpha$ est algébrique si et seulement si $\ker E_\alpha \ne \{0\}$ par définition. Comme $K[X]$ est principal, $\ker E_\alpha = (P_\alpha)$ pour un certain polynôme $P_\alpha \in K[X]$ qu'on peut choisir unitaire. Ce polynôme est de degré minimal dans $\ker E_\alpha \setminus \{0\}$. De plus, $\ker E_\alpha$ est premier, donc $P_\alpha$ est irréductible. Comme $K[X]$ est principal, $\ker E_\alpha$ est maximal, donc $K[X]/(\ker E_\alpha)$ est un corps, isomorphe à $K[\alpha]$ par théorème d'isomorphisme. En particulier, $K(\alpha) = K[\alpha]$. En notant $n = \deg P_\alpha$, $\{1,\alpha,\dots,\alpha^{n-1}\}$ est une base de $K[\alpha]/K$. En effet, elle est libre, sinon on aurait un polynôme de $K[X]$ annulateur de $\alpha$ de degré strictement plus petit que $\deg P_\alpha$. De plus, pour $x \in K[\alpha]$, il existe $T \in K[X]$ tel que $x = T(\alpha)$. Par division euclidienne, on a $T = QP_\alpha + R$ avec $\deg R < n$, donc $T(\alpha) = R(\alpha)$, donc $x \in \Vect(1,\alpha,\dots,\alpha^{n-1})$. On a donc $[K(\alpha) : K] = \dim_K K[\alpha] = \deg P_\alpha$.
+    \end{enumerate}
+\end{proof}
+
+\begin{remark} \leavevmode
+    \begin{enumerate}
+        \item On a aussi montré que $[K[X]/(P_\alpha) : K] = \deg P_\alpha$ et que $K[\alpha] = \{a_0 + a_1 \alpha + \cdots + a_{n-1}\alpha^{n-1} \mid a_i \in K\}$, où $\alpha \in L$ est algébrique sur $K$ et $n = \deg P_\alpha$.
+        \item Si $P$ est un polynôme irréductible dans $K[X]$, alors $(P)$ est un idéal maximal, donc $L = K[X]/(P)$ est un corps et $L/K$ une extension. Soit $\alpha = X + (P) \in L$. Alors, le morphisme projection $\applic{K[X]}{L}{X}{\alpha}$ coïncide avec $E_\alpha$. Dans ce cas, $P_\alpha = uP$ où $u \in K^\times$ est tel que $P_\alpha$ soit unitaire. On a alors $[L : K] = \deg P$.
+        \item Pour $\alpha \in L$ algébrique sur $K$ et $Q \in K[X]$, on a $Q(\alpha) = 0$ si et seulement si $P_\alpha \mid Q$ dans $K[X]$.
+    \end{enumerate}
+\end{remark}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item Dans $\C/\R$, tout polynôme minimal d'un élément de $\C$ est de degré au plus $2$.
+        \item Dans $K(X)/K$, l'élément transcendant $X$ est transcendant sur $K$.
+        \item Dans $\Q(\sqrt{2})/\Q$, le polynôme minimal de $a + b \sqrt{2}$ avec $b \ne 0$ est $(X-a)^2 - 2b^2 \in \Q[X]$.
+    \end{enumerate}
+\end{example}
+
+\begin{proposition}
+    Tout extension de corps finie est algébrique.
+\end{proposition}
+
+\begin{proof}
+    Soit $L/K$ une extension finie. Soit $\alpha \in L$. Alors, $K(\alpha)/K$ est aussi finie, donc $\alpha$ est algébrique.
+\end{proof}
+
+\begin{example}
+    On verra plus tard que $\overline{\Q} = \{\alpha \in \C \mid \alpha \text{ algébrique dans } \C/\Q\}$ est dénombrable. Remarquons que par définition, $\overline{\Q}/\Q$ est algébrique. De plus, on démontrera que $\overline{\Q}/\Q$ n'est pas finie et donc pas de type fini.
+\end{example}
+
+\begin{corollary}
+    Soit $L/K$ une extension de type fini. Si $L$ est engendré par des éléments algébriques, alors $L/K$ est finie et algébrique.
+\end{corollary}
+
+\begin{proof}
+    Soit $L/E/K$ une tour de corps telle que $E/K$ soit finie et algébrique et $x \in L$ algébrique sur $K$. Alors, $x$ est algébrique sur $E$ donc $E(x)/E$ est finie donc $E(x)/K$ est finie (donc algébrique) par le théorème \ref{thmdeg}. Le corollaire suit par récurrence sur le cardinal de l'ensemble générateur.
+\end{proof}
+
+\begin{corollary}
+    La somme et le produit de deux éléments algébriques de $L/K$ sont algébriques. L'ensemble des éléments algébriques de $L/K$ est une sous-extension, notée $\overline{K}^L$ et appelée \emph{clôture algébrique de $K$ dans $L$}. De plus, $\overline{K}^L / K$ est algébrique.
+\end{corollary}
+
+\begin{proof}
+    Soient $x,y \in L$ algébriques sur $K$. Alors, $K(x,y)/K$ est une extension algébrique par ce qui précède. Comme $x-y, xy \in K(x,y)$ (et $y^{-1} \in K(x,y)$ si $y \neq 0$), ces éléments sont algébriques sur $K$. Le reste en découle.
+\end{proof}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item L'extension $\R/\Q$ n'est ni algébrique, ni de type fini.
+        \item L'extension $K(X)/K$ est de type fini mais pas algébrique.
+        \item L'extension $\Q(\sqrt[3]{2},j)/\Q$ est algébrique et finie.
+        \item L'extension $\overline{\Q}/\Q$ où $\overline{\Q}$ est la clôture algébrique de $\Q$ dans $\C$ n'est pas de type fini ou finie mais est algébrique.
+    \end{enumerate}
+\end{example}
+
+\begin{definition}
+    Soit $L/K$ une extension. Si $\overline{K}^L = K$, on dit que \emph{$K$ est algébriquement clos dans $L$}. Remarquons qu'alors l'extension $L/\overline{K}^L$ est totalement transcendante.
+\end{definition}
+
+\begin{corollary}
+    Une extension de corps engendrées par des éléments algébriques est algébrique.
+\end{corollary}
+
+\begin{proof}
+    Soit $L/K$ une extension de corps et $S \subseteq L$ où $S$ contient uniquement des éléments algébriques sur $K$ tel que $L = K(S)$. Alors, $S\subseteq \overline{K}^L$ et $L/K$ est algébrique.
+\end{proof}
+
+\begin{proposition}
+    Soit $M/L/K$ une tour de corps. Alors, $M/K$ est algébrique si et seulement si $M/L$ et $L/K$ le sont.
+\end{proposition}
+
+\begin{proof}
+    Le sens direct est clair. Supposons donc $M/L$ et $L/K$ algébriques. Soit $\alpha \in M$. On dispose de $P = \sum\limits_{i=0}^n a_i X^i \in L[X]$ non nul tel que $P(\alpha) = 0$. Alors, $\alpha$ est algébrique dans $M/K(a_1,\dots,a_n)$. Alors, $[K(a_0,\dots,a_n)(\alpha) : K(a_0,\dots,a_n)] < \infty$. De plus, les éléments $a_i$ sont algébriques sur $K$ car $L/K$ est algébrique, donc $[K(a_0,\dots,a_n) : K] < \infty$. Le théorème \ref{thmdeg} donne $[K(a_0,\dots,a_n)(\alpha) : K] < \infty$, ce qui démontre que $\alpha$ est algébrique sur $K$. Ainsi, $M/K$ est algébrique.
+\end{proof}
+
+\subsection{Degré de transcendance}
+
+\begin{definition}
+    Soit $L/K$ une extension de corps. Une famille $(\alpha_i)_{i\in I}$ d'éléments de $L$ est dite \emph{algébriquement indépendante} sur $K$ si le morphisme de $K$ algèbres $\applic{K[X_i \mid i\in I]}{L}{X_i}{\alpha_i}$ est injectif. L'extension $L/K$ est dite \emph{transcendante pure} si elle est engendrée par une famille algébriquement indépendante. Cela est équivalent à demander que $L$ soit $K$-isomorphe à $K(X_i \mid i\in I)$.
+\end{definition}
+
+\begin{remark} \leavevmode
+    \begin{enumerate}
+        \item La famille d'éléments $(\alpha_i)_{i\in I}$ de $L/K$ est algébriquement indépendante si et seulement si pour tout $\{i_1,\dots,i_n\} \subseteq I$ et pour tout $P(X_1,\dots,X_n) \in K[X_1,\dots,X_n]$, on a $P(\alpha_{i_1},\dots,\alpha_{i_n}) \ne 0$.
+        \item Si $(\alpha_i)_{i\in I}$ est algébriquement indépendante dans $L/K$, le $K$-morphisme $\applic{K[X_i \mid i\in I]}{L}{X_i}{\alpha_i}$ est injectif et se prolonge donc à un $K$-morphisme de corps $\applic{K(X_i \mid i\in I)}{L}{\frac{P(X_{i_1}, \dots,X_{i_n})}{Q(X_{j_1},\dots,X_{j_m})}}{\frac{P(\alpha_{i_1}, \dots,\alpha_{i_n})}{Q(\alpha_{j_1},\dots,\alpha_{j_m})}}$ qui a pour image $K(\alpha_i \mid i \in I)$.
+    \end{enumerate}
+\end{remark}
+
+\begin{lemma} \label{lemalgind}
+    Soit $L/K$ une extension de corps et $S\subseteq L$ un ensemble algébriquement indépendant dans $L/K$. Soit $x \in L\setminus S$. Alors $S \cup \{x\}$ est algébriquement indépendant dans $L/K$ si et seulement si $x$ est transcendant dans $L/K(S)$.
+\end{lemma}
+
+\begin{proof}
+    Supposons $x$ algébrique dans $L/K(S)$. Soit $P \in K(S)[X] \setminus \{0\}$ tel que $P(x) = 0$. On écrit $P = \sum\limits_{i=0}^n a_i X^i$ avec $a_i \in K(S)$. On dispose alors de $\exists b_i, c_i \in K[S]$ tels que $a_i = \frac{b_i}{c_i}$ avec les $c_i$ non nuls. En multipliant $P$ par $\prod\limits_{i} c_i$, on obtient un polynôme $P_1 \in K[S][X] \setminus\{0\}$ qui annule $x$. Comme $S$ est algébriquement indépendant, le morphisme $\applic{K[X_s \mid s \in S]}{K[S]}{X_s}{s}$ est injectif. Par l'absurde, si $S \cup \{x\}$ est algébriquement indépendant, on a
+    \begin{center}
+        \begin{tikzcd}[row sep = 0ex,
+            /tikz/column 1/.append style={anchor=base east},
+            /tikz/column 3/.append style={anchor=base west},
+            ]
+            K[X,X_s \mid s \in S] \arrow[r,hookrightarrow] & K[S][X] \arrow[r,hookrightarrow] & L \\
+            X_s \arrow[r,mapsto] & s \arrow[r,mapsto] & s \\
+            X \arrow[r,mapsto] & X \arrow[r,mapsto] & x
+        \end{tikzcd}
+    \end{center}
+    Ce qui contredit l'existence de $P_1 \in K[S][X] \setminus\{0\}$ qui annule $x$. \\
+    Réciproquement, supposons $x$ transcendant dans $L/K(S)$. Comme $S$ est algébriquement indépendant, le $K$-morphisme $\applic{K[X_s \mid s\in S]}{K(S)}{X_s}{s}$ est injectif. La transcendance de $x$ implique que le $K(S)$-morphisme $\applic{K(S)[X]}{L}{X}{x}$ est injectif. Donc, le $K$-morphisme
+    \[
+        \begin{array}[t]{rcl}
+            K[X,X_s \mid s\in S] & \to & L \\
+            X_s & \mapsto & s \\
+            X \mapsto x
+            \end{array}
+    \]
+    est injectif, d'où $S \cup \{x\}$ est algébriquement indépendant dans $L/K$.
+\end{proof}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item L'ensemble $\{\pi,\pi-1\}$ n'est pas algébriquement indépendant dans $\R/\Q$.
+        \item On ne sait pas si $\{\pi,e\}$ est algébriquement indépendant dans $\R/\Q$ et donc on ne sait pas si $\Q(\pi,e)/\Q$ est purement transcendante.
+        \item $\{\sqrt{2},\pi\}$ n'est pas algébriquement indépendant dans $\R/\Q$ et $\Q(\sqrt{2},\pi)/\Q$ n'est pas transcendante pure.
+        \item $K(X_1,\dots,X_n)/K$ est transcendante pure.
+        \item $\R(X,\sqrt{1-X^2})/\R$ est transcendante pure car égale à $\R\left(\frac{1-X}{\sqrt{1-X^2}}\right)/\R$ (paramétrisation du cercle).
+        \item $\Q(X,\sqrt{X^3 - X})/\Q$ n'est pas transcendante pure, même si elle est transcendante.
+        \item Dans la tour $\R(X,Y)/\R(X+Y)/\R$, l'extension $\R(X,Y)/\R(X+Y)$ est transcendante pure.
+    \end{enumerate}
+\end{example}
+
+\begin{definition}
+    Une \emph{base de transcendance pour $L/K$} est un sous-ensemble algébriquement indépendant dans $L/K$ maximal.
+\end{definition}
+
+\begin{lemma} \label{lembasetrans}
+    Un ensemble algébriquement indépendant $S \subseteq L$ est une base de transcendance de $L/K$ si et seulement si $L/K(S)$ est algébrique.
+\end{lemma}
+
+\begin{proof}
+    Le lemme précédent nous dit qu'on peut ajouter un élément $x$ à $S$ en préservant l'indépendance algébrique si et seulement si $x$ est transcendant dans $L/K(S)$, ce qui conclut.
+\end{proof}
+
+\begin{theorem}
+    Soit $L/K$ une extension. Elle contient une base de transcendance. Toute les bases de transcendance de $L/K$ ont même cardinal.
+\end{theorem}
+
+\begin{definition}
+    Le cardinal commun des bases de transcendance d'une extension $L/K$ est appelé le \emph{degré de transcendance de $L/K$} et noté $\degtr(L/K)$.
+\end{definition}
+
+\begin{proof}[Preuve de l'existence]
+    Soit $E \subseteq L$ un ensemble algébriquement indépendant dans $L/K$. Soit $S \subseteq L$ un ensemble générateur de $L/K$ tel que $E \subset S$. Soit
+    \[\mathcal{B} = \{U \subseteq L \mid U \text{ algébriquement indépendant}, E  \subseteq U \subseteq S \}\]
+    C'est un ensemble non vide ordonné pour l'inclusion. Soit $(T_i)_{i\in I}$ une chaîne dans $\mathcal{B}$. Alors, $\bigcup\limits_i T_i \in \mathcal{B}$ est un majorant de la chaîne. En effet, si des éléments $a_1,\dots,a_n$ dans l'union sont annulés par un polynôme $P$, comme $(T_i)$ est totalement ordonné pour l'inclusion, ces éléments sont contenus dans un certain $T_j$ qui est algébriquement indépendant, donc $P = 0$, donc l'union est bien dans $\mathcal{B}$. Par le lemme de Zorn, on dispose d'un ensemble algébriquement indépendant maximal $B$ contenu dans $S$. \\
+    S'il existe $t \in S \setminus B$ tel que $t$ est transcendant sur $L/K(B)$, alors $B \cup \{t\} \subseteq S$ est algébriquement indépendant par le lemme \ref{lemalgind}. Cela contredit la maximalité de $B$, donc tout $t \in S \setminus B$ est algébrique sur $L/K(B)$, d'où $\underbrace{K(B)(S\setminus B)}_L/K(B)$ est algébrique et on conclut que $B$ est une base de transcendance par le lemme \ref{lembasetrans}.
+\end{proof}
+
+\begin{remark}
+    La preuve précédente montre que tout ensemble générateur de l'extension $L/K$ contient une base de transcendance.
+\end{remark}
+
+\begin{proof}[Preuve de l'unicité des cardinaux]
+    Soient $B_1,B_2 \subseteq L$ deux bases de transcendance de $L/K$. Quitte à permuter, on suppose $\Card(B_1) \le \Card(B_2)$. \\
+    Supposons d'abord $\Card(B_2)$ infini. Pour $\alpha \in B_1$, il existe $B_\alpha \subseteq B_2$ fini tel que $\alpha$ est algébrique sur $K(B_\alpha)$. Soit $B' = \bigcup\limits_{\alpha \in B_1} B_\alpha$. Soit $\beta \in B_2 \setminus B'$. Alors $\beta$ est algébrique dans $L/K(B_1)$ et $K(B_1)/K(B')$ est algébrique. Ainsi $\beta$ est algébrique dans $L/K(B')$, ce qui est absurde car $B'\cup \{\beta\} \subseteq B_2$ n'est pas algébriquement indépendante. Ainsi $B_2 = B'$, d'où $B_1$ est infinie et 
+\end{proof}
+
+\end{document}
