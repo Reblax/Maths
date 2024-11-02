@@ -2,6 +2,7 @@
 \usepackage{amsmath, amssymb, amsfonts, amsthm}
 \usepackage[T1]{fontenc}
 \usepackage[french]{babel}
+\usepackage{xspace}
 \usepackage{geometry}[textwidth=10cm]
 \usepackage{tikz-cd}
 \usepackage{tikz}
@@ -20,6 +21,7 @@
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Qbar}{\overline{\mathbb{Q}}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\K}{\mathbb{K}}
@@ -217,7 +219,7 @@ Dans un anneau intègre $A$, pour tous $a,b \in A$, $ab = ac$ implique $a = 0$ o
 \begin{example} \leavevmode
     \begin{enumerate}
         \item $n\Z$ est un sous-anneau de $\Z$ pour tout $n \in \Z$.
-        \item $(\Q,+,\cdot)$ est un anneau et $\{\frac{m}{n} \mid m,n \in \Z \setminus\{0\}, m \wedge n = 1, n\text{ impair}\} \cup \{0\}$ est un sous-anneau. Si on remplace ``$n$ impair'' par ``$m$ impair'', ce n'est plus le cas.
+        \item $(\Q,+,\cdot)$ est un anneau et $\{\frac{m}{n} \mid m,n \in \Z \setminus\{0\}, m \wedge n = 1, n\text{ impair}\} \cup \{0\}$ est un sous-anneau. Si on remplace \og $n$ impair \fg par \og $m$ impair \fg, ce n'est plus le cas.
     \end{enumerate}
 \end{example}
 
@@ -765,7 +767,7 @@ Si $I$ est fini, on écrit $I = \{1,2,\dots,n\}$ et on a $K[X_i \mid i\in I] = K
         \begin{array}[t]{rcl}
             K[X,X_s \mid s\in S] & \to & L \\
             X_s & \mapsto & s \\
-            X \mapsto x
+            X & \mapsto & x
             \end{array}
     \]
     est injectif, d'où $S \cup \{x\}$ est algébriquement indépendant dans $L/K$.
@@ -816,7 +818,449 @@ Si $I$ est fini, on écrit $I = \{1,2,\dots,n\}$ et on a $K[X_i \mid i\in I] = K
 
 \begin{proof}[Preuve de l'unicité des cardinaux]
     Soient $B_1,B_2 \subseteq L$ deux bases de transcendance de $L/K$. Quitte à permuter, on suppose $\Card(B_1) \le \Card(B_2)$. \\
-    Supposons d'abord $\Card(B_2)$ infini. Pour $\alpha \in B_1$, il existe $B_\alpha \subseteq B_2$ fini tel que $\alpha$ est algébrique sur $K(B_\alpha)$. Soit $B' = \bigcup\limits_{\alpha \in B_1} B_\alpha$. Soit $\beta \in B_2 \setminus B'$. Alors $\beta$ est algébrique dans $L/K(B_1)$ et $K(B_1)/K(B')$ est algébrique. Ainsi $\beta$ est algébrique dans $L/K(B')$, ce qui est absurde car $B'\cup \{\beta\} \subseteq B_2$ n'est pas algébriquement indépendante. Ainsi $B_2 = B'$, d'où $B_1$ est infinie et 
+    Supposons d'abord $\Card(B_2)$ infini. Pour $\alpha \in B_1$, il existe $B_\alpha \subseteq B_2$ fini (il suffit de prendre les coefficients d'un polynôme annulateur de $\alpha$ et de remarquer qu'ils s'expriment chacun à partir d'un nombre fini d'éléments de $B_2$) tel que $\alpha$ est algébrique sur $K(B_\alpha)$. Soit $B' = \bigcup\limits_{\alpha \in B_1} B_\alpha$. Soit $\beta \in B_2 \setminus B'$. Alors $\beta$ est algébrique dans $L/K(B_1)$. De plus, par construction de $B'$, $K(B_1)/K(B')$ est algébrique. Ainsi $\beta$ est algébrique dans $L/K(B')$, ce qui est absurde car $B'\cup \{\beta\} \subseteq B_2$ n'est pas algébriquement indépendante. Ainsi $B_2 = B'$, d'où $B_1$ est infinie (sinon $B' = B_2$ serait finie) et l'arithmétique des cardinaux nous dit que $\Card(B_1) = \Card(B_2)$. \\
+    Supposons maintenant $\Card(B_2)$ fini. Alors, $\Card(B_1)$ est fini aussi par hypothèse. On explicite $B_1 = \{\beta_1,\dots,\beta_m\}$ et $B_2 = \{\alpha_1,\dots,\alpha_n\}$, alors $m \le n$. On raisonne par récurrence sur $m$. Si $m=0$, alors $L/K$ est algébrique, donc forcément $B_2 = \varnothing$ et $n=0$. Si $m > 0$, on dispose d'un polynôme $P \in K[X,Y_1,\dots,Y_n]$ tel que $P(\beta_1,\alpha_1,\dots,\alpha_n) = 0$ avec $\beta_1$ et au moins un des $\alpha_i$ qui apparaissent. Supposons quitte à permuter que c'est $\alpha_1$ qui apparaît. Soit $B' = \{\beta_1,\alpha_2,\dots,\alpha_n\}$. Alors, $K(B',\alpha_1)/K(B')$ est algébrique. Si $B'$ n'était pas algébriquement indépendant, on trouverait un polynôme $Q$ à coefficients dans $K$ tel que $Q(\beta_1,\alpha_2,\dots,\alpha_n) = 0$ où forcément $\beta_1$ apparaîtrait, d'où $\beta_1$ serait algébrique sur $K(\alpha_2,\dots,\alpha_n)$ et donc $\alpha_1$ aussi, ce qui est absurde. Alors, $B'$ est algébriquement indépendant dans $L/K$. Ainsi $\{\alpha_2,\dots,\alpha_n\}$, $\{\beta_2,\dots,\beta_m\}$ sont des bases de transcendance de $L/K(\beta_1)$, et on conclut avec l'hypothèse de récurrence.
 \end{proof}
+
+\begin{remark}
+    On a $\degtr(L/K) = 0$ si et seulement si $L/K$ est algébrique.
+\end{remark}
+
+\begin{remark}
+    Soit $L = K(\alpha)/K$ avec $\alpha$ transcendant. Soit $M/K$ une extension. Alors, on a une bijection
+    \begin{center}
+        \begin{tikzcd}[row sep = 0ex,
+            /tikz/column 1/.append style={anchor=base east},
+            /tikz/column 2/.append style={anchor=base west},
+            ]
+            \{\text{$K$-morphismes } L = K(\alpha) \to M\} \arrow[r, leftrightarrow,"\text{bij}"] &
+            \{\text{transcendants de } M/K\} \\
+            (\varphi : \alpha \mapsto \beta) \arrow[r, mapsto] & \beta
+        \end{tikzcd}
+    \end{center}
+\end{remark}
+
+\begin{remark}
+    Pour $L/K$, on peut toujours prendre une sous-extension maximale $E$ telle que $E/K$ est purement transcendante et $L/E$ algébrique.
+\end{remark}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item $L = K(X)/K$, $B_1 = \{X\}$, $B_2 = \{X^2\}$. $K(B_1) = K(X)$, $K(B_2) = K(X^2)$.
+        \item $\degtr(K(X_i \mid i \in I)/K) = \Card(I)$.
+        \item $1 \le \degtr(\Q(\pi,e)/\Q) \le 2$.
+        \item $\degtr(\R(X,\sqrt{1-X^2}/\R)) = 1$
+        \item $\degtr(\Q(X,\sqrt{X^3 - X})/\Q) = 1$
+        \item $\degtr(\C/\Q) = \infty$
+    \end{enumerate}
+\end{example}
+
+\begin{corollary}
+    Soit $M/L/K$ une tour de corps. Alors
+    \[\degtr(M/K) = \degtr(M/L) + \degtr(L/K)\]
+\end{corollary}
+
+\begin{proof}
+    Soient $B_1,B_2$ des bases de transcendance de $M/L$ et $L/K$, respectivement. On a $B_1 \cap B_2 = \varnothing$ car $B_1 \cap L =\varnothing$ et $B_2 \subseteq L$. L'ensemble $B_1 \cup B_2$ est algébriquement indépendant dans $M/K$. Sinon, on obtiendrait une relation de la forme
+    \[P(\alpha_1,\dots,\alpha_n,\beta_1,\dots,\beta_m) = 0\]
+    où $\alpha_1,\dots,\alpha_n \in B_1$ et $\beta_1,\dots,\beta_m \in B_2$ sont distincts deux à deux et $P$ est un polynôme à coefficients dans $K$. Mais alors, par indépendance algébrique de $B_1$, aucun $\alpha_i$ ne peut apparaître dans le polynôme (car les $\beta_i$ sont dans $L$), d'où $P(\beta_1,\dots,\beta_m) = 0$ et contredit l'indépendance algébrique de $B_2$. De plus, $M/K(B_1 \cup B_2)$ est algébrique. En effet, $M/L(B_1)$ et $L/K(B_2)$ le sont, donc $M/L(B_1 \cup B_2)$ est algébrique et les éléments de $L,B_1\cup B_2$ sont algébriques dans $M/K(B_1 \cup B_2)$.
+\end{proof}
+
+\begin{proposition}[Critère d'Eisenstein]
+    Soit $P(X) = \sum\limits_{i=0}^n a_i X^i \in \Z[X]$. On suppose qu'il existe $p$ premier tel que $p \mid a_0,\dots,p\mid a_{n-1}$, $p \nmid a_n$ et $p^2 \nmid a_0$. Alors, $P$ est irréductible dans $\Q[X]$.
+\end{proposition}
+
+\begin{proof}
+    Soit une factorisation $P = QR$ avec $Q,R \in \Q[X]$ de degrés non nuls. \todo
+\end{proof}
+
+\begin{corollary}
+    L'extension $\overline{\Q}/\Q$ n'est pas finie. De même, $\overline{\Q}^\R = \overline{\Q} \cap \R$ n'est pas une extension finie de $\Q$.
+\end{corollary}
+
+\begin{proof}
+    Pour $n \in \N^*$ et $p$ premier fixé, $P_n(X) = p + pX + \cdots pX^{n-1} + X^n \in \Z[X]$ est irréductible par le critère d'Eisenstein. Ainsi, $[\Q[X]/(P_n(X)) : \Q] = n$. De plus, si $\alpha_n \in \C$ est une racine de $P_n$, on a $\Q[X]/(P_n(X)) \underset{\Q}{\simeq} \Q(\alpha_n)$. Comme $\Q(\alpha_n) \subseteq \Qbar$, $\Qbar$ contient des extensions de $\Q$ de degré arbitrairement grand, ce qui prouve $[\Qbar : \Q] = \infty$. Pour $\Qbar^\R$, on peut prendre $\alpha_n \in \R$ pour $n$ impair.
+\end{proof}
+
+\begin{remark}
+    On a $\Qbar = \bigcup_{P \in \Q[X]} \{\text{racines de } P\}$ donc $\Qbar$ est dénombrable comme union dénombrable d'ensembles finis.
+\end{remark}
+
+\begin{proposition}
+    On a $\degtr(\C/\Q) = \degtr(\C/\Qbar) = \infty$ non dénombrable.
+\end{proposition}
+
+\begin{proof}
+    \todo
+\end{proof}
+
+\begin{remark}
+    De manière similaire, $\degtr(\Qbar^\R/\Q) = \infty$ non dénombrable.
+\end{remark}
+
+\begin{example}
+    Soit $B$ une base de transcendance de $\C/\Q$. Soit $\varphi : B \to B$ une application quelconque injective. Elle induit un $\Qbar$-morphisme $\Qbar(B) \xrightarrow{\overline{\varphi}} \Qbar(B)$ qui peut toujours se prolonger (a priori non uniquement) à $\C \xrightarrow{\varphi_0} \C$. Si $\varphi$ n'est pas surjective, alors $\varphi_0$ sera un morphisme de corps non surjectif.
+\end{example}
+
+Références :
+\begin{itemize}
+    \item Fields and Galois Theory, James Stuart Milne
+    \item Polycopiés du cours algèbre 2 de l'ENS en français de Jean-François Dat, Olivier Debarre et Ariane Mézard\footnote{Son poly n'est pas sur son site à ce moment mais est accessible à travers la \emph{Wayback Machine}.}
+    \item Algebra, Serge Lang
+\end{itemize}
+
+\subsection{Racines de polynômes}
+
+Soit $K$ un corps.
+
+\begin{lemma}
+    Si $P \in K[X]$ a une racine $\alpha \in K$, alors $(X-\alpha) \mid P$.
+\end{lemma}
+
+\begin{proof}
+    La division euclidienne fonctionne dans $K[X]$ car $K$ est un corps, donc $P = (X-\alpha)Q + c$ avec $c \in K$ et évaluer en $\alpha$ donne le résultat.
+\end{proof}
+
+\begin{corollary}
+    Si $P \in K[X]$ est de degré $d$, alors $P$ a au plus $d$ racines dans $K$.
+\end{corollary}
+
+\begin{proof}
+    Se déduit du lemme précédent avec une récurrence.
+\end{proof}
+
+\begin{definition}
+    On dit que $P$ est \emph{scindé} si $P = c \prod\limits_{i=1}^d (X-\alpha_i)$ dans $K[X]$. Autrement dit, les facteurs irréductibles de $P$ sont de degré $1$ (ou $P \in K$). Ici, $c \in K$.
+\end{definition}
+
+\begin{example}
+    $X^4 - 1$ est scindé dans $\C[X]$ mais pas dans $\R[X]$.
+\end{example}
+
+\begin{definition}
+    Soit $L/K$ une extension de corps et $P \in K[X]$ irréductible. On dit que $L$ est \emph{un corps de rupture de $P$} s'il existe $\alpha \in L$ tel que $P(\alpha) = 0$ et $L=K(\alpha)$.
+\end{definition}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item $\C$ est un corps de rupture de $X^2 + 1 \in \R[X]$.
+        \item $\Q(\sqrt{2})$ est un corps de rupture de $X^2 - 2 \in \Q[X]$.
+        \item $\Q(\sqrt[3]{2})$ et $\Q(j\sqrt[3]{2})$ sont des corps de rupture de $X^3 - 2 \in \Q[X]$.
+        \item $\Q(\sqrt[5]{3})$ est un corps de rupture de $X^5 - 3 \in \Q[X]$.
+    \end{enumerate}
+\end{example}
+
+\begin{remark}
+    Un corps de rupture n'est pas en général un corps dans lequel le polynôme est scindé, c'est-à-dire qu'en général il ne contient pas \og toutes \fg les racines du polynôme.
+\end{remark}
+
+\begin{proposition}
+    Soit $P \in K[X]$ irréductible. Pour toute extension $L/K$ et toute racine $\alpha \in L$ de $P$, on a un unique $K$-morphisme de corps $K_P = K[X]/(P) \hookrightarrow L$ tel que $X + (P)$ soit envoyé sur $\alpha$. En particulier, si $L$ est un corps de rupture de $P$, alors ce morphisme est un isomorphisme. On a alors $[L : K] = \deg P$.
+\end{proposition}
+
+\begin{proof}
+    Prenons le $K$-morphisme $E_\alpha : \applic{K[X]}{L}{Q}{Q(\alpha)}$. Comme $\alpha$ est racine de $P$, $(P) \subset \ker E_\alpha$, d'où $E_\alpha$ induit un $K$-morphisme $K[X]/(P) \hookrightarrow L$. Pour l'unicité, si $\phi : K[X]/(P) \to L$ est un autre $K$-morphisme tel que $\phi(X+(P)) = \alpha$, alors on a $\phi \circ \pi = E_\alpha$ où $\pi$ est la projection canonique $K[X] \to K[X]/(P)$, donc par la propriété universelle du quotient $\phi = E_\alpha$. Si $L$ est un corps de rupture de $P$, alors $L = K(\alpha) = K[\alpha] = \im E_\alpha$, donc $E_\alpha$ est surjectif et le $K$-morphisme $K_P \hookrightarrow L$ induit est un isomorphisme. On a alors $[L : K] = [K_P : K] = \deg P$ (voir le théorème \ref{thmpolmin}).
+\end{proof}
+
+\begin{corollary}
+    Soit $P \in K[X]$ irréductible et $L/K$ un corps de rupture. Soit $M/K$ une extension dans laquelle $P$ a une racine. Il existe un $K$-morphisme $L \hookrightarrow M$ et le nombre de tels morphismes est le nombre de racines distinctes de $P$ dans $M$. C'est donc au plus $\deg P = [L : K]$, avec égalité si $P$ a $\deg P$ racines distinctes dans $M$.
+\end{corollary}
+
+\begin{proof}
+    Par la proposition précédente, on a un morphisme $\varphi : L \to M$. Pour $\alpha \in L$ une racine de $P$, comme $\varphi$ est un morphisme de corps, $P(\varphi(\alpha)) = \varphi(P(\alpha)) = 0$. Ainsi $\varphi(\alpha)$ est une racine de $P$ dans $M$. Comme $\varphi$ est un $K$-morphisme et qu'on peut supposer $L=K(\alpha)$, on déduit que $\varphi$ est uniquement déterminé par $\varphi(\alpha)$, donc le nombre de morphismes est bien le nombre de racines de $P$ dans $M$.
+\end{proof}
+
+\begin{theorem}
+    Soit $L/K$ une extension de corps engendrée par des racines d'un polynôme $P \in K[X]$. Soit $M/K$ une extension dans laquelle $P$ est scindé. Il existe un $K$-morphisme de corps $L \hookrightarrow M$. Il y a au plus $[L : K]$ tels morphismes avec égalité quand $P$ a $\deg P$ racines dans $M$.
+\end{theorem}
+
+\begin{proof}
+    Soit $L=K(\alpha_1,\dots,\alpha_n)$, où $\alpha_1,\dots,\alpha_n \in L$ sont des racines de $P$. Soit $P_{\alpha_1} \in K[X]$ le polynôme minimal de $\alpha_1$ dans $L/K$. Comme $P(\alpha_1) = 0$, $P_{\alpha_1} \mid P$ dans $K[X]$. Comme $K \subseteq M$ et $P$ est scindé dans $M[X]$, $P_{\alpha_1}$ est scindé dans $M[X]$, avec $\deg P_{\alpha_1}$ racines si $P$ a $\deg P$ racines dans $M$. Par le corollaire précédent, il existe un $K$-morphisme de corps $K(\alpha_1) \overset{\varphi_1}{\hookrightarrow} M$ et le nombre de tels morphismes est au plus $[K(\alpha_1) : K]$ avec égalité dans le cas où $P$ (et donc $P_{\alpha_1}$) a $\deg P$ (resp. $\deg P_{\alpha_1}$) racines dans $M$. \\
+    On considère maintenant $P_{\alpha_2}$ le polynôme minimal de $\alpha_2$ dans $L/K(\alpha_1)$. On a encore $P_{\alpha_2} \mid P$ dans $K(\alpha_1)[X]$, donc $\varphi_1 (P_{\alpha_2})$ est scindé dans $M[X]$ avec $\deg P_{\alpha_2}$ racines si $P$ a $\deg P$ racines dans $M$, car $P_{\alpha_2} \mid P$ dans $K(\alpha_1)[X]$ implique $\varphi_1(P_{\alpha_2}) \mid \varphi_1(P) = P$ dans $\varphi_1 (K(\alpha_1))$. Alors, on a un $K(\alpha_1)$-morphisme $\varphi_2 : K(\alpha_1, \alpha_2) \hookrightarrow M$ (on injecte $K(\alpha_1)$ dans $M$ par $\varphi_1$) et il y a au plus $[K(\alpha_1, \alpha_2) : K(\alpha_1)]$ tels morphismes avec égalité quand $P$ a $\deg P$ racines dans $M$. Ainsi, en itérant ce procédé, on obtient qu'il y a un $K$-morphisme $L \hookrightarrow M$ et au plus
+    \[[K(\alpha_1,\dots,\alpha_n) : K(\alpha_1,\dots,\alpha_{n-1})] \cdots [K(\alpha_1) : K] = [L : K]\]
+    tels morphismes, avec exactement ce nombre quand $P$ a $\deg P$ racines dans $M$.
+\end{proof}
+
+\begin{definition}
+    Soit $P \in K[X]$. Une extension $L/K$ est dite \emph{un corps de décomposition de $P$} si $P$ est scindé dans $L$ et que $L$ est engendré par les racines de $P$.
+\end{definition}
+
+\begin{corollary}
+    Soit $P \in K[X]$ un polynôme. Il existe une extension $L/K$ qui est un corps de décomposition de $P$. Deux corps de décomposition de $P$ sont $K$-isomorphes. De plus, $[L : K] \le (\deg P)!$.
+\end{corollary}
+
+\begin{proof}
+    SOit $L_1/K$ un corps de rupture pour un facteur irréductible de $P \in K[X]$. Soit $L_1 = K(\alpha_1)$ avec $P(\alpha_1) = 0$. Alors, $\frac{P}{X-\alpha_1} \in L_1[X]$ et on construit un corps de rupture $L_2 = L_1(\alpha_2)$ d'un facteur irréductible de $\frac{P}{X-\alpha_1} \in L_1 [X]$. On continue ainsi jusqu'à ce que $\frac{P}{Q} \in L_{\deg P} [X]$ soit de degré $1$. On a alors $[L_1 : K] \le \deg P$, $[L_2 : L_1] \le \deg P - 1$, \dots, $[L_{\deg P} : L_{\deg P - 1}] \le 2$, d'où $[L_{\deg P} : K] \le (\deg P)!$. Soit maintenant $M/K$ un autre corps de décomposition de $P$. Par le théorème précédent, il existe des $K$-morphismes $L \hookrightarrow M$ et $M \hookrightarrow L$, d'où $[M : K] = [L : K]$ et $M \simeq L$.
+\end{proof}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item $\Q(\sqrt[3]{2},j)/\Q$ est un corps de décomposition de $X^3 - 2$ de degré $3! = 6$.
+        \item $\Q(i)/\Q$ est un corps de décomposition de $X^4 - 1$ de degré $2 < 4!$.
+        \item Soit $P = X^3 + a X^2 + b X + c \in \Q[X]$, irréductible et $\alpha_1,\alpha_2,\alpha_3 \in \C$ ses racines. Alors pour deux de ces racines, par exemple $\alpha_1,\alpha_2$, $\Q(\alpha_1,\alpha_2)/\Q$ est un corps de décomposition de $P$. On a aussi $[\Q(\alpha_1) : \Q] = 3$, d'où $3 = [\Q(\alpha_1,\alpha_2) : \Q] \le 3! = 6$ et $3 \mid [\Q(\alpha_1,\alpha_2) : \Q]$, donc $[\Q(\alpha_1,\alpha_2) : \Q] \in \{3,6\}$.
+        \item Pour $P = 1 + X + \cdots + X^{p-1} \in \Q[X]$ avec $p$ premier, corps de décomposition de $P$ est $\Q(\mu_p)/\Q$ une extension cyclotomique.
+        \item Pour $P = X^3 - 2$, $[\Q(\alpha_1, \alpha_2) : \Q] = 6$, pour $P = X^3 + X^2 - 2X - 1 \in \Q[X]$, $[\Q(\alpha_1,\alpha_2) : \Q] = 3$.
+    \end{enumerate}
+\end{example}
+
+\begin{corollary}
+    Soit $L/K$ une extension finie et $M/K$ une extension. Alors le nombre de $K$-morphismes $L \hookrightarrow M$ est au plus $[L : K]$. Il existe une extension finie $F/M$ tel qu'il existe un $K$-morphisme $L \hookrightarrow F$.
+    \begin{center}
+        \begin{tikzcd}[row sep=scriptsize, column sep=scriptsize]
+            & F \\
+            L \arrow[ru,"\exists"] & & M \arrow[lu,"\mathrm{finie}" sloped] \\
+            & K \arrow[lu,"\mathrm{finie}" sloped] \arrow[ru]
+        \end{tikzcd}
+    \end{center}
+\end{corollary}
+
+\begin{proof}
+    Soit $L = K(\alpha_1,\dots,\alpha_n)$ où $\alpha_1,\dots,\alpha_n$ sont algébriques dans $L/K$. Soit $P \in K[X]$ le produit des polynômes minimaux de $\alpha_1,\dots,\alpha_n$ sur $K$. Soit $F/M$ un corps de décomposition de $P \in K[X] \subseteq M[X]$. Par le théorème, il existe un $K$-morphisme $L \hookrightarrow F$ et le nombre de tels morphismes est au plus $[L : K]$. Tout $K$-morphisme $L \hookrightarrow M$ induit un $K$-morphisme $L \hookrightarrow F$, donc il y a au plus $[L : K]$ tels morphismes.
+\end{proof}
+
+\begin{corollary}
+    Soient $L_i/K$, $i = 1,2,\dots,n$ des extensions finies et $M/K$ une extension. Il existe une extension finie $F/M$ telle qu'il existe des $K$-morphismes $L_i \hookrightarrow F$, $i = 1,2,\dots,n$. 
+\end{corollary}
+
+\begin{proof}
+    Par le corollaire précédent, il existe $M_1/M$ finie telle qu'il existe un $K$-morphisme $L_1 \hookrightarrow M_1$. On applique maintenant ce même corollaire aux extensions $L_2/K$ et $M_1/K$ pour obtenir une extension $M_2/K$ finie et l'existence d'un $K$-morphisme $L_2 \hookrightarrow M_2$. En continuant ce procédé, nous arrivons à une extension $F = M_n/M$ finie qui satisfait l'énoncé.
+\end{proof}
+
+\begin{definition}
+    Soit $(P_i)_{i\in I}$ une famille de polynômes dans $K[X]$. Une extension $L/K$ est dite \emph{un corps de décomposition pour la famille $(P_i)_{i\in I}$} si pour tout $i \in I$, $P_i$ est scindé dans $L$ avec pour ensemble de racines $R_i \subseteq L$ et que $L = K \left(\bigcup\limits_{i\in I} R_i\right)$.
+\end{definition}
+
+\subsection{Clôture algébrique}
+
+Soit $K$ un corps.
+
+\begin{proposition}
+    Les assertions suivantes sont équivalentes :
+    \begin{enumerate}
+        \item Tout polynôme $P \in K[X] \setminus K$ a au moins une racine dans $K$.
+        \item Tout $P \in K[X] \setminus K$ est scindé dans $K$.
+        \item Les polynômes irréductibles dans $K[X]$ sont ceux de degré $1$.
+        \item Si $L/K$ est une extension algébrique, alors $L=K$.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    \todo
+\end{proof}
+
+\begin{definition} \leavevmode
+    \begin{enumerate}
+        \item Un corps $K$ satisfaisant les propriétés équivalentes de la proposition est dit \emph{algébriquement clos}.
+        \item Un corps $L$ est dit la \emph{clôture algébrique} d'un sous-corps $K$ si $L$ est algébriquement clos et que $L/K$ est algébrique.
+    \end{enumerate}
+\end{definition}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item $\C$ est algébriquement clos. $\R$ et $\Q$ ne le sont pas. $K(T)$ ne l'est pas non plus.
+        \item $\C$ est une clôture algébrique de $\R$ mais pas une clôture algébrique de $\Q$.
+        \item Si $L/K$ est une extension de corps avec $L$ algébriquement clos, alors $\overline{K}^L$ est une clôture algébrique de $K$, donc $\Qbar$ est algébriquement clos et c'est une clôture algébrique de $\Q$.
+    \end{enumerate}
+\end{example}
+
+\begin{proposition} \label{propclotalgpolscinde}
+    Soit une extension $L/K$. Alors $L$ est une clôture algébrique de $K$ si et seulement si l'extension $L/K$ est algébrique et tout polynôme de $K[X]$ est scindé sur $L$.
+\end{proposition}
+
+\begin{proof}
+    Le sens direct est immédiat. Pour le sens réciproque, soit $P \in L[X]$ un polynôme irréductible. Soit $M/L$ un corps de rupture de $P$. Alors, $M/L$, $L/K$ sont algébriques donc $M/K$ est algébrique. Soit $\alpha \in M$ une racine de $P$ et $P_\alpha$ son polynôme minimal sur $K$. Alors, $P_\alpha \mid P$ dans $L[X]$, mais $P$ est irréductible, donc $c P = P_\alpha$ pour un certain $c\in L$. Or, $P_\alpha \in K[X]$ est scindé dans $L$ par hypothèse,donc $P$ aussi. Comme $P$ est irréductible, forcément $\deg P = 1$, ce qui démontre que $L$ est algébriquement clos. Comme $L/K$ est algébrique, on obtient le résultat.
+\end{proof}
+
+\begin{proposition}
+    Soit $L/K$ algébrique et $M$ un corps algébriquement clos. Tout morphisme $i : K \to M$ se prolonge en un morphisme $\varphi : L \to M$.
+    \begin{center}
+        \begin{tikzcd}[column sep = tiny]
+            L \arrow[rr,"\varphi"] & & M \\
+            & K \arrow[lu, hookrightarrow] \arrow[ru, "i" ']
+        \end{tikzcd}
+    \end{center}
+\end{proposition}
+
+\begin{proof}
+    \todo zorn
+\end{proof}
+
+\begin{proposition}
+    Soit $M/K$ algébrique.
+    \begin{enumerate}
+        \item Si $M$ est algébriquement clos, toute extension algébrique $L/K$ est $K$-isomorphe à un sous-corps de $M$ (une sous-extension de $M/K$). De plus, $M$ est une clôture algébrique de $L$.
+        \item Si toute extension finie $L/K$ est isomorphe à une sous-extension de $M/K$, alors $M$ est algébriquement clos.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    Pour le (1), on prolonge l'inclusion $K \hookrightarrow M$ en un morphisme $L \hookrightarrow M$ par la proposition précédente. Soit $P \in K[X]$. $P$ est scindé dans un de ses corps de décomposition $L/K$ qui est une extension finie. Ainsi, par hypothèse, $L/K$ est isomorphe à une sous-extension de $M/K$, donc $P$ est scindé sur $M$. On conclut par la proposition \ref{propclotalgpolscinde}.
+\end{proof}
+
+\begin{remark}
+    Soit $M/K$ une extension avec $M$ algébriquement clos. Alors, par la proposition, pour tout polynôme $P \in K[X]$, $M$ contient \emph{exactement} (\todo : comprendre pourquoi) un corps de décomposition de $P$. De même, pour tout famille de polynôme $(P_i)_{i\in I}$, $M$ contient exactement un corps de décomposition de $(P_i)$.
+\end{remark}
+
+\begin{theorem}[Steinitz 1910]
+    Soit $K$ un corps. Il existe une clôture algébrique de $K$. Deux clôtures algébriques de $K$ sont $K$-isomorphes.
+\end{theorem}
+
+\begin{proof}
+    \todo
+\end{proof}
+
+\begin{remark}
+    Si $\varphi : K \to K'$ est un isomorphisme de corps et que $M$ et $M'$ sont des clôtures algébriques de $K$, $K'$ respectivement, alors $\varphi$ se prolonge en un isomorphisme de corps $\psi : M \to M'$ (non unique en général).
+\end{remark}
+
+\begin{example}
+    Le morphisme $\varphi : \applic{\R}{\R}{x}{x}$ peut se prolonger en deux morphismes par $\applic{\R(i)}{\R(i)}{i}{i}$ et $\applic{\R(i)}{\R(i)}{i}{-i}$.
+\end{example}
+
+\begin{definition}
+    Le théorème de Steinitz nous autorise à faire un abus de langage et parler de \og la\fg clôture algébrique d'un corps $K$. On la notera $\overline{K}$.
+\end{definition}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item $\Qbar \subsetneq \overline{\Q(\pi)} \subsetneq \overline{\C}$. On sait que la deuxième inclusion est stricte car $\overline{\Q(\pi)}$ est dénombrable.
+        \item En général, il est difficile de décrire $\overline{K}$ pour un corps $K$. Par exemple, $\overline{K(T)}$ pour un corps $K$ arbitraire.
+    \end{enumerate}
+\end{example}
+
+\subsection{Éléments conjugués}
+
+\begin{definition}
+    Soit $L/K$ une extension de corps. Deux éléments algébriques $\alpha,\beta \in L$ sont dits \emph{conjugués} sur $K$ si leur polynômes minimaux sur $K$ sont les mêmes.
+\end{definition}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item $i,-i$ sont conjugués dans $\C/\R$.
+        \item $\sqrt[3]{2},j\sqrt[3]{2}$ sont conjugués dans $\C/\Q$.
+        \item $\sqrt{3},i\sqrt{3}$ ne sont pas conjugués dans $\C/\Q$.
+    \end{enumerate}
+\end{example}
+
+\begin{proposition}
+    Soit $L/K$ une extension de corps. Les énoncés suivants sont équivalents :
+    \begin{enumerate}
+        \item $\alpha,\beta$ sont conjugués dans $L/K$
+        \item Il existe un $K$-isomorphisme $\applic{K(\alpha)}{K(\beta)}{\alpha}{\beta}$.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    Si $\alpha,\beta$ sont conjugués dans $L/K$, alors les isomorphismes
+    \[\applic{K(\alpha)}{K[X]/(P_\alpha)}{\alpha}{X + (P_\alpha)}\quad\applic{K(\beta)}{K[X]/(P_\beta)}{\beta}{X + (P_\beta)}\]
+    montrent $(2)$. Réciproquement, si $\applic{K(\alpha)}{K(\beta)}{\alpha}{\beta}$ est un $K$-isomorphisme, on a que $P_\alpha(\beta) = P_\alpha(\alpha) = 0$ et symétriquement $P_\beta(\alpha) = 0$, d'où $P_\beta \mid P_\alpha$ et $P_\alpha \mid P_\beta$, d'où $P_\alpha = P_\beta$.
+\end{proof}
+
+\begin{remark}
+    Dans $\overline{K}$, les conjugués de $\alpha \in \overline{K}$ sont les racines de $P_\alpha \in K[X]$. Si $L/K$ est une extension et $\alpha \in L$ est algébrique dans $L/K$, alors les conjugués de $\alpha$ dans $L$ sont les racines de $P_\alpha \in K[X]$ et il y en a au plus $\deg P_\alpha$.
+\end{remark}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item Dans $\F_p(T)$, le polynôme minimal de $\sqrt[p]{T} \in \overline{\F_p(T)}$ est $X^P - T = (X - \sqrt[p]{T})^p$, donc le seul conjugué de $\sqrt[p]{T}$ est lui-même.
+        \item $\sqrt[3]{2}$ est son seul conjugué dans $\Q(\sqrt[3]{2})/\Q$.
+    \end{enumerate}
+\end{example}
+
+\begin{proposition}
+    Deux éléments $\alpha,\beta \in \overline{K}$ sont conjugués sur $K$ si et seulement s'il existe un $K$-isomorphisme $\overline{K} \to \overline{K}$ qui envoie $\alpha$ sur $\beta$.
+\end{proposition}
+
+\begin{proof}
+    Si $\alpha,\beta$ sont conjugués, ils sont algébriques, donc $\overline{K}$ est un clôture algébrique de $K(\alpha)$ et $K(\beta)$. Ainsi, l'isomorphisme de corps $K(\alpha) \xrightarrow{\sim} K(\beta)$ qui envoie $\alpha$ sur $\beta$ se prolonge en un isomorphisme $\overline{K} \to \overline{K}$. La réciproque est immédiate.
+\end{proof}
+
+\subsection{Extension normales}
+
+\begin{definition}
+    Une extension algébrique $L/K$ est dite \emph{normale} si tout polynôme $P \in K[X]$ irréductible qui a une racine dans $L$ est scindé sur $L$.
+\end{definition}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item $\overline{K}/K$ est normale.
+        \item $\Q(\sqrt[3]{2})/\Q$ n'est pas normale, $\Q(\sqrt[4]{2})/\Q$ non plus.
+        \item $\Q(i)/\Q$, $\Q(\sqrt[3]{2}, j)/\Q$ sont normales.
+    \end{enumerate}
+\end{example}
+
+\begin{proposition} \label{caracextnormale}
+    Soit $L/K$ algébrique, $\overline{K}$ une clôture algébrique de $K$ et $L \hookrightarrow \overline{K}$. Les énoncés suivants sont équivalents :
+    \begin{enumerate}
+        \item $L/K$ est normale.
+        \item Pour $\alpha \in L$, les conjugués de $\alpha$ dans $\overline{K}/K$ sont des éléments de $L$.
+        \item Tout $K$-isomorphisme de $\overline{K}$ envoie $L$ sur lui-même.
+        \item $L$ est le corps de décomposition d'une famille de polynômes à coefficients dans $K$.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    Supposons $L/K$ normale. Alors, $L$ est le corps de décomposition de la famille $(P_\alpha)_{\alpha \in L}$ des polynômes minimaux des éléments de $L$ sur $K$. \\
+    Supposons que $L$ est le corps de décomposition de $(P_i)_{i\in I} \in K[X]^I$, et soit $\varphi : \overline{K} \xrightarrow{\sim}\overline{K}$ un $K$-isomorphisme. Soit $R_i \subseteq \overline{K}$ l'ensemble des racines de $P_i$ dans $\overline{K}$. Alors, $L = K(\bigcup_{i\in I} R_i)$. De plus, $\varphi(R_i) = R_i$ pour tout $i$. Ainsi, $\varphi(K(\bigcup_{i\in I} R_i)) = K(\bigcup_{i\in I} R_i)$. \\
+    Supposons $(3)$. Soit $\alpha \in L$ et $\beta \in \overline{K}$ un conjugué de $\alpha$ dans $\overline{K}/K$. Alors, il existe un $K$-isomorphisme $\applic{\overline{K}}{\overline{K}}{\alpha}{\beta}$, d'où $\beta = \varphi(\alpha) \in \varphi(L) = L$. \\
+    Supposons $(2)$. Soit $P \in K[X]$ irréductible qui possède une racine $\alpha \in L$. Quitte à multiplier par un élément de $K^\times$ pour rendre $P$ unitaire, on peut supposer $P = P_\alpha$. Alors, par $(2)$, les conjugués de $\alpha$ dans $\overline{K}/K$, qui sont les racines de $P_\alpha$ dans $\overline{K}$, sont dans $L$, d'où $P$ est scindé sur $L$.
+\end{proof}
+
+\begin{corollary}
+    Soit $M/L/K$ une tour de corps. Si $M/K$ est normale, alors $M/L$ l'est aussi.
+\end{corollary}
+
+\begin{proof}
+    Immédiat par l'équivalence $(1) \iff (4)$ de la proposition \ref{caracextnormale}.
+\end{proof}
+
+\begin{corollary}
+    Une extension $L/K$ est normale et finie si et seulement si $L$ est le corps de décomposition d'un polynôme sur $K$.
+\end{corollary}
+
+\begin{proof}
+    Le sens inverse est vrai par le $(4)$ de la proposition \ref{caracextnormale}. Supposons donc $L/K$ normale et finie. Raisonnons par récurrence sur $[L : K]$. Si $[L : K] = 1$, le résultat est clair. Supposons le résultat vrai pour $[L : K] < n$, $n \in \N^*$. Soit $L/K$ tel que le résultat est vrai $[L : K] = n$. Soit $\alpha_0 \in L/K$ et $P_{\alpha_0} \in K$ son polynôme minimal. Alors, $P_{\alpha_0}$ est scindé sur $L$. Soit $K_0 \subseteq L$ sont corps de décomposition. Comme $K \subsetneq K_0 \subseteq L$, $[L : K_0] < n$. Comme $L/K_0$ est normale par le corollaire précédent, par hypothèse de récurrence on dispose de $Q \in K_0[X]$ dont $L$ est le corps de décomposition. Soient $\alpha_1,\dots,\alpha_n \in L$ les racines de $Q$. On a $L = K_0(\alpha_1,\dots,\alpha_n)$, donc $L = K(\alpha_0,\alpha_1\dots,\alpha_n)$. Alors, $L$ est le corps de décomposition du polynôme obtenu comme produit des polynômes minimaux des $\alpha_i$ sur $K$.
+\end{proof}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item Dans la tour $\Q(\sqrt[3]{2},j)/\Q(\sqrt[3]{2})/\Q$, l'extension $\Q(\sqrt[3]{2},j)/\Q$ est normale mais pas $\Q(\sqrt[3]{2})/\Q$.
+        \item Dans la tour $\Q(\sqrt[4]{2})/\Q(\sqrt{2})/\Q$, les extensions $\Q(\sqrt[4]{2})/\Q(\sqrt{2})$ et $\Q(\sqrt{2})/\Q$ sont normales, mais $\Q(\sqrt[4]{2})/\Q$ ne l'est pas.
+    \end{enumerate}
+\end{example}
+
+\begin{corollary}
+    Soit $L/K$ algébrique et $M$ un corps algébriquement clos tel que $M/K$ est algébrique (?? \todo)
+\end{corollary}
+
+\begin{proof}
+    \todo
+\end{proof}
+
+\begin{corollary}
+    Soit $M/L/K$ une tour de corps avec $M/K$ normale. Alors, $L/K$ est normale si et seulement si pour tout $K$-automorphisme $\varphi$ de $M$, on a $\varphi(L) = L$.
+\end{corollary}
+
+\begin{proof}
+    \todo
+\end{proof}
+
+\begin{corollary}
+    Soit $L/K$ normale. Tout automorphisme de $K$ se prolonge en un automorphisme de $L$.
+\end{corollary}
+
+\begin{proof}
+    \todo
+\end{proof}
+
+\begin{theorem}
+    Soit $L/K$ algébrique et $M$ un corps algébriquement clos tel que $L \subseteq M$. Il existe une plus petite extension normale $E/K$ telle que $L \subseteq E \subseteq M$. On dira que $E$ est la \emph{clôture normale de $L$ dans $M$}.
+\end{theorem}
+
+\begin{proof}
+    \todo
+\end{proof}
+
+\subsection{Polynômes séparables}
 
 \end{document}
