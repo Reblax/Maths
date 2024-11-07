@@ -16,6 +16,7 @@
 
 \newcommand{\id}{\mathrm{id}}
 \newcommand{\op}{\mathrm{op}}
+\newcommand{\sep}{\mathrm{sep}}
 \newcommand{\inj}{\mathrm{inj}}
 \newcommand{\sing}{\mathrm{sing}}
 \newcommand{\N}{\mathbb{N}}
@@ -71,6 +72,8 @@
 \DeclareMathOperator{\Gal}{Gal}
 \DeclareMathOperator{\Frob}{Frob}
 \DeclareMathOperator{\rk}{rk}
+\DeclareMathOperator{\car}{car}
+\DeclareMathOperator{\Fr}{Fr}
 \DeclareMathOperator{\Fix}{Fix}
 \DeclareMathOperator{\Ob}{Ob}
 \DeclareMathOperator{\Aut}{Aut}
@@ -114,7 +117,7 @@
 \setlength{\parindent}{0pt}
 
 \theoremstyle{plain}
-\newtheorem{theorem}{Théorème}[section]
+\newtheorem{theorem}{Théorème}[subsection]
 % TODO : améliorer la numérotation des machins
 \newtheorem{proposition}[theorem]{Proposition}
 \newtheorem{lemma}[theorem]{Lemme}
@@ -962,7 +965,7 @@ Soit $K$ un corps.
     Prenons le $K$-morphisme $E_\alpha : \applic{K[X]}{L}{Q}{Q(\alpha)}$. Comme $\alpha$ est racine de $P$, $(P) \subset \ker E_\alpha$, d'où $E_\alpha$ induit un $K$-morphisme $K[X]/(P) \hookrightarrow L$. Pour l'unicité, si $\phi : K[X]/(P) \to L$ est un autre $K$-morphisme tel que $\phi(X+(P)) = \alpha$, alors on a $\phi \circ \pi = E_\alpha$ où $\pi$ est la projection canonique $K[X] \to K[X]/(P)$, donc par la propriété universelle du quotient $\phi = E_\alpha$. Si $L$ est un corps de rupture de $P$, alors $L = K(\alpha) = K[\alpha] = \im E_\alpha$, donc $E_\alpha$ est surjectif et le $K$-morphisme $K_P \hookrightarrow L$ induit est un isomorphisme. On a alors $[L : K] = [K_P : K] = \deg P$ (voir le théorème \ref{thmpolmin}).
 \end{proof}
 
-\begin{corollary}
+\begin{corollary} \label{nbmorcorpsrupture}
     Soit $P \in K[X]$ irréductible et $L/K$ un corps de rupture. Soit $M/K$ une extension dans laquelle $P$ a une racine. Il existe un $K$-morphisme $L \hookrightarrow M$ et le nombre de tels morphismes est le nombre de racines distinctes de $P$ dans $M$. C'est donc au plus $\deg P = [L : K]$, avec égalité si $P$ a $\deg P$ racines distinctes dans $M$.
 \end{corollary}
 
@@ -970,7 +973,7 @@ Soit $K$ un corps.
     Par la proposition précédente, on a un morphisme $\varphi : L \to M$. Pour $\alpha \in L$ une racine de $P$, comme $\varphi$ est un morphisme de corps, $P(\varphi(\alpha)) = \varphi(P(\alpha)) = 0$. Ainsi $\varphi(\alpha)$ est une racine de $P$ dans $M$. Comme $\varphi$ est un $K$-morphisme et qu'on peut supposer $L=K(\alpha)$, on déduit que $\varphi$ est uniquement déterminé par $\varphi(\alpha)$, donc le nombre de morphismes est bien le nombre de racines de $P$ dans $M$.
 \end{proof}
 
-\begin{theorem}
+\begin{theorem} \label{thmmorpolscinde}
     Soit $L/K$ une extension de corps engendrée par des racines d'un polynôme $P \in K[X]$. Soit $M/K$ une extension dans laquelle $P$ est scindé. Il existe un $K$-morphisme de corps $L \hookrightarrow M$. Il y a au plus $[L : K]$ tels morphismes avec égalité quand $P$ a $\deg P$ racines dans $M$.
 \end{theorem}
 
@@ -1071,7 +1074,7 @@ Soit $K$ un corps.
     Le sens direct est immédiat. Pour le sens réciproque, soit $P \in L[X]$ un polynôme irréductible. Soit $M/L$ un corps de rupture de $P$. Alors, $M/L$, $L/K$ sont algébriques donc $M/K$ est algébrique. Soit $\alpha \in M$ une racine de $P$ et $P_\alpha$ son polynôme minimal sur $K$. Alors, $P_\alpha \mid P$ dans $L[X]$, mais $P$ est irréductible, donc $c P = P_\alpha$ pour un certain $c\in L$. Or, $P_\alpha \in K[X]$ est scindé dans $L$ par hypothèse,donc $P$ aussi. Comme $P$ est irréductible, forcément $\deg P = 1$, ce qui démontre que $L$ est algébriquement clos. Comme $L/K$ est algébrique, on obtient le résultat.
 \end{proof}
 
-\begin{proposition}
+\begin{proposition} \label{prolongmorcac}
     Soit $L/K$ algébrique et $M$ un corps algébriquement clos. Tout morphisme $i : K \to M$ se prolonge en un morphisme $\varphi : L \to M$.
     \begin{center}
         \begin{tikzcd}[column sep = tiny]
@@ -1246,7 +1249,7 @@ Soit $K$ un corps.
 \end{proof}
 
 \begin{corollary}
-    Soit $L/K$ normale. Tout automorphisme de $K$ se prolonge en un automorphisme de $L$.
+    Soit $L/K$ normale. Tout automorphisme de $K$ se prolonge en un automorphisme de $L$. Cela est faux. Je sais pas trop quoi en faire du coup. \todo
 \end{corollary}
 
 \begin{proof}
@@ -1262,5 +1265,355 @@ Soit $K$ un corps.
 \end{proof}
 
 \subsection{Polynômes séparables}
+
+\begin{definition}
+    Soit $K$ un corps. Soit $\theta$ l'unique morphisme d'anneaux $\Z \to K$ donné par $\theta(1) = 1_K$. Le noyau de $\theta$ est de la forme $n\Z$. Si $\theta$ est injectif, $n = 0$ et on dit que \emph{$K$ est de caractéristique nulle}. Si $\theta$ n'est pas injectif, alors $\ker \theta$ est un idéal premier de $\Z$ car $K$ est un corps, donc $n = p$ est premier et on dit que \emph{$K$ est de caractéristique $p$}. \\
+    On note la caractéristique de $K$ par $\car(K)$.
+\end{definition}
+
+\begin{proposition}
+    Si un corps $K$ est de caractéristique nulle, alors le morphisme $\Z \to K$ se prolonge en un morphisme de corps $\Q \to K$. Si $K$ est de caractéristique $p > 0$, alors le morphisme $\Z \to K$ se factorise en un morphisme de corps $\F_p = \Z/p\Z \hookrightarrow K$ et l'application
+    \[\Fr_K : \applic{K}{K}{x}{x^p}\]
+    est un automorphisme de $K$ appelé \emph{le morphisme de Frobenius}.
+\end{proposition}
+
+\begin{proof}
+    On démontre seulement le fait que le Frobenius est un morphisme.
+    On a $\Fr_K(1) =1$ et $\Fr_K(xy) = (xy)^p = x^p y^p = \Fr_K(x) \Fr_K(y)$. De plus
+    \[(x+y)^p = \sum_{k=0}^p \binom{p}{k} x^k y^{p-k}\]
+    Comme $p$ est premier, $p \mid \binom{p}{k}$ pour $0 < k < p$. Comme \og $p = 0$ \fg dans $K$, on obtient
+    \[(x+y)^p = y^p + x^p\]
+    D'où $\Fr_K$ est bien un automorphisme de $K$ (il est en particulier injectif !).
+\end{proof}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item La caractéristique de $\Q,\R,\C, \Q(T),\R(T),\C(T)$ est nulle.
+        \item La caractéristique de $\F_p,\F_p(T), \F_p(T_1,\dots,T_n)$ est $p$ pour $p$ premier quelconque.
+    \end{enumerate}
+\end{example}
+
+\begin{definition}
+    Pour un polynôme $P = \sum a_i X^i \in K[X]$, on définit son \emph{polynôme dérivé} par $P' = \sum i a_i X^{i-1} \in K[X]$ (où $i$ est en fait $\theta(i)$ où $\theta$ est l'unique morphisme $\Z \to K$).
+\end{definition}
+
+\begin{proposition}
+    L'application dérivée
+    \[\partial : \applic{K[X]}{K[X]}{P}{P'}\]
+    est une application $K$-linéaire. C'est l'unique application $K$-linéaire de $K[X]$ dans $K[X]$ qui satisfait la relation de Leibniz $\partial(PQ) = \partial(P) Q + P \partial(Q)$.
+\end{proposition}
+
+\begin{proposition}
+    Soit $P \in K[X]$ tel que $P' = 0$.
+    \begin{itemize}
+        \item Si $\car(K) = 0$, alors $\deg P = 0$ ou $P = 0$.
+        \item Si $\car(K) = p > 0$, alors il existe un unique $Q \in K[X]$ tel que $P = Q(X^p)$.
+    \end{itemize}
+\end{proposition}
+
+\begin{proof}
+    On explicite $P = \sum a_i X^i$. Supposons $\car (K) = 0$. Alors, $ia_i = 0$ pour tout $i$. Ainsi, $a_i = 0$ pour tout $i > 0$, donc $\deg P = 0$ (ou $P = 0$). Supposons maintenant $\car(K) = p > 0$. Il subsiste que $a_i = 0$ pour tout $i$ non divisible par $p$, donc les seuls monômes non nuls dans $P$ sont de la forme $a_{pk} X^{pk} = (X^p)^k$, ce qui conclut.
+\end{proof}
+
+\begin{definition}
+    Soit $L/K$ une extension de corps et $P \in K[X]$. Alors, $\alpha \in L$ est dit \emph{une racine de multiplicité $m$ de $P$} si $P(\alpha) = 0$ et $(X-\alpha)^m \mid P$ dans $L[X]$ mais que $(X-\alpha)^{m+1} \nmid P$ dans $L[X]$. Si $m=1$, $\alpha$ est dite \emph{une racine simple de $P$}, sinon on parle de \emph{racine multiple}. 
+\end{definition}
+
+\begin{remark}
+    Si $P$ est scindé sur $L$, alors $\alpha$ est une racine de multiplicité $m$ de $P$ si et seulement si
+    \[P = (X-\alpha)^m c \prod_{i=1}^s (X-\beta_i)^{r_i}\]
+    avec $\beta_i \ne \alpha$ pour tout $i$ et $c \in K^\times$.
+\end{remark}
+
+\begin{definition}
+    Un polynôme $P \in K[X]$ est dit \emph{séparable} si l'idéal $(P,P')$ est $K[X]$, c'est-à-dire si $P$ et $P'$ sont premiers entre eux.
+\end{definition}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item Si $\deg P = 1$, alors $P$ est séparable.
+        \item Dans $\C[X]$, $X^2 + 1$ est séparable.
+        \item Dans $\F_p(T)[X]$, $X^p - T$ n'est pas séparable.
+    \end{enumerate}
+\end{example}
+
+\begin{lemma}
+    Un polynôme est séparable si et seulement s'il n'a pas de racines multiples dans son corps de décomposition.
+\end{lemma}
+
+\begin{proof}
+    Par contraposée, supposons que $P \in K[X]$ ait une racine multiple $\alpha$ dans son corps de décomposition $L/K$. Alors, $(X-\alpha)^2 \mid P$, donc il existe $Q \in L[X]$ tel que $P=(X-\alpha)^2 Q$, d'où
+    \[P' = ((X-\alpha)^2 Q)' = 2 (X-\alpha)Q + (X-\alpha)^2 Q'\]
+    Donc $\alpha$ est aussi racine de $P'$. Ainsi, en notant $\Pi_\alpha \in K[X]$ le polynôme minimal de $\alpha$ sur $K$ (existe car $L/K$ algébrique), $(P,P') \supset (\Pi_\alpha)$, donc $P$ n'est pas séparable. \\
+    Supposons maintenant toutes les racines de $P$ simples dans son corps de décomposition $L/K$. Soit $R \in K[X]$ irréductible tel que $(R) = (P,P')$. Comme $R \mid P$ dans $L[X]$ et que $P$ est scindé dans $L$, $R$ est aussi scindé dans $L[X]$. Une racine que $P$ et $P'$ ont en commun est une racine double de $P$, donc nécessairement $R \in K$ et $(P,P') = K[X]$.
+\end{proof}
+
+\begin{remark}
+    Le polynôme $P \in K[X]$ est séparable si et seulement si $P$ a exactement $\deg P$ racines dans $\overline{K}$.
+\end{remark}
+
+\begin{corollary} \leavevmode
+    \begin{enumerate}
+        \item Un polynôme $P \in K[X]$ irréductible est séparable si et seulement si $P' \ne 0$.
+        \item Si $\car (K) = 0$, tout polynôme irréductible est séparable.
+        \item Si $\car(K) = p > 0$, alors $P \in K[X]$ irréductible est séparable si et seulement si $P \notin K[X^p]$.
+    \end{enumerate}
+\end{corollary}
+
+\begin{proof}
+    $(1)$ : l'anneau $K[X]$ est principal, donc $(P,P') = (R)$ pour un $R \in K[X]$, d'où $R \mid P$. Comme $P$ est irréductible, $R = \alpha P$ avec $\alpha \in K^\times$ ou $R \in K^\times$. Si $P$ est séparable, $R \in K^\times$ et $P' \ne 0$ car $(P,0) = (P) \ne K[X]$. Si $P' \ne 0$, comme $R \mid P'$, forcément $R \in K^\times$ (car sinon $\deg R = \deg P > \deg P'$), donc $(P,P') = K[X]$ ie $P$ est séparable. \\
+    $(2)$ : en caractéristique $0$, $P' = 0$ implique $P \in K$ ce qui empêche que $P$ soit irréductible, donc par contraposée, tout polynôme irréductible est séparable.
+    $(3)$ : en caractéristique $p > 0$, on a $P' = 0$ si et seulement si $P \in K[X^p]$, d'où le résultat.
+\end{proof}
+
+\begin{corollary}
+    $P \in K[X]$ est séparable si et seulement si c'est le produit de polynômes irréductibles séparables deux à deux distincts.
+\end{corollary}
+
+\begin{proof}
+    \todo
+\end{proof}
+
+Étant donné ce qu'il se passe en caractéristique zéro, on peut se poser la question : sur quels corps les polynôme irréductibles sont-ils tous séparables ?
+
+\begin{definition}
+    Un corps $K$ est dit \emph{parfait} si tout polynôme irréductible de $K[X]$ est séparable.
+\end{definition}
+
+\begin{proposition}
+    Un corps $K$ est parfait si $\car(K) = 0$ ou $\car(K) = p > 0$ et le morphisme de Frobenius $\Fr_K$ est surjectif.
+\end{proposition}
+
+\begin{proof}
+    Commençons par le sens inverse. On a déjà vu que les corps de caractéristique nulle sont parfaits. Supposons $\car(K) = p>0$ et $\Fr_K$ surjectif. Soit $P \in K[X]$ irréductible. Supposons par l'absurde $P \in K[X^p]$. Comme $\Fr_K$ est surjectif, les coefficients de $P$ sont des puissances $p$-ièmes, donc en fait $P = Q^p$. Ainsi, $P$ ne peut pas être irréductible, ce qui conclut pour le sens inverse. \\
+    Supposons maintenant $K$ parfait et $\car(K) = p > 0$. Soit $\alpha \in K \setminus K^p$ un élément non atteint par le morphisme de Frobenius. On considère le polynôme non séparable $X^p - \alpha$. Montrons qu'il est irréductible. Soit $Q \in K[X]$ tel que $Q \mid X^p - \alpha$. Alors, dans un corps de rupture $L/K$ de $X^p -\alpha$, on dispose de $\beta \in L$ tel que $\beta^p = \alpha$. Ainsi, $Q \mid (X-\beta)^p$ dans $L[X]$, donc $Q = (X-\beta)^m$ pour un certain $m$. Si $m$ et $p$ sont premiers entre eux, alors on dispose de $u,v \in \Z$ tels que $um + vp = 1$. Comme $Q \in K[X]$, $Q(0) \in K[X]$, donc $\beta^m \in K$. Comme $\beta^p = \alpha \in K$, on en déduit $\beta^{um+vp} = \beta \in K$. Cela est absurde car $\alpha = \beta^p$ est alors atteint par le morphisme de Frobenius.
+\end{proof}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item Tout corps fini est parfait (le morphisme de Frobenius est injectif donc surjectif).
+        \item Tout corps algébriquement clos est parfait.
+        \item $\F_p(T)$ n'est pas parfait.
+    \end{enumerate}
+\end{example}
+
+\subsection{Extensions séparables}
+
+\begin{definition}
+    Une extension de corps $L/K$ algébrique est dite \emph{séparable} si pour tout $\alpha \in L$, le polynôme minimal de $\alpha$ sur $K$ est séparable. Le \emph{degré séparable} d'une extension algébrique $M/K$ est défini par
+    \[[M : K]_s = \Card(\{\sigma : M \hookrightarrow \overline{K} \mid \sigma \text{ prolonge } K \hookrightarrow \overline{K}\})\]
+    où $\overline{K}$ est une clôture algébrique de $K$.
+\end{definition}
+
+\begin{remark}
+    Le degré séparable est bien défini : par le théorème de Steinitz, $[M : K]_s$ ne dépend pas de la clôture algébrique $\overline{K}/K$. De plus, on sait que $[M : K]_s > 0$.
+\end{remark}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item $\C/\R$ est séparable et $[\C : \R]_s = 2$.
+        \item Soient $p$ premier, $L = \F_p (T)$ et $K = L^p = \F_p(T^p)$. Alors, $[L : K] = p$. Si $\sigma : L \to \overline{K}$ est un prolongement de $i : K \hookrightarrow \overline{K}$, alors $\sigma(T) = \sigma(T^p)^{1/p} = i(T^p)^{1/p}$, d'où $\sigma$ est uniquement déterminé par $i$, car $X^p - i(T^p) = (X-\sigma(T))^p$ dans $\overline{K}[X]$. Donc, $[L:K]_s = 1 < p = [L:K]$.
+    \end{enumerate}
+\end{example}
+
+\begin{remark} \leavevmode
+    \begin{enumerate}
+        \item Soient $\sigma_1 : K \hookrightarrow \overline{K_1}$ et $\sigma_2 : K \hookrightarrow \overline{K_2}$ deux clôtures algébriques de $K$. Par la proposition \ref{prolongmorcac}, comme $\overline{K_1}/K$ est algébrique, il existe $\varphi : \overline{K_1} \hookrightarrow \overline{K_2}$ qui prolonge $\sigma_2$. Soit $\alpha \in \overline{K_2}$ et $P_\alpha \in K[X]$ son polynôme minimal sur $K$. En enlevant les identifications, on a $(\sigma_2 P_\alpha) (\alpha) = 0$, où $(\sigma_2 P_\alpha) \in \overline{K_2} [X]$. Alors, $(X-\alpha) \mid (\sigma_2 P_\alpha)$ dans $\overline{K_2}[X]$. Comme $\overline{K_1}$ est algébriquement clos, $\varphi(\overline{K_1})$ l'est aussi, donc $\sigma_2 P_\alpha = (\varphi \circ \sigma_1) P_\alpha \in \varphi(\overline{K_1})[X]$ est scindé dans $\varphi(\overline{K_1})[X] \subseteq \overline{K_2}$, d'où $X-\alpha \in \varphi(\overline{K_1})[X]$ et $\alpha \in \varphi(\overline{K_1})$. Ainsi, $\varphi$ est surjectif donc un $K$-isomorphisme.
+        \item Soit $L/K$ une extension de corps algébrique. Soient $\sigma_1 : K \to \overline{K_1}$ et $\sigma_2 : K \to \overline{K_2}$ deux clôtures algébriques de $K$. Alors, en prenant $\varphi$ comme ci-dessus un $K$-isomorphisme entre $\overline{K_1}$ et $\overline{K_2}$, l'application
+        \[\applic{\{\pi : L \to \overline{K_1} \mid \pi_{\mid K} = \sigma_1\}}{\{\psi : L \to \overline{K_2} \mid \psi_{\mid K} = \sigma_2\}}{\pi}{\varphi \circ \pi}\]
+        est une bijection, d'où $[L : K]_s$ ne dépend pas de la clôture algébrique de $K$.
+        \item Si $L/K$ n'est pas algébrique, alors $[L : K]_s = 0$. Sinon, $[L : K]_s > 0$ par la proposition \ref{prolongmorcac}.
+    \end{enumerate}
+\end{remark}
+
+\begin{lemma}
+    Soit $M/L/K$ une tour de corps algébrique. Alors,
+    \[[M : K]_s = [M : L]_s [L : K]_s\]
+\end{lemma}
+
+\begin{proof}
+    Soit $\overline{K}/K$ une clôture algébrique de $K$. Soit $(\sigma_i)_{i\in I}$ la famille des $K$-plongements $L \hookrightarrow \overline{K}$. Par définition, $[L : K]_s = \Card(I)$. Pour $i\in I$ fixé, $\sigma_i : L \hookrightarrow \overline{K}$ est une clôture algébrique de $L$. Ainsi, par la remarque précédente, il existe $[M : L]_s$ morphismes $M \hookrightarrow \overline{K}$ qui fixent $L$. Notons-les $(\varphi_j^i)_{j \in J}$ avec $[M : L]_s = \Card(J)$. Alors, les prolongements de $K \hookrightarrow \overline{K}$ à $M \hookrightarrow \overline{K}$ sont en bijection avec $(\varphi_j^i)_{(i,j) \in I \times J}$, d'où la conclusion.
+\end{proof}
+
+\begin{theorem}
+    Soit $L/K$ une extension finie.
+    \begin{enumerate}
+        \item S'il existe $S \subseteq L$ fini et contenant uniquement des éléments séparables dans $L/K$, alors $L/K$ est une extension séparable. 
+        \item On a $[L : K]_s \le [L : K]$ avec égalité si et seulement si $L/K$ est séparable.
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    Si $L = K(\alpha)$ avec $P_\alpha \in K[X]$ le polynôme minimal de $\alpha$ sur $K$, alors $[L : K]_s$ est le nombre de racines distinctes de $P_\alpha$ dans $\overline{K}$ une clôture algébrique de $K$. Il y en a au plus $[L : K]$ par le corollaire \ref{nbmorcorpsrupture}, d'où $[L : K]_s \le [L : K]$ avec égalité si et seulement si $P_\alpha$ a exactement $\deg P_\alpha$ racines dans $\overline{K}$ c'est-à-dire si $P_\alpha$ est séparable.\\
+    Soit maintenant $L = K(S)$. Comme $L/K$ est finie, on peut supposer $S$ fini quitte à passer à un sous-ensemble. Écrivons $S = \{\alpha_1,\dots,\alpha_n\}$. En appliquant la multiplication du degré et du degré séparable à la tour de corps
+    \[L/K(\alpha_1,\dots,\alpha_n)/\cdots/K(\alpha_1)/K\]
+    on obtient $[L : K]_s \le [L : K]$ par le paragraphe précédent. \\
+    Si on suppose que $S$ ne contient que des éléments séparables dans $L/K$, alors pour tout $i$, $\alpha_i$ est séparable dans $K(\alpha_1,\dots,\alpha_i)/K(\alpha_1,\dots,\alpha_{i-1})$, car le polynôme minimal de $\alpha_i$ sur un surcorps de $K$ divise celui sur $K$, qui n'a que des racines simples dans $\overline{K}$. Ainsi, $[L : K]_s = [L : K]$ dans ce cas par le premier paragraphe. \\
+    Réciproquement, si $[L : K] = [L : K]_s$, alors pour tout $\alpha \in L$, on a $[L : K(\alpha)]_s = [L : K(\alpha)]$ et $[K(\alpha) : K]_s = [K(\alpha) : K]$ d'où $\alpha$ est séparable dans $L/K$. Ainsi, $L/K$ est séparable.
+\end{proof}
+
+\begin{remark}
+    Si $K = \Q$ et $L = \Q(\sqrt{p} \mid p \text{ premier})$, alors $[L : \Q]$ est infini dénombrable, mais $\{\sigma : L \to \Qbar \mid \sigma\text{ $K$-morphisme}\}$ est de cardinal $2^{\aleph_0}$ (il faut choisir $\sqrt{p}$ ou $-\sqrt{p}$ pour tout $p$), donc $[L : K]_s$ est infini non dénombrable.
+\end{remark}
+
+\begin{proposition}
+    Soit $M/L/K$ une tour de corps. Si $\alpha \in M$ est séparable dans $M/L$ et que $L/K$ est séparable, alors $\alpha$ est séparable dans $M/K$. Par conséquence, $M/K$ est séparable si et seulement si $M/L$ et $L/K$ le sont.
+\end{proposition}
+
+\begin{proof}
+    Soit $P_\alpha \in L[X]$ le polynôme minimal de $\alpha$ sur $L$. Soit $K'/K$ la sous-extension de $L/K$ engendrée par les coefficients de $P_\alpha$. Alors, $K'/K$ est engendrée par un nombre fini d'éléments  algébriques séparable, donc est finie, donc séparable, par le théorème précédent. Ainsi, $[K' : K]_s = [K' : K]$. Comme $P_\alpha \in K'[X]$, $P_\alpha$ est le polynôme minimal de $\alpha$ dans $M/K'$, donc $\alpha$ est séparable dans $M/K'$. Cela implique par le théorème précédent que $K'(\alpha)/K'$ est séparable, donc $[K'(\alpha) : K']_s = [K'(\alpha) : K']$. On obtient $[K'(\alpha) : K] = [K'(\alpha) : K]_s$, donc $K'(\alpha)/K$ est séparable, d'où $\alpha$ est séparable dans $M/K$. \\
+    Ainsi, si $M/L$ et $L/K$ sont séparables, $M/K$ l'est aussi. Réciproquement, supposons $M/K$ séparable. Alors, $L/K$ est séparable. De plus, si $\alpha \in M$ et $P_\alpha^K, P_\alpha^L$ sont ses polynômes minimaux sur $K$ et $L$, alors $P_\alpha^L \mid P_\alpha^K$, donc si $P_\alpha^K$ est séparable, $P_\alpha^L$ aussi, d'où $M/L$ est séparable.
+\end{proof}
+
+\begin{corollary}
+    L'ensemble des éléments séparables d'une extension $L/K$ est une sous-extension séparable sur $K$. On l'appelle la \emph{clôture séparable de $K$ dans $L$}.
+\end{corollary}
+
+\begin{proof}
+    Pour $\alpha,\beta \in L$ séparables dans $L/K$, $K(\alpha,\beta)/K$ est séparable, donc $\alpha - \beta, \alpha \beta^{-1}$ aussi.
+\end{proof}
+
+\begin{remark} \leavevmode
+    \begin{enumerate}
+        \item Si $L/K$ est algébrique et $L = K(S)$ avec $S\subseteq L$ contenant uniquement des éléments séparables, alors $L/K$ est séparable.
+        \item On peut définir \emph{\og la \fg clôture séparable} d'un corps $K$ comme étant la clôture séparable de $K$ dans $\overline{K}$. On la note $\overline{K}^\sep$ ou $\overline{K}^s$. Elles sont toutes $K$-isomorphes.
+    \end{enumerate}
+\end{remark}
+
+\begin{definition}
+    Une extension algébrique $L/K$ est dite \emph{purement inséparable} ou \emph{radicielle} si la clôture séparable de $K$ dans $L$ est $K$.
+\end{definition}
+
+\begin{remark} \leavevmode
+   \begin{enumerate}
+    \item L'extension $\overline{K}/\overline{K}^\sep$ est purement inséparable.
+    \item S'il existe une extension $L/K$ purement inséparable avec $[L : K] > 1$ (c'est vrai ça ??? \todo), alors $\car K > 0$. En particulier, si $\car K = 0$, on a $\overline{K} = \overline{K}^\sep$.
+   \end{enumerate} 
+\end{remark}
+
+\begin{example}
+    L'extension $\F_p(T)/\F_p(T^p)$ est purement inséparable.
+\end{example}
+
+\begin{proposition} \leavevmode
+    \begin{enumerate}
+        \item Soit $K$ un corps. Alors, $K$ est parfait si et seulement si $\overline{K} = \overline{K}^\sep$.
+        \item Si $L/\overline{K}^\sep$ est séparable, on a $L=\overline{K}^\sep$.
+        \item Si $\alpha \in \overline{K} \setminus \overline{K}^\sep$, $\alpha$ n'est pas séparable dans $\overline{K}/\overline{K}^\sep$ et pas séparable dans $\overline{K}/K$.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof} \leavevmode
+    \begin{enumerate}
+        \item $K$ est parfait si et seulement si tous les polynômes irréductibles de $K[X]$ sont séparables si et seulement si tous les polynômes minimaux sur $K$ d'éléments de $\overline{K}$ sont séparables si et seulement si $\overline{K} = \overline{K}^\sep$.
+        \item $L/\overline{K}^\sep$ est algébrique donc il existe un plongement $L\hookrightarrow \overline{K}$. Comme $L/K$ est séparable, on a $L \subseteq \overline{K}^\sep$ et donc $L = \overline{K}^\sep$.
+        \item Voir (2). (rendre ça plus sympathique au lecteur \todo)
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    Un corps $K$ est dit \emph{séparablement clos} si $K = \overline{K}^\sep$.
+\end{definition}
+
+\begin{proposition} \leavevmode
+    \begin{enumerate}
+        \item Un corps $K$ est séparablement clos si et seulement si tout polynôme irréductible séparable sur $K$ est de degré $1$.
+        \item Toute extension séparable d'un corps $K$ se plonge dans $\overline{K}^\sep$. (déjà fait juste au-dessus non ? \todo)
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    \todo
+\end{proof}
+
+\subsection{Théorème de l'élément primitif}
+
+\begin{theorem}
+    Soit $K$ un corps et $L = K(\alpha_1,\dots,\alpha_n)$ une extension finie de $K$. Si $\alpha_2,\dots,\alpha_n$ sont séparables dans $L/K$, alors il existe $\beta \in L$ tel que $L = K(\beta)$. On dit dans ce cas que $L/K$ est une \emph{extension simple}.
+\end{theorem}
+
+\begin{proof}
+    Supposons d'abord $K$ fini. Alors, $L$ est fini comme extension finie de $K$. Alors, $L^\times$ est cyclique \footnote{\todo mettre une ref}, donc $L = K(\alpha)$ pour $\alpha \in L$ un générateur de $L^\times$. \\
+    Supposons maintenant $K$ infini. Il suffit de montrer le résultat pour $n=2$ puis de faire une récurrence (c'est ici que le choix de ne pas supposer $\alpha_1$ séparable prend son sens). Soient $P_{\alpha_1}, P_{\alpha_2}$ les polynômes minimaux de $\alpha_1,\alpha_2$ sur $K$, respectivement. Soit $M/L$ un corps de décomposition de $P_{\alpha_1}P_{\alpha_2}$. Alors, dans $M[X]$, on a
+    \[P_{\alpha_1} = \prod_{i=1}^s (X-x_i) \quad \text{et} \quad P_{\alpha_2} = \prod_{j=1}^t (X-y_j) \]
+    avec $x_1 = \alpha_1$, $y_1 = \alpha_2$ et les $y_j$ distincts deux à deux (car $\alpha_2$ est séparable). On choisit
+    \[\gamma \in K \setminus \left\{\frac{x_i-\alpha_i}{\alpha_2-y_j} \; \Big| \; 2 \le j \le t, 1 \le i \le s \right\}\]
+    Un tel $\gamma$ existe car $K$ est supposé infini. Soit $\beta = \alpha_1 + \gamma \alpha_2 \in K$. Montrons que $K(\beta) = K(\alpha_1,\alpha_2)$. Par construction, on a $P_{\alpha_1} (\beta - \gamma \alpha_2) = P_{\alpha_1} (\alpha_1) = 0$ et $P_{\alpha_2} (\beta - \gamma y_j) \ne 0$ pour $j \ne 1$. Ainsi, les polynômes $P_{\alpha_2}$ et $R = P_{\alpha_1} (\beta - \gamma X)$ dans $K(\beta)[X]$ ont $\alpha_2 \in L$ pour seule racine commune. Ainsi, $\pgcd(P_{\alpha_2},R) = X-\alpha_2$. Comme le PGCD ne dépend pas du corps ambiant, $X-\alpha_2 \in K(\beta)[X]$ d'où $\alpha_2 \in K(\beta)$, d'où $\alpha_1 = \beta - \gamma\alpha_2 \in K(\beta)$. Ainsi, $K(\beta) = K(\alpha_1,\alpha_2)$.
+\end{proof}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item $\Q(\sqrt[3]{2},j)/\Q$ est séparable, donc simple. Elle est engendrée par $\sqrt[3]{2} + j$. En général, il n'est pas évident de trouver un $x \in L$ tel que $L = K(x)$.
+        \item Soit $L = \F_p (X,Y)$ et $K = L^p = \F_p(X^p,Y^p)$. Alors, $L/K$ n'est pas simple :
+        \begin{itemize}
+            \item $\{X^i Y^j \mid 0\le i,j\le p-1\}$ est une base de $L/K$, donc $[L : K] = p^2$.
+            \item Tout $\alpha \in L$, est racine de $T^p - \alpha^p \in K[T]$ d'où son polynôme minimal sur $K$ divise $T^p - \alpha^p$ donc est degré au plus $p$. Ainsi, $[K(\alpha) : K] \le p$ donc $L \ne K(\alpha)$.
+        \end{itemize}
+    \end{enumerate}
+\end{example}
+
+\begin{theorem}
+    Soit $L/K$ une extension finie. Sont équivalents :
+    \begin{enumerate}
+        \item Il n'y a qu'un nombre fini de corps intermédiaires $E$ entre $K$ et $L$.
+        \item Il existe $\alpha \in L$ tel que $L = K(\alpha)$ i.e. $L/K$ est simple.
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    Dans le cas où $K$ est fini, l'énoncé est clair. Supposons donc $K$ infini. \\
+    Supposons $(1)$. Soit $L = K(\alpha_1,\dots,\alpha_n)$. Il suffit de traiter le cas $n=2$ par récurrence. La famille d'extensions donnée par $(K(\alpha_1 + \beta \alpha_2))_{\beta \in K}$ étant finie, on dispose de $u,v \in K$ distincts tels que $K(\alpha_1 + u \alpha_2) = K(\alpha_1 + v \alpha_2)$. Alors, $\alpha_2 = \frac{(\alpha_1+v\alpha_2) - (\alpha_1 + u \alpha_2)}{v-u} \in K(\alpha_1 + u \alpha_2)$, d'où $\alpha_1 \in K(\alpha_1 + u \alpha_2)$ et on obtient $K(\alpha_1,\alpha_2) = K(\alpha_1 + u\alpha_2)$. \\
+    Supposons $(2)$. Soit $L = K(\alpha)$ avec $P_\alpha$ le polynôme minimal de $\alpha$ sur $K$. Soit $E$ un corps tel que $K \subseteq E \subseteq L$. Alors, le polynôme minimal $P_{\alpha,E}$ de $\alpha$ sur $E$ satisfait $P_{\alpha, E} \mid P_\alpha$ dans $E[X] \subseteq L[X]$. On remarque que $P_\alpha$ n'a qu'un nombre fini de diviseurs unitaires dans $L[X]$. Soit $E_0$ le corps engendré sur $K$ par les coefficients de $P_{\alpha, E}$. Alors, $E \supseteq E_0 \supseteq K$ et $P_{\alpha, E}$ est irréductible sur $E_0 [X]$, donc c'est le polynôme minimal de $\alpha$ sur $E_0$. On a donc $[L : E_0] = \deg P_{\alpha, E} = [L : E]$ d'où $E = E_0$. Ainsi, on peut retrouver $E$ à partir de $P_{\alpha, E}$. On obtient une injection
+    \[\applic{\{\text{corps intermédiaires dans }L/K\}}{\{\text{facteurs irréductibles unitaires de $P_\alpha$ dans $L[X]$}\}}{E}{P_{\alpha,E}}\]
+    d'où le résultat.
+\end{proof}
+
+\subsection{Corps finis}
+
+Un corps $K$ est dit fini si son cardinal est fini. On remarque qu'alors $\car K > 0$ car $1$ est d'ordre fini dans $(K,+)$. Ainsi, il existe $p$ premier tel que $\car K = p$. Soit $\F_p = \Z/p\Z$. Alors, $\F_p$ est un sous-corps de $K$. On a donc $\Card(K) = p^{[K : \F_p]}$ où $[K : \F_p] < \infty$ car $K$ est fini et une extension de $\F_p$.
+
+\begin{proposition}
+    Pour tout $p$ premier et tout $n \in \N^*$, il existe un corps $K$ à $p^n$ éléments. Ce corps est un corps de décomposition du polynôme $X^{p^n} - X \in \F_p [X]$, d'où tous deux corps à $p^n$ éléments sont isomorphes.
+\end{proposition}
+
+\begin{proof}
+    Soit $K$ un corps de décomposition de $X^{p^n} - X \in \F_p [X]$. Comme ce polynôme est séparable, ses racines dans $K$ sont simples et sont distinctes donc il y en a $p^n$. De plus, le sous-ensemble $K_0 = \{ x\in K \mid x^{p^n} = x\}$ est un sous-corps de $K$, car
+    \[(xy)^{p^n} = x^{p^n} y^{p^n} \quad (x+y)^{p^n} = x^{p^n}+y^{p^n}\]
+    comme on travaille en caractéristique $p$. Ainsi, $K_0$ est un corps de décomposition de $X^{p^n} - X$ lui-même. Comme deux corps de décomposition d'un même polynôme sont isomorphes, $K_0 \simeq K$. Le corps $K_0$ est fini comme ensemble des racines d'un polynôme, donc $K = K_0$ et $\Card(K) = p^n$. \\
+    Maintenant, si $K$ est n'importe quel corps à $p^n$ éléments, on sait que $K^\times$ est cyclique d'ordre $p^n - 1$. Ainsi, le théorème de Lagrange assure que si $x \in K^\times$, $x^{p^n - 1} = 1$. En particulier, pour tout $x \in K$, $x^{p^n} = x$. Comme $\car K = p$ et que $\F_p \hookrightarrow K$, $K$ est en fait un corps de décomposition de $X^{p^n} - X \in \F_p[X]$, car il est minimal pour la propriété de posséder toutes les racines de $X^{p^n} - X$.
+\end{proof}
+
+Dans la suite, on fait l'abus de notation de noter $\F_q$ un corps à $q$ éléments. On a $q=p^n$ pour $p$ premier et $n\in \N^*$.
+
+\begin{proposition}
+    Soit $p$ premier et $n,m \in \N^*$. Alors, il existe un morphisme $\F_{p^m} \hookrightarrow \F_{p^n}$ si et seulement si $m \mid n$.
+\end{proposition}
+
+\begin{proof}
+    S'il existe un morphisme de corps $\F_{p^m} \hookrightarrow \F_{p^n}$, alors en notant $d = [\F_{p^n} : \F_{p^m}]$, on a $\Card(\F_{p^n}) = p^n = (\Card(\F_{p^m}))^d = (p^m)^d = p^{md}$ d'où $m \mid n$. \\
+    Réciproquement, supposons $n = dm$ pour $d \in \N^*$. Alors, $p^m - 1 \mid p^n - 1$. Écrivons $p^n - 1 = (p^m - 1)A$ pour $A \in \N^*$. On remarque que $\F_{p^n}$ est un corps de décomposition de $X^{p^n - 1} - 1 \in \F_p [X]$. Comme
+    \[X^{p^n - 1} - 1 = X^{A(p^m - 1)} - 1 = ((X^{p^m - 1}) - 1)Q\]
+    avec $Q \in \F_p [X]$ et $X^{p^n - 1} - 1$ est séparable, on déduit que $X^{p^m - 1} - 1$ est scindé dans $\F_{p^n}$. Ainsi, par le théorème \ref{thmmorpolscinde}, il existe un morphisme $\F_{p^m} \hookrightarrow \F_{p^n}$.
+\end{proof}
+
+\begin{proposition}
+    Soit $p$ premier. Soit $\overline{\F_p}$ une clôture algébrique de $\F_p$. Alors, pour tout $n \in \N^*$, $\overline{\F_p}$ contient exactement un corps à $p^n$ éléments.
+\end{proposition}
+
+\begin{proof}
+    Comme $\F_{p^n}$ est le corps de décomposition de $X^{p^n} - X \in \F_p [X]$, la clôture algébrique $\overline{\F_p}$ n'en contient qu'une seule copie.
+\end{proof}
+
+\begin{remark}
+    On a en fait $\overline{\F_p} = \bigcup\limits_{n\ge 1} \F_{p^n}$. Montrons l'inclusion $\subseteq$. Soit $x\in \overline{\F_p}$. Alors, $\F_p (x) / \F_p$ est algébrique et de type finie donc finie d'où $\Card(\F_p) < \infty$ avec $\car \F_p (x) = p$ d'où $\F_p (x) \simeq \F_{p^n}$.
+\end{remark}
+
+\begin{example}
+    Une extension algébrique infinie de $\F_p$ qui n'est pas sa clôture algébrique est $\bigcup\limits_{n\ge 1} \F_{p^{2n}}$.
+\end{example}
+
+\subsection{Théorie de Galois}
+
+
 
 \end{document}
