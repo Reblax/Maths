@@ -1256,7 +1256,7 @@ Soit $K$ un corps.
     \todo
 \end{proof}
 
-\begin{theorem}
+\begin{theorem} \label{thmclotnorm}
     Soit $L/K$ algébrique et $M$ un corps algébriquement clos tel que $L \subseteq M$. Il existe une plus petite extension normale $E/K$ telle que $L \subseteq E \subseteq M$. On dira que $E$ est la \emph{clôture normale de $L$ dans $M$}.
 \end{theorem}
 
@@ -1435,7 +1435,7 @@ Soit $K$ un corps.
     Soit $\overline{K}/K$ une clôture algébrique de $K$. Soit $(\sigma_i)_{i\in I}$ la famille des $K$-plongements $L \hookrightarrow \overline{K}$. Par définition, $[L : K]_s = \Card(I)$. Pour $i\in I$ fixé, $\sigma_i : L \hookrightarrow \overline{K}$ est une clôture algébrique de $L$. Ainsi, par la remarque précédente, il existe $[M : L]_s$ morphismes $M \hookrightarrow \overline{K}$ qui fixent $L$. Notons-les $(\varphi_j^i)_{j \in J}$ avec $[M : L]_s = \Card(J)$. Alors, les prolongements de $K \hookrightarrow \overline{K}$ à $M \hookrightarrow \overline{K}$ sont en bijection avec $(\varphi_j^i)_{(i,j) \in I \times J}$, d'où la conclusion.
 \end{proof}
 
-\begin{theorem}
+\begin{theorem} \label{thmdegsep}
     Soit $L/K$ une extension finie.
     \begin{enumerate}
         \item S'il existe $S \subseteq L$ fini et contenant uniquement des éléments séparables dans $L/K$, alors $L/K$ est une extension séparable. 
@@ -1614,6 +1614,160 @@ Dans la suite, on fait l'abus de notation de noter $\F_q$ un corps à $q$ élém
 
 \subsection{Théorie de Galois}
 
+\begin{definition}
+    Soit $L/K$ une extension de corps. Le \emph{groupe de Galois de $L/K$}, noté $\Gal(L/K)$, est par définition l'ensemble $\{\sigma \in \Aut(L) \mid \sigma_{\mid K} = \id_K\}$ muni de la composition.
+\end{definition}
 
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item $\Gal(\C/\R) = \{\id,z\mapsto\overline{z}\} \simeq \Z/2\Z$.
+        \item $\Gal(\Q(\sqrt[3]{5})/\Q) = \{\id\}$.
+        \item $\Gal(\R/\Q) = \{\id\}$.
+        \item On ne sait pas décrire $\Gal(\Qbar/\Q)$.
+        \item Les groupes de Cremona $\Gal(\C(X_1,\dots,X_n)/\Q)$ sont compliqués à décrire pour $n\ge 3$.
+    \end{enumerate}
+\end{example}
+
+\begin{theorem} \label{thmgaloisdeg}
+    Soit $L/K$ une extension finie. Alors
+    \[|\Gal(L/K)| \underset{(1)}{\le} [L : K]_s \underset{(2)}{\le} [L : K]\]
+    avec égalité pour $(1)$ si et seulement si $L/K$ est normale et égalité pour $(2)$ si et seulement si $L/K$ est séparable.
+\end{theorem}
+
+\begin{proof}
+    On a une action de $G = \Gal(L/K)$ sur $X = \{\sigma : L \to \overline{K} \mid \sigma \text{ est un $K$-morphisme}\}$ donnée par
+    \[\sigma \cdot g = \sigma \circ \sigma \in X\]
+    On remarque que $\sigma \circ g = \sigma$ implique $g = \id_L$ par injectivité de $\sigma$. On obtient donc une application injective
+    \[\varphi_\sigma : \applic{G}{X}{g}{\sigma \circ g}\]
+    pour un $\sigma \in X$ fixé. Ainsi, $|G| \le |X| = [L : K]_s$. De plus, l'application $\varphi_\sigma$ est surjective si et seulement si tout morphisme de $X$ est de la forme $\sigma \circ g$, c'est-à-dire si l'action est transitive. Cela est vrai si et seulement si pour tout $K$-morphisme $\varphi : L \to \overline{K}$, $\varphi(L)$ est toujours le même, ce qui est équivalent à la normalité de $L/K$ (corollaire \todo jsp ce que c'est). Pour l'inégalité $(2)$, voir le théorème \ref{thmdegsep}.
+\end{proof}
+
+\begin{remark}
+    On a en particulier dans le théorème précédent si $L/K$ est \og le \fg corps de décomposition d'un polynôme séparable.
+\end{remark}
+
+\begin{example} \leavevmode
+    \begin{enumerate}
+        \item Dans $\Q(\sqrt[3]{2})/\Q$, $\Gal(\Q(\sqrt[3]{2})/\Q) = \{\id\}$, $[\Q(\sqrt[3]{2}) : \Q]_s = [\Q(\sqrt[3]{2}) : \Q] = 3$.
+        \item Dans $\F_p(T)/\F_p(T^p)$, on a $|\Gal(\F_p(T)/\F_p(T^p))| = [\F_p(T) : \F_p(T^p)]_s = 1$ et $[\F_p(T) : \F_p(T^p)] = p$.
+    \end{enumerate}
+\end{example}
+
+\begin{remark}
+    L'inégalité $(1)$ du théorème reste vraie pour toute extension algébrique (même preuve). Si $L/K$ est normale, alors on a égalité pour $(1)$. Si on a égalité pour $(1)$, cela n'implique pas $L/K$ normale.
+\end{remark}
+
+\begin{definition}
+    Soit $L$ un corps et $G$ un sous-groupe de $\Aut(L)$. On définit
+    \[L^G = \{\alpha \in L \mid \forall g \in G, g(\alpha) = \alpha\}\]
+    le \emph{sous-corps de $L$ fixé par $G$}. On remarque que $G$ est un sous-groupe de $\Gal(L/L^G)$.
+\end{definition}
+
+\begin{theorem}[Artin]
+    Si $G$ est fini, on a
+    \[[L : L^G] = \Card(G)\]
+    et $L/L^G$ est une extension finie, normale, séparable, avec $\Gal(L/L^G) = G$.
+\end{theorem}
+
+\begin{proof}
+    Soient $K = L^G$ et $x \in L$. Soit $Q_x = \prod\limits_{y \in G\cdot x} (X - y)$ où $G \cdot x = \{g(x) \mid g\in G\} \subseteq L$. Alors, pour $g \in G$, on a $g \cdot Q_x = Q_x$ (où on applique $g$ à $Q_x$ coefficient par coefficient). Ainsi, tout élément de $G$ fixe les coefficients de $Q_x$, d'où $Q_x \in K [X]$. De plus, $Q_x$ est séparable par construction, donc $x$ est séparable sur $K$ car annulé par un polynôme séparable, donc $L/K$ est séparable. De plus, pour $P_x$ le polynôme minimal de $x$, $\deg P_x \le \deg Q_x \le |G|$. \\
+    Soit $\alpha \in L$ tel que $\deg P_\alpha$ soit maximal parmi les $\deg P_x, x\in L$. Alors, l'extension $K(\alpha,x)/K$ est séparable et finie, donc par le théorème de l'élément primitif, il existe $z \in K(\alpha,x)$ tel que $K(\alpha,x) = K(z)$. Comme $K(z)$ est un corps de rupture de $P_z \in K [X]$, on a
+    \[[K(z) : K] = \deg P_z \le \deg P_\alpha = [K(\alpha) : K] \le [K(z) : K]\]
+    donc en fait $K(\alpha) = K(z) = K(\alpha,x)$. Ainsi, $x \in K(\alpha)$, donc $L = K(\alpha)$. En particulier, $L/K$ est finie. Alors,
+    \[|G| \le |\Gal(L/K)| \le [L : K] = \deg P_\alpha \le |G|\]
+    Donc, $[L : L^G] = \Card(G)$ et $G = \Gal(L/L^G)$. La normalité vient du théorème \ref{thmgaloisdeg}.
+\end{proof}
+
+\begin{definition}
+    Une extension de corps $L/K$ est dite \emph{galoisienne} si elle est normale et séparable.
+\end{definition}
+
+\begin{remark}
+    Une extension finie $L/K$ est galoisienne si et seulement si $[L : K] = |\Gal(L/K)|$.
+\end{remark}
+
+\begin{remark}
+    Soit $M/L/K$ une tour de corps. Si $M/K$ est galoisienne, alors $M/L$ l'est aussi, mais $L/K$ en général non. De plus, $\Gal(M/K) = \{\sigma \in \Aut(M) \mid \sigma_{\mid L} = \id_L \} \subseteq \Gal(M/K)$.
+\end{remark}
+
+\begin{theorem}
+    Soit $L/K$ une extension. Sont équivalents :
+    \begin{enumerate}
+        \item $L$ est le corps de décomposition d'un polynôme séparable sur $K$
+        \item $L/K$ est finie et $K = L^{\Gal(L/K)}$
+        \item $K=L^G$ pour un certain sous-groupe $G$ de $\Aut(L)$ fini
+        \item $L/K$ est galoisienne finie
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    Supposons $(1)$. Alors, $L/K$ est finie. Soit $K' = L^{\Gal(L/K)}$. Par le théorème d'Artin, $\Gal(L/K') = \Gal(L/K)$. De plus, comme $L/K$ est séparable et normale (corollaire \todo 5.5 inconnu et théorème \ref{thmdegsep}), par le théorème \ref{thmgaloisdeg}, on a $|\Gal(L/K)| = [L : K]$. De manière similaire, comme un polynôme séparable sur $K$ est aussi séparable sur $K'$, $L/K$ est normale et séparable, d'où $|\Gal(L/K')| = [L : K']$. On a donc $[L : K] = [L : K']$, ce qui implique $K=K'$. \\
+    Supposons maintenant $(2)$. En posant $G = \Gal(L/K)$, $G$ est un sous-groupe de $\Aut(L)$. Par le théorème \ref{thmgaloisdeg}, $|G| \le [L : K] < +\infty$ (par hypothèse), donc $G$ est fini. \\
+    L'implication $(3) \implies (4)$ est traitée par le théorème d'Artin. \\
+    L'implication $(4) \implies (1)$ vient de \todo les deux mêmes trucs que dans (1) implique (2)
+\end{proof}
+
+\begin{proposition}
+    Soit $L/K$ une extension de corps séparable. La clôture normale de $L$ dans une clôture algébrique $\overline{K}/L/K$ de $K$ est séparable, donc galoisienne sur $K$. On l'appelle la \emph{clôture galoisienne} de $L$ dans $\overline{K}$.
+\end{proposition}
+
+\begin{proof}
+    Dans la preuve du théorème \ref{thmclotnorm}, les polynômes \todo
+\end{proof}
+
+\begin{remark} \leavevmode
+    \begin{enumerate}
+        \item Si $L/K$ est galoisienne, pour $\alpha \in L$ algébrique, les conjugués de $\alpha$ sont les éléments $g(\alpha)$ pour $g \in \Gal(L/K)$. Ainsi, le polynôme minimal de $\alpha$ est donné par $\prod\limits_{g \in\Gal(L/K)} (X-g(\alpha))$. On remarque que comme $L/K$ est galoisienne, elle contient \emph{tous} les conjugués de $\alpha$ dans une clôture algébrique $\overline{K}/L/K$ de $K$.
+        \item Soit $P \in K[X]$. Soit $L/K$ une extension de corps et $\alpha \in L$ tel que $P(\alpha) = 0$. Alors, pour tout $\sigma \in \Gal(L/K)$, comme $P(\sigma(\alpha)) = 0$, le groupe $\Gal(L/K)$ agit sur les racines de $P$, donc on a un morphisme de groupes
+        \[\Gal(l/K) \to S_{\{x \in L \mid P(x) = 0\}}\]
+        En général, ce morphisme n'est pas injectif. Cependant, si $L = K(\alpha)$ et $P_\alpha \in K[X]$ est le polynôme minimal de $\alpha$, alors le morphisme est injectif :
+        \[\Gal(L/K) \hookrightarrow S_{\{x \in L \mid P(x) = 0\}} = S_{\Gal(L/K) \cdot \alpha}\]
+    \end{enumerate}
+\end{remark}
+
+\begin{proposition}
+    Soit $L/K$ une extension galoisienne. Soit $P \in K[X]$ un polynôme séparable et scindé dans $L$. Alors, l'action naturelle de $\Gal(L/K)$ sur les racines de $P$ dans $L$ est transitive si et seulement si $P$ est irréductible sur $K$.
+\end{proposition}
+
+\begin{proof}
+    Supposons l'action transitive. Soit $P = QR$ une factorisation de $P$ dans $K[X]$. Comme $P$ est scindé dans $L$, $Q$ et $R$ le sont aussi. Par séparabilité de $P$, $Q$ et $R$ n'ont pas de racines communes dans $L$. Or, l'action de $\Gal(L/K)$ envoie une racine de $Q$ sur une autre racine de $Q$ et idem pour $R$. Comme il n'existe qu'une seule orbite par hypothèse, nécessairement $Q$ ou $R$ n'a pas de racine, donc est constant. Ainsi, $P$ est irréductible. \\
+    Réciproquement, supposons $P$ irréductible. Soit $\alpha \in L$ une de ses racines. Alors, $P$ est le polynôme minimal de $\alpha$ sur $K$. On en déduit par la remarque précédente
+    \[P = \prod_{\sigma \in \Gal(L/K)} (X - \sigma(\alpha)) \]
+    ce qui montre que l'action est transitive.
+    % TODO demander de check parce que j'ai bricolé moi même mais c'est convaincant non ?
+\end{proof}
+
+\begin{remark}
+    Pour montrer que deux corps de décomposition d'une famille $(P_i)_{i\in I}$ de polynômes sur $K$ sont $K$-isomorphes, on peut appliquer le théorème de Steinitz.
+\end{remark}
+
+\begin{example}
+    Soit l'extension $\Q(\sqrt[3]{2},i,j)/\Q$. Elle est galoisienne et le corps de décomposition de $(X^3 - 2)(X^2 + 1)$. L'action du groupe de Galois sur les racines est non transitive : aucun élément de $\Gal(\Q(\sqrt[3]{2},i,j)/\Q)$ n'envoie $\sqrt[3]{2}$ sur $i$.
+\end{example}
+
+\begin{corollary}
+    Soit $L/K$ une extension algébrique. Sont équivalents :
+    \begin{enumerate}
+        \item $K = L^{\Gal(L/K)}$
+        \item $L/K$ est galoisienne
+    \end{enumerate}
+\end{corollary}
+
+\begin{proof}
+    Supposons $K=L^{\Gal(L/K)}$. Soit $\alpha \in L$ et $Q = \prod\limits_{\sigma \in \Gal(L/K)} (X - \sigma(\alpha)) \in L[X]$. Comme $L/K$ est algébrique, $\Gal(L/K) \cdot \alpha$ est fini. De plus, $\sigma \cdot Q = \sigma$, pour tout $\sigma \in \Gal(L/K)$, donc par hypothèse $Q \in K[X]$. Ainsi, $P_\alpha \mid Q$ où $P_\alpha \in K[X]$ est le polynôme minimal de $\alpha$ sur $K$. De plus, pour tout $x \in \Gal(L/K) \cdot \alpha$, comme $\sigma \cdot P_\alpha = P_\alpha$ pour tout $\sigma \in \Gal(L/K)$, on a $P_\alpha (x) = 0$. Ainsi, $Q \mid P_\alpha$ dans $L[X]$. Comme $P_\alpha,Q$ sont unitaires, on obtient $Q = P_\alpha$. Ainsi, $P_\alpha$ est séparable et $L$ contient toutes ses racines dans une clôture algébrique. On en déduit que $L/K$ est séparable et normale, c'est-à-dire galoisienne. \\
+    Réciproquement, supposons $L/K$ galoisienne. Soit $K' = L^{\Gal(L/K)}$. Alors, $K \subseteq K'$. Soit $\alpha \in K'$ et $P_\alpha \in K[X]$ son polynôme minimal sur $K$. Il est scindé dans $L$ et séparable. Si $\beta \in L$ est une racine de $P_\alpha$, par la proposition précédente, comme $P_\alpha$ est irréductible, il existe $\sigma \in \Gal(L/K)$ tel que $\sigma(\alpha) = \beta$. Comme $\alpha \in K'$, on a $\sigma(\alpha) = \alpha$, donc $\alpha = \beta$, d'où $\deg P_\alpha = 1$ et $\alpha \in K$. Ainsi, $K' = K$.
+\end{proof}
+
+\subsection{Correspondance de Galois}
+
+\begin{theorem}
+    Soit $L/K$ une extension galoisienne finie et $G = \Gal(L/K)$.
+    \begin{enumerate}
+        \item L'application
+        \[\varphi : \applic{\{\text{sous-groupes de $G$}\}}{\{\text{sous-extensions de $L/K$}\}}{H}{L^H}\]
+        est une bijection qui a pour réciproque $\psi : E \mapsto \Gal(L/E)$.
+        \item Si $H_1, H_2$ sont des sous-groupes de $G$ tels que $H_1 \subseteq H_2$, alors $L^{H_2} \subseteq L^{H_1}$ et $[H_2 : H_1] = [L^{H_1} : L^{H_2}]$.
+    \end{enumerate}
+\end{theorem}
 
 \end{document}
