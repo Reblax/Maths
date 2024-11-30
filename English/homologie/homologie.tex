@@ -2147,4 +2147,135 @@ We give two proofs of this result.
     Since left adjoints preserve colimits, they are right exact, and dually for right adjoints.
 \end{proof}
 
+\subsection{Chain complexes in abelian categories}
+
+\begin{definition}
+    Let $\Acat$ be an abelian category and $(X_\bullet, d_\bullet) \in \Ch_\bullet (\Acat)$. Pour $n \in \Z$, we define:
+    \begin{itemize}
+        \item $Z_n(X) = \ker d_n$ (``$n$-cycles'')
+        \item $B_n(X) = \im d_{n+1}$ (``$n$-boundaries'')
+        \item $H_n(X) = Z_n(X)/B_n(X)$ (``$n$-th homology of $X$'')
+    \end{itemize}
+    The definition $Z_n(X)/B_n(X)$ works in a category of modules ; in an arbitrary abelian category, one sets $H_n(X) = \coker(B_n \hookrightarrow Z_n)$. If we are working with a cochain complex, we speak of cocycles, coboundaries and cohomology.
+\end{definition}
+
+Let $(X_\bullet,d_\bullet^X)$ and $(Y_\bullet,d_\bullet^Y)$ be two chain complexes in an abelian category $\Acat$, and $f : X_\bullet \to Y_\bullet$ be a chain morphism between them. Then we have the diagram
+\begin{center}
+    \begin{tikzcd}
+        \ker d_n^X
+            \arrow[r, "i"]
+            \arrow[d,"Z_n(f)", dashed]
+        & X_n
+            \arrow[r,"d_n^X"]
+            \arrow[d,"f_n"]
+        & X_{n-1}
+            \arrow[d,"f_{n-1}"]
+        \\ \ker d_n^Y
+            \arrow[r]
+        & Y_n
+            \arrow[r,"d_n^Y" ']
+        & Y_{n-1}
+    \end{tikzcd}
+\end{center}
+Since $d_n^Y f_n i = f_{n-1} d_n^X i = 0$, we obtain the dashed arrow $Z_n(f)$ by the universal property of $\ker d_n^Y$. Similarly, $f_{n-1}$ induces a morphism $\overline{f_{n-1}} : \coker(d_n^X) \to \coker(d_n^Y)$ and we have the diagram:
+\begin{center}
+    \begin{tikzcd}
+        \im d_n^X
+            \arrow[r, "i"]
+            \arrow[d,"B(f_n)", dashed]
+        & X_{n-1}
+            \arrow[r,"\pi"]
+            \arrow[d,"f_{n-1}"]
+        & \coker (d_n^X)
+            \arrow[d,"\overline{f_{n-1}}"]
+        \\ \im d_n^Y
+            \arrow[r,"i" ']
+        & Y_{n-1}
+            \arrow[r,"\pi" ']
+        & \coker(d_n^Y)
+    \end{tikzcd}
+\end{center}
+Since $\pi f_{n-1} i = \overline{f_{n-1}} \pi i = 0$, $f_{n-1} i$ induces a morphism $B_n(f) : \im d_n^X \to \im d_n^Y$. Therefore, we have the diagram
+\begin{center}
+    \begin{tikzcd}
+        \im d_{n+1}^X
+            \arrow[r,hookrightarrow,"i"]
+            \arrow[d, "B_n(f)"]
+        & \ker d_n
+            \arrow[r]
+            \arrow[d,"Z_n(f)"]
+        & \coker i
+            \arrow[d,"H_n(f)",dashed]
+        \\ \im d_{n+1}^Y
+            \arrow[r,hookrightarrow]
+        & \ker d_n
+            \arrow[r,"\pi"]
+        & \coker i
+    \end{tikzcd}
+\end{center}
+In $\Mod-A$, we have $H_n(X) = \nicefrac{\ker d_n}{\im d_{n+1}}$ and $H_n(f) ([x]) = [f_n(x)]$. We get a functor $H_n : \Ch_\bullet (\Acat) \to \Acat$ called the $n$-th homology functor. Moreover, it is an additive functor.
+
+\begin{definition}
+    Let $f : X_\bullet \to Y_\bullet$ be a morphism of chain complexes. We say $f$ is a \emph{quasi-isomorphism} if $H_n(f)$ is an isomorphism for all $n \in \Z$.
+\end{definition}
+
+\begin{proposition}
+    Let $f : C_\bullet \to D_\bullet \in \Mor(\Ch_\bullet (\Acat))$ with $\Acat$ an abelian category.
+    \begin{enumerate}
+        \item If $f \sim g$ then $H_n(f) = H_n(g)$ for all $n$.
+        \item If $f$ is a homotopy equivalence, then it is a quasi isomorphism.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    Assume $f \sim 0$. Then we have a collection of morphisms $s_n : C_n \to D_{n+1}$ and a diagram
+    \begin{center}
+        \begin{tikzcd}
+            C_{n+1}
+                \arrow[r]
+                \arrow[d,"f_{n+1}" ']
+            & C_n
+                \arrow[ld,"s_n"]
+                \arrow[d,"f_n" ']
+                \arrow[r]
+            & C_{n-1}
+                \arrow[d,"f_{n-1}"]
+                \arrow[ld,"s_{n-1}"]
+            \\ D_{n+1}
+                \arrow[r]
+            & D_n
+                \arrow[r]
+            & D_{n-1}
+        \end{tikzcd}
+    \end{center}
+    with $f_n = s_{n-1} d_n^C + d_{n+1}^D s_n$. Then, \todo
+\end{proof}
+
+\begin{definition}
+    Let $C_\bullet$ be a chain complex.
+    \begin{enumerate}
+        \item We say $C_\bullet$ is \emph{contractible} if $C$ is homotopy equivalent to $0$.
+        \item We say $C_\bullet$ is \emph{acyclic} if $C$ is quasi-isomorphic to $0$.
+    \end{enumerate}
+\end{definition}
+
+Of course, contractibility implies acyclicity.
+
+\begin{theorem}[Long exact sequence]
+    A short exact sequence of chain complexes
+    \[0 \to A \xrightarrow{\alpha} B \xrightarrow{\beta} C \to 0\]
+    gives rise to a long exact sequence in homology
+    \[\cdots \to H_n(A) \xrightarrow{H_n (\alpha)} H_n(B) \xrightarrow{H_n(\beta)} C \xrightarrow{\delta_n} H_{n-1}(A) \to \cdots\]
+    The morphisms $\delta_n$ (which are defined in the proof) are called the \emph{connecting} homorphisms.
+\end{theorem}
+
+\begin{proof}
+    \todo (snake lemma in abelian cat)
+\end{proof}
+
+\begin{remark}
+    
+\end{remark}
+
+
 \end{document}

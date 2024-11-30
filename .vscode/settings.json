@@ -3,10 +3,12 @@
         "abelian",
         "abelianization",
         "cartesian",
+        "coboundaries",
         "cochain",
         "cocone",
         "codomain",
         "coequalizer",
+        "cohomology",
         "cokernel",
         "cokernels",
         "colimit",
@@ -29,6 +31,12 @@
         "morphisms",
         "naturality",
         "poset",
-        "Preadditive"
+        "Preadditive",
+        "presheaf",
+        "presheaves",
+        "sheafification",
+        "subpresheaf",
+        "subsheaf",
+        "subsheaves"
     ]
 }

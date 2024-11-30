@@ -1,0 +1,107 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsfonts, amsthm}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}[textwidth=10cm]
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage{nicefrac}
+\usepackage{cancel}
+\usepackage{url}
+
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\op}{\mathrm{op}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\U}{\mathbb{U}}
+\renewcommand{\H}{\mathbb{H}}
+
+\renewcommand{\P}{\mathbb{P}}
+\renewcommand{\d}{{\rm \, d}}
+
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\cont}{\mathcal{C}}
+
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\Top}{\mathbf{Top}}
+\newcommand{\Grp}{\mathbf{Grp}}
+\newcommand{\Mod}{\mathbf{Mod}}
+\newcommand{\Ab}{\mathbf{Ab}}
+\newcommand{\Vectcat}{\mathbf{Vect}}
+\newcommand{\Ring}{\mathbf{Ring}}
+
+%Operators
+\DeclareMathOperator{\Acc}{Acc}
+\DeclareMathOperator{\Sh}{Sh}
+\DeclareMathOperator{\Card}{Card}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\PSL}{PSL}
+\DeclareMathOperator{\PGL}{PGL}
+\DeclareMathOperator{\SO}{SO}
+\DeclareMathOperator{\pgcd}{pgcd}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\rg}{rg}
+\DeclareMathOperator{\Vect}{Vect}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\Fix}{Fix}
+\DeclareMathOperator{\Ob}{Ob}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Mor}{Mor}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Fun}{Fun}
+\DeclareMathOperator{\Nat}{Nat}
+\DeclareMathOperator{\colim}{colim}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\coim}{coim}
+\renewcommand{\Re}{\mathop{\rm Re}}
+\renewcommand{\Im}{\mathop{\rm Im}}
+
+\newcommand{\todo}{\textbf{TODO}}
+
+\renewcommand{\epsilon}{\varepsilon}
+
+%Macros
+\newcommand{\applic}[4]{\begin{array}[t]{rcl}
+#1 & \to & #2 \\
+#3 & \mapsto & #4
+\end{array}}
+
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+
+\setlength{\parindent}{0pt}
+
+\title{TD de variétés algébriques}
+\author{Exercices par Jean-François Dat\footnote{\protect\url{https://webusers.imj-prg.fr/~jean-francois.dat/enseignement/enseignement.php}}}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{TD1}
+
+\paragraph{1.} Pour $x \in S$ et $f \in I_S$, on a $f(x) = 0$, donc $S \subset V_{I_S}$. Par définition de la topologie de Zariski, $V_{I_S}$ est fermé donc $\overline{S} \subset V_{I_S}$. Maintenant, soit $y \in k^n$ et $U$ un ouvert de Zariski contenant $y$ qui ne rencontre pas $S$. On peut prendre $U$ principal égal à $U_f$. Alors, $U_f \cap S = \varnothing$, donc $S \subset V_{\{f\}}$, donc $f(x) = 0$ pour tout $x \in S$, donc $f \in I_S$. Comme $y \in U_f$, $f(y) \ne 0$, donc $y \notin V_{I_S}$. Par contraposée, cela conclut.
+
+\paragraph{2.} Soient $I \lhd k[X_1,\dots,X_n]$ et $J \lhd k[X_{n+1},\dots,X_m]$ tels que $V = V_I$ et $W = V_J$. Alors,
+\begin{align*}
+    (x_1,\dots,x_{n+m}) \in V \times W & \iff (x_1,\dots,x_n) \in V \text{ et } (x_{n+1},\dots,x_{n+m}) \in W \\
+    & \iff \forall f \in I, f(x_1,\dots,x_n) = 0 \text{ et } \forall g \in J, g(x_{n+1}, \dots, x_{n+m}) = 0
+\end{align*}
+En posant $f_1(x_1,\dots,x_{n+m}) = f(x_1,\dots,x_n)$ et $g_2(x_1,\dots,x_{n+m}) = g(x_{n+1},\dots,x_{n+m})$, on voit que
+\[(x_1,\dots,x_{n+m}) \in V \times W \iff \forall f \in I, f_1(x_1,\dots,x_{n+m}) = 0 \text{ et } \forall g\in J, g_2(x_1,\dots,x_{n+m}) = 0\]
+donc $V \times W$ est algébrique comme intersection d'ensembles qui le sont.
+
+\paragraph{3.} On fait la preuve dans le cas $n=m=1$ pour alléger. Alors, l'ensemble $V_{X-Y}^c = \{(x,y) \in k^2 \mid x \ne y\}$ est un ouvert de Zariski de $k^2$. Soit maintenant $O_1, O_2 \subset k$ deux ouverts non vides de Zariski. Comme on est sur $k$, $O_1$ et $O_2$ sont en fait des parties de complémentaire fini. Comme $k$ est supposé infini, $O_1 \cap O_2 \ne \varnothing$. Mais alors, on dispose d'un $x \in k$ tel que $(x,x) \in O_1 \cap O_2$, ce qui implique que $V_{X-Y}^c$ ne peut pas contenir de produit d'ouverts non vides de $k$ donc nous donne le résultat. Dans le cas général, on peut faire une preuve similaire en considérant l'ouvert complémentaire des solutions de $X_1 = X_2 = \cdots = X_{n+m}$.
+
+\paragraph{4.} Si $f_i(x) = 0$, alors $f(x) = 0$, donc $\bigcup_i V_i \subset V_f$. Réciproquement, si $f(x)=0$, alors par intégrité il existe $i$ tel que $f_i^{n_i}(x) = 0$, donc en fait $f_i(x)=0$, donc $V = \bigcup_i V_i$. \todo
+
+\paragraph{5.} Une union de composantes connexes est ouverte, donc si $V$ avait une infinité de composantes connexes $(C_n)_{n\in \N}$ deux à deux distinctes, alors $\bigcup_{k=0}^n C_k$ serait une suite croissante d'ouverts qui ne stationne pas ce qui est impossible car $V$ muni de la topologie de Zariski est noethérien. 
+
+\end{document}

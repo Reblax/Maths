@@ -1,0 +1,169 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsfonts, amsthm}
+\usepackage{palatino}
+\usepackage{eulervm}
+\usepackage[english]{babel}
+\usepackage{geometry}[textwidth=10cm]
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{nicefrac}
+\usepackage{cancel}
+
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\op}{\mathrm{op}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\U}{\mathbb{U}}
+\renewcommand{\H}{\mathbb{H}}
+
+\renewcommand{\P}{\mathbb{P}}
+\renewcommand{\d}{{\rm \, d}}
+
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+\newcommand{\cont}{\mathcal{C}}
+
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\Top}{\mathbf{Top}}
+\newcommand{\Grp}{\mathbf{Grp}}
+\newcommand{\Mod}{\mathbf{Mod}}
+\newcommand{\Ab}{\mathbf{Ab}}
+\newcommand{\Vectcat}{\mathbf{Vect}}
+\newcommand{\Ring}{\mathbf{Ring}}
+
+%Operators
+\DeclareMathOperator{\Acc}{Acc}
+\DeclareMathOperator{\Sh}{Sh}
+\DeclareMathOperator{\Card}{Card}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\PSL}{PSL}
+\DeclareMathOperator{\PGL}{PGL}
+\DeclareMathOperator{\SO}{SO}
+\DeclareMathOperator{\pgcd}{pgcd}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\rg}{rg}
+\DeclareMathOperator{\Vect}{Vect}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\Fix}{Fix}
+\DeclareMathOperator{\Ob}{Ob}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Mor}{Mor}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Fun}{Fun}
+\DeclareMathOperator{\Nat}{Nat}
+\DeclareMathOperator{\colim}{colim}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\coim}{coim}
+\renewcommand{\Re}{\mathop{\rm Re}}
+\renewcommand{\Im}{\mathop{\rm Im}}
+
+\newcommand{\todo}{\textbf{TODO}}
+
+\renewcommand{\epsilon}{\varepsilon}
+
+%Macros
+\newcommand{\applic}[4]{\begin{array}[t]{rcl}
+#1 & \to & #2 \\
+#3 & \mapsto & #4
+\end{array}}
+
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+
+\setlength{\parindent}{0pt}
+
+\title{Some solutions to problems in Manifolds, Sheaves and Cohomology}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Chapter 3}
+
+\paragraph{3.1.} Let $k \in \N$. Then, we have the function $x \mapsto \norm{x} \in \F(B(0,k))$ where $B(0,k)$ is the open ball of radius $k$ centered at $0$. If $\F$ were a sheaf, then we could find $f \in \F(\R^n)$ such that $f_{\mid B(0,k)} : x \mapsto \norm{x}$ for all $k$. Such a function cannot be bounded, so $\F$ is not a sheaf. \\
+The inclusions $i_U : \F(U) \to \cont_{\R^n,\R}(U)$ make up a morphism of sheaves $i : \F \to \cont_{\R^n,\R}$. Let $x \in \R^n$. Then $i_x$ is injective, and it is surjective because $\R^n$ is locally compact so a continuous function $f : \R^n\to \R$ is locally bounded. Since $\cont_{\R^n,\R}$ is a sheaf, we get that it is the sheafification of $\F$.
+
+\paragraph{3.2.}  For $U \subseteq V \subseteq X$ open, if $f : V \to \overline{\R}$ is measurable, then $f_{\mid U}$ also is (because $U$ is open and we use the Borel $\sigma$-algebra of $X$). Il follows that $\mathcal{M}_X(U)$ is a presheaf of functions on $X$. Now assume $X$ is Lindelöf. Let $U = \bigcup_i U_i$ be an open covering of an open set $U$ and $s_i \in \mathcal{M}_X(U_i)$ be compatible on intersections. Then, the function $s$ obtained by gluing together all the $s_i$s is measurable, because there exists a countable subcover $U = \bigcup_{n \in \N} U_{i_n}$ and
+\[s^{-1} (A) = \bigcup_{n\in \N} s_{i_n}^{-1}(A)\]
+is a Borel subset of $X$ by properties of $\sigma$-algebras. This shows $\mathcal{M}_X$ is a sheaf on $X$.
+
+\paragraph{3.3.} \begin{enumerate}
+    \item For $U \subseteq V \subseteq \R^n$ open, if $f : V \to \R$ is Lebesgue integrable, then $f_{\mid U}$ is also Lebesgue integrable. Since a restriction of a function $f$ such that $|f| = 0$ satisfies again $|f| = 0$, restriction morphisms pass to the quotient and $U \mapsto L^1 (U)$ is a presheaf of $\R$-vector spaces. For $k \in \N$, the constant function with value $1$ on $B(0,k)$ is Lebesgue integrable. However, the constant function with value $1$ is not Lebesgue integrable on $\R^n$, which shows $U \mapsto L^1(U)$ is not a sheaf.
+    \item For $U \subseteq \R^n$ open, we have an inclusion map $i_U : L^1(U) \to L^1_{\rm loc} (U)$. This inclusion map gives a morphism of presheaves $i : L^1 \to L^1_{\rm loc}$. It is injective on stalks. Let $x \in \R^n$ and $(U, f) \in (L^1_{\rm loc})_x$. Since $\R^n$ is locally compact, there exists a compact set $K \subseteq U$ and an open set $V \ni x$ contained in $K$. Then, $[(U,f)] = i([V,f_{\mid V}])$. This makes sense since $f_{\mid V}$ is Lebesgue integrable because $f$ is Lebesgue integrable on $K \supseteq V$. This shows $L^1_{\rm loc}$ is the sheafification of $L^1$.
+\end{enumerate}
+
+\paragraph{3.4.} Let $\G$ be a subpresheaf of $\F$. Assume it is a sheaf. Let $U \subseteq X$ be open, $U = \bigcup_i U_i$ be an open covering of $U$, and $s \in \F(U)$ such that $s_{\mid U_i} \in \G(U_i)$ for all $i$. Set $s_i = s_{\mid U_i} \in \G(U_i)$ for all $i$. Then, ${s_i}_{\mid U_i \cap U_j} = {s_j}_{\mid U_i \cap U_j}$ because $s_i$ and $s_j$ are restrictions of $s$. Since $\G$ is a sheaf, there exists $s' \in \G(U)$ such that $s_i = s'_{\mid U_i}$. Since $\F$ is a sheaf, the uniqueness condition gives that $s = s'$, so $s\in \G(U)$. Conversely, assume that for every open set $U \subseteq X$, open covering $U = \bigcup_i U_i$ and $s \in \F(U)$ with $s_{\mid U_i} \in \G(U_i)$, we have $s \in \G(U)$. Let $U = \bigcup_i U_i$ be an open covering of an open set, and $s_i \in \G(U_i)$ be such that ${s_i}_{U_i \cap U_j} = {s_j}_{U_i \cap U_j}$ on all $i,j$. Since $\F$ is a sheaf, there exists a unique element $s \in \F(U)$ such that $s_i = s_{\mid U_i}$ for all $i$. Then, by assumption, $s \in \G(U)$. Uniqueness comes from the uniqueness of $s$. Therefore, $\G$ is a sheaf.
+
+\paragraph{3.5.} \begin{enumerate}
+    \item It is clear that $\Omega$ is a presheaf. Let $U \subseteq X$ be open, $U = \bigcup_i U_i$ be an open covering and $V_i \subset U_i$ be open sets in $X$, such that $V_i \cap U_i \cap U_j = V_j \cap U_i \cap U_j$ for all $i,j$. Then, $\bigcup_i V_i$ is an open set in $X$ contained in $U$, and
+    \[\left( \bigcup_i V_i \right) \cap U_j = \bigcup_i (V_i \cap U_j) = \bigcup_i (V_i \cap U_i \cap U_j) = \bigcup_i (V_j \cap U_i \cap U_j) = (V_j \cap U_j) \cap \left(\bigcup_i U_i \right) = V_j \]
+    Moreover, if $W \subseteq U$ is another open set satisfying $W \cap U_j = V_j$ for all $j$, then $\bigcup_j V_j \subseteq W$ and any $x \in W$ is contained in one $U_j$ and therefore in one $V_j$, so $W = \bigcup_j V_j$. Hence $\Omega$ is a sheaf.
+    \item We first check that $\G_\Phi$ is a subpresheaf of $\F$. Let $V\subseteq U \subseteq X$ be open sets and $s \in \G_\Phi(U)$. Then, $\Phi_V (s_{\mid V}) = \Phi_U(s) \cap V = U \cap V = V$, so $\G_\Phi$ is a subpresheaf of $\F$. Now, let $U \subseteq X$ be an open set, $U = \bigcup_i U_i$ be an open covering and $s \in \F(U)$ be such that $s_{\mid U_i} \in \G_\Phi(U_i)$. Then, $(\Phi_U (s)) \cap U_i = \Phi_{U_i} (s_{\mid U_i}) = U_i$ since $s_i$ is in $\G_\Phi (U_i)$. Therefore,
+    \[\Phi_U (s) \cap U = \Phi_U(s) \cap \left(\bigcup_i U_i\right) = \bigcup_i \Phi_U (s) \cap U_i = \bigcup_i U_i = U\]
+    So $\Phi_U (s) \supseteq U$. Since $\Phi_U (s) \in \Omega(U)$, we have $\Phi_U(s) \subseteq U$, so $\Phi_U (s) = U$ and $s \in \G_\Phi(U)$. The preceding problem allows us to conclude that $\G_\Phi$ is a subsheaf of $\F$. \\
+    We have a map
+    \[\applic{\Hom_{\Sh(X)}(\F,\Omega)}{\{\text{subsheaves of $\F$}\}}{\Phi}{\G_\Phi}\]
+    Let $\G$ be a subsheaf of $\F$. For $U \subseteq X$ open, we define
+    \[\Phi^\G_U : \applic{\F(U)}{\Omega(U)}{s}{\displaystyle \bigcup_{\begin{subarray}{c} V \subseteq U \text{ open} \\ s_{\mid V} \in \G(V) \end{subarray}} V}\]
+    Let us check that $\Phi^\G$ is a morphism of sheaves $\F \to \Omega$. Let $V \subseteq U \subseteq X$ be open sets, and $s \in \F(U)$. Then,
+    \[\Phi^\G_V (s_{\mid V}) = \bigcup_{\begin{subarray}{c} W \subseteq V \text{ open} \\ s_{\mid W} \in \G(W) \end{subarray}} W\]
+    and
+    \[
+    \Phi^\G_U (s) \cap V =  V \cap \bigcup_{\begin{subarray}{c} W \subseteq U \text{ open} \\ s_{\mid W} \in \G(W) \end{subarray}} W = \bigcup_{\begin{subarray}{c} W \subseteq U \text{ open} \\ s_{\mid W} \in \G(W) \end{subarray}} (V \cap W) = \bigcup_{\begin{subarray}{c} W \subseteq V \text{ open} \\ s_{\mid W} \in \G(W) \end{subarray}} W
+    \]
+    So $\Phi^\G$ is a morphism of sheaves $\F \to \Omega$. \\
+    Now, we check that $\Phi \mapsto \G_\Phi$ and $\G \mapsto \Phi^\G$ are inverse bijections of each other. Let $\Phi : \F \to \Omega$ be a morphism of sheaves. Then, for any open set $U \subseteq X$ :
+    \[
+    \Phi^{\G_\Phi}_U (s) = \bigcup_{\begin{subarray}{c} V \subseteq U \text{ open} \\ s_{\mid V} \in \G_\Phi(V) \end{subarray}} V = \bigcup_{\begin{subarray}{c} V \subseteq U \text{ open} \\ \Phi_V (s_{\mid V}) = V \end{subarray}} V = \bigcup_{\begin{subarray}{c} V \subseteq U \text{ open} \\ \Phi_U (s) \cap V = V \end{subarray}} V = \bigcup_{\begin{subarray}{c} V \subseteq U \text{ open} \\ V \subseteq \Phi_U (s) \end{subarray}} V = \Phi_U (s)
+    \]
+    And the other way around,
+    \begin{align*}
+        \G_{\Phi^\G} (U)
+        & = \{s \in \F(U) \mid \Phi^\G_U (s) = U\} \\
+        & = \left\{s \in \F(U) \mid \bigcup_{\begin{subarray}{c} V \subseteq U \text{ open} \\ s_{\mid V} \in \G(V) \end{subarray}} V = U\right\} \\
+    \end{align*}
+    If $s \in \G(U)$, then $s \in \G_{\Phi^\G}(U)$ (take $V=U$). If $s \in \G_{\Phi^\G} (U)$, since $U = \bigcup_{\begin{subarray}{c} V \subseteq U \text{ open} \\ s_{\mid V} \in \G(V) \end{subarray}} V$ is an open covering of $U$, $\G$ is a subsheaf of $\F$, and $s_{\mid V} \in \G(V)$ for all $V$ as in the union, we have $s \in \G(U)$. By double inclusion, $\G_{\Phi^\G}(U) = \G(U)$. \\
+    Functoriality is the only thing that remains to be checked. Let $\mathcal{H}$ be another sheaf on $X$ and $\alpha : \F \to \mathcal{H}$ be a morphism of sheaves. We have an induced map $(- \circ \alpha) : \Hom(\mathcal{H},\Omega) \to \Hom(\F,\Omega)$. We need to get a map $\{\text{subsheaves of $\mathcal{H}$}\} \to \{\text{subsheaves of $\F$}\}$ from $\alpha$. Consider
+    \[\applic{\{\text{subsheaves of $\mathcal{H}$}\}}{\{\text{subsheaves of $\F$}\}}{\G}{(\alpha^{-1}\G : U\mapsto \alpha_U^{-1}(\G(U)))}\]
+    We check that this map is well-defined. Let $\G$ be a subsheaf of $\mathcal{H}$. We have a commutative diagram
+    \begin{center}
+        \begin{tikzcd}
+            \F(U) \arrow[r,"\alpha_U"] \arrow[d] & \mathcal{H}(U) \arrow[d] \\ \F(V) \arrow[r,"\alpha_V"] & \mathcal{H}(V)
+        \end{tikzcd}
+    \end{center}
+    so if $s \in \alpha_U^{-1}(\G(U))$, then $\alpha_U(s) \in \G(U)$, so $(\alpha_V(s_{\mid V})) = (\alpha_U(s))_{\mid V} \in \G(V)$, so $s_{\mid V} \in \G(V)$. Hence $\alpha^{-1}\G$ is a subpresheaf of $\F$. Now let $U \subseteq X$ be an open set, $U = \bigcup_i U_i$ and $s \in \F(U)$ with $s_{\mid U_i} \in (\alpha^{-1}\G)(U_i)$ for all $i$. Then, $(\alpha_U(s))_{\mid U_i} = \alpha_{U_i}(s_{\mid U_i}) \in \G(U_i)$ and since $\G$ is a sheaf, $\alpha_U (s) \in \G(U)$, so $s \in (\alpha^{-1}\G)(U)$, which shows $\alpha^{-1}\G$ is a subsheaf of $\F$ by the preceding problem. \\
+    Functoriality means that the following diagram commutes:
+    \begin{center}
+        \begin{tikzcd}
+            \Hom_{\Sh(X)} (\mathcal{H},\Omega) \arrow[r] \arrow[d,"-\circ \alpha"] & \{\text{subsheaves of $\mathcal{H}$}\} \arrow[d, "\G \mapsto \alpha^{-1}\G"] \\
+            \Hom_{\Sh(X)} (\F,\Omega) \arrow[r] & \{\text{subsheaves of $\F$}\}
+        \end{tikzcd}
+    \end{center}
+    If $\Phi : \mathcal{H} \to \Omega$ is a morphism of sheaves, then we need to check that $\alpha^{-1}\G_\Phi = \G_{\Phi \circ \alpha}$. For $U \subseteq X$ open,
+    \begin{align*}
+        \alpha^{-1}\G_\Phi (U)
+        & = \{s \in \F(U) \mid \alpha_U(s) \in \G_\Phi(U)\} \\
+        & = \{s \in \F(U) \mid \Phi_U(\alpha_U(s)) = U\} \\
+        & = \{s \in \F(U) \mid (\Phi \circ \alpha)_U(s) = U\} \\
+        & = \G_{\Phi \circ \alpha} (U)
+    \end{align*}
+    and this concludes the proof.
+\end{enumerate}
+
+\paragraph{3.6.} \begin{enumerate}
+    \item The category $\Set$ is isomorphic to the category $\Sh(\{x\})$. Using this identification one obtains directly that $(i_x)_*$ is a functor $\Sh(\{x\}) \to \Sh(X)$. If $E$ is set, so a sheaf on $\{x\}$, and $\F$ is a sheaf of $X$, we have a natural bijection
+    \[\Hom_{\Sh(\{x\}) (i_x^{-1}\F,E)} \leftrightarrow \Hom_{\Sh(X)}(\F,(i_x)_*(E))\]
+    \todo
+    \item 
+\end{enumerate}
+
+\end{document}
