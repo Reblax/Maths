@@ -1963,6 +1963,16 @@ Donnons de nouveaux exemples de foncteurs.
     \end{enumerate}
 \end{example}
 
+Les foncteurs sont des morphismes de catégories. Comme avec n'importe quels morphismes, on peut les composer pour en obtenir un autre :
+
+\begin{proposition}
+    Soient $\cat,\catt,\mathcal{E}$ trois catégories et $F : \cat \to \catt$, $G : \catt \to \mathcal{E}$ deux foncteurs. Alors, on définit un foncteur $G \circ F : \cat \to \mathcal{E}$ sur les objets par $(G\circ F)(X) = G(F(X))$ et sur les morphismes par $(G\circ F)(f) = G(F(f))$.
+\end{proposition}
+
+On a les catégories et les foncteurs entre eux. On aurait envie de parler de la \og catégorie des catégories \fg, mais il faut faire attention avec ce concept car la catégorie ne peut pas être objet d'elle-même. On peut parler en général de la catégorie des \og petites \fg catégories (on impose une restriction sur la taille des catégories considérées afin d'échapper au paradoxe de Russell).
+
+\subsection{Transformations naturelles}
+
 Il existe une notion pertinente de morphisme entre foncteurs.
 
 \begin{definition}
@@ -1970,7 +1980,7 @@ Il existe une notion pertinente de morphisme entre foncteurs.
     \begin{center}
         \begin{tikzcd}
             F(X) \arrow[r,"\eta_X"] \arrow[d,"F(f)" '] & G(X) \arrow[d,"G(f)"] \\
-            F(Y) \arrow[r,"\eta_Y" '] & G(Y)
+            F(Y) \arrow[r,"\eta_Y"] & G(Y)
         \end{tikzcd}
     \end{center}
     commute. On note $\eta : F \Rightarrow G$. On dit que $\eta$ est un \emph{isomorphisme naturel} s'il existe une autre transformation naturelle $\psi : G\Rightarrow F$ telle que $\psi_X \circ \varphi_X = \id_{F(X)}$ et $\varphi_X \circ \psi_X = \id_{G(X)}$ pour tout $x \in \Ob(\cat)$. On écrit dans ce cas $F \cong G$.
@@ -1979,5 +1989,72 @@ Il existe une notion pertinente de morphisme entre foncteurs.
 \begin{example}
     Pour tout foncteur $F : \cat \to \catt$, la transformation naturelle identité de $F$, donnée par $(\id)_X = \id_{F(X)}$ est un isomorphisme naturel $F \Rightarrow F$.
 \end{example}
+
+Soient $F,G,H : \cat \to \catt$ trois foncteurs et $\eta : F \Rightarrow G$, $\phi : G\Rightarrow H$ deux transformations naturelles. Alors, pour $X,Y \in \Ob(\cat)$ et $f : X \to Y$, on a le diagramme commutatif
+\begin{center}
+    \begin{tikzcd}
+        F(X) \arrow[r,"\eta_X"] \arrow[d,"F(f)"] & G(X) \arrow[r,"\phi_X"] \arrow[d,"G(f)"] & H(X) \arrow[d,"H(f)"] \\
+        F(Y) \arrow[r,"\eta_Y"] & G(Y) \arrow[r,"\phi_Y"] & H(Y)
+    \end{tikzcd}
+\end{center}
+d'où la donnée des morphismes $\phi_X\circ \eta_X$ donne une transformation naturelle $F \Rightarrow H$. On a donc les foncteurs, les transformations naturelles entre eux et une manière de composer les transformations naturelles. On obtient la notion de catégorie de foncteurs :
+
+\begin{definition}
+    Soient $\cat$ et $\catt$ deux catégories. La \emph{catégorie des foncteurs de $\cat$ dans $\catt$}, notée $\Fun(\cat,\catt)$ ou $\catt^\cat$, a pour objets les foncteurs $\cat \to \catt$ et pour morphismes les transformations naturelles entre eux, où la composition est la composition \og objet par objet\fg.
+\end{definition}
+
+Les catégories étant des structures algébriques, on aimerait bien dire quand ce sont \og les mêmes \fg. On peut vouloir poser la définition suivante :
+
+\begin{definition}
+    Deux catégories $\cat$ et $\catt$ sont \emph{isomorphes} s'il existe deux foncteurs $F : \cat \to \catt$ et $G : \catt \to \cat$ tels que $G \circ F = \id_\cat$ et $F \circ G = \id_\catt$.
+\end{definition}
+
+Malheureusement, la notion d'isomorphisme de catégorie est trop restrictive en pratique. On lui préfère la notion d'équivalence :
+
+\begin{definition}
+    Deux catégories $\cat$ et $\catt$ sont \emph{équivalentes} s'il existe deux foncteurs $F : \cat \to \catt$ et $G : \catt \to \cat$ tels que $G \circ F \simeq \id_\cat$ et $F \circ G \simeq \id_\catt$.
+\end{definition}
+
+Elle rappelle fortement la notion d'équivalence d'homotopie qui apparaît en topologie algébrique. L'équivalence de catégorie est une sorte d'\og isomorphisme, à isomorphisme près \fg.
+
+\begin{example}
+    Soit $k$ un corps et considérons la catégorie $k\text{-}\FinVectcat$ des espaces vectoriels de dimension finie sur $k$. On sait intuitivement que l'algèbre linéaire sur $k$ en dimension finie se résume à l'étude des espaces $k^n$ pour $n \in \N$ et des applications linéaires entre eux. On peut rendre ça précis avec la notion d'équivalence. Soit $\cat$ la catégorie dont les objets sont les espaces $k^n$ et les morphismes les applications linéaires entre eux. On a un foncteur d'\og inclusion\fg $I : \cat \to k\text{-}\FinVectcat$. Pour $E$ un $k$-espace vectoriel de dimension finie $n$, choisissons et fixons $\phi_E : E \to k^n$ un isomorphisme d'espaces vectoriels. Alors, on définit un foncteur $H : k\text{-}\FinVectcat \to \cat$ par $H(E) = \phi_E(E)$ et $H(f : E \to F) = \phi_F \circ f \circ \phi_E^{-1}$. Montrons que $I$ et $H$ donnent l'équivalence de catégories souhaitée. \todo
+\end{example}
+
+\begin{example}
+    La catégorie des surfaces de Riemann compactes avec les morphismes holomorphes non constants entre elles est équivalente à la catégorie opposée des extensions de corps de $\C(T)$. C'est un résultat non trivial et permet de par exemple d'identifier le groupe de Galois absolu de $\C(T)$.
+\end{example}
+
+\begin{example}[Dualité de Gelfand]
+    \todo
+\end{example}
+
+\begin{example}[Dualité de Boole-Stone]
+    \todo
+\end{example}
+
+\begin{example}
+    Soit $\Set^p$ la catégorie des ensembles et des fonctions partielles entre eux, c'est-à-dire des fonctions pas forcément définies sur tout leur domaine de départ. Soit $\Set^*$ la catégorie des ensembles pointés, c'est-à-dire la catégorie dont les objets sont les paires $(A,x)$ où $A$ est un ensemble et $x \in A$, et où les morphismes $(A,x) \to (B,y)$ sont les applications $f : A \to B$ telles que $f(x) = y$. Ces catégories sont équivalentes. \todo
+\end{example}
+
+\begin{theorem}
+    Un foncteur $F : \cat \to \catt$ est une équivalence de catégories si et seulement s'il est pleinement fidèle et \emph{essentiellement surjectif}, c'est-à-dire si pour tout $Y \in \Ob(\catt)$, il existe $X \in \Ob(\cat)$ tel que $F(X) \simeq Y$.
+\end{theorem}
+
+\begin{proof}
+    \todo
+\end{proof}
+
+\subsection{Propriétés universelles}
+
+Un des points forts de la théorie des catégories est qu'elle permet de bien formaliser le concept de propriété universelle, qui consiste à décrire un objet par une propriété sur les morphismes autour de cet objet plutôt que de décrire l'objet lui-même directement. Donnons un exemple. Soient $A,B$ deux ensembles. Si $X$ est un ensemble et $f : X \to A,g : X \to B$ sont des applications, alors on peut former l'application $h : \applic{X}{A\times B}{x}{(f(x),g(x))}$ qui fait commuter le diagramme
+\begin{center}
+    \begin{tikzcd}
+        & X \arrow[ld,"f" '] \arrow[d,"h"] \arrow[rd,"g"] & \\
+        A & A\times B \arrow[l,"\pi_A"] \arrow[r,"\pi_B" '] & B
+    \end{tikzcd}
+\end{center}
+où $\pi_A,\pi_B$ sont les projections canoniques. De plus, $h$ est l'\emph{unique} application $X \to A\times B$ qui puisse faire commuter le diagramme. C'est la propriété universelle du produit cartésien de $A$ et $B$ : pour tout ensemble $X$ avec deux applications $f : X \to A$ et $g : X \to B$, il existe une unique application $h : X \to A\times B$ faisant commuter le diagramme. Maintenant, la partie intéressante est que cette propriété suffit à caractériser le produit cartésien avec les deux projections à unique bijection près. En effet, supposons qu'un autre ensemble $C$ avec deux projections $p_A : C \to A$ et $p_B : C \to B$ vérifie la même propriété. On a alors les diagrammes \todo
+
 
 \end{document}
