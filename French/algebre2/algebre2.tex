@@ -28,6 +28,8 @@
 \newcommand{\K}{\mathbb{K}}
 \newcommand{\U}{\mathbb{U}}
 \newcommand{\F}{\mathbb{F}}
+\renewcommand{\S}{\mathbb{S}}
+\newcommand{\T}{\mathbb{T}}
 \renewcommand{\H}{\mathbb{H}}
 
 \newcommand{\prem}{\mathfrak{p}}
@@ -45,11 +47,13 @@
 \newcommand{\Acat}{\mathcal{A}}
 
 \newcommand{\Set}{\mathbf{Set}}
+\newcommand{\Alg}{\mathbf{Alg}}
 \newcommand{\Top}{\mathbf{Top}}
 \newcommand{\Grp}{\mathbf{Grp}}
 \newcommand{\Mod}{\mathbf{Mod}}
 \newcommand{\Ab}{\mathbf{Ab}}
 \newcommand{\Vectcat}{\mathbf{Vect}}
+\newcommand{\FinVectcat}{\mathbf{FinVect}}
 \newcommand{\Rep}{\mathbf{Rep}}
 \newcommand{\Ring}{\mathbf{Ring}}
 
@@ -1690,7 +1694,7 @@ Dans la suite, on fait l'abus de notation de noter $\F_q$ un corps à $q$ élém
     Soit $M/L/K$ une tour de corps. Si $M/K$ est galoisienne, alors $M/L$ l'est aussi, mais $L/K$ en général non. De plus, $\Gal(M/K) = \{\sigma \in \Aut(M) \mid \sigma_{\mid L} = \id_L \} \subseteq \Gal(M/K)$.
 \end{remark}
 
-\begin{theorem}
+\begin{theorem} \label{thmgaloisext}
     Soit $L/K$ une extension. Sont équivalents :
     \begin{enumerate}
         \item $L$ est le corps de décomposition d'un polynôme séparable sur $K$
@@ -1764,11 +1768,216 @@ Dans la suite, on fait l'abus de notation de noter $\F_q$ un corps à $q$ élém
     Soit $L/K$ une extension galoisienne finie et $G = \Gal(L/K)$.
     \begin{enumerate}
         \item L'application
-        \[\varphi : \applic{\{\text{sous-groupes de $G$}\}}{\{\text{sous-extensions de $L/K$}\}}{H}{L^H}\]
+        \[\varphi : \applic{\{\text{\emph{sous-groupes de} $G$}\}}{\{\text{\emph{sous-extensions de} $L/K$}\}}{H}{L^H}\]
         est une bijection qui a pour réciproque $\psi : E \mapsto \Gal(L/E)$.
         \item Si $H_1, H_2$ sont des sous-groupes de $G$, alors $H_1 \subseteq H_2$ si et seulement si $L^{H_2} \subseteq L^{H_1}$ et dans ce cas $[H_2 : H_1] = [L^{H_1} : L^{H_2}]$.
-        \item Pour $\sigma \in G$, $L^{\sigma H \sigma^{-1}} = \sigma(L^H)$, où $H \subseteq G$. Cela équivaut à $\Gal(L/\sigma(E)) = \sigma H \sigma^{-1}$ pour $L/E/K$ avec $H = \Gal(L/E)$.
+        \item Pour $\sigma \in G$, $L^{\sigma H \sigma^{-1}} = \sigma(L^H)$, où $H \subseteq G$. Cela équivaut à $\Gal(L/\sigma(E)) = \sigma H \sigma^{-1}$ pour $L/E/K$ avec $H = \Gal(L/E)$. 
+        \item Pour $H$ un sous-groupe de $G$, $H$ est distingué dans $G$ si et seulement si l'extension de corps $L^H/K$ est normale\footnote{Ce qui justifie l'appellation !} (donc galoisienne). Dans ce cas, $\Gal(L^H/K) = G/H$.
     \end{enumerate}
 \end{theorem}
+
+\begin{proof} \leavevmode
+    \begin{enumerate}
+        \item On montre $\psi \circ \varphi = \id$ et $\varphi \circ \psi = \id$. On a $\Gal(L/L^H) = H$ par le théorème d'Artin, donc $\psi(\varphi(H)) = H$. On a aussi $L^{\Gal(L/E)} = E$ par le théorème \ref{thmgaloisext}, car $L/K$ est galoisienne donc $L/E$ l'est aussi.
+        \item Si $H_1 \subseteq H_2$, alors $L^{H_2} \subseteq L^{H_1}$. De même, si $L^{H_2} \subseteq L^{H_1}$, on a $\Gal(L/L^{H_1}) \subseteq \Gal(L/L^{H_2})$, c'est-à-dire $H_1 \subset H_2$. De plus, par le théorème d'Artin, pour $H$ sous-groupe de $G$, on a
+        \[[L : L^H] = |\Gal(L/L^H)| = |H|\]
+        De plus, $[L : L^{H_2}] = [L : L^{H_1}] [L^{H_1} : L^{H_2}]$ et $|H_2| = [H_2 : H_1] |H_1|$, d'où $[L^{H_1} : L^{H_2}] = [H_2 : H_1]$.
+        \item Pour $\tau \in G$ et $\alpha \in L$, on a
+        \[\tau (\alpha) = \alpha \iff (\sigma\tau \sigma^{-1})(\sigma(\alpha)) = \sigma(\alpha)\]
+        c'est-à-dire que $\tau$ fixe $\alpha$ si et seulement si $\sigma\tau\sigma^{-1}$ fixe $\sigma(\alpha)$. Ainsi, pour un corps intermédiaire $E$ de $L/K$, $\tau$ fixe $E$ si et seulement si $\sigma \tau \sigma^{-1}$ fixe $\sigma(E)$. Alors, $\Gal(L/\sigma(E)) = \sigma\Gal(L/E)\sigma^{-1}$. Par (1), cela montre que $L^{\sigma H \sigma^{-1}} = \sigma L^H \sigma^{-1}$ pour $H$ sous-groupe de $G$.
+        \item Par le corollaire précédent, $L^H/K$ est normale si et seulement si pour tout $\sigma \in \Gal(L/K)$, $\sigma(L^H) = L^H$. Par injectivité de $\varphi$ (dans (1)), cela équivaut à $\sigma H \sigma^{-1} = H$ pour tout $\sigma \in G$, c'est-à-dire $H \lhd G$. Pour conclure, on a un morphisme surjectif $\applic{\Gal(L/K)}{\Gal(L^H/K)}{g}{g_{\mid L^H}}$ de noyau $H$.
+    \end{enumerate}
+\end{proof}
+
+\todo relire cette preuve, je suis pas convaincu
+\newpage
+\section{Langage des catégories}
+
+\emph{L'auteur de ce document a pris quelques (beaucoup de) libertés par rapport aux notes originales.}
+
+\subsection{Introduction aux catégories}
+
+La théorie des catégories a été introduite par Samuel Eilenberg et Saunders MacLane en 1945 pour formaliser la notion de \og naturalité \fg, c'est-à-dire d'absence de choix. Par exemple, si $E$ est un espace vectoriel de dimension finie, il est isomorphe à son dual (par dimension) et à son bidual (encore une fois par dimension). Cependant, trouver un isomorphisme $E \xrightarrow{\sim} E^*$ demande de faire un choix : il n'y a pas d'isomorphisme canonique. Toutefois, entre $E$ et $E^{**}$, il existe un isomorphisme \og naturel \fg : 
+\[\applic{E}{E^{**}}{x}{(\mathrm{ev}_x : \phi \in E^* \mapsto \phi(x))}\]
+La théorie des catégories permet de rendre précises ces notions. Elle a ensuite été utilisée afin de donner des noms à des concepts de topologie algébrique (Eilenberg et Steenrod 1952) puis s'est imposée comme langage permettant d'unifier beaucoup de constructions en algèbre.
+
+\paragraph{Motivation des catégories.} On donne un exemple venant de la topologie algébrique, mais il n'est pas nécessaire d'avoir fait de la topologie algébrique pour le comprendre. Le but de la topologie algébrique est de prendre un espace topologique et d'essayer de comprendre sa structure avec de l'algèbre, ce qui permet en particulier de distinguer des espaces. Par exemple, supposons qu'on veuille démontrer que la sphère de dimension deux $\S^2$ n'est pas homéomorphe au tore $\T^2$. Considérer toutes applications continues possibles $f : \S^2 \to \T^2$ est \emph{a priori} très compliqué. La solution est de définir, pour $\S^2$ et $\T^2$, deux groupes, appelés leurs \emph{groupes fondamentaux} et notés $\pi_1 (\S^2)$ et $\pi_1(\T^2)$ qui encodent une partie de leur topologie. Ensuite, on démontre que si $\S^2$ et $\T^2$ sont homéomorphes, leurs groupes fondamentaux sont isomorphes, puis on calcule leurs groupes fondamentaux et on constate qu'ils sont non isomorphes (précisément, $\pi_1(\S^2) \simeq \{0\}$ et $\pi_1(\T^2) \simeq \Z^2$). Ainsi, $\S^2$ et $\T^2$ ne peuvent pas pas être homéomorphes. Plus généralement, on peut définir pour un espace topologique $X$ son groupe fondamental $\pi_1(X)$, il encode une partie de la topologie de $X$ et est en particulier invariant par homéomorphisme. Toutefois, on ne démontre pas \emph{directement} que si deux espaces $X$ et $Y$ sont homéomorphes, alors leur groupes fondamentaux sont isomorphes. On démontre en réalité quelque chose de bien plus fort : n'importe quelle application continue $f : X \to Y$ induit un morphisme de groupes $\pi_1(f) : \pi_1 (X) \to \pi_1(Y)$. En particulier, la définition de $\pi_1$ implique que si on a $X = Y$ et $f = \id_X$, on a $\pi_1(\id_X) = \id_{\pi_1(X)}$ (ce qui n'est peut-être pas très surprenant). De plus, si $Z$ est un troisième espace topologique et $g : Y \to Z$ est une application continue, on a la relation
+\[\pi_1 (g \circ f) = \pi_1 (g) \circ \pi_1(f)\]
+et c'est de là que découle l'invariance par homéomorphisme : si $X$ et $Y$ sont homéomorphes, alors on dispose de $f : X \to Y$ continue bijective telle que $f^{-1} : Y \to X$ soit aussi continue. Mais alors,
+\[\pi_1(f^{-1}) \circ \pi_1 (f) = \pi_1(f^{-1} \circ f) = \pi_1(\id_X) = \id_{\pi_1 (X)}\]
+et de manière similaire, $\pi_1(f) \circ \pi_1(f^{-1}) = \id_{\pi_1 (Y)}$, donc $\pi_1(X)$ et $\pi_1(Y)$ sont isomorphes. Plus généralement la relation $\pi_1(g\circ f) = \pi_1(g) \circ \pi_1(f)$ est très utile quand on travaille avec les groupes fondamentaux (voir n'importe quel cours de topologie algébrique qui parle de revêtements). \\
+On peut alors remarquer que la relation $\pi_1(g\circ f) = \pi_1(g) \circ \pi_1(f)$ ressemble beaucoup à la définition d'un morphisme de groupes (ou au moins, de monoïdes). Effectivement, si on ne considère que les applications continues d'un espace dans lui-même, elles forment un monoïde pour la composition et $f \mapsto \pi_1(f)$ est un morphisme de monoïdes (des fonctions continues $X \to X$ dans les endomorphismes de groupe de $\pi_1(X)$). Néanmoins, la relation en toute généralité est plus qu'un morphisme de monoïdes. Le groupe fondamental est bien un morphisme d'une certaine structure et la réponse à la question \og quelle structure ?\fg est \og une catégorie\fg.
+\paragraph{Un autre exemple.} Soit $E$ et $F$ deux espaces vectoriels sur un corps $k$ et $f : E \to F$ une application linéaire. Si $\phi : F \to k$ est une forme linéaire sur $F$, on peut lui associer une forme linéaire sur $E$ en écrivant $\phi \circ f$. On obtient une application linéaire $f^* : \applic{F^*}{E^*}{\phi}{\phi \circ f}$. On remarque que si $E = F$ et $f = \id_E$, alors $\id_E^* = \id_{E^*}$, comme précédemment. Maintenant, si $G$ est un autre $k$-espace vectoriel et $g : F \to G$ est une autre application linéaire, on a la relation $\phi \circ (g\circ f) = (\phi \circ g) \circ f$ pour toute forme linéaire $\phi \in G^*$, c'est-à-dire que $(g \circ f)^* = f^* \circ g^*$. Cette relation est différente de celle pour le groupe fondamental, car ici on a retourné le sens de la composition. On parle de \og contravariance\fg.
+
+\begin{definition}
+    Une \emph{catégorie} $\cat$ est la donnée :
+    \begin{itemize}
+        \item D'une collection d'objets notée $\Ob(\cat)$
+        \item Pour tous deux objets $X,Y \in \Ob(\cat)$, une collection notée $\Hom_\cat (X,Y)$ appelée les \emph{morphismes de $X$ vers $Y$}.
+        \item Pour tous $X,Y,Z \in \Ob(\cat)$, une loi de composition
+        \[\circ_{X,Y,Z} : \Hom_\cat (Y,Z) \times \Hom_\cat (X,Y) \to \Hom_\cat (X,Z)\]
+    \end{itemize}
+    telles que :
+    \begin{enumerate}
+        \item La composition soit associative, au sens où pour tous $W,X,Y,Z \in \Ob(\cat)$ et $f \in \Hom_\cat (W,X)$, $g \in \Hom_\cat(X,Y)$ et $h \in \Hom_\cat(Y,Z)$, on ait :
+        \[(h \circ_{X,Y,Z} g) \circ_{W,X,Y} f = h \circ_{X,Y,Z} (g \circ_{W,X,Y} f)\]
+        \item Pour tout $X \in \Ob(\cat)$, il existe $\id_X \in \Hom(X,X)$ tel que pour tout objet $Y\in \Ob(\cat)$ et $f : X \to Y$, $g : Y\to X$, on ait
+        \[f\circ \id_X = f \quad\text{et}\quad \id_X \circ g = g\]
+        Ce morphisme est appelé \emph{l'identité de $X$}.
+    \end{enumerate}
+    Dans la suite, on omettra de préciser quels objets sont considérés pour la composition (on écrira juste $\circ$ au lieu de $\circ_{X,Y,Z}$). Pour dire $f \in \Hom_\catt (X,Y)$, on écrira aussi $f : X\to Y$.
+\end{definition}
+
+\begin{remark}
+    Dans l'idée, les objets de $\cat$ sont des objets mathématiques d'un certain type et les morphismes de $\cat$ sont des applications entre eux. Par exemple, il existe une catégorie, notée $\Set$, dont les objets sont les ensembles et les morphismes sont les applications entre eux (et la composée est la composée de fonctions usuelle et les identités sont des applications identités). C'est cela qui force à ne pas demander que $\Ob(\cat)$ soit un ensemble : il n'existe pas d'ensemble de tous les ensembles. Si on travaille en théorie des classes, on peut par exemple comprendre le mot \og collection \fg comme voulant dire \og classe \fg et s'en sortir, car il existe une classe des tous les ensembles (mais attention, on ne peut alors pas former de catégorie dont les objets seraient toutes les classes). Plus généralement, il faut en gros restreindre la taille des objets considérés pour échapper à des paradoxes comme celui de Russell. Le livre [truc] développe en plus de détail. Ici, nous ne nous inquiéterons pas plus des difficultés liées aux ensembles.
+\end{remark}
+
+\begin{remark}
+    Dans l'écrasante majorité des catégories utiles en pratique, les collections $\Hom_\cat(X,Y)$ sont bien des ensembles. En général, une catégorie ayant cette propriété est dite \emph{localement petite}. Nous supposons dorénavant que toutes les catégories sont localement petites afin de ne pas avoir à le préciser à chaque fois.
+\end{remark}
+
+\begin{example} Donnons quelques exemples usuels de catégories. La composition est implicitement la composition usuelle.
+    \begin{enumerate}
+        \item La catégorie $\Set$, dont les objets sont les ensembles et les morphismes sont les applications entre eux.
+        \item La catégorie $\Grp$, dont les objets sont les groupes et les morphismes sont les morphismes de groupes.
+        \item La catégorie $\Ring$, dont les objets sont les anneaux (commutatifs, unitaires) et les morphismes sont les morphismes d'anneaux.
+        \item Soit $k$ un corps. On note $k\text{-}\Vectcat$ la catégorie dont les objets sont les espaces vectoriels sur $k$ et les morphismes sont les applications $k$-linéaires, ainsi que $k\text{-}\Alg$ la catégorie dont les objets sont les $k$-algèbres et les morphismes sont les morphismes de $k$-algèbres.
+        \item La catégorie $\Top$, dont les objets sont les espaces topologiques et les morphismes sont les applications continues.
+    \end{enumerate}
+\end{example}
+
+Dans énormément de cas, les flèches représentent des vraies applications, mais rien la définition d'une catégorie ne requiert que ce soit le cas. Par exemple :
+
+\begin{example}
+    Soit $(E,\le)$ un ensemble partiellement ordonné. On peut former une catégorie $\cat$ à partir de $E$ en posant $\Ob(\cat) = E$ et pour $x,y \in E$, $\Hom_\cat (x,y) = \{(x \le y)\}$ si $x \le y$ et $\varnothing$ sinon. La composition est définie de la seule manière possible. Le fait que $(E,\le)$ soit partiellement ordonné permet de vérifier qu'on définit bien une catégorie.
+\end{example}
+
+\begin{remark}
+    Comme cas particulier, si $X$ est un espace topologique, on peut former la catégorie $\mathrm{Ouv}(X)$ qui est la catégorie associée à l'ensemble partiellement ordonné formé par les ouverts de $X$ avec l'inclusion. Cette catégorie est utile en géométrie pour définir la notion de faisceau.
+\end{remark}
+
+La notion de catégorie permet de rendre précise la notion d'isomorphisme :
+
+\begin{definition}
+    Deux objets $X,Y \in \Ob(\cat)$ d'une catégorie $\cat$ sont dits \emph{isomorphes} s'il existe deux morphismes $f : X \to Y$ et $g : Y \to X$ tels que $g \circ f = \id_X$ et $f \circ g = \id_Y$.
+\end{definition}
+
+\begin{example}
+    Dans $\Grp,\Ring,k\text{-}\Vectcat$, la notion catégorique d'isomorphisme correspond à la notion usuelle. Dans $\Set$, deux ensembles sont isomorphes si et seulement s'ils sont en bijection. Dans $\Top$, deux espaces sont isomorphes si et seulement s'il sont sont homéomorphes.
+\end{example}
+
+\begin{example}
+    Si on considère la catégorie associée à l'ordre partiel $(\R[X],\mid)$, alors deux polynômes sont isomorphes si et seulement si ils sont associés.
+\end{example}
+
+On peut conceptualiser une catégorie comme étant plein de points (les objets) avec des flèches entre les objets (les morphismes). On peut alors formellement renverser les flèches pour obtenir une nouvelle catégorie :
+
+\begin{definition}
+    Soit $\cat$ une catégorie. La \emph{catégorie opposée $\cat^\op$} est obtenue en posant :
+    \begin{itemize}
+        \item $\Ob(\cat^\op) = \Ob(\cat)$
+        \item Pour tous $X,Y \in \Ob(\cat^\op)$, $\Hom_{\cat^\op}(X,Y) = \Hom_{\cat} (Y,X)$.
+    \end{itemize} 
+    La composition va alors à l'envers : 
+    \begin{tikzcd}[row sep=small, column sep=small]
+        & Z & \\
+        X \arrow[rr,"f" '] \arrow[ru,"g \circ f" sloped] & & Y \arrow[lu,"g" sloped]
+    \end{tikzcd}
+    dans $\cat$ devient
+    \begin{tikzcd}[row sep=small, column sep=small]
+        & Z \arrow[ld,"f \circ g" sloped,pos=0.4] \arrow[rd,"g" sloped] & \\
+        X & & Y \arrow[ll,"f"]
+    \end{tikzcd}
+    dans $\cat^\op$.
+\end{definition}
+
+Le renversement des flèches mène à la notion de dualité catégorique, qu'on examinera plus tard. \\
+Comme pour la plupart des structures algébriques, on a une notion de sous-structure pour les catégories :
+
+\begin{definition}
+    Une \emph{sous-catégorie $\cat'$} d'une catégorie $\cat$ est une catégorie telle que :
+    \begin{itemize}
+        \item Les objets de $\cat'$ forment une sous-collection de $\Ob(\cat)$
+        \item Pour tous $X,Y \in \cat'$, $\Hom_{\cat'} (X,Y)$ est une partie de $\Hom_{\cat} (X,Y)$
+        \item La composition dans $\cat'$ est induite par celle de $\cat$.
+    \end{itemize}
+    De plus, si $\Hom_{\cat'} (X,Y) = \Hom_{\cat} (X,Y)$ pour tous $X,Y \in \Ob(\cat')$, on dit que $\cat'$ est une \emph{sous-catégorie pleine de $\cat$}.
+\end{definition}
+
+\begin{example}
+    Plusieurs catégories utiles sont des sous-catégories.
+    \begin{enumerate}
+        \item La catégorie $\Ab$, dont les objets sont les groupes abéliens et les morphismes les morphismes de groupes entre eux, est une sous-catégorie pleine de $\Grp$.
+        \item La catégorie $k\text{-}\FinVectcat$, dont les objets sont les $k$-espaces vectoriels de dimension finie et les morphismes les applications linéaires entre eux, est une sous-catégorie pleine de $k\text{-}\Vectcat$.
+        \item La catégorie $\mathbf{Mon}$ des monoïdes avec les morphismes de monoïdes est une sous-catégorie non pleine de la catégorie des semi-groupes avec morphismes de semi-groupes $\mathbf{Sgr}$. En effet, considérons le monoïde trivial $A = \{1\}$ et le monoïde $B = \{0,1\}$. Alors, on a deux morphismes de semi-groupes $A \to B$ mais un seul morphisme de monoïdes $A \to B$ car un morphisme de monoïdes doit préserver les neutres.
+    \end{enumerate}
+\end{example}
+
+\subsection{Foncteurs}
+
+On a motivé les catégories comme étant la réponse à la question \og de quelle structure est-ce que $\pi_1$ est un morphisme ? \fg. Maintenant que nous avons la structure, il est temps de définir les morphismes.
+
+\begin{definition}
+    Soient $\cat$ et $\catt$ deux catégories. Un \emph{foncteur covariant} $F$ de $\cat$ dans $\catt$, ce qu'on note $F : \cat \to \catt$, est la donnée de :
+    \begin{itemize}
+        \item Pour tout objet $X \in \Ob(\cat)$, un objet $F(X) \in \Ob(\catt)$
+        \item Pour tous deux objets $X,Y \in \Ob(\cat)$ et morphisme $f : X \to Y$ dans $\cat$, un morphisme $F(f) : F(X) \to F(Y)$ dans $\catt$.
+    \end{itemize}
+    vérifiant :
+    \begin{enumerate}
+        \item Pour tout $X \in \Ob(\cat)$, $F(\id_X) = \id_{F(X)}$
+        \item Pour tous morphismes composables $X \xrightarrow{f} Y \xrightarrow{g} Z$, $F(g \circ f) = F(g) \circ F(f)$.
+    \end{enumerate}
+    Un foncteur \emph{contravariant} de $\cat$ dans $\catt$ est un foncteur $F : \cat^\op \to \catt$. De manière équivalente, c'est un foncteur de $\cat$ dans $\catt$ mais on inverse le sens des flèches : un morphisme $f : X\to Y$ est envoyé sur un morphisme $F(f) : F(Y) \to F(X)$ et la condition (2) devient $F(g\circ f) = F(f) \circ F(g)$.
+\end{definition}
+
+Sans précision supplémentaire, \og un foncteur \fg est implicitement un foncteur covariant.
+
+\begin{example} Recontextualisons de ce qui a déjà été dit.
+    \begin{enumerate}
+        \item Le groupe fondamental $\pi_1$ est un foncteur covariant $\Top \to \Grp$. 
+        \item L'opération $E \mapsto E^*$ et $f \mapsto f^*$ définit un foncteur contravariant $k\text{-}\Vectcat \to k\text{-}\Vectcat$.
+    \end{enumerate}
+\end{example}
+
+Donnons de nouveaux exemples de foncteurs.
+
+\begin{example} Beaucoup de catégories qu'on a déjà vues ont pour objets des \og ensembles avec une structure supplémentaire \fg. On en déduit la notion de foncteur d'oubli. Par exemple, on a un foncteur $\Grp \to \Set$ qui à un groupe $(G,\cdot)$ associe l'ensemble sous-jacent $G$ et à un morphisme de groupes $f : (G,\cdot) \to (H,\star)$ associe l'application entre ensembles $f : G\to H$. On obtient par le même procédé des foncteurs d'oubli $\Ring \to \Set$, $\Top \to \Set$, $k\text{-}\Vectcat \to \Set$. On peut aussi choisir d'oublier seulement une partie de la structure. Par exemple, on a un foncteur $\Ring \to \Ab$ qui à un anneau associe le groupe abélien obtenu avec l'addition (le foncteur oublie la multiplication). De même, on peut prendre un espace vectoriel normé et en oublier la norme, \emph{et cetera}. Ces foncteurs sont moins inutiles qu'ils n'y paraissent à première vue car ils permettent de formaliser la notion d'\og objet libre \fg avec la notion d'adjonction qu'on introduira plus tard.
+\end{example}
+
+\begin{example}
+    L'opération abélianisation définition un foncteur $\Grp \to \Ab$, donné par
+    \[G \mapsto G/[G,G] \quad \text{et} \quad (f : G \to H) \mapsto (\tilde{f} : G/[G,G] \to H/[H,H])\]
+    où $\tilde{f}$ est obtenu à partir de $f$ par composition avec la projection $H \to H/[H,H]$ puis par passage au quotient. 
+\end{example}
+
+\begin{definition}
+    Un foncteur $F : \cat \to \catt$ est dit \emph{fidèle}/\emph{plein}/\emph{pleinement fidèle} si pour tous $X,Y \in \Ob(\cat)$, l'application $\applic{\Hom_\cat (X,Y)}{\Hom_\catt(F(X),F(Y))}{f}{F(f)}$ est injective/surjective/bijective.
+\end{definition}
+
+\begin{example} \todo
+    \begin{enumerate}
+        \item Le foncteur canonique $\Ab \to \Grp$ est pleinement fidèle.
+        \item Le foncteur d'oubli $\Grp \to \Set$ est fidèle, mais pas plein.
+        \item 
+    \end{enumerate}
+\end{example}
+
+Il existe une notion pertinente de morphisme entre foncteurs.
+
+\begin{definition}
+    Soient $\cat$ et $\catt$ deux catégories et $F,G : \cat \to \catt$ deux foncteurs. Une \emph{transformation naturelle} (ou morphisme de foncteurs) de $F$ dans $G$ est la donnée pour tout $X \in \Ob(\cat)$ d'un morphisme $\eta_X : F(X) \to G(X)$ telle que pour tous $X, Y\in \Ob(\cat)$ et $f : X \to Y$, le diagramme
+    \begin{center}
+        \begin{tikzcd}
+            F(X) \arrow[r,"\eta_X"] \arrow[d,"F(f)" '] & G(X) \arrow[d,"G(f)"] \\
+            F(Y) \arrow[r,"\eta_Y" '] & G(Y)
+        \end{tikzcd}
+    \end{center}
+    commute. On note $\eta : F \Rightarrow G$. On dit que $\eta$ est un \emph{isomorphisme naturel} s'il existe une autre transformation naturelle $\psi : G\Rightarrow F$ telle que $\psi_X \circ \varphi_X = \id_{F(X)}$ et $\varphi_X \circ \psi_X = \id_{G(X)}$ pour tout $x \in \Ob(\cat)$. On écrit dans ce cas $F \cong G$.
+\end{definition}
+
+\begin{example}
+    Pour tout foncteur $F : \cat \to \catt$, la transformation naturelle identité de $F$, donnée par $(\id)_X = \id_{F(X)}$ est un isomorphisme naturel $F \Rightarrow F$.
+\end{example}
 
 \end{document}

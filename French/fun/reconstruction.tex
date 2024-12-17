@@ -1,0 +1,75 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsthm,amsfonts,stmaryrd}
+\usepackage{tikz}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}[textwidth=10cm]
+\usepackage{tikz-cd}
+\usepackage{nicefrac}
+
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\renewcommand{\P}{\mathcal{P}}
+\renewcommand{\d}{{\rm \, d}}
+
+\newcommand{\M}{\mathcal{M}}
+
+%Operators
+\DeclareMathOperator{\Card}{Card}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\PSL}{PSL}
+\DeclareMathOperator{\PGL}{PGL}
+\DeclareMathOperator{\SO}{SO}
+\DeclareMathOperator{\pgcd}{pgcd}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\Vect}{Vect}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\Fix}{Fix}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Int}{Int}
+\DeclareMathOperator{\Hom}{Hom}
+\renewcommand{\Re}{\mathop{\rm Re}}
+\renewcommand{\Im}{\mathop{\rm Im}}
+
+\newcommand{\todo}{\textbf{TODO}}
+
+\renewcommand{\epsilon}{\varepsilon}
+
+%Macros
+\newcommand{\applic}[4]{\begin{array}[t]{rcl}
+#1 & \to & #2 \\
+#3 & \mapsto & #4
+\end{array}}
+
+\setlength{\parindent}{0pt}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Théorème}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem*{corollary}{Corollaire}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Définition}
+\newtheorem{example}[theorem]{Exemple}
+\newtheorem{question}{Question}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remarque}
+
+\title{Conjecture de reconstruction}
+\author{Reblax}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+Soit $\Gamma = (V,E)$ un graphe et $G = \Aut(\Gamma)$. Alors, $G$ agit sur le multi-ensemble $D(G)$ en envoyant la carte correspondant à $v \in V$ sur celle correspondant à $\sigma(v) \in V$. Si $v,v'$ sont dans la même orbite pour l'action naturelle $G \curvearrowright V$, alors un automorphisme $g$ tel que $g\cdot v = v'$ induit un isomorphisme de graphes $\Gamma_v \xrightarrow{\sim} \Gamma_{v'}$. Comme le montre l'exemple de [dessiner], on n'obtient pas forcément tous les isomorphismes $\Gamma_v \to \Gamma_{v'}$ de cette manière. \todo fixer une identification ``canonique'' en identifiant les deux sommets enlevés et ainsi obtenir peut-être un sous-groupe de $\Aut(\Gamma_v)$
+
+\end{document}
