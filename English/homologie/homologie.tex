@@ -2266,7 +2266,7 @@ Of course, contractibility implies acyclicity.
     \[0 \to A \xrightarrow{\alpha} B \xrightarrow{\beta} C \to 0\]
     gives rise to a long exact sequence in homology
     \[\cdots \to H_n(A) \xrightarrow{H_n (\alpha)} H_n(B) \xrightarrow{H_n(\beta)} C \xrightarrow{\delta_n} H_{n-1}(A) \to \cdots\]
-    The morphisms $\delta_n$ (which are defined in the proof) are called the \emph{connecting} homorphisms.
+    The morphisms $\delta_n$ (which are defined in the proof) are called the \emph{connecting} homomorphisms.
 \end{theorem}
 
 \begin{proof}
@@ -2274,8 +2274,193 @@ Of course, contractibility implies acyclicity.
 \end{proof}
 
 \begin{remark}
-    
+    The connecting homomorphism is natural in the following way. If we have a commutative diagram of chain complexes where the rows are short exact sequences
+    \begin{center}
+        \begin{tikzcd}
+            0 \arrow[r]
+            &
+            A \arrow[r,"\alpha"] \arrow[d,"f" ']
+            &
+            B \arrow[r,"\beta"] \arrow[d,"g" ']
+            &
+            C \arrow[r] \arrow[d,"h"]
+            &
+            0
+            \\
+            0 \arrow[r]
+            &
+            A' \arrow[r,"\alpha'" ']
+            &
+            B' \arrow[r,"\beta'" ']
+            &
+            C' \arrow[r]
+            &
+            0
+        \end{tikzcd}
+    \end{center}
+    we obtain a morphism of long exact sequences
+    \begin{center}
+        \begin{tikzcd}
+            \cdots \arrow[r]
+            &
+            H_n(A) \arrow[r,"H_n(\alpha)"] \arrow[d,"H_n(f)" ']
+            &
+            H_n(B) \arrow[r,"H_n(\beta)"] \arrow[d,"H_n(g)" ']
+            &
+            H_n(C) \arrow[r,"\delta_n"] \arrow[d,"H_n(h)" ']
+            &
+            H_{n-1}(A) \arrow[r,"H_{n-1}(\alpha)"] \arrow[d,"H_{n-1}(f)"]
+            &
+            H_{n-1}(B) \arrow[r] \arrow[d,"H_{n-1}(g)"]
+            &
+            \cdots
+            \\
+            \cdots \arrow[r]
+            &
+            H_n(A') \arrow[r,"H_n(\alpha')" ']
+            &
+            H_n(B') \arrow[r,"H_n(\beta')" ']
+            &
+            H_n(C') \arrow[r,"\delta_n '" ']
+            &
+            H_{n-1}(A') \arrow[r,"H_{n-1}(\alpha')" ']
+            &
+            H_{n-1}(B') \arrow[r]
+            &
+            \cdots
+        \end{tikzcd}
+    \end{center}
+    The commutativity of the first two squares comes from the fact that $H_n$ is a functor. The commutativity of the middle square, the one that involves connecting homomorphisms, needs a proof.
 \end{remark}
+
+\subsection{Projective and injective objects}
+
+\begin{definition}
+    Let $\Acat$ be an abelian category.
+    \begin{enumerate}
+        \item An object $I \in \Ob(\Acat)$ is \emph{injective} if $\Hom_\Acat(-,I) : \Acat^\op \to \Ab$ is exact
+        \item An object $P \in \Ob(\Acat)$ is \emph{projective} if $\Hom_\Acat(P,-) : \Acat \to \Ab$ is exact
+        \item The category $\Acat$ has \emph{enough projectives} if for any $X \in \Ob(\Acat)$ there exists an epimorphism $f : P \to X$ with $P$ projective.
+        \item The category $\Acat$ has \emph{enough injectives} if for any $X \in \Ob(\Acat)$ there exists a monomorphism $g : X \to I$ with $I$ injective.
+    \end{enumerate}
+\end{definition}
+
+\begin{proposition}
+    \todo prop 5.18
+\end{proposition}
+
+\begin{proof}
+    \todo
+\end{proof}
+
+\begin{definition}
+    Let $\Acat$ be an abelian category. A \emph{pullback} of $\alpha : A \to C$ and $\beta : B \to C$ is a limit of the diagram \begin{tikzcd}[row sep=small, column sep=small]
+        & B \arrow[d,"\beta"] \\ A \arrow[r,"\alpha" '] & C
+    \end{tikzcd}
+    . Diagramatically, the pullback is the object $P$ together with the two morphisms $p_1,p_2$:
+    \begin{center}
+        \begin{tikzcd}
+            Q \arrow[ddr,"q_1" ',bend right] \arrow[rrd,"q_2",bend left] \arrow[rd,"\exists !",dashed] \\
+            & P \arrow[d,"p_1"] \arrow[r,"p_2"] & B \arrow[d,"\beta"] \\
+            & A \arrow[r,"\alpha" '] & C
+        \end{tikzcd}
+    \end{center}
+    Dually, we have the notion of a pushout:
+    \begin{center}
+        \begin{tikzcd}
+            A \arrow[d,"\beta" '] \arrow[r,"\alpha"] & B \arrow[d] \arrow[ddr,bend left] \\
+            C \arrow[r] \arrow[rrd,bend right] & P \arrow[dr,"\exists !", dashed] \\
+            & & Q
+        \end{tikzcd}
+    \end{center}
+\end{definition}
+
+\begin{proposition}
+    Let $\Acat$ be an abelian category.
+    \begin{enumerate}
+        \item Any pair of morphisms has a pullback and a pushout in $\Acat$.
+        \item In any category, if $\alpha$ is a monomorphism, then $p_2$ also is a monomorphism: pullbacks preserve monos.
+        \item Dually, pushouts preserve epis.
+        \item In an abelian category, pullbacks preserve kernels :
+        \begin{center}
+            \begin{tikzcd}
+                \ker p_2 \arrow[r] \arrow[d,dashed,"\simeq"] & P \arrow[r,"p_2"] \arrow[d,"p_1"] & Y \arrow[d,"g"] \\
+                \ker f \arrow[r] & X \arrow[r,"f"] & Z
+            \end{tikzcd}
+        \end{center}
+        \item In an abelian category, pullbacks preserve epimorphisms.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    1. is clear since pullback and pushouts are small (co)limits. Let's prove 2. We use the same notations as in the definition above. Assume $\alpha$ is a monomorphism. Consider a pair of parallel morphisms \begin{tikzcd}
+        W \arrow[r,shift left,"a"] \arrow[r,shift right,"b" '] & P
+    \end{tikzcd}
+    such that $p_2 a = p_2 b$. Then we have a diagram
+    \begin{center}
+        \begin{tikzcd}
+            W \arrow[rd,shift left, "b"] \arrow[rd,shift right, "a" '] \arrow[rdd,"p_1 a" ', bend right] \arrow[rrd,"p_2 b", bend left] \\
+            & P \arrow[d,"p_1"] \arrow[r,"p_2"] & B \arrow[d,"\beta"] \\
+            & A \arrow[r,"\alpha" '] & C
+        \end{tikzcd}
+    \end{center}
+    By commutativity, $\alpha p_1 a = \beta p_2 a = \beta p_2 b = \alpha p_1 b$. Since $\alpha$ is a mono, $p_1 a = p_1 b$. This means that the diagram above commutes. Therefore, $a$ and $b$ are two solutions to the same universal problem and $a=b$. This shows $p_2$ is a mono. The proof for 3. is dual. They both work in any category. Now we work in an abelian category so we can talk about kernels to prove 4. Consider the diagram
+    \begin{center}
+        \begin{tikzcd}
+            \ker p_2 \arrow[r,"i_2"] \arrow[d,dashed,"\exists ! p"] & P \arrow[r,"p_2"] \arrow[d,"p_1"] & Y \arrow[d,"g"] \\
+            \ker f \arrow[r,"i_1"] & X \arrow[r,"f"] & Z
+        \end{tikzcd}
+    \end{center}
+    We have $f p_1 i_2 = g p_2 i_2 = 0$, so we obtain the map $p$ by the universal property of $\ker f$. The universal property of the pullback gives us a map $t : \ker f \to P$ in the following way:
+    \begin{center}
+        \begin{tikzcd}
+            & \ker f \arrow[ddr,"i_1" ',bend right] \arrow[rrd,"0",bend left] \arrow[rd,"\exists ! t",dashed] \arrow[ld,"\exists ! q" ',dashed] \\
+            \ker p_2 \arrow[rr] & & P \arrow[d,"p_1"] \arrow[r,"p_2"] & Y \arrow[d,"g"] \\
+            & & X \arrow[r,"f" '] & Z
+        \end{tikzcd}
+    \end{center}
+    the map $q$ is induced by $t$ since $p_2 t = 0$. Now,
+    \begin{center}
+        \begin{tikzcd}
+            \ker f \arrow[r,"i_1"] & X \arrow[r,"f"] & Z \\
+            \ker p_2 \arrow[u,"p"] & \ker f \arrow[l,"q"] \arrow[u,"i_1" ']
+        \end{tikzcd}
+    \end{center}
+    and we have $i_1 pq = p_1 i_2 q = p_1 t = i_1$. Therefore, $pq$ and $\id_{\ker f}$ are two solutions to the same universal problem, so they are equal: $pq = \id_{\ker f}$. Now consider the diagram
+    \begin{center}
+        \begin{tikzcd}
+            \ker p_2 \arrow[rd,"i_2 qp"] \arrow[rrd,"0", bend left] \arrow[ddr,"p_1 i_2" ', bend right] \\
+            & P \arrow[r,"p_2"] \arrow[d,"p_1"] & Y \arrow[d,"g"] \\
+            & X \arrow[r,"f"] & Z
+        \end{tikzcd}
+    \end{center}
+    This diagram commutes: indeed, $p_2 i_2 qp = 0$ and $p_1 i_2 qp = i_1 p = p_1 i_2$. Now, replacing $i_2 qp$ by $i_2 : \ker p_2 \to P$ also makes the diagram commute, so by universal property of the pullback, $i_2 qp = i_2$. Since $i_2$ is a mono (it's a kernel), $qp = \id_{\ker p_2}$. This concludes the proof of 4. \\
+    Let 
+    \begin{center}
+        \begin{tikzcd}
+            P \arrow[r,"p_2"] \arrow[d,"p_1"] & Y \arrow[d,"g"] \\
+            X \arrow[r,"f"] & Z
+        \end{tikzcd}
+    \end{center}
+    be a pullback. Then, we have an exact sequence $P \xrightarrow{(p_1, p_2)} X \oplus Y \xrightarrow{-f \oplus g} Z$ (\todo understand why and finish proof).
+\end{proof}
+
+\begin{theorem}
+    Let $\Acat$ be an abelian category.
+    \begin{enumerate}
+        \item Let $(P_\lambda)_{\lambda \in \Lambda}$ be a family of objects of $\Acat$. Then $\bigcup_{\lambda \in \Lambda} P_\lambda$ is projective if and only if $P_\lambda$ is projective for all $\lambda \in \Lambda$.
+        \item An object $P$ is projective if and only if for any epi $f : X \twoheadrightarrow P$, there exists $s : P \to X$ such that $fs = \id_P$.
+        \item An object $I$ is injective if and only if for any mono $f : I \hookrightarrow X$, there exists $r : X \to I$ such that $rf = \id_I$.
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    \todo
+\end{proof}
+
+
+
+
 
 
 \end{document}

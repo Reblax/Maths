@@ -1,0 +1,402 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsfonts, amsthm,mathrsfs}
+\usepackage[english]{babel}
+\usepackage{palatino}
+\usepackage{eulervm}
+\usepackage{geometry}[textwidth=10cm]
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage{nicefrac}
+\usepackage{cancel}
+\usepackage{titlesec}
+\usepackage{pzccal}
+\usepackage{enumitem}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.pathmorphing}
+
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\pre}{\mathrm{pre}}
+\newcommand{\op}{\mathrm{op}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\U}{\mathbb{U}}
+\newcommand{\F}{\mathbb{F}}
+\renewcommand{\H}{\mathbb{H}}
+
+\renewcommand{\P}{\mathbb{P}}
+\renewcommand{\d}{{\rm \, d}}
+
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\catt}{\mathcal{D}}
+\newcommand{\Jcat}{\mathcal{J}}
+\newcommand{\Acat}{\mathcal{A}}
+
+\newcommand{\Set}{\mathit{Sets}}
+\newcommand{\Top}{\mathit{Top}}
+\newcommand{\Grp}{\mathit{Grp}}
+\newcommand{\Mod}{\mathit{Mod}}
+\newcommand{\Ab}{\mathit{Ab}}
+\newcommand{\Vectcat}{\mathit{Vec}}
+\newcommand{\Ring}{\mathit{Rings}}
+
+%Operators
+\DeclareMathOperator{\Acc}{Acc}
+\DeclareMathOperator{\Card}{Card}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\PSL}{PSL}
+\DeclareMathOperator{\PGL}{PGL}
+\DeclareMathOperator{\SO}{SO}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\rg}{rg}
+\DeclareMathOperator{\Ch}{Ch}
+\DeclareMathOperator{\sh}{sh}
+\DeclareMathOperator{\Vect}{Vect}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\rk}{rk}
+\DeclareMathOperator{\Fix}{Fix}
+\DeclareMathOperator{\Ob}{Ob}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Int}{Int}
+\DeclareMathOperator{\Mor}{Mor}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Fun}{Fun}
+\DeclareMathOperator{\Nat}{Nat}
+\DeclareMathOperator{\colim}{colim}
+\DeclareMathOperator{\cod}{cod}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\res}{res}
+\DeclareMathOperator{\coim}{coim}
+\renewcommand{\Re}{\mathop{\rm Re}}
+\renewcommand{\Im}{\mathop{\rm Im}}
+
+\newcommand{\todo}{\textbf{TODO}}
+
+\renewcommand{\epsilon}{\varepsilon}
+\newcommand{\invlim}{\varprojlim}
+\newcommand{\dirlim}{\varinjlim}
+
+%Macros
+\newcommand{\applic}[4]{\begin{array}[t]{rcl}
+#1 & \to & #2 \\
+#3 & \mapsto & #4
+\end{array}}
+
+\newcommand{\Osheaf}{\mathscr{O}}
+\newcommand{\Fsheaf}{\mathscr{F}}
+\newcommand{\Gsheaf}{\mathscr{G}}
+\newcommand{\Hsheaf}{\mathscr{H}}
+\newcommand{\sheafHom}{\mathcal{Hom}}
+\newcommand{\m}{\mathfrak{m}}
+
+\setlength{\parindent}{0pt}
+
+\title{Solutions to problems in Ravi Vakil's The Rising Sea}
+\author{}
+\date{}
+
+\titleformat{\section}{\bfseries\Large}{Chapter \thesection}{0.5ex}{}
+
+\setlist[enumerate]{label=(\alph*)}
+
+\begin{document}
+
+\maketitle
+
+Warning: not all problems are given solutions here. Sometimes my mathematical writing gets a bit sloppy. Details may be omitted. Ease of reading sometimes compels me to be slightly less rigorous (but it should be obvious how to fill in the gaps in rigor). If you're wondering, the font is palatino and the math font is eulervm, since this is what Vakil uses. I try to stick to his notations as much as possible.
+
+\setcounter{section}{1}
+\section{}
+
+\subsection{Motivating example: the sheaf of smooth functions}
+
+\paragraph{2.1.A.} Let $[(f,U)] \in \Osheaf_p \setminus \m_p$. Then, $f(p) \ne 0$. By continuity of $f$, there is some open set $W \ni p$ such that $f$ is nonzero on all of $W$. Then, $[(f_{\mid W}, W)] = [(f,U)]$ in $\Osheaf_p$ and an inverse is given by $[(\frac{1}{f_{\mid W}}, W)] \in \Osheaf_p$. Thus $\m_p$ is the only maximal ideal of $\Osheaf_p$.
+
+\subsection{Definition of sheaf and presheaf}
+
+\paragraph{2.2.A.} I'm unsure what to check here since the given definition of a presheaf is precisely how you would define a contravariant functor $\mathit{Open}(X) \to \Set$. I guess Vakil wants me to say that the relations imposed on $\res$ are what you get out of $F(f\circ g) = F(g) \circ F(f)$ and $F(\id) = \id$.
+
+\paragraph{2.2.C.} Saying $\Fsheaf$ is a sheaf is the same as asking
+\[\Fsheaf(\cup_{i\in I} U_i) = \lim_{i,j \in I} \Fsheaf (U_i \cap U_j)\]
+Indeed, let $A$ be a set equipped with maps $\varphi_i : A \to U_i$ for all $i$, such that
+\[\res_{U_i, U_i \cap U_j} \circ \varphi_i = \res_{U_j, U_i \cap U_j} \circ \varphi_j \tag{$*$}\]
+for all $i,j$. Pick $f \in A$. Let $f_i = \varphi_i (f)$. The commutativity relation $(*)$ tells us that $\res_{U_i, U_i \cap U_j} (f_i) = \res_{U_j, U_i \cap U_j} (f_j)$ for all $i,j$, so identity and gluability give us a unique $\psi(f) \in \Fsheaf(\cup_{i\in I} U_i)$ such that $\res_{\cup_{i\in I} U_i, U_j} (\psi(f)) = f_j$ for all $j$. This allows us to define a map $\psi A \to \Fsheaf (\cup_{i\in I} U_i)$. It is the only map that makes the appropriate diagram commute, so $\Fsheaf(\cup_{i\in I} U_i)$ truly is the limit.
+
+\paragraph{2.2.E.} Let $(U_i)_{i\in I}$ be a collection of open sets of $X$. Let $f,g \in \Fsheaf(\cup_i U_i)$ be such that $f_{\mid U_i} = g_{\mid U_i}$ for all $i \in I$. Then $f(x) = g(x)$ for all $x \in \cup_i U_i$ because $x$ is contained in some $U_i$. This shows $f = g$, so we have identity. Now let $f_i \in \Fsheaf(U_i)$ be a collection of maps such that $(f_i)_{\mid U_i \cap U_j} = (f_j)_{\mid U_i \cap U_j}$ for all $i,j \in I$. Define $f : \cup_i U_i \to S$ by $f(x) = f_i (x)$ if $x \in U_i$. This is well-defined since if $x$ is also in $U_j$, $f_j(x) = f_i(x)$ by compatibility. We need to check $f$ is locally constant. Pick $s \in S$ and $x \in f^{-1}(\{s\})$. There exists some $i$ such that $x \in U_i$. Then, $f_i(x) = s$, and $f_i$ is locally constant, so there is some open set $V  \ni x$ contained in $U_i$ such that $f_i(V) = s$. Therefore, $V \subset f^{-1}(\{s\})$. This shows $f$ is locally constant and therefore gluability.
+
+\paragraph{2.2.F.} Identity is shown in the exact same way as the previous exercise (functions are determined by their values at points). Again, pick $f_i : U_i \to Y$ a compatible family of continuous functions and define $f : \cup_i U_i \to Y$ by $f(x) = f_i(x)$ if $x \in U_i$, just like the previous exercise. Let $V \subset Y$ be open and pick $x \in f^{-1}(V)$. There is some $U_i$ that contains $x$ and so $f(x) = f_i(x) \in V$. Therefore, $x \in f_i^{-1}(V)$. This shows $f^{-1}(V) \subset \cup_i f_i^{-1}(V)$. Conversely, if $x \in \cup_i f_i^{-1}(V)$, there is some $i$ such that $x \in f_i^{-1}(V) \subset U_i$, so $x \in f^{-1}(V)$ because $f(x) = f_i(x) \in V$. Therefore, $f^{-1}(V) = \cup_i f_i^{-1}(V)$ is open as a union of open sets, and $f$ is continuous.
+
+\paragraph{2.2.G.} 
+\begin{enumerate}
+    \item Identity is shown in the exact same way as in exercise \textbf{2.2.E.}. For gluability, when we glue continuous sections, we have continuity by the same reasoning as in the previous exercise. The fact that the glued map is a section works because being a section is a local condition: if $x \in \cup_i U_i$, $s(x) = s_i(x)$, so $\mu s(x) = \mu s_i(x) = x$.
+    \item We only need to check that $\Fsheaf (U)$ is a group and that restriction maps are group homomorphisms. We denote by $\cdot$ the topological group law on $Y$. Then, 
+    \[\star_U : \applic{\Fsheaf(U) \times \Fsheaf(U)}{\Fsheaf(U)}{(f,g)}{(x \mapsto f(x) \cdot g(x))}\] is a group law on $\Fsheaf(U)$: the identity element is the constant map equal to the identity element of $Y$, associativity can be checked point by point and the inverse of $f$ is given by $x\mapsto (f(x))^{-1}$. Restriction maps are group homomorphisms because the group law is defined pointwise.
+\end{enumerate}
+
+
+\paragraph{2.2.H.} Let $V \subset U \subset Y$ be two open sets. Then, $\pi^{-1}(V) \subset \pi^{-1}(U)$, and we set 
+\[\res^{\pi_* \Fsheaf}_{U,V} = \res^\Fsheaf_{\pi^{-1}(U),\pi^{-1}(V)}\]
+which does defines a presheaf on $Y$, since
+\[\res^{\pi_* \Fsheaf}_{U,U} = \res^\Fsheaf_{\pi^{-1}(U),\pi^{-1}(U)} = \id_{\Fsheaf(\pi^{-1}(U))} = \id_{\pi_*\Fsheaf(U)}\]
+and if $W \subset V \subset U \subset Y$,
+\begin{align*}
+    \res^{\pi_* \Fsheaf}_{U,V} \circ \res^{\pi_* \Fsheaf}_{V,W} & = 
+    \res^\Fsheaf_{\pi^{-1}(U),\pi^{-1}(V)} \circ \res^\Fsheaf_{\pi^{-1}(V),\pi^{-1}(W)} \\
+    & = \res^\Fsheaf_{\pi^{-1}(U),\pi^{-1}(W)} \\
+    & = \res^{\pi_* \Fsheaf}_{U,W}
+\end{align*}
+Now we further assume that $\Fsheaf$ is a sheaf. Let $(U_i)_{i\in I}$ be a family of open sets of $Y$. We let $U = \cup_i U_i$ for convenience. Let $f,g \in \pi_*\Fsheaf(U)$ be such that $\res^{\pi_*\Fsheaf}_{U,U_i}(f) = \res^{\pi_*\Fsheaf}_{U,U_i}(g)$ for all $i$. Then, $f,g \in \Fsheaf(\pi^{-1}(U))$ and $\res^\Fsheaf_{\pi^{-1}(U),\pi^{-1}(U_i)}(f) = \res^\Fsheaf_{\pi^{-1}(U),\pi^{-1}(U_i)}(g)$ for all $i$. Since $\pi^{-1}(U) = \cup_i \pi^{-1}(U_i)$ and $\Fsheaf$ is a sheaf, we have $f = g$, hence identity holds. \\
+Let $f_i \in \pi_*\Fsheaf(U_i)$ for all $i$ be such that for all $i,j$
+\[\res_{U_i, U_i\cap U_j}^{\pi_*\Fsheaf} (f_i) = \res_{U_j, U_i\cap U_j}^{\pi_*\Fsheaf} (f_j)\]
+Then, $f_i \in \Fsheaf(\pi^{-1}(U_i))$, and for $i,j$, we have
+\[\res_{\pi^{-1}(U_i), \pi^{-1}(U_i) \cap \pi^{-1}(U_j)}^{\Fsheaf} (f_i) = \res_{\pi^{-1}(U_j), \pi^{-1}(U_i) \cap \pi^{-1}(U_j)}^{\Fsheaf} (f_j)\]
+because $\pi^{-1}(U_i \cap U_j) = \pi^{-1}(U_i) \cap \pi^{-1}(U_j)$. Then, since $\Fsheaf$ is a sheaf, there exists some $f \in \Fsheaf(\pi^{-1}(U))$ such that $\res_{\pi^{-1}(U),\pi^{-1}(U_i)}^{\Fsheaf}(f) = f_i$ for all $i$. This means that $f \in \pi_*\Fsheaf(U)$ and $\res_{U, U_i}^{\pi_*\Fsheaf} (f) = f_i$ for all $i$, so $\pi_*\Fsheaf$ satisfies gluability.
+
+\paragraph{2.2.I.} Let $(g,V) \in (\pi_*\Fsheaf)_q$. Then, $g \in \pi_*\Fsheaf(V) = \Fsheaf(\pi^{-1}(V))$. Therefore, $(g,\pi^{-1}(V)) \in \Fsheaf_p$. We check this defines a morphism of stalks $(\pi_*\Fsheaf)_q \to \Fsheaf_p$. If $(f,U) \sim (g,V)$, then there exists $W \subset U \cap V$ such that $\res_{U,W}^{\pi_*\Fsheaf} (f) = \res_{V,W}^{\pi_*\Fsheaf} (g)$. This means that $\res_{\pi^{-1}(U),\pi^{-1}(W)}^\Fsheaf (f) = \res_{\pi^{-1}(V),\pi^{-1}(W)}^\Fsheaf(g)$, so $(f,\pi^{-1}(U)) \sim (g,\pi^{-1}(V))$ in $\Fsheaf_p$. Therefore the map $\applic{(\pi_*\Fsheaf)_q}{\Fsheaf_p}{(g,V)}{(g,\pi^{-1}(V))}$ is well-defined. \\
+Now we re-do this exercise but with the universal property. Let $V$ be an open set of $Y$ containing $q$. Then, $p \in \pi^{-1}(V)$, so we have a map $\pi_*\Fsheaf(V) = \Fsheaf(\pi^{-1}(V)) \to \Fsheaf_p$. These morphisms satisfy the correct commutativity relations because (1) $\Fsheaf_p$ is a colimit so a cocone and (2) the restrictions of $\pi_*\Fsheaf$ are actually restrictions of $\Fsheaf$. Therefore, the universal property gives us the morphism $(\pi_*\Fsheaf)_q \to \Fsheaf_p$.
+
+\paragraph{2.2.J.} Let $(a,V) \in \Osheaf_{X,p}$ and $(f,U)$ in $\Fsheaf_p$. Then, we have $(a,V) \sim (a_{\mid U \cap V},U \cap V)$ and $(f,U) \sim (f_{\mid U\cap V}, U\cap V)$, and we can define $(a,V) \cdot (f,U) = (a_{\mid U\cap V} \cdot f_{\mid U \cap V}, U \cap V)$. This is well-defined: if $(a,V) \sim (b,V')$ in $\Osheaf_X$ and $(f,U) \sim (g,U')$ in $\Fsheaf$, we have two open sets $W_V \subset V \cap V'$ and $W_U \subset U \cap U'$ such that $a_{\mid W_V} = b_{\mid W_V}$ and $f_{\mid W_U} = g_{\mid W_U}$. Then,
+\[(a, V) \cdot (f,U) = (a_{\mid U \cap V} \cdot f_{\mid U \cap V}, U \cap V)\]
+But, we have
+\[(a_{\mid U \cap V} \cdot f_{\mid U \cap V})_{\mid W_V \cap W_U} = a_{\mid W_V \cap W_U} \cdot f_{\mid W_V \cap W_U}\]
+because the module structure commutes with restriction maps. In much the same way,
+\[(b, V') \cdot (g,U') = (b_{\mid U' \cap V'} \cdot g_{\mid U' \cap V'}, U' \cap V')\]
+and
+\[(b_{\mid U' \cap V'} \cdot g_{\mid U' \cap V'})_{\mid W_V \cap W_U} = b_{\mid W_V \cap W_U} \cdot g_{\mid W_V \cap W_U}\]
+but $a_{\mid W_V} = b_{\mid W_V}$ and $f_{\mid W_U} = g_{\mid W_U}$, so we have
+\[a_{\mid W_V \cap W_U} \cdot f_{\mid W_V \cap W_U} = b_{\mid W_V \cap W_U} \cdot g_{\mid W_V \cap W_U}\]
+which means
+\[(a_{\mid U \cap V} \cdot f_{\mid U \cap V}, U \cap V) \sim (b_{\mid U' \cap V'} \cdot g_{\mid U' \cap V'}, U' \cap V')\]
+Which means the action is well-defined. Thus $\Fsheaf_p$ is an $\Osheaf_{X,p}$-module.
+
+\subsection{Morphisms of presheaves and sheaves}
+
+If $\phi : \Fsheaf \to \Gsheaf$ is a morphism of (pre)sheaves, I will be denoting the morphisms that make it up $\phi_V : \Fsheaf(V) \to \Gsheaf(V)$ instead of Vakil's $\phi(V)$, because I like to remember that morphisms of (pre)sheaves are natural transformations and am more used to this notation.
+
+\paragraph{2.3.A.} For any open set $U$ containing $p$, we have a morphism $i_u : \Gsheaf(U) \to \Gsheaf_p$. Therefore, we get a cocone by considering the maps $i_u \circ \phi_u : \Fsheaf(U) \to \Gsheaf_p$ (this is a cocone because $\phi$ is a morphism of presheaves). Therefore, we get a map $\phi_p : \Fsheaf_p \to \Gsheaf_p$. Explicitly, $\phi_p ((f,U)) = (\phi_U(f),U)$, and this is well-defined because $\phi$ is a morphism of presheaves.
+
+\paragraph{2.3.B.} Let $\phi : \Fsheaf \to \Gsheaf$ be a morphism of sheaves. We define a morphism $\pi_* \phi : \pi_* \Fsheaf \to \pi_* \Gsheaf$ by $\pi_*\phi_U = \phi_{\pi^{-1}(U)}$. This is a morphism of sheaves since for $V \subset U$ the square
+\begin{center}
+    \begin{tikzcd}
+        \Fsheaf(\pi^{-1}(U)) \arrow[r,"\phi_{\pi^{-1}(U)}"] \arrow[d,"\res_{\pi^{-1}(U),\pi^{-1}(V)}" '] & \Gsheaf(\pi^{-1}(U)) \arrow[d,"\res_{\pi^{-1}(U),\pi^{-1}(V)}"] \\
+        \Fsheaf(\pi^{-1}(V)) \arrow[r,"\phi_{\pi^{-1}(V)}" '] & \Gsheaf(\pi^{-1}(V))
+    \end{tikzcd}    
+\end{center}
+commutes. This does define a functor since $\pi_* \id_\Fsheaf = \id_{\pi_* \Fsheaf}$ and 
+\[\pi_* (\phi \circ \psi)_U = (\phi \circ \psi)_{\pi^{-1}(U)} = \phi_{\pi^{-1}(U)} \circ \psi_{\pi^{-1}(U)} = \pi_* \phi_U \circ \pi_*\psi_U\]
+
+I had to do a non-insignificant amount of work to find out what font Vakil uses for sheaf Hom. The answer: it is URW Chancery. It is available through the \texttt{\bfseries pzccal} package.
+
+\paragraph{2.3.C.} Let $V\subset U$ be open sets of $X$. We define the restriction map
+\[\applic{\sheafHom(\Fsheaf,\Gsheaf)(U)}{\sheafHom(\Fsheaf,\Gsheaf)(V)}{\phi : \Fsheaf_{\mid U} \to \Gsheaf_{\mid U}}{\phi_{\mid V} : \Fsheaf_{\mid V} \to \Gsheaf_{\mid V}}\]
+where $(\phi_{\mid V})_W : \Fsheaf(W) \to \Gsheaf(W)$ is just $\phi_W$ for $W \subset V$ open. \\
+We now check this presheaf is a sheaf. Let $U_i$ be open sets and $U = \cup_i U_i$. Let $\phi,\psi \in \sheafHom(\Fsheaf, \Gsheaf)(U)$ be such that $\phi_{\mid U_i} = \psi_{\mid U_i}$ for all $i$. Let $V \subset U$ be an open set. Then, we have maps 
+\[\phi_V,\psi_V : \Fsheaf(V) \to \Gsheaf(V)\]
+and we need to check they are equal. Let $f \in \Fsheaf(V)$. Then, for $i \in I$ :
+\[(\phi_V (f))_{\mid U_i \cap V}
+= (\phi_{U_i \cap V} (f_{\mid U_i \cap V}))
+= (\psi_{U_i \cap V} (f_{\mid U_i \cap V}))
+= (\psi_V (f))_{\mid U_i \cap V}\]
+We used the fact that $\phi$ and $\psi$ are morphism of presheaves and therefore commute with restriction maps, and that $\phi_{\mid U_i \cap V} = \psi_{\mid U_i \cap V}$ since $\phi_{\mid U_i} = \psi_{\mid U_i}$. This shows $\phi$ and $\psi$ are equal and hence the identity axiom. \\
+We now check gluability. For all $i$, let $\phi_i \in \sheafHom(\Fsheaf,\Gsheaf)(U_i)$, such that $(\phi_i)_{\mid U_i \cap U_j} = (\phi_j)_{\mid U_i \cap U_j}$ for all $i,j$. Let $V \subset U$. We need to define a map $\Fsheaf(V) \to \Gsheaf(V)$. Let $f \in \Fsheaf(V)$. Pick $i \in I$. Define
+\[g_i = (\phi_i)_{U_i \cap V} (f_{\mid U_i \cap V}) \in \Gsheaf(U_i \cap V)\]
+For $i,j$, we have
+\begin{align*}
+    (g_i)_{\mid U_i \cap U_j \cap V} & = ((\phi_i)_{U_i \cap V} (f_{\mid U_i \cap V}))_{\mid U_i \cap U_j \cap V} \\
+    & = (\phi_i)_{U_i \cap U_j \cap V} (f_{\mid U_i \cap U_j \cap V}) \\
+    & = (\phi_j)_{U_i \cap U_j \cap V} (f_{\mid U_i \cap U_j \cap V}) \\
+    & = ((\phi_j)_{U_j \cap V} (f_{\mid U_j \cap V}))_{\mid U_i \cap U_j \cap V} \\
+    & = (g_j)_{\mid U_i \cap U_j \cap V}
+\end{align*}
+We have used that $\phi_i$ and $\phi_j$ are morphisms of presheaves, and the compatibility relations between them. Now, since $\Gsheaf$ is a sheaf, these relations allow us to glue the $g_i$'s together into a unique $g \in \Gsheaf(V)$, such that $g_{\mid U_i \cap V} = g_i$. We define a map $\phi_V : \Fsheaf(V) \to \Gsheaf(V)$ by sending $f$ to $g$ through this process (uniqueness of $g$ makes this map well-defined). It remains to verify that we have defined an element $\phi \in \sheafHom(\Fsheaf,\Gsheaf)(U)$ and that $\phi_{\mid U_i} = \phi_i$ for all $i$. For the first part, pick two open sets $W \subset V \subset U$. Then, we need to check that the diagram
+\begin{center}
+    \begin{tikzcd}
+        \Fsheaf(V) \arrow[r,"\phi_V"] \arrow[d,"\res^\Fsheaf_{V,W}" '] & \Gsheaf(V) \arrow[d,"\res^\Gsheaf_{V,W}"] \\
+        \Fsheaf(W) \arrow[r,"\phi_W"] & \Gsheaf(W)
+    \end{tikzcd}
+\end{center}
+commutes. Let $f \in \Fsheaf(V)$. Pick $i \in I$. We will indicate the dependency of the $g_i$'s and $g$ on the element $f$ below. For instance:
+\[g_i(f) = (\phi_i)_{U_i \cap V} (f_{\mid U_i \cap V})\]
+Since $\phi_i$ is a morphism of presheaves, we have
+\[g_i(f_{\mid W}) = (\phi_i)_{U_i \cap W} (f_{\mid U_i \cap W}) = ((\phi_i)_{U_i \cap V} (f_{\mid U_i \cap V}))_{\mid U_i \cap W} = (g_i(f))_{\mid U_i \cap W}\]
+So $\phi_W(f_{\mid W})$ is obtained by gluing together $g_i(f)_{\mid U_i\cap W} \in \Gsheaf(U_i \cap W)$. Notice that
+\[((g(f))_{\mid W})_{\mid U_i \cap W} = (g(f))_{\mid U_i \cap W} = ((g(f))_{\mid U_i})_{\mid U_i \cap W} = (g_i(f))_{\mid U_i \cap W} = g_i(f_{\mid W})\]
+So when you glue together $g_i (f_{\mid W})$, you obtain $g(f)_{\mid W}$, by uniqueness. This shows
+\[(\phi_V (f))_{\mid W} = \phi_W(f_{\mid W})\]
+and $\phi$ is indeed an element of $\sheafHom(\Fsheaf,\Gsheaf)(U)$. Now, let $j\in I$. Pick an open set $V \subset U_j$. For $f \in \Fsheaf(V)$, we have
+\begin{align*}
+    (\phi_{\mid U_j})_V (f) & = \phi_V (f)\\
+    & = \text{gluing of } (\phi_i)_{U_i \cap V} (f_{\mid U_i \cap V}) \text{ for all $i \in I$} \\ 
+    & = \text{gluing of } (\phi_j)_{U_i \cap V} (f_{\mid U_i \cap V}) \text{ for all $i \in I$} \\
+    & = \text{gluing of } ((\phi_j )_V (f))_{\mid U_i \cap V} \text{ for all $i \in I$} \\
+    & = (\phi_j)_V(f)
+\end{align*}
+The first equation is the definition of restriction maps in the presheaf $\sheafHom(\Fsheaf,\Gsheaf)$, the second is the definition of $\phi_V$, the third comes from compatibility conditions, the fourth comes from the fact that $\phi_j$ is a morphism of presheaves, and the last is by uniqueness of the gluing of sections. This shows $\phi_{\mid U_j} = \phi_j$ and concludes the proof.
+
+\todo : answer questions about stalk of sheaf hom
+
+\paragraph{2.3.D.}
+\begin{enumerate}
+    \item We define a morphism of sheaves $\Theta : \sheafHom(\underline{\{p\}},\Fsheaf) \to \Fsheaf$ by
+    \[\Theta_U : \applic{\sheafHom(\underline{\{p\}},\Fsheaf)(U)}{\Fsheaf(U)}{\phi}{\phi_U(p)}\]
+    If $V\subset U$ is open and $\phi \in \sheafHom(\underline{\{p\}},\Fsheaf)(U)$, we have
+    \[(\Theta_U (\phi))_{\mid V} = (\phi_U (p))_{\mid V} = \phi_V(p) = (\phi_{\mid V})_V (p) = \Theta_V(\phi_{\mid V})\]
+    so $\Theta$ really is a morphism of sheaves. We define another morphism of sheaves $\Xi : \Fsheaf \to \sheafHom(\underline{\{p\}},\Fsheaf)$ by
+    \[\Xi_U : \applic{\Fsheaf(U)}{\sheafHom(\underline{\{p\}},\Fsheaf)(U)}{x}{\phi^x \text{ given by } \phi_V^x : p \mapsto x_{\mid V}}\]
+    If $V \subset U$ is open and $x \in \Fsheaf(U)$, then
+    \begin{align*}
+        (\Xi_U (x))_{\mid V} = (\phi^x)_{\mid V} & = \phi_W^s : p \mapsto x_{\mid W} \text{ for $W \subset V$ open} \\
+        & = \phi_W^s : p \mapsto (x_{\mid V})_{\mid W} \text{ for $W \subset V$ open} \\
+        & = \Xi_V(x_{\mid V})
+    \end{align*}
+    So $\Xi$ is a morphism of sheaves. Let $\phi \in \sheafHom(\underline{\{p\}},\Fsheaf)(U)$. Then,
+    \begin{align*}
+        \Xi_U (\Theta_U (\phi)) = \Xi_U (\phi_U(p)) & = \phi^{\phi_U (p)}_V : p \mapsto (\phi_U(p))_{\mid V} \text{ for $V \subset U$ open} \\
+        & = \phi^{\phi_U (p)}_V : p \mapsto \phi_V(p) \text{ for $V \subset U$ open} \\
+        & = \phi_V \text{ for $V \subset U$ open} = \phi
+    \end{align*}
+    and the other way around, if $x \in \Fsheaf(U)$,
+    \begin{align*}
+        \Theta_U (\Xi_U (x)) = \Theta_U(\phi^x) = \phi^x_U (p) = x
+    \end{align*}
+    so $\Theta$ and $\Xi$ are isomorphisms of sheaves.
+
+    \item We define a morphism of sheaves $\Theta : \sheafHom_{\Ab_X}(\underline{\Z},\Fsheaf) \to \Fsheaf$ by
+    \[\Theta_U : \applic{\sheafHom_{\Ab_X}(\underline{\Z},\Fsheaf)(U)}{\Fsheaf(U)}{\phi}{\phi_U(U\to \Z, x\mapsto 1)}\]
+    (recall that $\underline{\Z}(U)$ is the abelian group of locally constant functions $U \to \Z$, where $\Z$ is given the discrete topology.) To check $\Theta$ is a morphism of sheaves of abelian groups, we need to check it is compatible with restrictions, and that $\Theta_U$ is a homomorphism of abelian groups. If $V\subset U$ is open and $\phi \in \sheafHom_{\Ab_X}(\underline{\Z},\Fsheaf)(U)$, we have
+    \begin{align*}
+        (\Theta_U (\phi))_{\mid V} & = (\phi_U (U\to \Z, x\mapsto 1))_{\mid V} \\
+        & = \phi_V(V\to \Z, x\mapsto 1) \\
+        & = (\phi_{\mid V})_V (V\to \Z, x\mapsto 1) \\
+        & = \Theta_V(\phi_{\mid V}) \\
+    \end{align*}
+    And if $\phi, \psi \in \sheafHom_{\Ab_X}(\underline{\Z},\Fsheaf)(U)$, we have
+    \begin{align*}
+        \Theta_U (\phi + \psi) & = (\phi + \psi)_U (U\to \Z, x \mapsto 1) \\
+        & = \phi_U (U\to \Z, x \mapsto 1) + \psi_U (U\to \Z, x \mapsto 1) \\
+        & = \Theta_U (\phi) + \Theta_U(\psi)
+    \end{align*}
+    so $\Theta$ really is a morphism of sheaves of abelian groups. We define another morphism of sheaves of abelian groups $\Xi : \Fsheaf \to \sheafHom_{\Ab_X}(\underline{\Z},\Fsheaf)$ by
+    \[\Xi_U : \applic{\Fsheaf(U)}{\sheafHom_{\Ab_X}(\underline{\Z},\Fsheaf)(U)}{s}{\phi^s \text{ defined by } \phi_V^s : (f : V \to \Z) \mapsto f \cdot s}\]
+    where $f \cdot s$ stands for the gluing of $f_{\mid C}(x) s_{\mid C}$ for all connected components $C$ of $V$, and $x$ is any point in $C$ - it doesn't matter which, since $C$ is connected, so $f_{\mid C} : C \to \Z$ is constant. Notice that the gluing exists since two distinct connected components are disjoint. \\
+    If $V \subset U$ is open and $s \in \Fsheaf(U)$, then
+    \begin{align*}
+        (\Xi_U (s))_{\mid V} = (\phi^s)_{\mid V} & = \phi_W^s : f \mapsto f \cdot s \text{ for $W \subset V$ open} \\
+        & = \phi_W^s : f \mapsto f \cdot (s_{\mid V}) \text{ for $W \subset V$ open} \\
+        & = \Xi_V(s_{\mid V})
+    \end{align*}
+    This works because if $C$ is a connected component of $W$, then $s_{\mid C} = (s_{\mid V})_{\mid C}$. If $s,t \in \Fsheaf(U)$ are two sections, then
+    \begin{align*}
+        \Xi_U (s+t) & = \phi^{s+t}_V : f \mapsto f \cdot (s+t) \text{ for $V \subset U$ open} \\
+        & = \phi^{s+t}_V : f \mapsto (\text{gluing of } f_{\mid C}(x)(s+t)_{\mid C} \text{ for $C\subset V$ c.c.}) \text{ for $V \subset U$ open} \\
+        & = \phi^{s+t}_V : f \mapsto (\text{gluing of } f_{\mid C}(x)(s_{\mid C} + t_{\mid C}) \text{ for $C\subset V$ c.c.}) \text{ for $V \subset U$ open} \\
+        & = \phi^{s+t}_V : f \mapsto (\text{gluing of } f_{\mid C}(x)s_{\mid C} + f_{\mid C}(x)t_{\mid C} \text{ for $C\subset V$ c.c.}) \text{ for $V \subset U$ open} \\
+        & = \phi^{s+t}_V : f \mapsto (f \cdot s + f\cdot t) \text{ for $V \subset U$ open} \\
+        & = \phi^s_V + \phi^t_V \text{ for $V \subset U$ open} \\
+        & = \Xi_U(s) + \Xi_V(t)
+    \end{align*}
+    so $\Xi$ is a morphism of sheaves of abelian groups. We have used that restriction maps are compatible with the abelian group law to know that $f\cdot s + f \cdot t$ is the gluing of $f_{\mid C}(x)s_{\mid C} + f_{\mid C}(x) t_{\mid C}$. \\
+    Let $\phi \in \sheafHom(\underline{\Z},\Fsheaf)(U)$. Then,
+    \begin{align*}
+        \Xi_U (\Theta_U (\phi)) & = \Xi_U (\phi_U(U\to \Z, x\mapsto 1)) \\
+        & = f \mapsto f \cdot \phi_U(U\to \Z, x\mapsto 1) \text{ for $V \subset U$ open} \\
+        & = f \mapsto (\text{gluing of } f_{\mid C}(y)(\phi_U(U\to \Z, x\mapsto 1))_{\mid C} \text{ for $C \subset V$ c.c.}) \text{ for $V \subset U$ open} \\
+        & = f \mapsto (\text{gluing of } f_{\mid C}(y)(\phi_C (C \to \Z, x \mapsto 1) \text{ for $C \subset V$ c.c.})) \text{ for $V \subset U$ open} \\
+        & = f \mapsto (\text{gluing of } (\phi_C (C \to \Z, x \mapsto f_{\mid C}(y)) \text{ for $C \subset V$ c.c.})) \text{ for $V \subset U$ open} \\
+        & = f \mapsto (\text{gluing of } (\phi_C (f_{\mid C}) \text{ for $C \subset V$ c.c.})) \text{ for $V \subset U$ open} \\
+        & = f \mapsto (\text{gluing of } ((\phi_V (f))_{\mid C} \text{ for $C \subset V$ c.c.})) \text{ for $V \subset U$ open} \\
+        & = f \mapsto \phi_V(f) \text{ for $V \subset U$ open} \\
+        & = \phi
+    \end{align*}
+    we have used that $\phi$ is a morphism of presheaves but also that it is a homomorphism of abelian groups. \\
+    The other way around, if $s \in \Fsheaf(U)$,
+    \begin{align*}
+        \Theta_U (\Xi_U (s)) = \Theta_U(\phi^s) & = \phi^s_U (U \to \Z,x \mapsto 1) \\
+        & = (U \to \Z,x \mapsto 1) \cdot s \\
+        & = \text{gluing of } (C \to \Z,x \mapsto 1)(y) \cdot s_{\mid C} \text{ for $C \subset U$ c.c.} \\
+        & = \text{gluing of } s_{\mid C} \text{ for $C \subset U$ c.c.} \\
+        & = s
+    \end{align*}
+    so $\Theta$ and $\Xi$ are isomorphisms of sheaves of abelian groups.
+    \item $\Osheaf_X$-modules scare me and so i will do this problem later. \todo
+\end{enumerate}
+
+\paragraph{2.3.E.} Let $V \subset U \subset X$ be two open sets. We have the diagram where we need to define $\rho_{U,V}$:
+\begin{center}
+    \begin{tikzcd}
+        0 \arrow[r] & \ker_{\pre}(\phi)(U) \arrow[r,"i_U"] \arrow[d,"\rho_{U,V}"] & \Fsheaf(U) \arrow[r,"\phi_U"] \arrow[d,"\res_{U,V}"] & \Gsheaf(U) \arrow[d,"\res_{U,V}"] \\
+        0 \arrow[r] & \ker_{\pre}(\phi)(V) \arrow[r,"i_V"] & \Fsheaf(V) \arrow[r,"\phi_V"] & \Gsheaf(v) 
+    \end{tikzcd}
+\end{center}
+Where $i_U$ and $i_V$ are canonical inclusion maps. If $x \in \ker_{\pre}(\phi)(U)$, then $\phi_U(x) = 0$, so $(\phi_U(x))_{\mid V} = 0$, so $\phi_V(x_{\mid V}) = 0$, so $x_{\mid V} \in \ker_{\pre}(\phi)(V)$. Therefore we can define $\rho_{U,V} = (\res_{U,V})_{\mid \ker \phi_U}^{\mid \ker \phi_V}$. The presheaf relations are easy to get from this definition:
+\[\rho_{U,U} = (\res_{U,U})_{\mid \ker \phi_U}^{\mid \ker \phi_U} = (\id_{\Fsheaf(U)})_{\mid \ker \phi_U}^{\mid \ker \phi_U} = \id_{\ker \phi_U}\]
+and if $W \subset V$ is another open set,
+\[\rho_{V,W} \circ \rho_{U,V} = (\res_{V,W})_{\mid \ker \phi_V}^{\mid \ker \phi_W} \circ (\res_{U,V})_{\mid \ker \phi_U}^{\mid \ker \phi_V} = (\res_{V,W} \circ \res_{U,V})_{\mid \ker \phi_U}^{\mid \ker \phi_W} = (\res_{U,W})_{\mid \ker \phi_U}^{\mid \ker \phi_W} =\rho_{U,W}\]
+One could also get these relations by drawing the appropriate commutative diagrams.
+
+\paragraph{2.3.F.} Let $\phi : \Fsheaf \to \Gsheaf$ be a morphism of presheaves of abelian groups. Let $\pi : \Gsheaf \to \coker_\pre \phi$ be the canonical morphism. Let $\psi : \Gsheaf \to \Hsheaf$ be another morphism of presheaves such that $\psi \circ \phi = 0$. Let $U \subset X$ be open. Then, we have the diagram
+\begin{center}
+    \begin{tikzcd}
+        \Fsheaf(U) \arrow[r,"\phi_U"] & \Gsheaf(U) \arrow[d,"\psi_U"] \arrow[r,"\pi_U"] & (\coker_\pre \phi)(U) \arrow[ld,dashed,"\chi_U"] \\
+        & \Hsheaf(U)
+    \end{tikzcd}
+\end{center}
+The homomorphism $\chi_U$ is obtained by the universal property of the cokernel since $\psi_U \circ \phi_U = 0$. We check that $\chi$ is a morphism of presheaves of abelian groups. Let $V \subset U$ be an open set. Consider the diagram (where unlabeled arrows are restriction maps):
+\begin{center}
+    \begin{tikzcd}
+        & \Gsheaf(U) \arrow[ld,"\pi_U" '] \arrow[rd,"\psi_U"] \arrow[dd] \\
+        (\coker_\pre \phi)(U) \arrow[dd] \arrow[rr,white,line width=3ex,no head,shift left] \arrow[rr,"\chi_U"] & & \Hsheaf(U) \arrow[dd] \\
+        & \Gsheaf(V) \arrow[ld,"\pi_V" '] \arrow[rd,"\psi_V"] \\
+        (\coker_\pre \phi)(V) \arrow[rr,"\chi_V"] & & \Hsheaf(V)
+    \end{tikzcd}
+\end{center}
+We have
+\[\res_{U,V}\chi_U\pi_U = \res_{U,V} \psi_U = \psi_V  \res_{U,V} = \chi_V  \pi_V \res_{U,V} = \chi_V\res_{U,V}\pi_U \]
+So $\res_{U,V} \circ \chi_U = \chi_V \circ \res_{U,V}$ because $\pi_U$ is an epimorphism. Therefore $\chi$ is a morphism of presheaves. Its uniqueness comes from the universal property of cokernels on the level of each open set. This concludes the proof.
+
+\paragraph{2.3.G.} If $\phi : \Fsheaf \to \Gsheaf$ is a morphism in $\Ab^\pre_X$, then it gives a homomorphism of abelian groups $\phi_U : \Fsheaf(U) \Gsheaf(U)$. The fact this gives a functor is easy to check: $(\phi \circ \psi)_U = \phi_U \circ \psi_U$, by definition, and $(\id)_U = \id_{\Fsheaf(U)}$. If $0 \to \Fsheaf \xrightarrow{\phi} \Gsheaf \xrightarrow{\psi} \Hsheaf \to 0$ is a short exact sequence of presheaves of abelian groups, then $0 \to \Fsheaf(U) \xrightarrow{\phi_U} \Gsheaf(U) \xrightarrow{\psi_U} \Hsheaf(U) \to 0$ is exact, since kernels and images are defined open set by open set.
+
+\paragraph{2.3.H.} If $0 \to \Fsheaf_1 \to \cdots \to \Fsheaf_n \to 0$ is exact, then applying the exact functor $\Fsheaf \mapsto \Fsheaf(U)$ gives and exact sequence, so the first implication holds. Conversely, assume the second sequence is exact for all open sets $U$. Let us show exactness at $\Fsheaf_2$. Name the morphisms $\Fsheaf_1 \xrightarrow{\phi} \Fsheaf_2 \xrightarrow{\psi} \Fsheaf_3$. Then, for any open set $U$, since $\Fsheaf_1(U) \xrightarrow{\phi_U} \Fsheaf_2(U) \xrightarrow{\psi_U} \Fsheaf_3(U)$ is exact, we have
+\[(\im_\pre \phi)(U) = \im \phi_U = \ker \psi_U = (\ker_\pre \psi)(U)\]
+It remains to check that the restriction maps of $\im_\pre \phi$ are the same as $\ker_\pre \psi$. Let $V \subset U$ be open. Then, we have the following diagram, where downward maps are restrictions:
+\begin{center}
+    \begin{tikzcd}
+        \Fsheaf_1(U) \arrow[r,"\phi_U"] \arrow[d] & \Fsheaf_2(U) \arrow[d] & \im \phi_U \arrow[l] \arrow[d] \arrow[r,equal] & \ker \psi_U \arrow[d] \arrow[r] & \Fsheaf_2(U) \arrow[r,"\psi_U"] \arrow[d] & \Fsheaf_3 (U) \arrow[d] \\
+        \Fsheaf_1(V) \arrow[r,"\phi_V"] & \Fsheaf_2(V) & \im \phi_V \arrow[l] \arrow[r,equal] & \ker \psi_V \arrow[r] & \Fsheaf_2(V) \arrow[r,"\psi_V"] & \Fsheaf_3 (V)
+    \end{tikzcd}
+\end{center}
+If $x \in \im \phi_U$, then $x = \phi_U (y)$, so $x_{\mid V} = \phi_V(y_{\mid V})$, and the restriction map if $\im_\pre \phi$ is $(\res_{U,V})_{\mid \im \phi_U}^{\mid \im \phi_V}$. Recall that the restriction map of $\ker_\pre \psi$ is
+\[(\res_{U,V})_{\mid \ker \psi_U}^{\mid \ker \psi_V} = (\res_{U,V})_{\mid \im \phi_U}^{\mid \im \phi_V}\]
+which shows both presheaves are indeed the same, and thus exactness at $\Fsheaf_2$. Exactness at other points of the sequence can be proven in the exact same way.
+
+\paragraph{2.3.I.} Let $(U_i)_{i\in I}$ be a family of open sets of $X$ and $U = \cup_i U_i$. Let $x,y \in (\ker_\pre \phi) (U)$ be such that $x_{\mid U_i} = y_{\mid U_i}$ for all $i$. Since restriction maps of $\ker_\pre \phi$ are actually restriction maps of $\Fsheaf$, and $\Fsheaf$ is a sheaf, we have $x = y$. Therefore identity holds. \\
+Now pick $x_i \in (\ker_\pre \phi)(U_i)$ for all $i$. Then $x_i \in \Fsheaf(U_i)$, and since $\Fsheaf$ is a sheaf, we have $x \in \Fsheaf(U)$ such that $x_{\mid U_i} = x_i$ for all $i$. Then, $(\phi_U (x))_{\mid U_i} = \phi_{U_i} (x_i) = 0$ for all $i$. Since $\Gsheaf$ is a sheaf, by identity, we have $\phi_U(x) = 0$, so $x \in (\ker_\pre \phi)(U)$. Hence gluability holds, and this completes the proof that $\ker_\pre \phi$ is a sheaf. For the universal property, this follows immediately from the fact that $\ker_\pre \phi$ satisfies the universal property in $\Ab_X^\pre$ and the fact that $\Ab_X$ is a full subcategory of $\Ab^\pre_X$.
+
+\paragraph{2.3.J.} We verify exactness open set by open set. Let $U \subset \C$ be open. Then, we have a sequence of abelian groups
+\[0 \to \underline{\Z}(U) \hookrightarrow \Osheaf_X (U) \xrightarrow{f \mapsto \exp(2i\pi f)} \Fsheaf(U) \to 0\]
+The abelian group law on $\Fsheaf(U)$ is multiplication, so our maps really are homomorphisms of abelian groups. Exactness at $\underline{\Z}(U)$ is immediate since the map $\underline{\Z}(U) \hookrightarrow \Osheaf_X (U)$ is an inclusion. Exactness at $\Fsheaf(U)$ is also easy: by definition of $\Fsheaf(U)$, if $g \in \Fsheaf(U)$, then there exists $f \in \Osheaf_X(U)$ such that $g = \exp(f)$. Since $\frac{1}{2i\pi} f \in \Osheaf_X(U)$, we have surjectivity, that is exactness. If $f : U \to \Z$ is any function (in particular if $f \in \underline{\Z}(U)$), then $\exp(2i\pi f)$ is the constant function $U \to \C$ with value $1$, which is the identity element of $(\Fsheaf(U),\times)$, so we have a chain complex at $\Osheaf_X(U)$. Conversely, pick $f \in \Osheaf_X(U)$ such that $\exp(2i\pi f) = 1$. Then, $f$ must take values in $\Z$. Since $\Z$ is discrete and $f$ is continuous, $f$ is locally constant, so $f \in \underline{\Z}(U)$. Hence, our sequence is exact. \\
+Complex analysis tells us that on any open ball $B(e^{i\theta}, \frac{1}{2})$, $z \mapsto z$ has a holomorphic logarithm. However, $z\mapsto z$ does not have a holomorphic logarithm on $\bigcup_{\theta \in \R} B(e^{i\theta}, \frac{1}{2}) = \{z \in \C \mid \frac{1}{2} < |z| < \frac{3}{2}\}$. Therefore $\Fsheaf$ cannot be a sheaf as it fails gluability.
+
+\subsection{Properties determined at the level of stalks, and sheafification}
+
+\paragraph{2.4.A.} Let $s,t \in \Fsheaf(U)$ be such that $s_p = t_p$ for all $p \in U$, where $s_p$ and $t_p$ are the germs of $s$ and $t$ at $p \in U$. Pick a point $p \in U$. Then $s_p = t_p$ implies that there is some open set $U_p \subset U$ containing $p$ such that $s_{\mid U_p} = t_{\mid U_p}$. Since $U = \bigcup_{U_p}$, identity tells us $s = t$. This concludes.
+
+\paragraph{2.4.B.} Let $(s_p)_{p \in U} \in \prod_{p \in U} \Fsheaf_p$ consist of compatible germs. Then, for any point $p \in U$, there is an open set $U_p \subset U$ containing $p$ such that there exists $\tilde{s}_p \in \Fsheaf(U_p)$, such that the germ of $\tilde{s}_p$ at $q \in U_p$ is $s_q$. Let $p,q \in U$ be two points. If $x \in U_p \cap U_q$, then $(\tilde{s}_p)_x = (\tilde{s}_q)_x$, so there is some open set $V_x \subset U_p \cap U_q$ containing $x$ such that $(\tilde{s}_p)_{\mid V_x} =(\tilde{s}_q)_{\mid V_x}$. We have $U_p \cap U_q = \bigcup_{x \in U_p \cap U_q} V_x$, so by identity, we have $(\tilde{s}_p)_{\mid U_p \cap U_q} = (\tilde{s}_q)_{\mid U_p \cap U_q}$. Since $U = \bigcup_{p \in U} U_p$, by gluing, we obtain $\tilde{s} \in \Fsheaf(U)$ such that $\tilde{s}_{\mid U_p} = \tilde{s}_p$. Since $p \in U_p \subset U$, the image of $\tilde{s}$ in $\Fsheaf_p$ is the same as the image of $(\tilde{s})_{\mid U_p} = \tilde{s}_p$, so it is $s_p$. This finishes the proof.
+
+\paragraph{2.4.C.} 
+
+
+\section*{Chapter 3}
+
+\paragraph{3.1.A.} If $\pi$ is smooth, then for any smooth function $f : Y \to \R$, $f \circ \pi$ is also smooth, since the composition of smooth functions is again smooth. Conversely, assume that smooth functions pull back to smooth functions. Let $x \in X$ be a point. Pick a chart $(U,\varphi : U \to \R^n)$ around $x$, and a chart $(V,\psi : V \to \R^m)$ around $\pi(x)$. We want to show $\psi \circ \pi \circ \varphi^{-1} : \R^n \to \R^m$ is smooth. To do this, we can replace $\psi$ by its coordinates, so we can just check this for $\psi : V \to \R$. Coordinates of charts are smooth (since charts and projections $\R^m \to \R$ are smooth). We know by hypothesis that $\psi \circ \pi : \pi^{-1}(V) \to \R$ is again smooth. This implies that $\psi \circ \pi \circ \varphi^{-1} : \R^n \to \R$ is smooth because $\varphi^{-1} : \R^n\to U$ is a chart, so it is smooth. This proves the result.
+
+\paragraph{3.1.B.} 
+
+\end{document}
