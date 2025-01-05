@@ -6,6 +6,7 @@ This is Reblax's math github repository. Some things are in English, some are in
 - Homology theory lecture notes (original notes by Baptiste Rognerud)
 - Solutions to some problems in Wedhorn's Manifolds, Sheaves and Cohomology
 - Solutions to some problems in Vakil's Rising Sea
+- Linear algebra notes (Kind of a Linear Algebra Done My Way book, in spirit? Idk it's just a fun project, doing some easier math, much more teaching-focused)
 
 ## Upcoming, in English
 - Solutions to some problems in Milnor and Stasheff's Characteristic Classes
@@ -16,8 +17,8 @@ This is Reblax's math github repository. Some things are in English, some are in
 - Notes d'algèbre 2 (théorie des corps/anneaux, cours de Vlerë Mehmeti)
 - Quelques solutions de TD de Variétés Algébriques (cours de Jean-François Dat)
 - Note d'un exposé pour un groupe de travail (elles sont pas bien, ne les lisez pas)
+- Une calcul sans revêtements du pi_1 du cercle (commencé mais incomplet pour l'instant)
 
 ## Upcoming, in French
-- Une calcul sans revêtements du pi_1 du cercle
 - Cohomologie des espaces projectifs
 - Dualité de Poincaré

@@ -1,10 +1,275 @@
 \documentclass{article}
+\usepackage{amsmath,amsthm,amssymb,amsfonts}
+\usepackage{xspace}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{tikz-cd}
+\usepackage{libertine}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\U}{\mathbb{U}}
+
+\renewcommand{\P}{\mathrm{P}}
+
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\Jcat}{\mathcal{J}}
+\newcommand{\catt}{\mathcal{D}}
+
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\Top}{\mathbf{Top}}
+\newcommand{\Grpd}{\mathbf{Grpd}}
+\newcommand{\Cat}{\mathbf{Cat}}
+
+\DeclareMathOperator{\Hom}{Hom}
+
+\newcommand{\id}{\mathrm{id}}
+
+\renewcommand{\Im}{\mathop{\mathrm{Im}}}
+
+\newcommand{\applic}[4]{
+\begin{array}[t]{rcl}
+    #1 & \to & #2 \\
+    #3 & \mapsto & #4
+\end{array}
+}
+
+\newtheorem{theorem}{Théorème}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemme}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Définition}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remarque}
 
 \title{Le groupoïde fondamental \\ {\small ou} \\ une VRAIE application des catégories à la topologie algébrique}
 \author{}
 \date{}
 
+\setlength{\parindent}{0pt}
+
+\newcommand{\todo}{\textbf{TODO}}
+
 \begin{document}
 \maketitle
+
+\section{Préliminaires catégoriques}
+
+\begin{lemma}[Lemme technique catégoriel qui sera utile dans la preuve du théorème] \label{lemmeretraction}
+    Soient $F,G : \Jcat_\square \to \cat$ deux carrés commutatifs. On suppose que $G$ est un pushout et qu'il existe une rétraction $G \to F$. Alors, $F$ est aussi un pushout.
+\end{lemma}
+
+\begin{proof}
+    \todo
+\end{proof}
+
+\section{Homotopie, groupoïde fondamental}
+
+\section{Théorème de Van Kampen version groupoïdes}
+
+Dans cette section, on fixe $X$ un espace topologique, $X_1,X_2$ deux sous-espaces de $X$ et on pose $X_0 = X_1 \cap X_2$. On suppose aussi que $\mathring{X_1} \cup \mathring{X_2} = X$. Le but est de déterminer le groupoïde $\pi(X)$ en fonction des groupoïdes $\pi(X_1),\pi(X_2)$ et $\pi(X_0)$ et des morphismes de groupoïdes induits par les inclusions. Le diagramme suivant, où les flèches sont les inclusions, est un pushout dans $\Top$ :
+\begin{center}
+    \begin{tikzcd}
+        X_0 \arrow[r] \arrow[d] & X_1 \arrow[d] \\ X_2 \arrow[r] & X
+    \end{tikzcd}
+\end{center}
+
+\begin{definition}
+    On dit que $A \subset X$ est \emph{représentatif} si $A$ rencontre chaque composante connexe par arcs de $X$.
+\end{definition}
+
+Le gros théorème qu'on va démontrer dans cette section est le suivant :
+
+\begin{theorem} \label{vankampen}
+    Si $A$ est représentatif dans $X_0,X_1$ et $X_2$, alors le carré où les morphisms sont ceux induits par les inclusions
+    \begin{equation*} \label{vankampenpushout}
+        \begin{tikzcd}
+            \pi(X_0, A) \arrow[r] \arrow[d] & \pi(X_1, A) \arrow[d] \\
+            \pi(X_2,A) \arrow[r] & \pi(X,A)
+        \end{tikzcd}
+        \tag{$*$}
+    \end{equation*}
+    est un pushout dans $\Grpd$.
+\end{theorem}
+
+On prouve d'abord le cas $A = X$ (c'est la partie topologique) puis on en déduit le cas général.
+
+\begin{proof}[Preuve de \ref{vankampen}, cas $A=X$]
+    On redessine le carré (\ref{vankampenpushout}), dans le cas $A = X$, en nommant les morphismes induits par les inclusions :
+    \begin{center}
+        \begin{tikzcd}
+            \pi(X_0) \arrow[r,"i_1"] \arrow[d,"i_2" '] & \pi(X_1) \arrow[d,"u_1"] \\
+            \pi(X_2) \arrow[r,"u_2" '] & \pi(X)
+        \end{tikzcd}
+    \end{center}
+    Étant donné que le but est de démontrer que c'est un pushout, donnons-nous un groupoïde $G$ avec deux morphismes $v_1 : \pi(X_1) \to G$ et $v_2 : \pi(X_2) \to G$ tels que le diagramme suivant commute :
+    \begin{center}
+        \begin{tikzcd}
+            \pi(X_0) \arrow[r,"i_1"] \arrow[d,"i_2" '] & \pi(X_1) \arrow[d,"v_1"] \\
+            \pi(X_2) \arrow[r,"v_2" '] & G
+        \end{tikzcd}
+    \end{center}
+    On veut montrer qu'il existe un unique morphisme de groupoïdes $v : \pi(X) \to G$ tel que $vu_1 = v_1$ et $vu_2 = v_2$.  On sait que la projection $p : \P(X) \to \pi(X)$ qui envoie un chemin sur sa classe d'homotopie associée est un foncteur (i.e. un morphisme de groupoïdes). On note $p_0 : \P(X_0) \to \pi(X_0), p_1 : \P(X_1) \to \pi(X_1)$ et $p_2 : \P(X_2) \to \pi(X_2)$ ces projections pour $X_0,X_1$ et $X_2$. Soient $w_1 = v_1 p_1$ et $w_2 = v_2 p_2$. On va utiliser ces morphismes pour construire $w : \P(X) \to G$ et ensuite montrer que $w$ \og passe au quotient \fg en le morphisme $v : \pi(X) \to G$ qu'on cherche. \\
+    Soit $\gamma : [0,1] \to X$ un chemin, tel que $\Im \gamma \subset X_i$ pour $i \in \{1,2\}$. Dessinons l'équivalent du carré (\ref{vankampenpushout}), mais pour les catégories de chemins :
+    \begin{equation*} \label{pushoutpaths}
+        \tag{$**$}
+        \begin{tikzcd}
+            \P(X_0) \arrow[r,"i_1'"] \arrow[d,"i_2'" '] & \P(X_1) \arrow[d,"u_1'"] \\
+            \P(X_2) \arrow[r,"u_2'" '] & \P(X)
+        \end{tikzcd}
+    \end{equation*}
+    Ce diagramme commute. Comme $\Im \gamma \subset X_i$, $\gamma = u_i'(\gamma_i)$ pour un unique chemin $\gamma_i$ tracé dans $X_i$. On pose dans ce cas $w(\gamma) = w_i(\gamma_i)$. Cette définition fonctionne, car si $\gamma$ est tracé à la fois dans $X_1$ et $X_2$, c'est-à-dire dans $X_0$, alors on dispose de $\gamma_0$ chemin tracé dans $X_0$ tel que $\gamma_1 = i_1'(\gamma_0)$ et $\gamma_2 = i_2'(\gamma_0)$. La commutativité des précédents diagrammes permet alors d'écrire
+    \[w_1 i_1' = v_1 p_1 i_1' = v_1 i_1 = v_2 i_2 = v_2 p_2 i_2' = w_2 i_2' \]
+    D'où
+    \[w_1(\gamma_1) = w_1 i_1' (\gamma_0) = w_2 i_2'(\gamma_0) = w_2(\gamma_2)\]
+    et ainsi $w(\gamma)$ est bien défini. On a ainsi défini $w$ pour l'instant uniquement sur les chemins dont l'image est entièrement contenue ou bien dans $X_1$ ou bien dans $X_2$. \\
+    Maintenant, abandonnons l'hypothèse sur $\Im \gamma$ et supposons seulement que $\gamma$ est tracé dans $X$. Par le lemme de Lebesgue \ref{lemmelebesgue}, on dispose d'une subdivision $\gamma = \gamma_1 \cdots \gamma_n$, telle que $\Im \gamma_i$ est contenu dans $X_1$ ou dans $X_2$ pour tout $i$. Cela signifie que $w(\gamma_i)$ est déjà défini. On pose alors
+    \[w(\gamma) = w(\gamma_n) \circ \cdots \circ w(\gamma_1)\]
+    L'inversion des indices est dûe au fait que la composition va à l'envers de la concaténation des chemins, mais il ne faut pas se méprendre, $w$ sera bien un foncteur covariant $\P(X) \to G$, car $\gamma = \gamma_1 \cdot \gamma_2$ s'écrit $\gamma = \gamma_2 \circ \gamma_1$ dans $\P(X)$. Il faut maintenant vérifier que $w(\gamma)$ est bien défini, c'est-à-dire indépendant de la subdivision choisie. L'argument qui suit est la méthode standard pour démontrer cela. \\
+    Si $\gamma = \delta_1 \cdots \delta_m$ est une autre subdivision de $\gamma$, alors il existe une subdivision
+    \[\gamma = \eta_1 \cdots \eta_k\]
+    simultanément plus fine que les deux autres. Ainsi, \todo terminer cet argument un peu casse couille, éventuellement s'inspirer de la preuve de muriel de van kampen \\
+    De plus, si $\gamma, \delta$ sont deux chemins tracés dans $X$ tels que $\gamma \cdot \delta$ a un sens, alors 
+    \[w(\gamma \cdot \delta) = w(\delta) \circ w(\gamma)\]
+    En effet, si on a deux subdivisions
+    \[\gamma = \gamma_1 \cdots \gamma_n \quad \text{et} \quad \delta = \delta_1 \cdots \delta_m \]
+    Alors on a une subdivision
+    \[\gamma \cdot \delta = \gamma_1 \cdots \gamma_n \cdot \delta_1 \cdots \delta_m\]
+    Donc
+    \[w(\gamma \cdot \delta) = w(\delta_m) \circ \cdots \circ w(\delta_1) \circ w(\gamma_n) \circ \cdots \circ w(\gamma_1) = w(\delta) \circ w(\gamma)\]
+    Pour finir de montrer que $w$ est un foncteur, il reste à vérifier qu'il envoie les identités sur des identités. Les identités de $\P(X)$ sont les chemins constants $c_x$. Or, un chemin de la forme $c_x$ a un singleton pour image, donc son image est contenue dans $X_1$ ou dans $X_2$. Comme $w_1$ et $w_2$ envoient les chemins constants sur des identités de $G$ (car ce sont des foncteurs !), nécessairement $w(\gamma)$ est une identité de $G$. Ainsi, $w$ est bien un morphisme $\P(X) \to G$ et par construction c'est le seul morphisme vérifiant $wu_1' = w_1$ et $wu_2' = w_2$. En fait, on n'a jamais utilisé que $G$ était un groupoïde ici, donc on a effectivement démontré que le carré (\ref{pushoutpaths}) était un pushout dans $\Cat$. \\
+    Maintenant, on démontre que si $\gamma_0 \sim \gamma_1$, alors $w(\gamma_0) = w(\gamma_1)$ dans $G$, ce qui permettra de faire \og passer $w$ au quotient \fg en le morphisme $v : \pi(X) \to G$ qu'on cherche\footnote{On pourrait rendre cette notion de passage au quotient précise, mais on n'a pas introduit la notion de catégorie quotient, donc je mets des guillemets}. On sait que cette propriété est vraie pour $w_1$ et $w_2$, car $w_1 = v_1 p_1$, $w_2 = v_2 p_2$ et $p_1,p_2$ envoient deux chemins homotopes sur le même morphisme. \\
+    Fixons donc $\gamma_0,\gamma_1 : [0,1] \to X$ deux chemins homotopes : $\gamma_0 \sim \gamma_1$. Soit $H : \applic{[0,1] \times [0,1]}{X}{(s,t)}{\gamma_t (s)}$ une homotopie entre $\gamma_0$ et $\gamma_1$. L'espace $[0,1]^2$ étant compact, le lemme de Lebesgue s'applique ici et nous dit qu'on peut quadriller :
+    \[[0,1]^2 = \bigcup_{\begin{subarray}{c} 0 \le i \le n-1 \\ 0 \le j \le n-1 \end{subarray}} \left[\frac{i}{n}, \frac{i+1}{n}\right] \times \left[\frac{j}{n}, \frac{j+1}{n}\right]\]
+    de sorte que pour tous $0 \le i,j \le n-1$, $H\left(\left[\frac{i}{n}, \frac{i+1}{n}\right] \times \left[\frac{j}{n}, \frac{j+1}{n}\right]\right)$ soit contenu dans $X_1$ ou dans $X_2$. Pour $i,j$ donnés, on définit les chemins $[0,1] \to X$ :
+    \begin{align*}
+        a_{j,i} & = s \mapsto H \left(\frac{i + s}{n}, \frac{j}{n} \right) & 0 \le i \le n-1, 0 \le j \le n \\
+        c_{i,j} & = t \mapsto H \left(\frac{i}{n}, \frac{j+t}{n} \right) & 0 \le i \le n, 0 \le j \le n-1
+    \end{align*}
+    Ainsi que les concaténations :
+    \begin{align*}
+        a_j & = a_{j,0} \cdots a_{j,n-1} = s \mapsto H (s, j/n) & 0 \le j \le n \\
+        c_i & = c_{i,0} \cdots c_{i,n-1} = t \mapsto H (i/n,t) & 0 \le i \le n
+    \end{align*}
+    En particulier, $a_0 = \gamma_0$ et $a_n = \gamma_1$. Tout est résumé dans cette figure :
+    \begin{center}
+        \usetikzlibrary{arrows.meta}
+        \usetikzlibrary{decorations.markings}
+        \usetikzlibrary{positioning}
+        \begin{tikzpicture}[scale=2]
+            \begin{scope}[middlearrow/.style 2 args={
+                decoration={             
+                    markings, 
+                    mark=at position 0.5 with {\arrow[xshift=3.333pt]{Latex}, \node[#1] {#2};}
+                },
+                postaction={decorate}
+            }]
+                \draw[middlearrow={left}{$c_{i,j}$}] (0,0) -- (0,1);
+                \draw[middlearrow={below}{$a_{j,i}$}] (0,0) -- (1,0);
+                \draw[middlearrow={above}{$a_{j+1,i}$}] (0,1) -- (1,1);
+                \draw[middlearrow={right}{$c_{i+1,j}$}] (1,0) -- (1,1);
+            \end{scope}
+            \node at (-0.2,-0.2) {$\left(\frac{i}{n},\frac{j}{n}\right)$};
+            \node at (1.3,-0.2) {$\left(\frac{i+1}{n},\frac{j}{n}\right)$};
+            \node at (1.4,1.2) {$\left(\frac{i+1}{n},\frac{j+1}{n}\right)$};
+            \node at (-0.3,1.2) {$\left(\frac{i}{n},\frac{j+1}{n}\right)$};
+        \end{tikzpicture}
+    \end{center}
+    Si on fixe $0 \le i,j \le n-1$, on a une homotopie
+    \[a_{j+1,i} \cdot c_{i,j} \sim c_{i+1,j}\cdot a_{j,i}\]
+    donnée par le carré associé, c'est-à-dire par l'application :
+    \[H_{i,j} : \applic{[0,1]\times[0,1]}{X}{(s,t)}{H\left(\right)}\]
+    On a donc une homotopie
+    \[a_{j,i} \sim c_{i,j} \cdot a_{j+1,i} \cdot \overline{c_{i+1,j}}\]
+    Ainsi, on peut exprimer $w(a_j)$ :
+    \begin{align*}
+        w(a_j) & = w(a_{j,n-1}) \circ \cdots \circ w(a_{j,0}) \\
+        & = ((w(c_{n,j}))^{-1} \circ w(a_{j+1,n-1}) \circ w(c_{n-1,j})) \circ \cdots \\
+        & \cdots \circ ((w(c_{1,j}))^{-1} \circ w(a_{j+1,0}) \circ w(c_{0,j})) \\
+        & = (w(c_{n,j}))^{-1} \circ (w(a_{j+1,n-1}) \circ \cdots \circ w(a_{j+1,0})) \circ w(c_{0,j}) \\
+        & = (w(c_{n,j}))^{-1} \circ w(a_{j+1}) \circ w(c_{0,j})
+    \end{align*}
+    À la deuxième égalité, on a utilisé le fait que notre quadrillage est bien choisi pour que chaque carré soit contenu dans $X_1$ ou $X_2$, et ainsi qu'on ait la propriété d'invariance homotopique qu'on cherche à démontrer. La troisième égalité vient de simplifications cachées dans les points de suspension : entre deux termes, on a des compositions de la forme $w(c_{i,j}) \circ (w(c_{i,j}))^{-1}$ qui apparaissent. Maintenant, une homotopie entre chemins a la propriété qu'elle ne bouge pas les extrémités : ainsi, $c_{0,j} : t \mapsto H \left(0, \frac{j+t}{n} \right)$ est un chemin constant et de même pour $c_{n,j}$. Il en découle que $w(c_{0,j})$ et $w(c_{n,j})$ sont des identités, d'où le calcul précédent permet de déduire $w(a_j) = w(a_{j+1})$. Ainsi, de proche en proche
+    \[w(\gamma_0) = w(a_0) = w(a_1) = \cdots = w(a_n) = w(\gamma_1)\]
+    Ainsi, $w$ envoie deux chemins homotopes sur le même morphisme dans $G$. On définit donc $v : \pi(X) \to G$ sur les objets par $v(x) = w(x)$ pour $x \in X$ et sur les morphismes $x \to y$ comme étant le passage au quotient de $w$ :
+    \begin{center}
+        \begin{tikzcd}
+            \Hom_{\P X} (x,y) \arrow[d,"p"] \arrow[r,"w"] & \Hom_G (w(x),w(y)) \\
+            \Hom_{\pi(X)} (x,y) \arrow[ru,"v",dashed]
+        \end{tikzcd}
+    \end{center}
+    On a bien défini un foncteur de cette manière : d'abord, pour $x \in X$ :
+    \[v(\id_x^{\pi(X)}) = v(p(\id_x^{\P X})) = w(\id_x^{\P X}) = \id_{w(x)}^G = \id_{v(x)}^G\]
+    et si $[\gamma] : x \to y,[\delta] : y \to z$ sont deux morphismes dans $\pi(X)$ (deux chemins à homotopie près) composables, alors
+    \begin{align*}
+        v([\delta] \circ [\gamma]) & = v([\delta \circ \gamma]) \\
+        & = w(\delta \circ \gamma) \\
+        & = w(\delta) \circ w(\gamma) \\
+        & = v([\delta]) \circ v([\gamma])
+    \end{align*}
+    Donc $v$ est bien un morphisme de groupoïdes. De plus, on a
+    \[vu_1([\gamma]) = v([u_1'(\gamma)]) = w(u_1'(\gamma)) = w_1(\gamma) = v_1([\gamma])\]
+    et similairement, $v u_2 = v_2$. \\
+    On montre maintenant que $v$ est unique. Soit $v' : \pi(X) \to G$ un autre morphisme qui fasse commuter le diagramme
+    \begin{center}
+        \begin{tikzcd}
+            \pi(X_0) \arrow[r,"i_1"] \arrow[d,"i_2" '] & \pi(X_1) \arrow[d,"u_1"] \arrow[ddr,bend left, "v_1"] \\
+            \pi(X_2) \arrow[r,"u_2" '] \arrow[rrd,bend right,"v_2" '] & \pi(X) \arrow[rd,"v'"] \\
+            & & G 
+        \end{tikzcd}
+    \end{center}
+    Alors, on peut l'étoffer comme ceci :
+    \begin{center}
+        \begin{tikzcd}
+            & \P (X_0) \arrow[rr] \arrow[ld] \arrow[dd] & & \P (X_1) \arrow[ld] \arrow[dd] \\
+            \P (X_2) \arrow[rr, crossing over] \arrow[dd] & & \P(X) \arrow[dd] \\
+            & \pi(X_0) \arrow[rr] \arrow[dl] & & \pi(X_1) \arrow[dl] \arrow[dd,bend left=50] \\
+            \pi(X_2) \arrow[rr] \arrow[rrrd,bend right=35] & & \pi(X) \arrow[dr] \arrow[from=uu,crossing over]\\
+            & & & G \arrow[from=uuul,crossing over] \arrow[from=uuuu,bend left=25, crossing over] \arrow[from=uuulll,bend right,crossing over]
+        \end{tikzcd}
+    \end{center}
+    Les morphismes sont ceux que vous pensez : le carré au-dessus qu'on a ajouté est le carré \ref{pushoutpaths}, les morphismes verticaux sont les projections, et on a $w_1 : \P (X_1) \to G$, $w_2 : \P (X_2) \to G$ et $w : \P(X) \to G$. LE diagramme est encore commutatif: la partie basse l'est par hypothèse sur $v'$, ensuite on ajoute le carré \ref{pushoutpaths}, qui commute, puis les projections, qui font commuter le cube ainsi obtenu, puis on peut rajouter $w_1$ et $w_2$ car $w_1 = pv_1$ et $w_2 = pv_2$, puis on peut ajouter $w$ par la discussion précédente. Ainsi, $v'p = w = vp$, donc $v' = v$ car pour tout $x,y \in X$, $p : \Hom_{\P(X)}(x,y) \to \Hom_{\pi(X)}(x,y)$ est surjective (on sait déjà que $v'$ et $v$ font la même chose au niveau des objets car chaque point de $X$ est dans $X_1$ ou dans $X_2$). On a donc l'unicité et cela conclut cette preuve.
+\end{proof}
+
+\begin{proof}[Extension au cas général]
+    On prend le même cadre que précédemment, mais cette fois-ci on choisit $A \subset X$ représentatif quelconque. C'est ici qu'on va appliquer le lemme technique catégoriel \ref{lemmeretraction}. Précisément, on a les deux diagrammes :
+    \begin{center}
+        \begin{tikzcd}
+            \pi(X_0) \arrow[r,"i_1"] \arrow[d,"i_2" '] & \pi(X_1) \arrow[d,"u_1"] \\
+            \pi(X_2) \arrow[r,"u_2" '] & \pi(X)
+        \end{tikzcd}
+        \hspace{2em}
+        \begin{tikzcd}
+            \pi(X_0, A) \arrow[r] \arrow[d] & \pi(X_1, A) \arrow[d] \\
+            \pi(X_2,A) \arrow[r] & \pi(X,A)
+        \end{tikzcd}
+    \end{center}
+    On sait que le carré de gauche est un pushout et on veut montrer que celui de de droite est aussi un pushout. Pour ce faire, on va construire une rétraction du diagramme de gauche sur celui de droite. Explicitement, on cherche des morphismes étant des inverses à gauche qui font commuter le diagramme
+    \begin{center}
+        \begin{tikzcd}
+            \pi(X_0) \arrow[rd,"i_1"] \arrow[dd,"i_2" '] \arrow[rr,"r_0"] & & \pi(X_0, A) \arrow[rd] \arrow[dd] \\
+            & \pi(X_1) \arrow[rr,"r_1" near end, crossing over] & & \pi(X_1,A) \arrow[dd] \\
+            \pi(X_2) \arrow[rd,"u_2" '] \arrow[rr,"r_2" near end] & & \pi(X_2,A) \arrow[rd] \\
+            & \pi(X) \arrow[from=uu,"u_1" near end, crossing over] \arrow[rr,"r"] & & \pi(X,A)
+        \end{tikzcd}
+    \end{center}
+    Comme $A$ est représentatif dans $X_0$, si $x \in X_0$ est un point de $X_0$, il existe un chemin d'un point de $A \cap X_0$ à $x$. Notons \todo
+\end{proof}
+
+\section{Groupe fondamental du cercle}
+
+On va désormais appliquer le théorème \ref{vankampen} pour calculer $\pi_1(S^1)$.
+
+
+\appendix
+
+\section{Topologie générale}
+
+Cette section présente et prouve les quelques résultats de topologie générale utilisés dans ce texte.
 
 \end{document}

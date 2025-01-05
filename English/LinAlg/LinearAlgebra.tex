@@ -1,0 +1,198 @@
+\documentclass{book}
+\usepackage{amsmath, amssymb, amsfonts, amsthm, mathrsfs}
+\usepackage[english]{babel}
+\usepackage{geometry}[textwidth=10cm]
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage{nicefrac}
+\usepackage{cancel}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{libertine}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.pathmorphing}
+
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\pre}{\mathrm{pre}}
+\newcommand{\op}{\mathrm{op}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\U}{\mathbb{U}}
+\newcommand{\F}{\mathbb{F}}
+\renewcommand{\H}{\mathbb{H}}
+
+\renewcommand{\P}{\mathbb{P}}
+\renewcommand{\d}{{\rm \, d}}
+
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\catt}{\mathcal{D}}
+\newcommand{\Jcat}{\mathcal{J}}
+\newcommand{\Acat}{\mathcal{A}}
+
+\newcommand{\Set}{\mathit{Sets}}
+\newcommand{\Top}{\mathit{Top}}
+\newcommand{\Grp}{\mathit{Grp}}
+\newcommand{\Mod}{\mathit{Mod}}
+\newcommand{\Ab}{\mathit{Ab}}
+\newcommand{\Vectcat}{\mathit{Vec}}
+\newcommand{\Ring}{\mathit{Rings}}
+
+%Operators
+\DeclareMathOperator{\Acc}{Acc}
+\DeclareMathOperator{\Card}{Card}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\PSL}{PSL}
+\DeclareMathOperator{\PGL}{PGL}
+\DeclareMathOperator{\SO}{SO}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\rg}{rg}
+\DeclareMathOperator{\Ch}{Ch}
+\DeclareMathOperator{\sh}{sh}
+\DeclareMathOperator{\Vect}{Vect}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\rk}{rk}
+\DeclareMathOperator{\Fix}{Fix}
+\DeclareMathOperator{\Ob}{Ob}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Int}{Int}
+\DeclareMathOperator{\Mor}{Mor}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Fun}{Fun}
+\DeclareMathOperator{\Nat}{Nat}
+\DeclareMathOperator{\colim}{colim}
+\DeclareMathOperator{\cod}{cod}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\res}{res}
+\DeclareMathOperator{\coim}{coim}
+\renewcommand{\Re}{\mathop{\rm Re}}
+\renewcommand{\Im}{\mathop{\rm Im}}
+
+\newcommand{\todo}{\textbf{TODO}}
+
+\renewcommand{\epsilon}{\varepsilon}
+
+%Macros
+\newcommand{\applic}[4]{\begin{array}[t]{rcl}
+#1 & \to & #2 \\
+#3 & \mapsto & #4
+\end{array}}
+
+\setlength{\parindent}{0pt}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{examples}[theorem]{Examples}
+\newtheorem{exercise}{Exercise}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\title{Linear algebra done my way}
+\author{Reblax}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\chapter*{Preface}
+\addcontentsline{toc}{chapter}{Preface}
+This book is intended to enable motivated students to self-study linear algebra. The point of view on the subject adopted here is the one a pure mathematician would have: computations are shunned to leave room for proofs, and the aim is to make the student feel the power of mathematical abstraction and abstract algebra as well as learning how to use them as tools. The only assumed background is familiarity with proofs, proof methods, naive set theory, and a bit of real analysis is sometimes useful. In particular, no prior knowledge of abstract algebra is necessary. Thus, this book is intended to be an introduction to using abstract machinery in math. It is written in the author's usual style, giving lots of details in proofs and often taking a break from formal mathematical discussion to underline the intuition behind results, tell historical anecdotes, or little jokes. Read at your own risk.
+
+\chapter{Prerequisites: what even is abstract algebra?}
+
+Abstract algebra, broadly speaking, is the study of algebraic structures. 
+
+\chapter{Vector spaces}
+
+\section{The definition of vector spaces}
+
+\section{Constructing new vector spaces out of old}
+
+\section{Family of vectors: linear independence and span}
+
+\chapter{Linear maps}
+
+\section{Linear maps, kernels, images}
+
+\section{Special kinds of maps: projectors, symmetries, nilpotents}
+
+\section{Linear forms and duality}
+
+\chapter{Dimension}
+
+\section{Technicalities: defining dimension}
+
+\section{Finite-dimensional vector spaces and their consequences}
+
+\chapter{Matrices}
+
+\section{Matrices done right}
+
+\section{Change of basis, equivalence, similarity, trace}
+
+\chapter{Multilinearity and Determinants}
+
+\section{Just enough about the symmetric group}
+
+\section{Multilinear maps}
+
+\section{Determinants and their applications}
+
+\section{Tensor products and trace revisited}
+
+\chapter{Inner product Spaces}
+
+\section{Inner products and norms}
+
+\section{Orthogonality}
+
+\section{Orthogonal complements, and minimisation problems}
+
+\chapter{Eigenvalues and Eigenvectors}
+
+\section{Why eigen-stuff is interesting}
+
+\section{Interlude on polynomials}
+
+\section{Polynomials of endomorphisms and the minimal polynomial}
+
+\section{Diagonalisation and trigonalisation}
+
+\section{The characteristic polynomial}
+
+\section{Jordan normal form}
+
+\chapter{Adjoints and Spectral Theorems}
+
+\section{Adjoints, self-adjoint and normal operators}
+
+\section{Spectral theorems}
+
+\section{Isometries and unitary operators}
+
+\chapter*{Epilogue: what next?}
+\addcontentsline{toc}{chapter}{Epilogue: what next?}
+
+\appendix
+
+\chapter{Spooky scary set-theoretic stuff}
+
+\end{document}

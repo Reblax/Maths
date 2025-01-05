@@ -16,7 +16,9 @@
 
 \newcommand{\id}{\mathrm{id}}
 \newcommand{\pre}{\mathrm{pre}}
+\newcommand{\sh}{\mathrm{sh}}
 \newcommand{\op}{\mathrm{op}}
+\newcommand{\A}{\mathbb{A}}
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\Q}{\mathbb{Q}}
@@ -55,13 +57,13 @@
 \DeclareMathOperator{\Tr}{Tr}
 \DeclareMathOperator{\rg}{rg}
 \DeclareMathOperator{\Ch}{Ch}
-\DeclareMathOperator{\sh}{sh}
 \DeclareMathOperator{\Vect}{Vect}
 \DeclareMathOperator{\Gal}{Gal}
 \DeclareMathOperator{\rk}{rk}
 \DeclareMathOperator{\Fix}{Fix}
 \DeclareMathOperator{\Ob}{Ob}
 \DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Spec}{Spec}
 \DeclareMathOperator{\Int}{Int}
 \DeclareMathOperator{\Mor}{Mor}
 \DeclareMathOperator{\Hom}{Hom}
@@ -95,6 +97,7 @@
 \newcommand{\Hsheaf}{\mathscr{H}}
 \newcommand{\sheafHom}{\mathcal{Hom}}
 \newcommand{\m}{\mathfrak{m}}
+\newcommand{\p}{\mathfrak{p}}
 
 \setlength{\parindent}{0pt}
 
@@ -390,13 +393,71 @@ Complex analysis tells us that on any open ball $B(e^{i\theta}, \frac{1}{2})$, $
 
 \paragraph{2.4.B.} Let $(s_p)_{p \in U} \in \prod_{p \in U} \Fsheaf_p$ consist of compatible germs. Then, for any point $p \in U$, there is an open set $U_p \subset U$ containing $p$ such that there exists $\tilde{s}_p \in \Fsheaf(U_p)$, such that the germ of $\tilde{s}_p$ at $q \in U_p$ is $s_q$. Let $p,q \in U$ be two points. If $x \in U_p \cap U_q$, then $(\tilde{s}_p)_x = (\tilde{s}_q)_x$, so there is some open set $V_x \subset U_p \cap U_q$ containing $x$ such that $(\tilde{s}_p)_{\mid V_x} =(\tilde{s}_q)_{\mid V_x}$. We have $U_p \cap U_q = \bigcup_{x \in U_p \cap U_q} V_x$, so by identity, we have $(\tilde{s}_p)_{\mid U_p \cap U_q} = (\tilde{s}_q)_{\mid U_p \cap U_q}$. Since $U = \bigcup_{p \in U} U_p$, by gluing, we obtain $\tilde{s} \in \Fsheaf(U)$ such that $\tilde{s}_{\mid U_p} = \tilde{s}_p$. Since $p \in U_p \subset U$, the image of $\tilde{s}$ in $\Fsheaf_p$ is the same as the image of $(\tilde{s})_{\mid U_p} = \tilde{s}_p$, so it is $s_p$. This finishes the proof.
 
-\paragraph{2.4.C.} 
+\paragraph{2.4.C.} Let $U \subset X$ be open. We have a commutative diagram
+\begin{center}
+\begin{tikzcd}
+    \Fsheaf(U) \arrow[r,shift left,"(\phi_1)_U"]\arrow[r,shift right,"(\phi_2)_U" '] \arrow[d] & \Gsheaf(U) \arrow[d,hookrightarrow] \\
+    \prod_{p \in U} \Fsheaf_p \arrow[r] & \prod_{p \in U} \Gsheaf_p
+\end{tikzcd}
+\end{center}
+Where vertical maps are $s \mapsto (s_p)_{p \in U}$. Since $\Gsheaf$ is a sheaf, injectivity comes from exercise \textbf{2.4.A.}. The horizontal map between products of stalks is induced by both $\phi_1$ and $\phi_2$ (since by assumption $\phi_1$ and $\phi_2$ induce the same morphisms on stalks). Commutativity, along with the injective map being monic shows $\phi_1 = \phi_2$.
 
+\paragraph{2.4.D.} Let $\Fsheaf,\Gsheaf$ be sheaves of sets on $X$ and $\phi : \Fsheaf \to \Gsheaf$ be a morphism of sheaves that induces isomorphisms on all stalks. Let $U \subset X$ be open. We have the diagram
+\begin{center}
+    \begin{tikzcd}
+        \Fsheaf(U) \arrow[r,"\phi_U"] \arrow[d,hookrightarrow] & \Gsheaf(U) \arrow[d,hookrightarrow, "f_\Gsheaf"] \\
+        \prod_{p \in U} \Fsheaf_p \arrow[r,"\sim"] & \prod_{p \in U} \Gsheaf_p
+    \end{tikzcd}
+\end{center}
 
-\section*{Chapter 3}
+The bottom map is bijective because it is component-wise (by assumption). Then, $f_\Gsheaf \circ \phi_U$ is injective since it is a composition of injective maps. Thus, $\phi_U$ must be injective. \\
+Now surjectivity. Let $s \in \Gsheaf(U)$. It induces a compatible family $(s_p)_{p \in U} \in \prod_{p \in U} \Gsheaf_p$. By bijectivity, we get some $(t_p)_{p \in U} \in \prod_{p \in U} \Fsheaf_p$ such that $s_p = \phi_p (t_p)$ for all $p \in U$. We want to prove $(t_p)$ consists of compatible germs to get an element $t \in \Fsheaf(U)$. Fix a point $p \in U$. Since $t_p \in \Fsheaf_p$, we can pick one of its representatives $(t^p, U_p)$. Here $U_p \subset U$ is an open set containing $p$ and $t^p \in \Fsheaf(U_p)$. Since $\phi_p (t_p) = s_p$, we know that $(\phi_{U_p}(t^p),U_p)$ represents $s_p$ in $\Gsheaf_p$. However, we already know of another representative of $s_p$ in $\Gsheaf_p$: $(s_{\mid U_p},U_p)$. Therefore, by definition of the stalk, there exists some open set $V_p \subset U_p$ containing $p$ such that $(\phi_{U_p}(t^p))_{\mid V_p} = s_{\mid V_p}$. Now, pick another point $q \in V_p$. The previous equality tells us, on the level of the stalk at $q$, that $[\phi_{V_p}(t_{\mid V_p}^p)]_q = s_q$. But, by definition of $\phi_q$, we have $[\phi_{V_p}(t_{\mid V_p}^p)]_q = \phi_q (t^p_q)$. This means that $\phi_q(t^p_q) = s_q = \phi_q (t_q)$. Since $\phi$ is injective on stalks, $t^p_q = t_q$. This shows that $(t_p)$ consists of compatible germs (the representative sections are given by $t^p_{\mid V_p}$). Therefore, by exercise \textbf{2.4.B.} we get some section $t \in \Fsheaf(U)$ such that $t_p$ is the image of $t$ in $\Fsheaf_p$ for all $p \in U$. Therefore,
+\[(\phi_U (t))_p = \phi_p (t_p) = s_p \]
+and since in a sheaf sections are determined by their germs, we have $\phi_U(t) = s$, which is precisely surjectivity.
 
-\paragraph{3.1.A.} If $\pi$ is smooth, then for any smooth function $f : Y \to \R$, $f \circ \pi$ is also smooth, since the composition of smooth functions is again smooth. Conversely, assume that smooth functions pull back to smooth functions. Let $x \in X$ be a point. Pick a chart $(U,\varphi : U \to \R^n)$ around $x$, and a chart $(V,\psi : V \to \R^m)$ around $\pi(x)$. We want to show $\psi \circ \pi \circ \varphi^{-1} : \R^n \to \R^m$ is smooth. To do this, we can replace $\psi$ by its coordinates, so we can just check this for $\psi : V \to \R$. Coordinates of charts are smooth (since charts and projections $\R^m \to \R$ are smooth). We know by hypothesis that $\psi \circ \pi : \pi^{-1}(V) \to \R$ is again smooth. This implies that $\psi \circ \pi \circ \varphi^{-1} : \R^n \to \R$ is smooth because $\varphi^{-1} : \R^n\to U$ is a chart, so it is smooth. This proves the result.
+\paragraph{2.4.E.} \todo
 
-\paragraph{3.1.B.} 
+\paragraph{2.4.F.} \todo ez
+
+\paragraph{2.4.G.} \todo ez
+
+\paragraph{2.4.H.} Let $(U_i)_{i\in I}$ be a family of open sets of $X$ and $U = \bigcup_i U_i$. Let $f = (f_p)_{p\in U}$ and $g = (g_p)_{p \in U}$ be two elements of $\Fsheaf^\sh(U)$ such that $f_{\mid U_i} = g_{\mid U_i}$ for all $i$. Then, since any point $p \in U$ is contained in some $U_i$, the $p$ component of $f$ and $g$ are identical, that $f_p = g_p$ for all $p$, so $f=g$. Hence identity holds. \\
+Now pick a family $f^i = (f^i_p)_{p \in U_i} \in \Fsheaf^\sh(U_i)$ such that $f^i_p = f^j_p$ for all $p \in U_i \cap U_j$. Then this compatibility condition allows us to form the tuple $f = (f_p)_{p \in U} \in \prod_{p \in U} \Fsheaf_p$ defined by $f_p = f^i_p$ where $i$ is any $i$ such that $p \in U_i$. Now fix a point $p \in U$. It is contained in some $U_i$. Since $f^i \in \Fsheaf^\sh(U_i)$, there exists an open set $V \subset U_i$ containing $p$ and $s \in \Fsheaf(V)$ such that $s_q = f_q^i = f_q$ for all $q \in V$. This shows $f \in \Fsheaf^\sh (U)$ and gluability holds.
+
+\paragraph{2.4.I.} Send a section $s \in \Fsheaf(U)$ to $(s_p)_{p \in U} \in \Fsheaf^\sh(U)$ (a tuple of germs arising from a section is a tuple of germs locally arising from a section, so we do end up in $\Fsheaf^\sh(U)$.) Compatibility with restriction maps is almost immediate to check.
+
+\paragraph{2.4.J.} Let $\Gsheaf$ be another sheaf, and let $\phi : \Fsheaf \to \Gsheaf$ be a morphism. Let $U \subset X$ be an open set. Take $(f_p)_{p \in U} \in \Fsheaf^\sh (U)$. For any $p \in U$, we have some open set $V_p \subset U$ containing $p$ and $s^p \in \Fsheaf(V_p)$ such that $s_q^p = f_q$ for all $q \in V_p$. Let $t^p = \phi_{V_p} (s^p)$. If we have two points $p_1,p_2 \in U$, then $s^{p_1}_q = f_q = s^{p_2}_q$ for any $q \in V_{p_1} \cap V_{p_2}$. This means that $t^{p_1}$ and $t^{p_2}$ have the same germ at $q$, and since $\Gsheaf$ is a sheaf they must be equal on $V_{p_1} \cap V_{p_2}$. Gluability and identity thus tell us there exists a unique section $t \in \Gsheaf(U)$ such that $t_{\mid V_p} = t^p$ for all $p \in U$. We define $\psi((f_p)_{p \in U}) = t$. From this definition, it can be seen that $\psi$ is a morphism of sheaves and $\phi = \psi \circ \sh$. To see it is the unique one, \todo
+
+\todo add details eventually
+
+\paragraph{2.4.K.} \todo kernels are limits, so ker(presheaf = forget(sheaf)) = forget(ker(sheaf)) so ker(sheaf) is a sheaf?
+
+\paragraph{2.4.L.} Let $p \in X$. Let $s_p \in \Fsheaf_p$ and pick a representative $(s,U)$. Then, $\sh(s_p) = [\sh(s),U]_p = [\prod_{q \in U} (s_q),U]_p$. Every element of $\Fsheaf^\sh_p$ is obtained in this way: if $(\prod_{q \in U} (s_q),U)$ is a representative of some element, then we have some open set $V \subset U$ containing $p$ and $f \in \Fsheaf(V)$ such that $s_q = f_q$ for $q \in V$. The element of the stalk thus is $\sh(f_q)$, so we have surjectivity. For injectivity, if $\sh(s_p) = \sh(t_p)$ for two representatives $(s,U)$ and $(t,U)$, then $[\prod_{q \in U} (s_q),U]_p = [\prod_{q \in U} (t_q),U]_p$ then there is some open set $V \subset U$ containing $p$ such that $s_q = t_q$ for all $q \in V$. Therefore, $s_p = t_p$, so we have injectivity.
+
+\paragraph{2.4.M.} 
+
+\section{}
+
+\subsection{Toward schemes}
+
+\paragraph{3.1.A.} If $\pi$ is smooth, then for any smooth function $f : Y \to \R$, $f \circ \pi$ is also smooth, since the composition of smooth functions is again smooth. Conversely, assume that smooth functions pull back to smooth functions. Let $x \in X$ be a point. Pick a chart $(U,\varphi : U \to \R^n)$ around $x$, and a chart $(V,\psi : V \to \R^m)$ around $\pi(x)$. We want to show $\psi \circ \pi \circ \varphi^{-1} : \R^n \to \R^m$ is smooth. To do this, we can replace $\psi$ by its coordinates, so we can just check this for $\psi : V \to \R$. Coordinates of charts are smooth (since charts and projections $\R^m \to \R$ are smooth). We know by assumption that $\psi \circ \pi : \pi^{-1}(V) \to \R$ is again smooth. This implies that $\psi \circ \pi \circ \varphi^{-1} : \R^n \to \R$ is smooth because $\varphi^{-1} : \R^n\to U$ is a chart, so it is smooth. This proves the result.
+
+\paragraph{3.1.B.} Let $f_q \in \Osheaf_{Y,q}$ and $(f,U)$ be a representative. Then, $(f\circ \pi, \pi^{-1}(U))$ represents the element $(f\circ \pi)_p \in \Osheaf_{X,p}$. We define $\pi^\sharp (f_q) = (f \circ \pi)_p$. Categorically speaking, $\pi^\sharp$ is the colimit of the maps $\applic{\Osheaf_Y}{\Osheaf_{X,p}}{f}{(f\circ \pi)_p}$ and this ensures that $\pi^\sharp$ really induces a morphism of stalks. If $f \in \Osheaf_Y(U)$ vanishes at $q \in U$, then $f \circ \pi \in \Osheaf_X (\pi^{-1}(U))$ vanishes at $p$. This is enough to show that $\pi^\sharp (\m_{Y,q}) \subset \m_{X,p}$.
+
+\subsection{The underlying set of an affine scheme}
+
+\paragraph{3.2.A.}
+\begin{enumerate}
+    \item It is a fact from ring theory that prime ideals of $\Spec k[\varepsilon]/(\epsilon^2)$ are in bijection with prime ideals of $\Spec k[\varepsilon]$ that contain $(\epsilon^2)$. The only such prime ideal is $(\varepsilon)$. Therefore, $\Spec k[\varepsilon]/(\epsilon^2) = \{[(\varepsilon)]\}$.
+    \item We have the localisation morphism $\phi : k[x] \to k[x]_{(x)}$. Let $\mathfrak{p}$ be a prime ideal of $k[x]_{(x)}$. Then $\phi^{-1}(\mathfrak{p})$ is a prime ideal of $k[x]$. If $\mathfrak{p} \ne (0)$, then we must have $\phi^{-1}(\mathfrak{p}) \ne (0)$, so $\phi^{-1}(\mathfrak{p}) = (x-a)$ for some $a \in k$. Furthermore, $a$ must be $0$, since $x-a$ for nonzero $a$ is invertible in $k[x]_{(x)}$ and thus can't belong to $\mathfrak{p}$. This means that $(x) \subset \mathfrak{p}$. Conversely, if $P,Q \in k[x]$ are such that $P/Q \in \mathfrak{p}$ ($Q$ must have no $x$ factor for this to make sense), then $\phi(P) = P/1 \in \mathfrak{p}$. If $P$ has no $x$ factor, then it is a product of linear factors of the form $x-a$ with $a\ne 0$ which are all invertible in $k[x]_{(x)}$, so $P$ is invertible, which contradicts $\mathfrak{p}$ being prime. Therefore $P/Q \in (x)$ and thus $\mathfrak{p} = (x)$. We conclude $\Spec k[x]_{(x)} = \{[(0)], [(x)]\}$.
+\end{enumerate}
+
+\paragraph{3.2.B.} Pick $z \in \C$ a complex root of $x^2 + ax + b$. Define a morphism of $\R$-algebras $\R[x] \to \C$ by sending $x$ to $z$. Since $z^2 + az + b = 0$, this morphism passes to the quotient to give $f : \R[x]/(x^2 + ax + b) \to \C$. In fact, this morphism is injective, since $x^2 + ax + b$ is irreducible and must thus be the minimal polynomial of $z$ on $\R$ (meaning the kernel of the map $\R[x] \to \C$ is exactly $(x^2 + ax +b)$). This shows that $f$ is an injective homomorphism of $\R$-algebras. Since both $\R$-algebras are two-dimensional, $f$ is surjective and an isomorphism, and this concludes.
+
+\paragraph{3.2.C.} The discussion already given by Vakil in the case of $\mathbb{A}^1_\R$ or $\mathbb{A}_{\F_p}^1$ can be paralleled here: $\mathbb{A}^1_\Q$ is the set of points of $\overline{\Q}$ modulo the action of the absolute Galois group $\Gal(\overline{\Q}/\Q)$, plus the generic point $[(0)]$.
+
+\paragraph{3.2.D.} Assume for the sake of contradiction that there are only finitely many points $\p_1, \dots, \p_n$. We can further assume that all $\p_i$s are not $(0)$. For all $i$, pick a non-zero polynomial $P_i \in \p_i$. Then, $P_1 \cdots P_n + 1$ is a polynomial that of positive degree, so not a unit. This means that $(P_1 \cdots P_n + 1)$ is not all of $k[x]$ and therefore is contained in a maximal ideal. Since a maximal ideal is prime, and we know $P_1 \cdots P_n + 1$ is not zero, $P_1 \cdots P_n + 1 \in \p_i$ for some $i$. This leads to $1 \in \p_i$, which is a contradiction.
+
+\paragraph{3.2.E.} Let $\p$ be a prime ideal of $\C[x,y]$. If $\p = (0)$, we are done. If not, pick $f \in \p \setminus \{0\}$ of minimal degree (degree is defined as the maximal degree of a monomial where a monomial $x^n y^m$ would have degree $n+m$). If $\p = (f)$, again we are done. If not, pick $g \in \p\setminus (f)$. Then if $h \in \C[x,y]$ is a non-constant polynomial such that $g = hg_1$ and $f = hf_1$, since $\p$ is prime either $h \in \p$, but then $f = h$ by minimality and $g \in (f)$, which is not the case, so we must have $g_1, f_1 \in \p$ and $f = f_1$. We can then repeat the same reasoning with $g_1$ and $f$ until there is no non-constant polynomial $h$ dividing both $g_1$ and $f$ (this process must terminate eventually since the degree of $g$ is finite and goes down every time). We rename $g = g_1$. We can consider $f$ and $g$ as elements of $\C(x)[y]$. Using the Euclidean algorithm to compute $\gcd(f,g)$ shows that $f$ and $g$ have a greatest common divisor $d \in \C[x,y]$ and that there exist $u,v \in \C[x,y]$ such that $uf + vg = d$.
 
 \end{document}
