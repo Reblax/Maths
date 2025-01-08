@@ -18,6 +18,7 @@
 \newcommand{\pre}{\mathrm{pre}}
 \newcommand{\sh}{\mathrm{sh}}
 \newcommand{\op}{\mathrm{op}}
+\newcommand{\ev}{\mathrm{ev}}
 \newcommand{\A}{\mathbb{A}}
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\Z}{\mathbb{Z}}
@@ -458,6 +459,72 @@ Now pick a family $f^i = (f^i_p)_{p \in U_i} \in \Fsheaf^\sh(U_i)$ such that $f^
 
 \paragraph{3.2.D.} Assume for the sake of contradiction that there are only finitely many points $\p_1, \dots, \p_n$. We can further assume that all $\p_i$s are not $(0)$. For all $i$, pick a non-zero polynomial $P_i \in \p_i$. Then, $P_1 \cdots P_n + 1$ is a polynomial that of positive degree, so not a unit. This means that $(P_1 \cdots P_n + 1)$ is not all of $k[x]$ and therefore is contained in a maximal ideal. Since a maximal ideal is prime, and we know $P_1 \cdots P_n + 1$ is not zero, $P_1 \cdots P_n + 1 \in \p_i$ for some $i$. This leads to $1 \in \p_i$, which is a contradiction.
 
-\paragraph{3.2.E.} Let $\p$ be a prime ideal of $\C[x,y]$. If $\p = (0)$, we are done. If not, pick $f \in \p \setminus \{0\}$ of minimal degree (degree is defined as the maximal degree of a monomial where a monomial $x^n y^m$ would have degree $n+m$). If $\p = (f)$, again we are done. If not, pick $g \in \p\setminus (f)$. Then if $h \in \C[x,y]$ is a non-constant polynomial such that $g = hg_1$ and $f = hf_1$, since $\p$ is prime either $h \in \p$, but then $f = h$ by minimality and $g \in (f)$, which is not the case, so we must have $g_1, f_1 \in \p$ and $f = f_1$. We can then repeat the same reasoning with $g_1$ and $f$ until there is no non-constant polynomial $h$ dividing both $g_1$ and $f$ (this process must terminate eventually since the degree of $g$ is finite and goes down every time). We rename $g = g_1$. We can consider $f$ and $g$ as elements of $\C(x)[y]$. Using the Euclidean algorithm to compute $\gcd(f,g)$ shows that $f$ and $g$ have a greatest common divisor $d \in \C[x,y]$ and that there exist $u,v \in \C[x,y]$ such that $uf + vg = d$.
+\paragraph{3.2.E.} Let $\p$ be a prime ideal of $\C[x,y]$. If $\p = (0)$, we are done. If not, pick $f \in \p \setminus \{0\}$ of minimal degree (degree is defined as the maximal degree of a monomial where a monomial $x^n y^m$ would have degree $n+m$). Then, $f$ is irreducible, for if we have a factorization $f = ab$, then either $a$ or $b$ is in $\p$, but since $f$ is of minimal degree this can only happen when $a$ or $b$ is a unit. Then, if $\p = (f)$, again we are done. If not, pick $g \in \p\setminus (f)$. Then if $h \in \C[x,y]$ is a non-constant polynomial such that $g = hg_1$ and $f = hf_1$, since $\p$ is prime either $h \in \p$, but then $f = h$ by minimality and $g \in (f)$, which is not the case, so we must have $g_1, f_1 \in \p$ and $f = f_1$. We can then repeat the same reasoning with $g_1$ and $f$ until there is no non-constant polynomial $h$ dividing both $g_1$ and $f$ (this process must terminate eventually since the degree of $g$ is finite and goes down every time). We rename $g = g_1$. We can consider $f$ and $g$ as elements of $\C(x)[y]$. Let $d$ be a greatest common divisor of $f$ and $g$ in $\C(x)[y]$, and since greatest common divisors are well-defined up to multiplication by a unit, we can assume $d \in \C[x,y]$. The Euclidean Algorithm to compute the greatest common divisor shows that $d \in \p$. Then, $f = Ad$ with $A \in \C(x)[y]$. This means there is some polynomial $P \in \C[x]$ such that $d \mid Pf$ in $\C[x,y]$. In much the same way there is some $Q \in \C[x]$ such that $d \mid Qg$. If $d \notin \C[x]$, then there must be some irreducible element $p \in \C[x,y] \setminus \C[x]$ dividing $d$. Since $\C[x,y]$ is a unique factorization domain, irreducible elements are prime, so from $p \mid Pf$ we get $p \mid P$ or $p\mid f$. However, $p$ is not a polynomial in $x$ and therefore cannot divide $P$ (if you're unsure about this, reason in $\C(x)[y]$, where the degree only accounts for $y$. Thinking about the degree shows that you cannot remove $y$ by multiplying by some other polynomial in $x$ and $y$). Therefore $p \mid f$, and similarly $p \mid g$. This is a contradiction since we assumed $f$ and $g$ had no common factors. Therefore, $d \in \C[x]$. Since $d \in \p$, by primality and since $\C$ is a algebraically closed, $(x-a) \in \p$ for some $a \in \C$. Switching $x$ and $y$ around and carrying out the exact same reasoning shows that $(y-b) \in \p$ for some $b \in \C$. Therefore, $(x-a,y-b) \subset \p$, and we get $(x-a,y-b) = \p$ since $(x-a,y-b)$ is a maximal ideal.
+
+\paragraph{3.2.F.} Let $k$ be an algebraically closed field and $\m$ a maximal ideal of $k[x_1, \dots, x_n]$. Then, the Nullstellensatz $k[x_1,\dots,x_n]/\m$ is a finite field extension of $k$, so an algebraic extension of $k$, so it is field-isomorphic to $k$ since $k$ is algebraically closed. Let $\pi : k[x_1,\dots,x_n]/\m \xrightarrow{\sim} k$ be the isomorphism. We can further assume $\pi$ is a $k$-morphism, that is $\pi([a]) = a$ for all $a \in k$, since we can compose with an appropriate automorphism of $k$ at the end. Then, $\pi([x_i]) = a_i$, so $\pi([x_i] - [a_i]) = 0$, so $(x_1-a_1,\dots,x_n-a_n) \subset \m$, and the conclusion follows since $(x_1-a_1,\dots,x_n-a_n)$ is maximal.
+
+\paragraph{3.2.G.} Multiplication by a nonzero $x\in A$ is a $k$-linear from $A \to A$. Since $A$ is an integral domain, it is injective. Since $A$ is finite-dimensional over $k$, it is surjective. This means that there is some $y \in A$ such that $xy=1$, in other words, $A$ is a field.
+
+\paragraph{3.2.H.} The maximal ideals are $(X^2 - 2, X-Y)$ and $(X^2 - 2, X+Y)$. The residue field is $\Q(\sqrt{2})$ in both cases.
+
+\paragraph{3.2.I.} 
+\begin{enumerate}
+    \item We have a morphism of $\Q$-algebras $\mathrm{ev}_{(\pi,\pi^2)} : f(x,y) \mapsto f(\pi,\pi^2)$ whose kernel is precisely $\phi(\pi,\pi^2)$. Since $\pi$ is transcendental over $\Q$, $\mathrm{ev}_\pi : \applic{\Q[x]}{\Q[\pi]}{P(x)}{P(\pi)}$ is an isomorphism of $\Q$-algebras. Therefore the map $\mathrm{ev}_{(\pi,\pi^2)} : f(x,y) \mapsto f(\pi,\pi^2)$ can be broken down into the composition
+    \begin{center}
+        \begin{tikzcd}
+            \Q[\pi,y] \arrow[r, "y\mapsto \pi^2"] & \Q[\pi] \arrow[d, "\pi \mapsto x", "\sim" ' sloped] \\
+            \Q[x,y] \arrow[u, "x \mapsto \pi", "\sim" ' sloped] \arrow[r, "y \mapsto x^2" '] \arrow[ru,"\ev_{(\pi,\pi^2)}" description] & \Q[x]
+        \end{tikzcd}
+    \end{center}
+    And that $\pi \mapsto x$ is an isomorphism yields
+    \[\ker \ev_{(\pi,\pi^2)} = \ker (y \mapsto x^2) = (x^2 - y)\]
+    \item \todo
+\end{enumerate}
+
+\paragraph{3.2.J.} Let $\p$ be an ideal of $A$ containing $I$. We have morphisms
+$A \xrightarrow{\phi} A/I \xrightarrow{\pi} (A/I)/\phi(\p)$
+The kernel of $\pi\phi$ is precisely $\p$, since $\p \supset I$. Furthermore, $\pi \phi$ is surjective since $\pi$ and $\phi$ are. The first isomorphism theorem then gives $A/\p \simeq (A/I)/\phi(\p)$, so $A/\p$ is an integral domain if and only if $(A/I)/\phi(\p)$ is, which amounts to saying $\p$ is prime if and only if $\phi(\p)$ is prime. We have $\p \subset \phi^{-1}(\phi(\p))$. If $a \in \phi^{-1}(\phi(\p))$, then $\phi(a) = \phi(t)$ for $t \in \p$, so $\phi(a-t) = 0$ which means $a-t \in I \subset \p$, so $a \in \p$. Thus $\phi^{-1}(\phi(\p)) = \p$. Conversely, if $\p$ is an ideal of $A/I$, then $\phi^{-1}(\p)$ is an ideal of $A$. Surjectivity of $\phi$ gives $\phi(\phi^{-1}(\p)) = \p$, so previous discussion shows $\phi^{-1}(\p)$ is prime if and only if $\p$ is prime. The fact that $\phi^{-1}$ preserves order is a general fact about maps of sets.
+
+\paragraph{3.2.K.} Let $\phi : a \mapsto \frac{a}{1}$ be the localization morphism. Define maps
+\begin{center}
+    \begin{tikzcd}[row sep = 0ex,/tikz/column 1/.append style={anchor=base east}
+        ,/tikz/column 2/.append style={anchor=base west}]
+        \{\text{prime ideals of $A$ not meeting $S$}\} \arrow[r, leftrightarrow] & \{\text{prime ideals of $S^{-1}A$}\} \\
+        \p \arrow[r,mapsto] & (\phi(\p)) \\
+        \phi^{-1} (\p) & \p \arrow[l,mapsto]
+    \end{tikzcd}
+\end{center}
+
+These maps are well-defined. Indeed, if $\p$ is a prime ideal of $S^{-1}A$, then $\phi^{-1}(\p)$ is a prime ideal of $A$ since $\phi$ is a morphism of rings, and it doesn't meet $s$ since $\phi$ maps $S$ to units of $S^{-1}A$ and $\p$ is a prime ideal so it doesn't contain units. Conversely, let $\p$ be a prime ideal of $A$ not meeting $S$. Then $(\phi(\p)) = \left\{\frac{a}{s} \mid a \in \p, s\in S\right\}$. We let $S^{-1}\p = \left\{\frac{a}{s} \mid a \in \p, s\in S\right\}$ for convenience. Indeed, we have $\frac{a}{s} = \frac{1}{s}\frac{a}{1}$, and the inclusion $\supset$ follows. If $a_1,a_2 \in \p$ and $\frac{b_1}{s_1}, \frac{b_2}{s_2} \in S^{-1}A$, then
+\[\frac{b_1}{s_1}\frac{a_1}{1} + \frac{b_2}{s_2}\frac{a_2}{1} = \frac{s_2 b_1 a_1 + s_1 b_2 a_2}{s_1 s_2} \in S^{-1}\p\]
+(since $\p$ is an ideal) and this generalizes to arbitrary finite sums by induction, so we do have the equality. Then if $\p$ is a prime ideal of $A$ not meeting $S$, then $(\phi(\p)) \ne S^{-1}A$ because there are no units since $\p$ does not meet $S$, and if $\frac{a}{s} \frac{b}{t} \in (\phi(\p))$, then $\frac{ab}{st} \in S^{-1}\p$, so $ab \in \p$, so either $a$ or $b$ is in $\p$, so either $\frac{a}{s}$ or $\frac{b}{t}$ must be in $S^{-1}\p$. This shows $(\phi(\p))$ is prime. \\
+That the maps preserve order is easy to see. It remains to check they are inverses of each other. If $\p$ is a prime ideal of $A$ not meeting $S$, then
+\[\phi^{-1}((\phi(\p))) = \phi^{-1}\left(\left\{\frac{a}{s} \mid a \in \p, s\in S\right\}\right) = \phi^{-1}\left(\left\{\frac{a}{1} \mid a \in \p\right\}\right) = \p\]
+and the other way around, if $\p$ is a prime ideal of $S^{-1}A$,
+\[(\phi(\phi^{-1}(\p))) = (\p \cap \phi(A)) \subset \p\]
+but if $\frac{a}{s} \in \p$, then $\frac{a}{s} = \frac{1}{s} \frac{a}{1} = \frac{1}{s} \phi(a) \in (\p \cap \phi(A))$, so we have equality.
+and we are done.
+
+\paragraph{3.2.L.} We can define a map $\C[x,y] \to \C[x]_x$ by sending $x$ to $x$ and $y$ to $0$. Passing to the quotient gives a map $\C[x,y]/(xy) \to \C[x]_x$. Since $x + (xy)$ is still sent to $x$ which is invertible in $\C[x]_x$, we obtain a map $\phi : (\C[x,y]/(xy))_x \to \C[x]_x$. We check injectivity and surjectivity manually. Consider $\frac{f(x,y)}{x^n} \in \ker \phi$ (we omit writing $+(xy)$ for convenience). Then
+\[\phi \left(\frac{f(x,y)}{x^n}\right) = \frac{1}{x^n} \phi \left(\frac{f(x,y)}{1}\right) = \frac{f(x,0)}{x^n}\]
+So $\frac{f(x,0)}{x^n} = 0$. This means $f(x,0) = 0$ in $\C[x]$, which in turns implies $f(x,y) = yg(x,y)$ for some $g(x,y) \in \C[x,y]$ (this can be seen by explicitly writing out what $f(x,0)$ is). Therefore, in $(\C[x,y]/(xy))_x$, we have
+\[\frac{x}{1} \frac{f(x,y)}{1} = \frac{xyg(x,y)}{1} = 0\]
+So $\frac{f(x,y)}{1} = 0$ since $\frac{x}{1}$ is invertible, and in turn $\frac{f(x,y)}{x^n} = 0$, so $\ker \phi = \{0\}$ and $\phi$ is injective. \\
+If $\frac{f(x)}{x^n} \in \C[x]_x$, then $\phi(\frac{f(x)}{x^n}) = \frac{f(x)}{x^n}$, so $\phi$ is surjective. This concludes.
+
+\paragraph{3.2.M.} We have used this implicitly in the previous exercises. Let $\p$ be a prime ideal of $A$. Consider the composition, $B \xrightarrow{\phi} A \xrightarrow{\pi} A/\p$. Its kernel is $\phi^{-1}(\p)$, so it induces an injective ring map $B/\phi^{-1}(\p) \hookrightarrow A/\p$. Since $\p$ is prime, $A/\p$ is an integral domain, so $B/\phi^{-1}(\p)$ also is, which shows $\phi^{-1}(\p)$ is prime.
+
+\paragraph{3.2.N.} \begin{enumerate}
+    \item Let $\pi : B \to B/I$ be the canonical projection. Exercise \textbf{3.2.J.} tells us there is a bijection $\{\p \in \Spec B \mid I \subset \p\} \xrightarrow{\sim} \Spec B/I$, given by $\p \mapsto \pi(\p)$. Therefore we obtain a map
+    \[\applic{\{\p \in \Spec B \mid I \subset \p\}}{\Spec B}{\p}{\pi^{-1}(\pi(\p))}\]
+    since $\pi^{-1}(\pi(\p)) = \p + I = \p$, the map above really is the inclusion.
+    \item Let $\phi : B \to S^{-1}B$ be the localisation morphism. Exercise \textbf{3.2.K.} gives us a bijection
+    \[\applic{\{\text{prime ideals of $A$ not meeting $S$}\}}{\Spec S^{-1}A}{\p}{\phi (\p)}\]
+    So we obtain a map
+    \[\applic{\{\text{prime ideals of $A$ not meeting $S$}\}}{\Spec A}{\p}{\phi^{-1}(\phi (\p))}\]
+    And it was proven in exercise \textbf{3.2.K.} that $\phi^{-1}(\phi (\p)) = \p$, so the map above really is the inclusion.
+\end{enumerate}
+
+\paragraph{3.2.O.} 
 
 \end{document}
