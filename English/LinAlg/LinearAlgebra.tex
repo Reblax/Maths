@@ -9,6 +9,8 @@
 \usepackage{titlesec}
 \usepackage{enumitem}
 \usepackage{libertine}
+\usepackage{hyperref}
+
 \usetikzlibrary{positioning}
 \usetikzlibrary{decorations.pathmorphing}
 
@@ -97,12 +99,16 @@
 \newtheorem{definition}[theorem]{Definition}
 \newtheorem{example}[theorem]{Example}
 \newtheorem{examples}[theorem]{Examples}
-\newtheorem{exercise}{Exercise}
+
+\newtheorem{exercise}{Exercise}[section]
+
+\renewcommand{\theexercise}{\thesection.\Alph{exercise}}
 
 \theoremstyle{remark}
 \newtheorem*{remark}{Remark}
+\newtheorem*{notation}{Notation}
 
-\title{Linear Adventures \\ \small A linear algebra book}
+\title{someone find a snappy cool title for this \\ \small A linear algebra book}
 \author{Reblax}
 \date{}
 
@@ -114,11 +120,294 @@
 
 \chapter*{Preface}
 \addcontentsline{toc}{chapter}{Preface}
-This book is intended to enable motivated students to self-study linear algebra. The point of view on the subject adopted here is the one a pure mathematician would have: computations are shunned to leave room for proofs, and the aim is to make the student feel the power of mathematical abstraction and linear algebra as well as learning how to use them as tools. The only assumed background is familiarity with proofs, proof methods, naive set theory, and a bit of real analysis may sometimes be useful. In particular, no prior knowledge of abstract algebra is necessary. Thus, this book is intended to be an introduction to using abstract machinery in math. It is written in the author's usual style, giving lots of details in proofs and often taking a break from formal mathematical discussion to underline the intuition behind results, tell historical anecdotes, or little jokes. Read at your own risk.
+This book is intended to enable motivated students to self-study linear algebra. The point of view on the subject adopted here is the one a pure mathematician would have: computations are shunned to leave room for proofs, and the aim is to make the student feel the power of mathematical abstraction and linear algebra as well as learning how to use them as tools. The only assumed background is familiarity with proofs, proof methods, naive set theory, manipulation of real and complex numbers, and a bit of real analysis may sometimes be useful. In particular, no prior knowledge of abstract algebra is necessary. Thus, this book is intended to be an introduction to using abstract machinery in math. It is written in the author's usual style, giving lots of details in proofs and often taking a break from formal mathematical discussion to underline the intuition behind results, tell historical anecdotes, or little jokes. Read at your own risk.
+
+\section*{How to read this book}
+
+In the text, there are some exercises that are usually meant to be easy and be done as you are reading, to check and solidify understanding. More challenging exercises can be found at the end of a chapter. You should do all the exercises in the text, and try some at the end of chapters. \\
+The first chapter is not about linear algebra but about basic notions of abstract algebra that will be needed later. You can read only the first section, then move on to linear algebra, reading the other two sections (on quotients and polynomial rings) only when you need them, or you can read all of chapter 1 before the rest.
+
+\chapter*{List of Symbols and Notations}
+\addcontentsline{toc}{chapter}{List of Symbols and Notations}
+
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{rp{0.8\textwidth}}
+  $\N$ & The natural numbers $\{0,1,2,\dots\}$ \\
+  $\Z$ & The integers $\{\dots,-2,-1,0,1,2,\dots\}$ \\
+  $\Q$ & The rational numbers $\left\{\frac{a}{b} \: \Big| \: a \in \Z, b \in \Z^* \right\}$ \\
+  $\R$ & The real numbers \\
+  $\C$ & The complex numbers $\{a+bi \mid a,b \in \R\}$ \\
+  $\N^*,\Z^*, \Q^*, \R^*, \C^*$ & The same sets as before with zero removed \\
+  $A \subset B, A \supset B$ & set-theoretic containment (not necessarily proper) \\
+  $[a,b]$ & the closed interval $\{x \in \R \mid a \le x \le b\}$\\
+  $]a,b[$ & the open interval $\{x \in \R \mid a < x < b\}$ \\
+  $F^E$ & the set of all functions from $E$ to $F$ \\
+  $|E|$ & cardinality (number of elements of) a finite set $E$ \\
+  $f : E \to F$ & function from $E$ to $F$ \\
+  $f_{\mid A}$ for $A \subset E$ & restriction of $f$ to $A$, $f_{\mid A} : A \to F$ \\
+  $f^{\mid G}$ for $G \subset F$ & corestriction of $f$ to $G$, $f^{\mid G} : E \to G$ ; only defined if $f(E) \subset G$
+\end{tabular}
+
 
 \chapter{Prerequisites: what even is abstract algebra?}
 
-Abstract algebra, broadly speaking, is the study of algebraic structures. 
+In this chapter, we introduce basic notions of abstract algebra. We discuss groups at large to introduce the notion of algebraic structure, substructures and morphisms (relations between them). Once these ideas have been developed, we see their analogues for rings and fields. We then introduce quotients which are a fundamental operation in nearly all of math. As an application, we prove some results on finite groups that are unimportant for later. Finally, we discuss properties of polynomials that will be of utmost important when discussing eigenvalues and eigenvectors.
+
+\section{Introduction: Groups, rings, and fields}
+
+Abstract algebra, broadly speaking, is the study of algebraic structures. It is very different to the algebra you have learned in grade school, but it bears some similarities to it. It is worth explaining how this:
+\[2x = 3\]
+eventually becomes this:
+\[(f : E \to F) \mapsto (f \otimes \id : E \otimes V \to F \otimes V)\]
+A common idea in algebra (actually, math in general) is to notice similarities between different situations and abstract away the details, to prove more theorems, understand more about the underlying phenomena and overall think better. For instance, you can prove the following three theorems by hand:
+\[1 + 1 + 1 = 1 + 2 \qquad 2 + 1 + 1 = 2 + 2 \qquad 3 + 1 + 1 = 3 + 2\]
+but it is easier and faster to prove the more general theorem
+\[\forall x \in \R, x + 1 + 1 = x + 2\]
+which can then be specialized to any situation by replacing $x$ by a real number. The idea behind algebraic structures is similar, but more advanced and intricate. \\
+Let's consider ``operations'' on different sets you already know of.
+\begin{itemize}
+    \item Consider the integers $\Z$, and consider addition. We don't need parentheses: if $a,b,c \in \Z$, then
+    \[(a+b)+c = a + (b+c)\]
+    Plus, there is a special integer, namely $0$, such that adding with it does nothing: $a+0=0+a=a$. Further, for any integer $a$, there is another integer $-a$ that takes $a$ back to zero: $a+(-a) = (-a)+a = 0$. It is also worth noting that order does not matter: $a+b = b+a$.
+    \item Now consider $\Z$ and multiplication. Again, we don't need parentheses :
+    \[(a\times b) \times c = a\times (b\times c)\]
+    and there is a special integer, $1$, such that multiplying with it does nothing: $1\times a = a \times 1 = a$. Again, order does not matter: $a\times b = b\times a$. However, notice that the number that when multiplied by $2$ would give $1$ is $\frac{1}{2}$, which is not in $\Z$. This means that we don't have an equivalent notion of ``inverses'' for multiplication in $\Z$ as we have for addition.
+    \item When considering $\Q$, $\R$ or $\C$ with addition, we can say the exact same things as we did above with $\Z$ (check it!). With multiplication, something happens: nearly all numbers in $\Q,\R$ or $\C$ have multiplicative inverses. Precisely, if $x \in \Q,\R$ or $\C$ and $x \ne 0$, then we have $\frac{1}{x} x = x\frac{1}{x} = 1$. So it's not quite like addition where all numbers have opposites, but it is worth nothing.
+    \item Now consider $\Z$ again but with subtraction this time. None of the properties seen before work! Here are some counterexamples:
+    \[(1-0)-1 \ne 1-(0-1) \]
+    \[1-0 \ne 0-1\]
+    and there is no integer $a$ such that for all $b$, $a-b = b-a = b$. Since we don't have such a ``neutral'' integer that does nothing, searching for ``inverses'' of elements does not even make sense.
+    \item Consider $\N$ with addition. We have all the properties that $\Z$ with addition has, except the existence of opposites.
+    \item Consider the set of all functions $\R^\R$. We can add and multiply functions together pointwise: if $f,g : \R \to \R$, we define new functions of $\R^\R$ by
+    \[f+g : x\mapsto f(x) + g(x) \qquad \text{and} \qquad fg : x \mapsto fg(x)\]
+    This addition of functions shares all the properties addition on $\Z$ does. Multiplication also shares numerous properties with the multiplication on $\Z$ (we will see more precisely which later).
+    \item If you've done some analysis, convince yourself that the same things can be said about \emph{continuous} functions from $\R$ to $\R$, and \emph{differentiable} functions from $\R$ to $\R$ (you just need to check that adding/multiplying two continuous/differentiable functions gives a continuous/differentiable function).
+    \item Consider the set $\{+1, -1\}$, together with multiplication. This makes sense, because $1 \times 1 = 1$, $1\times(-1) = -1$ and $(-1)\times(-1) = 1$, so multiplying two elements of the set gives another element of the set. Since this multiplication is actually the one from $\Z$, we know it needs no parentheses and order does not matter. We still have the ``neutral element'' $1$ in our set, and it turns out that since $(-1)\times(-1) = 1$, all elements of the set have multiplicative inverses.
+\end{itemize}
+
+Now, let's abstract away these concepts. We will first talk about  Recall that if $E$ and $F$ are two sets, $E \times F$ stands for the \emph{cartesian product} of $E$ and $F$, and is the set of all ordered pairs $(x,y)$ with $x \in E$ and $y \in F$.
+
+\begin{definition}
+    Let $G$ be a set. A \emph{binary operation} on $G$ is a function $* : G \times G \to G$. For binary operations, we will use infix notation, that is instead of writing $*(x,y)$ like you would with a regular function, we write $x * y$.
+\end{definition}
+
+\begin{example}
+    All operations we talked about above are binary operations (on the appropriate sets).
+\end{example}
+
+This is powerful, because the concept of a binary operation allows us to talk about potentially very different operations simultaneously. Now let's abstract the properties we outlined above.
+
+\begin{definition}
+    Let $G$ be a set, and $*$ be a binary operation on $G$.
+    \begin{itemize}
+        \item We say $*$ is \emph{associative} if for all $a,b,c \in G$, we have
+        \[a * (b * c) = (a*b)*c\]
+        \item We say $*$ is \emph{commutative} if for all $a,b \in G$, we have
+        \[a*b = b*a\]
+        \item We say $e \in G$ is a \emph{neutral element} for $*$ if for all $a \in G$, we have
+        \[a * e = e * a = a\]
+        \item Assuming $*$ has an identity element $e \in G$, we say that $b \in G$ is an \emph{inverse} of $a \in G$ if
+        \[a*b = b*a = e\]
+    \end{itemize}
+\end{definition}
+
+\begin{remark}
+    Anglophones tend to call neutral elements ``identity elements''. The author learned with and prefers the terminology ``neutral element'' so it will be used here. 
+\end{remark}
+
+We can now summarize what was discussed above in a neat table:
+
+\todo
+
+\begin{exercise}
+    Let $E$ be a set, and consider the set $E^E$ of functions from $E$ to $E$. We define a binary operation called \emph{function composition} on $E^E$ by
+    \[\circ : \applic{E^E \times E^E}{E^E}{(g,f)}{g \circ f : x\mapsto g(f(x))}\]
+    \begin{enumerate}
+        \item Show that $\circ$ is associative.
+        \item Show that $\circ$ has a neutral element.
+        \item Show that if $E$ has at least two different elements, $\circ$ is not commutative.
+    \end{enumerate}
+\end{exercise}
+
+It is time to prove our two first propositions. These are about uniqueness of neutral elements and inverses.
+
+\begin{proposition}
+    If $G$ is a set together with a binary operation $*$, then $*$ has at most one neutral element.
+\end{proposition}
+
+\begin{proof}
+    Assume $e,f \in G$ be neutral elements for $*$. Then, since $e$ is neutral, we have $e * f = f$. But since $f$ is neutral, we also have $e * f = e$. Therefore we must have $e = f$, and this concludes.
+\end{proof}
+
+\begin{proposition}
+    If $G$ is a set together with an associative binary operation $*$ that has a neutral element $e\in G$, then inverses are unique. That is, if $a \in G$ has an inverse $b\in G$, then it is the only inverse of $a$.
+\end{proposition}
+
+\begin{proof}
+    Assume $a \in G$ has an inverse $b \in G$. Let $c \in G$ be another inverse of $a$. Then, $a * b = e = a *c$, since $b$ and $c$ are both inverses of $a$. This implies that $b * (a * b) = b * (a * c)$. Since $*$ is associative, we have $(b * a) * b = (b * a) * c$. But $b$ is an inverse of $a$, so $b * a = e$. We obtain $e * b = e * c$, which reduces to $b = c$ by neutrality of $e$. This proves $b$ is the sole inverse of $a$.
+\end{proof}
+
+\begin{notation}
+    Since $a \in G$ has at most one inverse for $*$, we will usually denote it $a^{-1}$, without ambiguity. The main exception to this is when the operation is written $+$, then we write $-a$ for the inverse.
+\end{notation}
+
+It is now time to define our very first algebraic structure.
+
+\begin{definition}
+    A set $G$, together with a binary operation $*$ on it, is called a \emph{group} if:
+    \begin{enumerate}
+        \item $*$ is associative,
+        \item $*$ has a neutral element $e \in G$,
+        \item All elements of $G$ have an inverse for $*$.
+    \end{enumerate}
+    If $*$ is commutative, we say $G$ is \emph{abelian}.
+\end{definition}
+
+\begin{notation}
+    We usually write $(G,*)$ if we want to specify the operation. In practice, most of the time, the operation will be implicitly understood and we will write ``$G$ is a group''.
+\end{notation}
+
+\begin{example}
+    The integers $\Z$, rationals $\Q$, reals $\R$ and complex $\C$ are all abelian groups under addition. The set $\C^*$ is a group under multiplication.
+\end{example}
+
+\begin{exercise}[Symmetric group]
+    Let $E$ be a set. Recall we have composition $\circ$ on $E^E$.
+    \begin{enumerate}
+        \item Show that $f : E \to E$ has an inverse for composition if and only if $f$ is bijective.
+        \item Let $S_E = \{f : E \to E\mid f \text{ is bijective}\}$. Show that $S_E$ is a group under $\circ$. Notice that you need to show that composing two bijections gives a bijection for $\circ$ to be a binary operation on $S_E$.
+        \item Show that $S_{\{1,2,3\}}$ is not abelian.
+        \item Show that $S_E$ is finite if and only if $E$ is finite, and in that case $|S_E| = |E|!$.
+    \end{enumerate}
+\end{exercise}
+
+\begin{remark}
+    The group constructed in the previous exercise is called \emph{the symmetric group on $E$} and such groups are very important in group theory and math in general. In fact, they will show up again much later in chapter \hyperref[chapter_multilinear]{\ref{chapter_multilinear}} when we seek to understand multilinearity and determinants.
+\end{remark}
+
+\begin{exercise}
+    We define $\U = \{z \in \C \mid |z| = 1\}$ the set of complex numbers of module 1.
+    \begin{enumerate}
+        \item Check that $(\U,\times)$ is a group.
+        \item Make a picture. What is the geometric interpretation of $\times$?
+        \item Let $n \in \N^*$ be a positive integer. Let
+        \[\U_n = \{e^\frac{2i \pi k}{n} \mid 0 \le k < n\}\]
+        \begin{enumerate}
+            \item Check $\U_n$ is precisely the complex solutions to the equation $z^n = 1$. For this reason we call elements of $\U_n$ the \emph{$n$-th roots of unity}.
+            \item Check that $(\U_n, \times)$ is a group.
+        \end{enumerate}
+    \end{enumerate}
+\end{exercise}
+
+\begin{remark}
+    You may notice that $(\N,+)$ and $(\Z,\times)$ are almost groups: they only lack the assumption that all elements have an inverse. This is made precise by the notion of a \emph{monoid}: a set together with an associative binary operation that has a neutral element. Monoids are sometimes useful but we won't concentrate on them here.
+\end{remark}
+
+We now give one more example of a group, that comes from geometry.
+\todo %cube
+
+\begin{remark}
+    \todo %galois
+\end{remark}
+
+\begin{notation}
+    From now on, we will call the binary operation of a group $\cdot$, and not write it, which means we will write $ab$ instead of $a \cdot b$ for convenience.
+\end{notation}
+
+We now introduce the notion of a subgroup, which roughly speaking is a smaller group inside a bigger group. 
+
+\begin{definition}
+    Let $(G,\cdot)$ be a group. We say that $H \subset G$ is a \emph{subgroup of $G$} if :
+    \begin{itemize}
+        \item For all $x,y \in H$, we have $xy \in H$,
+        \item We have $e \in H$,
+        \item For any $x \in H$, we have $x^{-1} \in H$.
+    \end{itemize}
+\end{definition}
+
+\begin{example}
+    $(\Z,+)$ is a subgroup of $(\R,+)$. If $G$ is any group, $G$ is a subgroup of $G$, and $\{e\}$ is a subgroup of $G$.
+\end{example}
+
+\begin{exercise}
+    Let $E$ be a non-empty set, and consider the symmetric group $S_E$. Let $x \in E$. Show that $\{f \in S_E \mid f(x) = x\}$ is a subgroup of $S_E$.
+\end{exercise}
+
+\begin{notation}
+    Let $g$ be an element of a group. For $n \in \N^*$, we will write
+    \[g^n = \underbrace{gg \cdots g}_{n \text{ times}} \qquad g^{-n} = \underbrace{g^{-1}g^{-1} \cdots g^{-1}}_{n \text{ times}}\]
+    and $g^0 = e$ is the neutral element. Using this notation, we have $g^{n+m} = g^n g^m$ for all $n,m \in \Z$.
+\end{notation}
+
+A particularly interesting and relevant example of a subgroup is the following:
+
+\begin{proposition}
+    Let $G$ be a group and $g \in G$. Then $\langle g \rangle = \{g^n \mid n \in \Z\}$ is subgroup of $G$.
+\end{proposition}
+
+\begin{proof}
+    We check the three properties we need. If $g^n,g^m \in \langle g \rangle$, then $g^n g^m = g^{n+m} \in \langle g \rangle$. We have $e = g^0 \in \langle g \rangle$. The inverse of $g^n \in \langle g \rangle$ is $g^{-n} \in \langle g \rangle$. This shows $\langle g \rangle$ is a subgroup.
+\end{proof}
+
+\begin{definition}
+    Let $G$ be a group and $g \in G$. The subgroup $\langle g \rangle$ is called the \emph{subgroup generated by $g$}.
+\end{definition}
+
+\begin{example}
+    Even integers, denoted by $2\Z$, are the subgroup of $\Z$ generated by $2$.
+\end{example}
+
+\begin{exercise}
+    Consider the group $(\U,\times)$.
+    \begin{enumerate}
+        \item Let $n \in \N^*$ be a positive integer. Find $z \in \U$ such that $\langle z \rangle = \U_n$.
+        \item Find $z \in\U$ such that $\langle z \rangle$ is infinite (this one is trickier).
+    \end{enumerate}
+\end{exercise}
+
+If $G = \langle g\rangle$ for some $g \in G$, we say the group $G$ is cyclic. Cyclic groups are quite easy to completely classify. A classification is established in the next section as an application of quotients.
+
+\begin{exercise}
+    Let $G$ be a group and $H,K \subset G$ be subgroups of $G$.
+    \begin{enumerate}
+        \item Show that $H \cap K$ is again a subgroup of $G$.
+        \item Show that $H \cup K$ is a subgroup of $G$ if and only if $H \subset K$ or $K \subset H$.
+    \end{enumerate}
+\end{exercise}
+
+We now move on to morphisms. A fundamental idea in algebra is that while objects are important, relations between objects are at least as important if not even more. To motivate this, notice that as a group, $(2\Z,+)$ is really similar to $(\Z,+)$. Indeed, if we replace some integer $x$ by $2x$, we notice that addition in $\Z$ becomes addition in $2\Z$: $z = x+y$ becomes $2z = 2x + 2y$. To make this precise, we need a way to assign one value to another value, so a function.
+
+\begin{definition}
+    Let $(G,*)$ and $(H,\star)$ be two groups. A \emph{group homomorphism} from $G$ to $H$ is a function $f : G \to H$, such that
+    \[\forall x,y \in G, f(x * y) = f(x) \star f(y)\]
+\end{definition}
+
+\begin{example}
+    We have a group homomorphism $f : \applic{\Z}{\Z}{n}{2n}$, because $2(n+m) = 2n + 2m$. 
+\end{example}
+
+From now on we fix two groups $G$ and $H$ that we both note multiplicatively (omitting the operation).
+
+\begin{proposition}
+    A group homomorphism $f : G \to H$ takes the neutral element to the neutral element and inverses to inverses:
+    \[f(e_G) = e_H \qquad \forall x \in G, f(x^{-1}) = f(x)^{-1}\]
+\end{proposition}
+
+\begin{proof}
+    We have $f(e_G) = f(e_G e_G) = f(e_G) f(e_G)$. Multiplying by the inverse of $f(e_G)$, we obtain $e_H = f(e_G)$, as desired. If $x \in G$, then $f(x)f(x^{-1}) = f(xx^{-1}) = f(e_G) = e_H$. Similarly, one shows $f(x^{-1})f(x) = e_H$. This proves that $f(x^{-1})$ is the inverse of $f(x)$ in $H$.
+\end{proof}
+
+
+
+\section{Quotients}
+
+Quotients are a basic, fundamental construction in algebra. Here we introduce quotients of sets, use them to prove Lagrange's theorem on finite groups, and then show how quotients of abelian groups are again groups. Later, we will introduce quotients of vector spaces, which are often useful.
+
+\section{Polynomial rings}
+
+\section{More exercises}
+
+% cayley, Hom(Z,G) = G naturellement, Hom(Z[X], A) = A naturellement
 
 \chapter{Vector spaces}
 
@@ -150,7 +439,7 @@ We now begin our study of linear algebra with the definition of vector spaces, t
 
 \section{Change of basis, equivalence, similarity, trace}
 
-\chapter{Multilinearity and Determinants}
+\chapter{Multilinearity and Determinants} \label{chapter_multilinear}
 
 \section{A little bit more than enough the symmetric group}
 
@@ -199,4 +488,4 @@ We now begin our study of linear algebra with the definition of vector spaces, t
 
 \chapter{Spooky scary set-theoretic stuff}
 
-\end{document}
+\end{document} 
