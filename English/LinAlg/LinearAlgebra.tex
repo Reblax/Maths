@@ -9,7 +9,13 @@
 \usepackage{titlesec}
 \usepackage{enumitem}
 \usepackage{libertine}
-\usepackage{hyperref}
+\usepackage{tabularray}
+\usepackage[hidelinks,linktocpage]{hyperref}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!70!black,
+}
 
 \usetikzlibrary{positioning}
 \usetikzlibrary{decorations.pathmorphing}
@@ -125,7 +131,7 @@ This book is intended to enable motivated students to self-study linear algebra.
 \section*{How to read this book}
 
 In the text, there are some exercises that are usually meant to be easy and be done as you are reading, to check and solidify understanding. More challenging exercises can be found at the end of a chapter. You should do all the exercises in the text, and try some at the end of chapters. \\
-The first chapter is not about linear algebra but about basic notions of abstract algebra that will be needed later. You can read only the first section, then move on to linear algebra, reading the other two sections (on quotients and polynomial rings) only when you need them, or you can read all of chapter 1 before the rest.
+The first chapter is not about linear algebra but about basic notions of abstract algebra that will be needed later. You can read only the first two sections, then move on to linear algebra, reading the other two sections (on quotients and polynomial rings) only when you need them, or you can read all of chapter 1 before the rest.
 
 \chapter*{List of Symbols and Notations}
 \addcontentsline{toc}{chapter}{List of Symbols and Notations}
@@ -153,7 +159,7 @@ The first chapter is not about linear algebra but about basic notions of abstrac
 
 In this chapter, we introduce basic notions of abstract algebra. We discuss groups at large to introduce the notion of algebraic structure, substructures and morphisms (relations between them). Once these ideas have been developed, we see their analogues for rings and fields. We then introduce quotients which are a fundamental operation in nearly all of math. As an application, we prove some results on finite groups that are unimportant for later. Finally, we discuss properties of polynomials that will be of utmost important when discussing eigenvalues and eigenvectors.
 
-\section{Introduction: Groups, rings, and fields}
+\section{Introduction: Groups}
 
 Abstract algebra, broadly speaking, is the study of algebraic structures. It is very different to the algebra you have learned in grade school, but it bears some similarities to it. It is worth explaining how this:
 \[2x = 3\]
@@ -185,14 +191,14 @@ Let's consider ``operations'' on different sets you already know of.
     \item Consider the set $\{+1, -1\}$, together with multiplication. This makes sense, because $1 \times 1 = 1$, $1\times(-1) = -1$ and $(-1)\times(-1) = 1$, so multiplying two elements of the set gives another element of the set. Since this multiplication is actually the one from $\Z$, we know it needs no parentheses and order does not matter. We still have the ``neutral element'' $1$ in our set, and it turns out that since $(-1)\times(-1) = 1$, all elements of the set have multiplicative inverses.
 \end{itemize}
 
-Now, let's abstract away these concepts. We will first talk about  Recall that if $E$ and $F$ are two sets, $E \times F$ stands for the \emph{cartesian product} of $E$ and $F$, and is the set of all ordered pairs $(x,y)$ with $x \in E$ and $y \in F$.
+Now, let's abstract these concepts. Recall that if $E$ and $F$ are two sets, $E \times F$ stands for the \emph{cartesian product} of $E$ and $F$, and is the set of all ordered pairs $(x,y)$ with $x \in E$ and $y \in F$.
 
 \begin{definition}
     Let $G$ be a set. A \emph{binary operation} on $G$ is a function $* : G \times G \to G$. For binary operations, we will use infix notation, that is instead of writing $*(x,y)$ like you would with a regular function, we write $x * y$.
 \end{definition}
 
 \begin{example}
-    All operations we talked about above are binary operations (on the appropriate sets).
+    All operations discussed above are binary operations (on the appropriate sets).
 \end{example}
 
 This is powerful, because the concept of a binary operation allows us to talk about potentially very different operations simultaneously. Now let's abstract the properties we outlined above.
@@ -215,10 +221,6 @@ This is powerful, because the concept of a binary operation allows us to talk ab
     Anglophones tend to call neutral elements ``identity elements''. The author learned with and prefers the terminology ``neutral element'' so it will be used here. 
 \end{remark}
 
-We can now summarize what was discussed above in a neat table:
-
-\todo
-
 \begin{exercise}
     Let $E$ be a set, and consider the set $E^E$ of functions from $E$ to $E$. We define a binary operation called \emph{function composition} on $E^E$ by
     \[\circ : \applic{E^E \times E^E}{E^E}{(g,f)}{g \circ f : x\mapsto g(f(x))}\]
@@ -228,6 +230,27 @@ We can now summarize what was discussed above in a neat table:
         \item Show that if $E$ has at least two different elements, $\circ$ is not commutative.
     \end{enumerate}
 \end{exercise}
+
+We can summarize what was discussed up until now in the following table:
+
+\begin{tblr}{Q[r,m]Q[c,m]Q[c,m]Q[c,m]Q[c,m]}
+    & Associativity & Commutativity & Neutral element & Inverses \\
+\hline
+{Addition $+$ on $\Z$ \\ Addition $+$ on $\R^\R$} & Yes & Yes & Yes & Yes \\
+\hline
+{Multiplication $\times$ on $\Z$ \\ Multiplication $\times$ on $\R^\R$ \\ Addition $+$ on $\N$} & Yes & Yes & Yes & No \\
+\hline
+Multiplication $\times$ on $\Q,\R,\C$ & Yes & Yes & Yes & All except $0$ \\
+\hline
+Composition $\circ$ on $E^E$ & Yes & No & Yes & Exercise \ref{exo_symmetricgroup} \\
+\hline
+{Composition $\circ$ on $S_E$ \\ (see exercise \ref{exo_symmetricgroup})} & Yes & No & Yes & Yes \\
+\hline
+\end{tblr}
+
+\begin{remark}
+    The above table shows we have not yet given an example of a non-associative binary operation. This is because such operations very rarely come up in practice. We will delve into an example here, but the interested reader may wish to look up what octonions are, and the motivated reader may try to come up with their own example of a non-associative binary operation on the set $\{1,2,3\}$ (hint: you can find such a binary operation that is commutative).
+\end{remark}
 
 It is time to prove our two first propositions. These are about uniqueness of neutral elements and inverses.
 
@@ -271,7 +294,7 @@ It is now time to define our very first algebraic structure.
     The integers $\Z$, rationals $\Q$, reals $\R$ and complex $\C$ are all abelian groups under addition. The set $\C^*$ is a group under multiplication.
 \end{example}
 
-\begin{exercise}[Symmetric group]
+\begin{exercise}[Symmetric group] \label{exo_symmetricgroup}
     Let $E$ be a set. Recall we have composition $\circ$ on $E^E$.
     \begin{enumerate}
         \item Show that $f : E \to E$ has an inverse for composition if and only if $f$ is bijective.
@@ -293,14 +316,14 @@ It is now time to define our very first algebraic structure.
         \item Let $n \in \N^*$ be a positive integer. Let
         \[\U_n = \{e^\frac{2i \pi k}{n} \mid 0 \le k < n\}\]
         \begin{enumerate}
-            \item Check $\U_n$ is precisely the complex solutions to the equation $z^n = 1$. For this reason we call elements of $\U_n$ the \emph{$n$-th roots of unity}.
+            \item Check that $\U_n$ is precisely the complex solutions to the equation $z^n = 1$. For this reason we call elements of $\U_n$ the \emph{$n$-th roots of unity}.
             \item Check that $(\U_n, \times)$ is a group.
         \end{enumerate}
     \end{enumerate}
 \end{exercise}
 
 \begin{remark}
-    You may notice that $(\N,+)$ and $(\Z,\times)$ are almost groups: they only lack the assumption that all elements have an inverse. This is made precise by the notion of a \emph{monoid}: a set together with an associative binary operation that has a neutral element. Monoids are sometimes useful but we won't concentrate on them here.
+    You may notice that $(\N,+)$ and $(\Z,\times)$ are almost groups: they only lack the assumption that all elements have an inverse. This is made precise by the notion of a \emph{monoid}: a set together with an associative binary operation that has a neutral element. Monoids are also useful but we won't elaborate on them here.
 \end{remark}
 
 We now give one more example of a group, that comes from geometry.
@@ -311,10 +334,10 @@ We now give one more example of a group, that comes from geometry.
 \end{remark}
 
 \begin{notation}
-    From now on, we will call the binary operation of a group $\cdot$, and not write it, which means we will write $ab$ instead of $a \cdot b$ for convenience.
+    From now on, we will call the binary operation of a group $\cdot$, and omit writing it, which means we will write $ab$ instead of $a \cdot b$ for convenience.
 \end{notation}
 
-We now introduce the notion of a subgroup, which roughly speaking is a smaller group inside a bigger group. 
+We now introduce the notion of a subgroup, which roughly speaking is a smaller group inside a bigger group. As we will see, smaller structures existing inside bigger structures is recurrent in abstract algebra.
 
 \begin{definition}
     Let $(G,\cdot)$ be a group. We say that $H \subset G$ is a \emph{subgroup of $G$} if :
@@ -342,11 +365,13 @@ We now introduce the notion of a subgroup, which roughly speaking is a smaller g
 A particularly interesting and relevant example of a subgroup is the following:
 
 \begin{proposition}
-    Let $G$ be a group and $g \in G$. Then $\langle g \rangle = \{g^n \mid n \in \Z\}$ is subgroup of $G$.
+    Let $G$ be a group and $g \in G$. Then $\langle g \rangle = \{g^n \mid n \in \Z\}$ is an abelian subgroup of $G$.
 \end{proposition}
 
 \begin{proof}
-    We check the three properties we need. If $g^n,g^m \in \langle g \rangle$, then $g^n g^m = g^{n+m} \in \langle g \rangle$. We have $e = g^0 \in \langle g \rangle$. The inverse of $g^n \in \langle g \rangle$ is $g^{-n} \in \langle g \rangle$. This shows $\langle g \rangle$ is a subgroup.
+    We check the three properties we need. If $g^n,g^m \in \langle g \rangle$, then $g^n g^m = g^{n+m} \in \langle g \rangle$. We have $e = g^0 \in \langle g \rangle$. The inverse of $g^n \in \langle g \rangle$ is $g^{-n} \in \langle g \rangle$. This shows $\langle g \rangle$ is a subgroup. Since 
+    \[g^n g^m = g^{m+n} = g^m g^n\]
+    The group $\langle g\rangle$ is abelian.
 \end{proof}
 
 \begin{definition}
@@ -365,7 +390,7 @@ A particularly interesting and relevant example of a subgroup is the following:
     \end{enumerate}
 \end{exercise}
 
-If $G = \langle g\rangle$ for some $g \in G$, we say the group $G$ is cyclic. Cyclic groups are quite easy to completely classify. A classification is established in the next section as an application of quotients.
+If $G = \langle g\rangle$ for some $g \in G$, we say the group $G$ is cyclic. Cyclic groups are quite easy to completely classify. Their classification is established in section \ref{sec_quotients} as an application of quotients.
 
 \begin{exercise}
     Let $G$ be a group and $H,K \subset G$ be subgroups of $G$.
@@ -386,6 +411,11 @@ We now move on to morphisms. A fundamental idea in algebra is that while objects
     We have a group homomorphism $f : \applic{\Z}{\Z}{n}{2n}$, because $2(n+m) = 2n + 2m$. 
 \end{example}
 
+\begin{example}
+    The exponential $\exp : \R \to \R^{+*}$ is a group homomorphism from $(\R,+)$ to $(\R^{+*},\times)$:
+    \[\exp(x+y) = \exp(x)\exp(y)\]
+\end{example}
+
 From now on we fix two groups $G$ and $H$ that we both note multiplicatively (omitting the operation).
 
 \begin{proposition}
@@ -397,11 +427,24 @@ From now on we fix two groups $G$ and $H$ that we both note multiplicatively (om
     We have $f(e_G) = f(e_G e_G) = f(e_G) f(e_G)$. Multiplying by the inverse of $f(e_G)$, we obtain $e_H = f(e_G)$, as desired. If $x \in G$, then $f(x)f(x^{-1}) = f(xx^{-1}) = f(e_G) = e_H$. Similarly, one shows $f(x^{-1})f(x) = e_H$. This proves that $f(x^{-1})$ is the inverse of $f(x)$ in $H$.
 \end{proof}
 
+%composée de morphismes est un morphisme
+%isomorphismes
+%idée de transport de propriétés : groupe iso à un grp ab est ab
+%exemple : petits groupes (à iso près) (utilité des isos) (c'est bien les isos)
+%exemple ou exo : conjugaison
+%groupe des automorphismes
+%exo : aut(petit groupe)
+%automorphismes intérieurs
+%show that a group is cyclic iff there exists Z -> G surjective
+%noyau, image, "fonctorialité" au sens de françois charles mdr
 
+\section{Rings and Fields}
 
-\section{Quotients}
+\section{Quotients} \label{sec_quotients}
 
 Quotients are a basic, fundamental construction in algebra. Here we introduce quotients of sets, use them to prove Lagrange's theorem on finite groups, and then show how quotients of abelian groups are again groups. Later, we will introduce quotients of vector spaces, which are often useful.
+
+% construire C avec R[X]/(X^2 + 1) (en remarque)
 
 \section{Polynomial rings}
 
@@ -433,6 +476,11 @@ We now begin our study of linear algebra with the definition of vector spaces, t
 
 \section{Finite-dimensional vector spaces and their consequences}
 
+\section{Applications to field theory}
+
+%Nombres algébriques forment un corps
+%MQ unique corps corps fini de chaque cardinal à iso près et etudier deux trois trucs maybe
+
 \chapter{Matrices}
 
 \section{Matrices done right}
@@ -441,7 +489,7 @@ We now begin our study of linear algebra with the definition of vector spaces, t
 
 \chapter{Multilinearity and Determinants} \label{chapter_multilinear}
 
-\section{A little bit more than enough the symmetric group}
+\section{A little bit more than enough about the symmetric group}
 
 \section{Multilinear maps}
 
@@ -462,8 +510,6 @@ We now begin our study of linear algebra with the definition of vector spaces, t
 \chapter{Eigenvalues and Eigenvectors}
 
 \section{Why eigen-stuff is interesting}
-
-\section{Interlude on polynomials}
 
 \section{Polynomials of endomorphisms and the minimal polynomial}
 

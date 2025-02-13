@@ -3,7 +3,7 @@
 \usepackage[english]{babel}
 \usepackage{palatino}
 \usepackage{eulervm}
-\usepackage{geometry}[textwidth=10cm]
+\usepackage{geometry}
 \usepackage{tikz-cd}
 \usepackage{tikz}
 \usepackage{nicefrac}
@@ -99,6 +99,7 @@
 \newcommand{\sheafHom}{\mathcal{Hom}}
 \newcommand{\m}{\mathfrak{m}}
 \newcommand{\p}{\mathfrak{p}}
+\newcommand{\q}{\mathfrak{q}}
 
 \setlength{\parindent}{0pt}
 
@@ -106,7 +107,17 @@
 \author{}
 \date{}
 
+\renewcommand{\thesubsubsection}{\textbf{\thesubsection.\Alph{subsubsection}.}}
+
 \titleformat{\section}{\bfseries\Large}{Chapter \thesection}{0.5ex}{}
+\titleformat{\subsubsection}[runin]{\bfseries}{\thesubsubsection}{1em}{}
+
+\titlespacing*{\subsubsection}{0pt}{3.25ex plus 1ex minus .2ex}{1em}
+
+% j'ai vrmt mis les default values de \paragraph
+% merci les gens de stackexchange <3
+
+\newcommand{\exercise}{\subsubsection} %est-chelou ? oui, mais j'aime quand mon code est sémantique. kestuvafaire hein? hein?
 
 \setlist[enumerate]{label=(\alph*)}
 
@@ -121,23 +132,23 @@ Warning: not all problems are given solutions here. Sometimes my mathematical wr
 
 \subsection{Motivating example: the sheaf of smooth functions}
 
-\paragraph{2.1.A.} Let $[(f,U)] \in \Osheaf_p \setminus \m_p$. Then, $f(p) \ne 0$. By continuity of $f$, there is some open set $W \ni p$ such that $f$ is nonzero on all of $W$. Then, $[(f_{\mid W}, W)] = [(f,U)]$ in $\Osheaf_p$ and an inverse is given by $[(\frac{1}{f_{\mid W}}, W)] \in \Osheaf_p$. Thus $\m_p$ is the only maximal ideal of $\Osheaf_p$.
+\exercise{} Let $[(f,U)] \in \Osheaf_p \setminus \m_p$. Then, $f(p) \ne 0$. By continuity of $f$, there is some open set $W \ni p$ such that $f$ is nonzero on all of $W$. Then, $[(f_{\mid W}, W)] = [(f,U)]$ in $\Osheaf_p$ and an inverse is given by $[(\frac{1}{f_{\mid W}}, W)] \in \Osheaf_p$. Thus $\m_p$ is the only maximal ideal of $\Osheaf_p$.
 
 \subsection{Definition of sheaf and presheaf}
 
-\paragraph{2.2.A.} I'm unsure what to check here since the given definition of a presheaf is precisely how you would define a contravariant functor $\mathit{Open}(X) \to \Set$. I guess Vakil wants me to say that the relations imposed on $\res$ are what you get out of $F(f\circ g) = F(g) \circ F(f)$ and $F(\id) = \id$.
+\exercise{} I'm unsure what to check here since the given definition of a presheaf is precisely how you would define a contravariant functor $\mathit{Open}(X) \to \Set$. I guess Vakil wants me to say that the relations imposed on the restriction morphisms are what you get out of $F(f\circ g) = F(g) \circ F(f)$ and $F(\id) = \id$.
 
-\paragraph{2.2.C.} Saying $\Fsheaf$ is a sheaf is the same as asking
+\exercise{} Saying $\Fsheaf$ is a sheaf is the same as asking
 \[\Fsheaf(\cup_{i\in I} U_i) = \lim_{i,j \in I} \Fsheaf (U_i \cap U_j)\]
 Indeed, let $A$ be a set equipped with maps $\varphi_i : A \to U_i$ for all $i$, such that
 \[\res_{U_i, U_i \cap U_j} \circ \varphi_i = \res_{U_j, U_i \cap U_j} \circ \varphi_j \tag{$*$}\]
 for all $i,j$. Pick $f \in A$. Let $f_i = \varphi_i (f)$. The commutativity relation $(*)$ tells us that $\res_{U_i, U_i \cap U_j} (f_i) = \res_{U_j, U_i \cap U_j} (f_j)$ for all $i,j$, so identity and gluability give us a unique $\psi(f) \in \Fsheaf(\cup_{i\in I} U_i)$ such that $\res_{\cup_{i\in I} U_i, U_j} (\psi(f)) = f_j$ for all $j$. This allows us to define a map $\psi A \to \Fsheaf (\cup_{i\in I} U_i)$. It is the only map that makes the appropriate diagram commute, so $\Fsheaf(\cup_{i\in I} U_i)$ truly is the limit.
 
-\paragraph{2.2.E.} Let $(U_i)_{i\in I}$ be a collection of open sets of $X$. Let $f,g \in \Fsheaf(\cup_i U_i)$ be such that $f_{\mid U_i} = g_{\mid U_i}$ for all $i \in I$. Then $f(x) = g(x)$ for all $x \in \cup_i U_i$ because $x$ is contained in some $U_i$. This shows $f = g$, so we have identity. Now let $f_i \in \Fsheaf(U_i)$ be a collection of maps such that $(f_i)_{\mid U_i \cap U_j} = (f_j)_{\mid U_i \cap U_j}$ for all $i,j \in I$. Define $f : \cup_i U_i \to S$ by $f(x) = f_i (x)$ if $x \in U_i$. This is well-defined since if $x$ is also in $U_j$, $f_j(x) = f_i(x)$ by compatibility. We need to check $f$ is locally constant. Pick $s \in S$ and $x \in f^{-1}(\{s\})$. There exists some $i$ such that $x \in U_i$. Then, $f_i(x) = s$, and $f_i$ is locally constant, so there is some open set $V  \ni x$ contained in $U_i$ such that $f_i(V) = s$. Therefore, $V \subset f^{-1}(\{s\})$. This shows $f$ is locally constant and therefore gluability.
+\exercise{} Let $(U_i)_{i\in I}$ be a collection of open sets of $X$. Let $f,g \in \Fsheaf(\cup_i U_i)$ be such that $f_{\mid U_i} = g_{\mid U_i}$ for all $i \in I$. Then $f(x) = g(x)$ for all $x \in \cup_i U_i$ because $x$ is contained in some $U_i$. This shows $f = g$, so we have identity. Now let $f_i \in \Fsheaf(U_i)$ be a collection of maps such that $(f_i)_{\mid U_i \cap U_j} = (f_j)_{\mid U_i \cap U_j}$ for all $i,j \in I$. Define $f : \cup_i U_i \to S$ by $f(x) = f_i (x)$ if $x \in U_i$. This is well-defined since if $x$ is also in $U_j$, $f_j(x) = f_i(x)$ by compatibility. We need to check $f$ is locally constant. Pick $s \in S$ and $x \in f^{-1}(\{s\})$. There exists some $i$ such that $x \in U_i$. Then, $f_i(x) = s$, and $f_i$ is locally constant, so there is some open set $V  \ni x$ contained in $U_i$ such that $f_i(V) = s$. Therefore, $V \subset f^{-1}(\{s\})$. This shows $f$ is locally constant and therefore gluability.
 
-\paragraph{2.2.F.} Identity is shown in the exact same way as the previous exercise (functions are determined by their values at points). Again, pick $f_i : U_i \to Y$ a compatible family of continuous functions and define $f : \cup_i U_i \to Y$ by $f(x) = f_i(x)$ if $x \in U_i$, just like the previous exercise. Let $V \subset Y$ be open and pick $x \in f^{-1}(V)$. There is some $U_i$ that contains $x$ and so $f(x) = f_i(x) \in V$. Therefore, $x \in f_i^{-1}(V)$. This shows $f^{-1}(V) \subset \cup_i f_i^{-1}(V)$. Conversely, if $x \in \cup_i f_i^{-1}(V)$, there is some $i$ such that $x \in f_i^{-1}(V) \subset U_i$, so $x \in f^{-1}(V)$ because $f(x) = f_i(x) \in V$. Therefore, $f^{-1}(V) = \cup_i f_i^{-1}(V)$ is open as a union of open sets, and $f$ is continuous.
+\exercise{} Identity is shown in the exact same way as the previous exercise (functions are determined by their values at points). Again, pick $f_i : U_i \to Y$ a compatible family of continuous functions and define $f : \cup_i U_i \to Y$ by $f(x) = f_i(x)$ if $x \in U_i$, just like the previous exercise. Let $V \subset Y$ be open and pick $x \in f^{-1}(V)$. There is some $U_i$ that contains $x$ and so $f(x) = f_i(x) \in V$. Therefore, $x \in f_i^{-1}(V)$. This shows $f^{-1}(V) \subset \cup_i f_i^{-1}(V)$. Conversely, if $x \in \cup_i f_i^{-1}(V)$, there is some $i$ such that $x \in f_i^{-1}(V) \subset U_i$, so $x \in f^{-1}(V)$ because $f(x) = f_i(x) \in V$. Therefore, $f^{-1}(V) = \cup_i f_i^{-1}(V)$ is open as a union of open sets, and $f$ is continuous.
 
-\paragraph{2.2.G.} 
+\exercise{} 
 \begin{enumerate}
     \item Identity is shown in the exact same way as in exercise \textbf{2.2.E.}. For gluability, when we glue continuous sections, we have continuity by the same reasoning as in the previous exercise. The fact that the glued map is a section works because being a section is a local condition: if $x \in \cup_i U_i$, $s(x) = s_i(x)$, so $\mu s(x) = \mu s_i(x) = x$.
     \item We only need to check that $\Fsheaf (U)$ is a group and that restriction maps are group homomorphisms. We denote by $\cdot$ the topological group law on $Y$. Then, 
@@ -145,7 +156,7 @@ for all $i,j$. Pick $f \in A$. Let $f_i = \varphi_i (f)$. The commutativity rela
 \end{enumerate}
 
 
-\paragraph{2.2.H.} Let $V \subset U \subset Y$ be two open sets. Then, $\pi^{-1}(V) \subset \pi^{-1}(U)$, and we set 
+\exercise{} Let $V \subset U \subset Y$ be two open sets. Then, $\pi^{-1}(V) \subset \pi^{-1}(U)$, and we set 
 \[\res^{\pi_* \Fsheaf}_{U,V} = \res^\Fsheaf_{\pi^{-1}(U),\pi^{-1}(V)}\]
 which does defines a presheaf on $Y$, since
 \[\res^{\pi_* \Fsheaf}_{U,U} = \res^\Fsheaf_{\pi^{-1}(U),\pi^{-1}(U)} = \id_{\Fsheaf(\pi^{-1}(U))} = \id_{\pi_*\Fsheaf(U)}\]
@@ -163,10 +174,10 @@ Then, $f_i \in \Fsheaf(\pi^{-1}(U_i))$, and for $i,j$, we have
 \[\res_{\pi^{-1}(U_i), \pi^{-1}(U_i) \cap \pi^{-1}(U_j)}^{\Fsheaf} (f_i) = \res_{\pi^{-1}(U_j), \pi^{-1}(U_i) \cap \pi^{-1}(U_j)}^{\Fsheaf} (f_j)\]
 because $\pi^{-1}(U_i \cap U_j) = \pi^{-1}(U_i) \cap \pi^{-1}(U_j)$. Then, since $\Fsheaf$ is a sheaf, there exists some $f \in \Fsheaf(\pi^{-1}(U))$ such that $\res_{\pi^{-1}(U),\pi^{-1}(U_i)}^{\Fsheaf}(f) = f_i$ for all $i$. This means that $f \in \pi_*\Fsheaf(U)$ and $\res_{U, U_i}^{\pi_*\Fsheaf} (f) = f_i$ for all $i$, so $\pi_*\Fsheaf$ satisfies gluability.
 
-\paragraph{2.2.I.} Let $(g,V) \in (\pi_*\Fsheaf)_q$. Then, $g \in \pi_*\Fsheaf(V) = \Fsheaf(\pi^{-1}(V))$. Therefore, $(g,\pi^{-1}(V)) \in \Fsheaf_p$. We check this defines a morphism of stalks $(\pi_*\Fsheaf)_q \to \Fsheaf_p$. If $(f,U) \sim (g,V)$, then there exists $W \subset U \cap V$ such that $\res_{U,W}^{\pi_*\Fsheaf} (f) = \res_{V,W}^{\pi_*\Fsheaf} (g)$. This means that $\res_{\pi^{-1}(U),\pi^{-1}(W)}^\Fsheaf (f) = \res_{\pi^{-1}(V),\pi^{-1}(W)}^\Fsheaf(g)$, so $(f,\pi^{-1}(U)) \sim (g,\pi^{-1}(V))$ in $\Fsheaf_p$. Therefore the map $\applic{(\pi_*\Fsheaf)_q}{\Fsheaf_p}{(g,V)}{(g,\pi^{-1}(V))}$ is well-defined. \\
+\exercise{} Let $(g,V) \in (\pi_*\Fsheaf)_q$. Then, $g \in \pi_*\Fsheaf(V) = \Fsheaf(\pi^{-1}(V))$. Therefore, $(g,\pi^{-1}(V)) \in \Fsheaf_p$. We check this defines a morphism of stalks $(\pi_*\Fsheaf)_q \to \Fsheaf_p$. If $(f,U) \sim (g,V)$, then there exists $W \subset U \cap V$ such that $\res_{U,W}^{\pi_*\Fsheaf} (f) = \res_{V,W}^{\pi_*\Fsheaf} (g)$. This means that $\res_{\pi^{-1}(U),\pi^{-1}(W)}^\Fsheaf (f) = \res_{\pi^{-1}(V),\pi^{-1}(W)}^\Fsheaf(g)$, so $(f,\pi^{-1}(U)) \sim (g,\pi^{-1}(V))$ in $\Fsheaf_p$. Therefore the map $\applic{(\pi_*\Fsheaf)_q}{\Fsheaf_p}{(g,V)}{(g,\pi^{-1}(V))}$ is well-defined. \\
 Now we re-do this exercise but with the universal property. Let $V$ be an open set of $Y$ containing $q$. Then, $p \in \pi^{-1}(V)$, so we have a map $\pi_*\Fsheaf(V) = \Fsheaf(\pi^{-1}(V)) \to \Fsheaf_p$. These morphisms satisfy the correct commutativity relations because (1) $\Fsheaf_p$ is a colimit so a cocone and (2) the restrictions of $\pi_*\Fsheaf$ are actually restrictions of $\Fsheaf$. Therefore, the universal property gives us the morphism $(\pi_*\Fsheaf)_q \to \Fsheaf_p$.
 
-\paragraph{2.2.J.} Let $(a,V) \in \Osheaf_{X,p}$ and $(f,U)$ in $\Fsheaf_p$. Then, we have $(a,V) \sim (a_{\mid U \cap V},U \cap V)$ and $(f,U) \sim (f_{\mid U\cap V}, U\cap V)$, and we can define $(a,V) \cdot (f,U) = (a_{\mid U\cap V} \cdot f_{\mid U \cap V}, U \cap V)$. This is well-defined: if $(a,V) \sim (b,V')$ in $\Osheaf_X$ and $(f,U) \sim (g,U')$ in $\Fsheaf$, we have two open sets $W_V \subset V \cap V'$ and $W_U \subset U \cap U'$ such that $a_{\mid W_V} = b_{\mid W_V}$ and $f_{\mid W_U} = g_{\mid W_U}$. Then,
+\exercise{} Let $(a,V) \in \Osheaf_{X,p}$ and $(f,U)$ in $\Fsheaf_p$. Then, we have $(a,V) \sim (a_{\mid U \cap V},U \cap V)$ and $(f,U) \sim (f_{\mid U\cap V}, U\cap V)$, and we can define $(a,V) \cdot (f,U) = (a_{\mid U\cap V} \cdot f_{\mid U \cap V}, U \cap V)$. This is well-defined: if $(a,V) \sim (b,V')$ in $\Osheaf_X$ and $(f,U) \sim (g,U')$ in $\Fsheaf$, we have two open sets $W_V \subset V \cap V'$ and $W_U \subset U \cap U'$ such that $a_{\mid W_V} = b_{\mid W_V}$ and $f_{\mid W_U} = g_{\mid W_U}$. Then,
 \[(a, V) \cdot (f,U) = (a_{\mid U \cap V} \cdot f_{\mid U \cap V}, U \cap V)\]
 But, we have
 \[(a_{\mid U \cap V} \cdot f_{\mid U \cap V})_{\mid W_V \cap W_U} = a_{\mid W_V \cap W_U} \cdot f_{\mid W_V \cap W_U}\]
@@ -184,9 +195,9 @@ Which means the action is well-defined. Thus $\Fsheaf_p$ is an $\Osheaf_{X,p}$-m
 
 If $\phi : \Fsheaf \to \Gsheaf$ is a morphism of (pre)sheaves, I will be denoting the morphisms that make it up $\phi_V : \Fsheaf(V) \to \Gsheaf(V)$ instead of Vakil's $\phi(V)$, because I like to remember that morphisms of (pre)sheaves are natural transformations and am more used to this notation.
 
-\paragraph{2.3.A.} For any open set $U$ containing $p$, we have a morphism $i_u : \Gsheaf(U) \to \Gsheaf_p$. Therefore, we get a cocone by considering the maps $i_u \circ \phi_u : \Fsheaf(U) \to \Gsheaf_p$ (this is a cocone because $\phi$ is a morphism of presheaves). Therefore, we get a map $\phi_p : \Fsheaf_p \to \Gsheaf_p$. Explicitly, $\phi_p ((f,U)) = (\phi_U(f),U)$, and this is well-defined because $\phi$ is a morphism of presheaves.
+\exercise{} For any open set $U$ containing $p$, we have a morphism $i_u : \Gsheaf(U) \to \Gsheaf_p$. Therefore, we get a cocone by considering the maps $i_u \circ \phi_u : \Fsheaf(U) \to \Gsheaf_p$ (this is a cocone because $\phi$ is a morphism of presheaves). Therefore, we get a map $\phi_p : \Fsheaf_p \to \Gsheaf_p$. Explicitly, $\phi_p ((f,U)) = (\phi_U(f),U)$, and this is well-defined because $\phi$ is a morphism of presheaves.
 
-\paragraph{2.3.B.} Let $\phi : \Fsheaf \to \Gsheaf$ be a morphism of sheaves. We define a morphism $\pi_* \phi : \pi_* \Fsheaf \to \pi_* \Gsheaf$ by $\pi_*\phi_U = \phi_{\pi^{-1}(U)}$. This is a morphism of sheaves since for $V \subset U$ the square
+\exercise{} Let $\phi : \Fsheaf \to \Gsheaf$ be a morphism of sheaves. We define a morphism $\pi_* \phi : \pi_* \Fsheaf \to \pi_* \Gsheaf$ by $\pi_*\phi_U = \phi_{\pi^{-1}(U)}$. This is a morphism of sheaves since for $V \subset U$ the square
 \begin{center}
     \begin{tikzcd}
         \Fsheaf(\pi^{-1}(U)) \arrow[r,"\phi_{\pi^{-1}(U)}"] \arrow[d,"\res_{\pi^{-1}(U),\pi^{-1}(V)}" '] & \Gsheaf(\pi^{-1}(U)) \arrow[d,"\res_{\pi^{-1}(U),\pi^{-1}(V)}"] \\
@@ -198,7 +209,7 @@ commutes. This does define a functor since $\pi_* \id_\Fsheaf = \id_{\pi_* \Fshe
 
 I had to do a non-insignificant amount of work to find out what font Vakil uses for sheaf Hom. The answer: it is URW Chancery. It is available through the \texttt{\bfseries pzccal} package.
 
-\paragraph{2.3.C.} Let $V\subset U$ be open sets of $X$. We define the restriction map
+\exercise{} Let $V\subset U$ be open sets of $X$. We define the restriction map
 \[\applic{\sheafHom(\Fsheaf,\Gsheaf)(U)}{\sheafHom(\Fsheaf,\Gsheaf)(V)}{\phi : \Fsheaf_{\mid U} \to \Gsheaf_{\mid U}}{\phi_{\mid V} : \Fsheaf_{\mid V} \to \Gsheaf_{\mid V}}\]
 where $(\phi_{\mid V})_W : \Fsheaf(W) \to \Gsheaf(W)$ is just $\phi_W$ for $W \subset V$ open. \\
 We now check this presheaf is a sheaf. Let $U_i$ be open sets and $U = \cup_i U_i$. Let $\phi,\psi \in \sheafHom(\Fsheaf, \Gsheaf)(U)$ be such that $\phi_{\mid U_i} = \psi_{\mid U_i}$ for all $i$. Let $V \subset U$ be an open set. Then, we have maps 
@@ -246,7 +257,7 @@ The first equation is the definition of restriction maps in the presheaf $\sheaf
 
 \todo : answer questions about stalk of sheaf hom
 
-\paragraph{2.3.D.}
+\exercise{}
 \begin{enumerate}
     \item We define a morphism of sheaves $\Theta : \sheafHom(\underline{\{p\}},\Fsheaf) \to \Fsheaf$ by
     \[\Theta_U : \applic{\sheafHom(\underline{\{p\}},\Fsheaf)(U)}{\Fsheaf(U)}{\phi}{\phi_U(p)}\]
@@ -332,7 +343,7 @@ The first equation is the definition of restriction maps in the presheaf $\sheaf
     \item $\Osheaf_X$-modules scare me and so i will do this problem later. \todo
 \end{enumerate}
 
-\paragraph{2.3.E.} Let $V \subset U \subset X$ be two open sets. We have the diagram where we need to define $\rho_{U,V}$:
+\exercise{} Let $V \subset U \subset X$ be two open sets. We have the diagram where we need to define $\rho_{U,V}$:
 \begin{center}
     \begin{tikzcd}
         0 \arrow[r] & \ker_{\pre}(\phi)(U) \arrow[r,"i_U"] \arrow[d,"\rho_{U,V}"] & \Fsheaf(U) \arrow[r,"\phi_U"] \arrow[d,"\res_{U,V}"] & \Gsheaf(U) \arrow[d,"\res_{U,V}"] \\
@@ -345,7 +356,7 @@ and if $W \subset V$ is another open set,
 \[\rho_{V,W} \circ \rho_{U,V} = (\res_{V,W})_{\mid \ker \phi_V}^{\mid \ker \phi_W} \circ (\res_{U,V})_{\mid \ker \phi_U}^{\mid \ker \phi_V} = (\res_{V,W} \circ \res_{U,V})_{\mid \ker \phi_U}^{\mid \ker \phi_W} = (\res_{U,W})_{\mid \ker \phi_U}^{\mid \ker \phi_W} =\rho_{U,W}\]
 One could also get these relations by drawing the appropriate commutative diagrams.
 
-\paragraph{2.3.F.} Let $\phi : \Fsheaf \to \Gsheaf$ be a morphism of presheaves of abelian groups. Let $\pi : \Gsheaf \to \coker_\pre \phi$ be the canonical morphism. Let $\psi : \Gsheaf \to \Hsheaf$ be another morphism of presheaves such that $\psi \circ \phi = 0$. Let $U \subset X$ be open. Then, we have the diagram
+\exercise{} Let $\phi : \Fsheaf \to \Gsheaf$ be a morphism of presheaves of abelian groups. Let $\pi : \Gsheaf \to \coker_\pre \phi$ be the canonical morphism. Let $\psi : \Gsheaf \to \Hsheaf$ be another morphism of presheaves such that $\psi \circ \phi = 0$. Let $U \subset X$ be open. Then, we have the diagram
 \begin{center}
     \begin{tikzcd}
         \Fsheaf(U) \arrow[r,"\phi_U"] & \Gsheaf(U) \arrow[d,"\psi_U"] \arrow[r,"\pi_U"] & (\coker_\pre \phi)(U) \arrow[ld,dashed,"\chi_U"] \\
@@ -365,9 +376,9 @@ We have
 \[\res_{U,V}\chi_U\pi_U = \res_{U,V} \psi_U = \psi_V  \res_{U,V} = \chi_V  \pi_V \res_{U,V} = \chi_V\res_{U,V}\pi_U \]
 So $\res_{U,V} \circ \chi_U = \chi_V \circ \res_{U,V}$ because $\pi_U$ is an epimorphism. Therefore $\chi$ is a morphism of presheaves. Its uniqueness comes from the universal property of cokernels on the level of each open set. This concludes the proof.
 
-\paragraph{2.3.G.} If $\phi : \Fsheaf \to \Gsheaf$ is a morphism in $\Ab^\pre_X$, then it gives a homomorphism of abelian groups $\phi_U : \Fsheaf(U) \Gsheaf(U)$. The fact this gives a functor is easy to check: $(\phi \circ \psi)_U = \phi_U \circ \psi_U$, by definition, and $(\id)_U = \id_{\Fsheaf(U)}$. If $0 \to \Fsheaf \xrightarrow{\phi} \Gsheaf \xrightarrow{\psi} \Hsheaf \to 0$ is a short exact sequence of presheaves of abelian groups, then $0 \to \Fsheaf(U) \xrightarrow{\phi_U} \Gsheaf(U) \xrightarrow{\psi_U} \Hsheaf(U) \to 0$ is exact, since kernels and images are defined open set by open set.
+\exercise{} If $\phi : \Fsheaf \to \Gsheaf$ is a morphism in $\Ab^\pre_X$, then it gives a homomorphism of abelian groups $\phi_U : \Fsheaf(U) \Gsheaf(U)$. The fact this gives a functor is easy to check: $(\phi \circ \psi)_U = \phi_U \circ \psi_U$, by definition, and $(\id)_U = \id_{\Fsheaf(U)}$. If $0 \to \Fsheaf \xrightarrow{\phi} \Gsheaf \xrightarrow{\psi} \Hsheaf \to 0$ is a short exact sequence of presheaves of abelian groups, then $0 \to \Fsheaf(U) \xrightarrow{\phi_U} \Gsheaf(U) \xrightarrow{\psi_U} \Hsheaf(U) \to 0$ is exact, since kernels and images are defined open set by open set.
 
-\paragraph{2.3.H.} If $0 \to \Fsheaf_1 \to \cdots \to \Fsheaf_n \to 0$ is exact, then applying the exact functor $\Fsheaf \mapsto \Fsheaf(U)$ gives and exact sequence, so the first implication holds. Conversely, assume the second sequence is exact for all open sets $U$. Let us show exactness at $\Fsheaf_2$. Name the morphisms $\Fsheaf_1 \xrightarrow{\phi} \Fsheaf_2 \xrightarrow{\psi} \Fsheaf_3$. Then, for any open set $U$, since $\Fsheaf_1(U) \xrightarrow{\phi_U} \Fsheaf_2(U) \xrightarrow{\psi_U} \Fsheaf_3(U)$ is exact, we have
+\exercise{} If $0 \to \Fsheaf_1 \to \cdots \to \Fsheaf_n \to 0$ is exact, then applying the exact functor $\Fsheaf \mapsto \Fsheaf(U)$ gives and exact sequence, so the first implication holds. Conversely, assume the second sequence is exact for all open sets $U$. Let us show exactness at $\Fsheaf_2$. Name the morphisms $\Fsheaf_1 \xrightarrow{\phi} \Fsheaf_2 \xrightarrow{\psi} \Fsheaf_3$. Then, for any open set $U$, since $\Fsheaf_1(U) \xrightarrow{\phi_U} \Fsheaf_2(U) \xrightarrow{\psi_U} \Fsheaf_3(U)$ is exact, we have
 \[(\im_\pre \phi)(U) = \im \phi_U = \ker \psi_U = (\ker_\pre \psi)(U)\]
 It remains to check that the restriction maps of $\im_\pre \phi$ are the same as $\ker_\pre \psi$. Let $V \subset U$ be open. Then, we have the following diagram, where downward maps are restrictions:
 \begin{center}
@@ -380,21 +391,21 @@ If $x \in \im \phi_U$, then $x = \phi_U (y)$, so $x_{\mid V} = \phi_V(y_{\mid V}
 \[(\res_{U,V})_{\mid \ker \psi_U}^{\mid \ker \psi_V} = (\res_{U,V})_{\mid \im \phi_U}^{\mid \im \phi_V}\]
 which shows both presheaves are indeed the same, and thus exactness at $\Fsheaf_2$. Exactness at other points of the sequence can be proven in the exact same way.
 
-\paragraph{2.3.I.} Let $(U_i)_{i\in I}$ be a family of open sets of $X$ and $U = \cup_i U_i$. Let $x,y \in (\ker_\pre \phi) (U)$ be such that $x_{\mid U_i} = y_{\mid U_i}$ for all $i$. Since restriction maps of $\ker_\pre \phi$ are actually restriction maps of $\Fsheaf$, and $\Fsheaf$ is a sheaf, we have $x = y$. Therefore identity holds. \\
+\exercise{} Let $(U_i)_{i\in I}$ be a family of open sets of $X$ and $U = \cup_i U_i$. Let $x,y \in (\ker_\pre \phi) (U)$ be such that $x_{\mid U_i} = y_{\mid U_i}$ for all $i$. Since restriction maps of $\ker_\pre \phi$ are actually restriction maps of $\Fsheaf$, and $\Fsheaf$ is a sheaf, we have $x = y$. Therefore identity holds. \\
 Now pick $x_i \in (\ker_\pre \phi)(U_i)$ for all $i$. Then $x_i \in \Fsheaf(U_i)$, and since $\Fsheaf$ is a sheaf, we have $x \in \Fsheaf(U)$ such that $x_{\mid U_i} = x_i$ for all $i$. Then, $(\phi_U (x))_{\mid U_i} = \phi_{U_i} (x_i) = 0$ for all $i$. Since $\Gsheaf$ is a sheaf, by identity, we have $\phi_U(x) = 0$, so $x \in (\ker_\pre \phi)(U)$. Hence gluability holds, and this completes the proof that $\ker_\pre \phi$ is a sheaf. For the universal property, this follows immediately from the fact that $\ker_\pre \phi$ satisfies the universal property in $\Ab_X^\pre$ and the fact that $\Ab_X$ is a full subcategory of $\Ab^\pre_X$.
 
-\paragraph{2.3.J.} We verify exactness open set by open set. Let $U \subset \C$ be open. Then, we have a sequence of abelian groups
+\exercise{} We verify exactness open set by open set. Let $U \subset \C$ be open. Then, we have a sequence of abelian groups
 \[0 \to \underline{\Z}(U) \hookrightarrow \Osheaf_X (U) \xrightarrow{f \mapsto \exp(2i\pi f)} \Fsheaf(U) \to 0\]
 The abelian group law on $\Fsheaf(U)$ is multiplication, so our maps really are homomorphisms of abelian groups. Exactness at $\underline{\Z}(U)$ is immediate since the map $\underline{\Z}(U) \hookrightarrow \Osheaf_X (U)$ is an inclusion. Exactness at $\Fsheaf(U)$ is also easy: by definition of $\Fsheaf(U)$, if $g \in \Fsheaf(U)$, then there exists $f \in \Osheaf_X(U)$ such that $g = \exp(f)$. Since $\frac{1}{2i\pi} f \in \Osheaf_X(U)$, we have surjectivity, that is exactness. If $f : U \to \Z$ is any function (in particular if $f \in \underline{\Z}(U)$), then $\exp(2i\pi f)$ is the constant function $U \to \C$ with value $1$, which is the identity element of $(\Fsheaf(U),\times)$, so we have a chain complex at $\Osheaf_X(U)$. Conversely, pick $f \in \Osheaf_X(U)$ such that $\exp(2i\pi f) = 1$. Then, $f$ must take values in $\Z$. Since $\Z$ is discrete and $f$ is continuous, $f$ is locally constant, so $f \in \underline{\Z}(U)$. Hence, our sequence is exact. \\
 Complex analysis tells us that on any open ball $B(e^{i\theta}, \frac{1}{2})$, $z \mapsto z$ has a holomorphic logarithm. However, $z\mapsto z$ does not have a holomorphic logarithm on $\bigcup_{\theta \in \R} B(e^{i\theta}, \frac{1}{2}) = \{z \in \C \mid \frac{1}{2} < |z| < \frac{3}{2}\}$. Therefore $\Fsheaf$ cannot be a sheaf as it fails gluability.
 
 \subsection{Properties determined at the level of stalks, and sheafification}
 
-\paragraph{2.4.A.} Let $s,t \in \Fsheaf(U)$ be such that $s_p = t_p$ for all $p \in U$, where $s_p$ and $t_p$ are the germs of $s$ and $t$ at $p \in U$. Pick a point $p \in U$. Then $s_p = t_p$ implies that there is some open set $U_p \subset U$ containing $p$ such that $s_{\mid U_p} = t_{\mid U_p}$. Since $U = \bigcup_{U_p}$, identity tells us $s = t$. This concludes.
+\exercise{} Let $s,t \in \Fsheaf(U)$ be such that $s_p = t_p$ for all $p \in U$, where $s_p$ and $t_p$ are the germs of $s$ and $t$ at $p \in U$. Pick a point $p \in U$. Then $s_p = t_p$ implies that there is some open set $U_p \subset U$ containing $p$ such that $s_{\mid U_p} = t_{\mid U_p}$. Since $U = \bigcup_{U_p}$, identity tells us $s = t$. This concludes.
 
-\paragraph{2.4.B.} Let $(s_p)_{p \in U} \in \prod_{p \in U} \Fsheaf_p$ consist of compatible germs. Then, for any point $p \in U$, there is an open set $U_p \subset U$ containing $p$ such that there exists $\tilde{s}_p \in \Fsheaf(U_p)$, such that the germ of $\tilde{s}_p$ at $q \in U_p$ is $s_q$. Let $p,q \in U$ be two points. If $x \in U_p \cap U_q$, then $(\tilde{s}_p)_x = (\tilde{s}_q)_x$, so there is some open set $V_x \subset U_p \cap U_q$ containing $x$ such that $(\tilde{s}_p)_{\mid V_x} =(\tilde{s}_q)_{\mid V_x}$. We have $U_p \cap U_q = \bigcup_{x \in U_p \cap U_q} V_x$, so by identity, we have $(\tilde{s}_p)_{\mid U_p \cap U_q} = (\tilde{s}_q)_{\mid U_p \cap U_q}$. Since $U = \bigcup_{p \in U} U_p$, by gluing, we obtain $\tilde{s} \in \Fsheaf(U)$ such that $\tilde{s}_{\mid U_p} = \tilde{s}_p$. Since $p \in U_p \subset U$, the image of $\tilde{s}$ in $\Fsheaf_p$ is the same as the image of $(\tilde{s})_{\mid U_p} = \tilde{s}_p$, so it is $s_p$. This finishes the proof.
+\exercise{} Let $(s_p)_{p \in U} \in \prod_{p \in U} \Fsheaf_p$ consist of compatible germs. Then, for any point $p \in U$, there is an open set $U_p \subset U$ containing $p$ such that there exists $\tilde{s}_p \in \Fsheaf(U_p)$, such that the germ of $\tilde{s}_p$ at $q \in U_p$ is $s_q$. Let $p,q \in U$ be two points. If $x \in U_p \cap U_q$, then $(\tilde{s}_p)_x = (\tilde{s}_q)_x$, so there is some open set $V_x \subset U_p \cap U_q$ containing $x$ such that $(\tilde{s}_p)_{\mid V_x} =(\tilde{s}_q)_{\mid V_x}$. We have $U_p \cap U_q = \bigcup_{x \in U_p \cap U_q} V_x$, so by identity, we have $(\tilde{s}_p)_{\mid U_p \cap U_q} = (\tilde{s}_q)_{\mid U_p \cap U_q}$. Since $U = \bigcup_{p \in U} U_p$, by gluing, we obtain $\tilde{s} \in \Fsheaf(U)$ such that $\tilde{s}_{\mid U_p} = \tilde{s}_p$. Since $p \in U_p \subset U$, the image of $\tilde{s}$ in $\Fsheaf_p$ is the same as the image of $(\tilde{s})_{\mid U_p} = \tilde{s}_p$, so it is $s_p$. This finishes the proof.
 
-\paragraph{2.4.C.} Let $U \subset X$ be open. We have a commutative diagram
+\exercise{} Let $U \subset X$ be open. We have a commutative diagram
 \begin{center}
 \begin{tikzcd}
     \Fsheaf(U) \arrow[r,shift left,"(\phi_1)_U"]\arrow[r,shift right,"(\phi_2)_U" '] \arrow[d] & \Gsheaf(U) \arrow[d,hookrightarrow] \\
@@ -403,7 +414,7 @@ Complex analysis tells us that on any open ball $B(e^{i\theta}, \frac{1}{2})$, $
 \end{center}
 Where vertical maps are $s \mapsto (s_p)_{p \in U}$. Since $\Gsheaf$ is a sheaf, injectivity comes from exercise \textbf{2.4.A.}. The horizontal map between products of stalks is induced by both $\phi_1$ and $\phi_2$ (since by assumption $\phi_1$ and $\phi_2$ induce the same morphisms on stalks). Commutativity, along with the injective map being monic shows $\phi_1 = \phi_2$.
 
-\paragraph{2.4.D.} Let $\Fsheaf,\Gsheaf$ be sheaves of sets on $X$ and $\phi : \Fsheaf \to \Gsheaf$ be a morphism of sheaves that induces isomorphisms on all stalks. Let $U \subset X$ be open. We have the diagram
+\exercise{} Let $\Fsheaf,\Gsheaf$ be sheaves of sets on $X$ and $\phi : \Fsheaf \to \Gsheaf$ be a morphism of sheaves that induces isomorphisms on all stalks. Let $U \subset X$ be open. We have the diagram
 \begin{center}
     \begin{tikzcd}
         \Fsheaf(U) \arrow[r,"\phi_U"] \arrow[d,hookrightarrow] & \Gsheaf(U) \arrow[d,hookrightarrow, "f_\Gsheaf"] \\
@@ -416,58 +427,58 @@ Now surjectivity. Let $s \in \Gsheaf(U)$. It induces a compatible family $(s_p)_
 \[(\phi_U (t))_p = \phi_p (t_p) = s_p \]
 and since in a sheaf sections are determined by their germs, we have $\phi_U(t) = s$, which is precisely surjectivity.
 
-\paragraph{2.4.E.} \todo
+\exercise{} \todo
 
-\paragraph{2.4.F.} \todo ez
+\exercise{} \todo ez
 
-\paragraph{2.4.G.} \todo ez
+\exercise{} \todo ez
 
-\paragraph{2.4.H.} Let $(U_i)_{i\in I}$ be a family of open sets of $X$ and $U = \bigcup_i U_i$. Let $f = (f_p)_{p\in U}$ and $g = (g_p)_{p \in U}$ be two elements of $\Fsheaf^\sh(U)$ such that $f_{\mid U_i} = g_{\mid U_i}$ for all $i$. Then, since any point $p \in U$ is contained in some $U_i$, the $p$ component of $f$ and $g$ are identical, that $f_p = g_p$ for all $p$, so $f=g$. Hence identity holds. \\
+\exercise{} Let $(U_i)_{i\in I}$ be a family of open sets of $X$ and $U = \bigcup_i U_i$. Let $f = (f_p)_{p\in U}$ and $g = (g_p)_{p \in U}$ be two elements of $\Fsheaf^\sh(U)$ such that $f_{\mid U_i} = g_{\mid U_i}$ for all $i$. Then, since any point $p \in U$ is contained in some $U_i$, the $p$ component of $f$ and $g$ are identical, that $f_p = g_p$ for all $p$, so $f=g$. Hence identity holds. \\
 Now pick a family $f^i = (f^i_p)_{p \in U_i} \in \Fsheaf^\sh(U_i)$ such that $f^i_p = f^j_p$ for all $p \in U_i \cap U_j$. Then this compatibility condition allows us to form the tuple $f = (f_p)_{p \in U} \in \prod_{p \in U} \Fsheaf_p$ defined by $f_p = f^i_p$ where $i$ is any $i$ such that $p \in U_i$. Now fix a point $p \in U$. It is contained in some $U_i$. Since $f^i \in \Fsheaf^\sh(U_i)$, there exists an open set $V \subset U_i$ containing $p$ and $s \in \Fsheaf(V)$ such that $s_q = f_q^i = f_q$ for all $q \in V$. This shows $f \in \Fsheaf^\sh (U)$ and gluability holds.
 
-\paragraph{2.4.I.} Send a section $s \in \Fsheaf(U)$ to $(s_p)_{p \in U} \in \Fsheaf^\sh(U)$ (a tuple of germs arising from a section is a tuple of germs locally arising from a section, so we do end up in $\Fsheaf^\sh(U)$.) Compatibility with restriction maps is almost immediate to check.
+\exercise{} Send a section $s \in \Fsheaf(U)$ to $(s_p)_{p \in U} \in \Fsheaf^\sh(U)$ (a tuple of germs arising from a section is a tuple of germs locally arising from a section, so we do end up in $\Fsheaf^\sh(U)$.) Compatibility with restriction maps is almost immediate to check.
 
-\paragraph{2.4.J.} Let $\Gsheaf$ be another sheaf, and let $\phi : \Fsheaf \to \Gsheaf$ be a morphism. Let $U \subset X$ be an open set. Take $(f_p)_{p \in U} \in \Fsheaf^\sh (U)$. For any $p \in U$, we have some open set $V_p \subset U$ containing $p$ and $s^p \in \Fsheaf(V_p)$ such that $s_q^p = f_q$ for all $q \in V_p$. Let $t^p = \phi_{V_p} (s^p)$. If we have two points $p_1,p_2 \in U$, then $s^{p_1}_q = f_q = s^{p_2}_q$ for any $q \in V_{p_1} \cap V_{p_2}$. This means that $t^{p_1}$ and $t^{p_2}$ have the same germ at $q$, and since $\Gsheaf$ is a sheaf they must be equal on $V_{p_1} \cap V_{p_2}$. Gluability and identity thus tell us there exists a unique section $t \in \Gsheaf(U)$ such that $t_{\mid V_p} = t^p$ for all $p \in U$. We define $\psi((f_p)_{p \in U}) = t$. From this definition, it can be seen that $\psi$ is a morphism of sheaves and $\phi = \psi \circ \sh$. To see it is the unique one, \todo
+\exercise{} Let $\Gsheaf$ be another sheaf, and let $\phi : \Fsheaf \to \Gsheaf$ be a morphism. Let $U \subset X$ be an open set. Take $(f_p)_{p \in U} \in \Fsheaf^\sh (U)$. For any $p \in U$, we have some open set $V_p \subset U$ containing $p$ and $s^p \in \Fsheaf(V_p)$ such that $s_q^p = f_q$ for all $q \in V_p$. Let $t^p = \phi_{V_p} (s^p)$. If we have two points $p_1,p_2 \in U$, then $s^{p_1}_q = f_q = s^{p_2}_q$ for any $q \in V_{p_1} \cap V_{p_2}$. This means that $t^{p_1}$ and $t^{p_2}$ have the same germ at $q$, and since $\Gsheaf$ is a sheaf they must be equal on $V_{p_1} \cap V_{p_2}$. Gluability and identity thus tell us there exists a unique section $t \in \Gsheaf(U)$ such that $t_{\mid V_p} = t^p$ for all $p \in U$. We define $\psi((f_p)_{p \in U}) = t$. From this definition, it can be seen that $\psi$ is a morphism of sheaves and $\phi = \psi \circ \sh$. To see it is the unique one, \todo
 
 \todo add details eventually
 
-\paragraph{2.4.K.} \todo kernels are limits, so ker(presheaf = forget(sheaf)) = forget(ker(sheaf)) so ker(sheaf) is a sheaf?
+\exercise{} \todo kernels are limits, so ker(presheaf = forget(sheaf)) = forget(ker(sheaf)) so ker(sheaf) is a sheaf?
 
-\paragraph{2.4.L.} Let $p \in X$. Let $s_p \in \Fsheaf_p$ and pick a representative $(s,U)$. Then, $\sh(s_p) = [\sh(s),U]_p = [\prod_{q \in U} (s_q),U]_p$. Every element of $\Fsheaf^\sh_p$ is obtained in this way: if $(\prod_{q \in U} (s_q),U)$ is a representative of some element, then we have some open set $V \subset U$ containing $p$ and $f \in \Fsheaf(V)$ such that $s_q = f_q$ for $q \in V$. The element of the stalk thus is $\sh(f_q)$, so we have surjectivity. For injectivity, if $\sh(s_p) = \sh(t_p)$ for two representatives $(s,U)$ and $(t,U)$, then $[\prod_{q \in U} (s_q),U]_p = [\prod_{q \in U} (t_q),U]_p$ then there is some open set $V \subset U$ containing $p$ such that $s_q = t_q$ for all $q \in V$. Therefore, $s_p = t_p$, so we have injectivity.
+\exercise{} Let $p \in X$. Let $s_p \in \Fsheaf_p$ and pick a representative $(s,U)$. Then, $\sh(s_p) = [\sh(s),U]_p = [\prod_{q \in U} (s_q),U]_p$. Every element of $\Fsheaf^\sh_p$ is obtained in this way: if $(\prod_{q \in U} (s_q),U)$ is a representative of some element, then we have some open set $V \subset U$ containing $p$ and $f \in \Fsheaf(V)$ such that $s_q = f_q$ for $q \in V$. The element of the stalk thus is $\sh(f_q)$, so we have surjectivity. For injectivity, if $\sh(s_p) = \sh(t_p)$ for two representatives $(s,U)$ and $(t,U)$, then $[\prod_{q \in U} (s_q),U]_p = [\prod_{q \in U} (t_q),U]_p$ then there is some open set $V \subset U$ containing $p$ such that $s_q = t_q$ for all $q \in V$. Therefore, $s_p = t_p$, so we have injectivity.
 
-\paragraph{2.4.M.} 
+\exercise{} 
 
 \section{}
 
 \subsection{Toward schemes}
 
-\paragraph{3.1.A.} If $\pi$ is smooth, then for any smooth function $f : Y \to \R$, $f \circ \pi$ is also smooth, since the composition of smooth functions is again smooth. Conversely, assume that smooth functions pull back to smooth functions. Let $x \in X$ be a point. Pick a chart $(U,\varphi : U \to \R^n)$ around $x$, and a chart $(V,\psi : V \to \R^m)$ around $\pi(x)$. We want to show $\psi \circ \pi \circ \varphi^{-1} : \R^n \to \R^m$ is smooth. To do this, we can replace $\psi$ by its coordinates, so we can just check this for $\psi : V \to \R$. Coordinates of charts are smooth (since charts and projections $\R^m \to \R$ are smooth). We know by assumption that $\psi \circ \pi : \pi^{-1}(V) \to \R$ is again smooth. This implies that $\psi \circ \pi \circ \varphi^{-1} : \R^n \to \R$ is smooth because $\varphi^{-1} : \R^n\to U$ is a chart, so it is smooth. This proves the result.
+\exercise{} If $\pi$ is smooth, then for any smooth function $f : Y \to \R$, $f \circ \pi$ is also smooth, since the composition of smooth functions is again smooth. Conversely, assume that smooth functions pull back to smooth functions. Let $x \in X$ be a point. Pick a chart $(U,\varphi : U \to \R^n)$ around $x$, and a chart $(V,\psi : V \to \R^m)$ around $\pi(x)$. We want to show $\psi \circ \pi \circ \varphi^{-1} : \R^n \to \R^m$ is smooth. To do this, we can replace $\psi$ by its coordinates, so we can just check this for $\psi : V \to \R$. Coordinates of charts are smooth (since charts and projections $\R^m \to \R$ are smooth). We know by assumption that $\psi \circ \pi : \pi^{-1}(V) \to \R$ is again smooth. This implies that $\psi \circ \pi \circ \varphi^{-1} : \R^n \to \R$ is smooth because $\varphi^{-1} : \R^n\to U$ is a chart, so it is smooth. This proves the result.
 
-\paragraph{3.1.B.} Let $f_q \in \Osheaf_{Y,q}$ and $(f,U)$ be a representative. Then, $(f\circ \pi, \pi^{-1}(U))$ represents the element $(f\circ \pi)_p \in \Osheaf_{X,p}$. We define $\pi^\sharp (f_q) = (f \circ \pi)_p$. Categorically speaking, $\pi^\sharp$ is the colimit of the maps $\applic{\Osheaf_Y}{\Osheaf_{X,p}}{f}{(f\circ \pi)_p}$ and this ensures that $\pi^\sharp$ really induces a morphism of stalks. If $f \in \Osheaf_Y(U)$ vanishes at $q \in U$, then $f \circ \pi \in \Osheaf_X (\pi^{-1}(U))$ vanishes at $p$. This is enough to show that $\pi^\sharp (\m_{Y,q}) \subset \m_{X,p}$.
+\exercise{} Let $f_q \in \Osheaf_{Y,q}$ and $(f,U)$ be a representative. Then, $(f\circ \pi, \pi^{-1}(U))$ represents the element $(f\circ \pi)_p \in \Osheaf_{X,p}$. We define $\pi^\sharp (f_q) = (f \circ \pi)_p$. Categorically speaking, $\pi^\sharp$ is the colimit of the maps $\applic{\Osheaf_Y}{\Osheaf_{X,p}}{f}{(f\circ \pi)_p}$ and this ensures that $\pi^\sharp$ really induces a morphism of stalks. If $f \in \Osheaf_Y(U)$ vanishes at $q \in U$, then $f \circ \pi \in \Osheaf_X (\pi^{-1}(U))$ vanishes at $p$. This is enough to show that $\pi^\sharp (\m_{Y,q}) \subset \m_{X,p}$.
 
 \subsection{The underlying set of an affine scheme}
 
-\paragraph{3.2.A.}
+\exercise{} \label{spec_local_en_x}
 \begin{enumerate}
     \item It is a fact from ring theory that prime ideals of $\Spec k[\varepsilon]/(\epsilon^2)$ are in bijection with prime ideals of $\Spec k[\varepsilon]$ that contain $(\epsilon^2)$. The only such prime ideal is $(\varepsilon)$. Therefore, $\Spec k[\varepsilon]/(\epsilon^2) = \{[(\varepsilon)]\}$.
     \item We have the localisation morphism $\phi : k[x] \to k[x]_{(x)}$. Let $\mathfrak{p}$ be a prime ideal of $k[x]_{(x)}$. Then $\phi^{-1}(\mathfrak{p})$ is a prime ideal of $k[x]$. If $\mathfrak{p} \ne (0)$, then we must have $\phi^{-1}(\mathfrak{p}) \ne (0)$, so $\phi^{-1}(\mathfrak{p}) = (x-a)$ for some $a \in k$. Furthermore, $a$ must be $0$, since $x-a$ for nonzero $a$ is invertible in $k[x]_{(x)}$ and thus can't belong to $\mathfrak{p}$. This means that $(x) \subset \mathfrak{p}$. Conversely, if $P,Q \in k[x]$ are such that $P/Q \in \mathfrak{p}$ ($Q$ must have no $x$ factor for this to make sense), then $\phi(P) = P/1 \in \mathfrak{p}$. If $P$ has no $x$ factor, then it is a product of linear factors of the form $x-a$ with $a\ne 0$ which are all invertible in $k[x]_{(x)}$, so $P$ is invertible, which contradicts $\mathfrak{p}$ being prime. Therefore $P/Q \in (x)$ and thus $\mathfrak{p} = (x)$. We conclude $\Spec k[x]_{(x)} = \{[(0)], [(x)]\}$.
 \end{enumerate}
 
-\paragraph{3.2.B.} Pick $z \in \C$ a complex root of $x^2 + ax + b$. Define a morphism of $\R$-algebras $\R[x] \to \C$ by sending $x$ to $z$. Since $z^2 + az + b = 0$, this morphism passes to the quotient to give $f : \R[x]/(x^2 + ax + b) \to \C$. In fact, this morphism is injective, since $x^2 + ax + b$ is irreducible and must thus be the minimal polynomial of $z$ on $\R$ (meaning the kernel of the map $\R[x] \to \C$ is exactly $(x^2 + ax +b)$). This shows that $f$ is an injective homomorphism of $\R$-algebras. Since both $\R$-algebras are two-dimensional, $f$ is surjective and an isomorphism, and this concludes.
+\exercise{} Pick $z \in \C$ a complex root of $x^2 + ax + b$. Define a morphism of $\R$-algebras $\R[x] \to \C$ by sending $x$ to $z$. Since $z^2 + az + b = 0$, this morphism passes to the quotient to give $f : \R[x]/(x^2 + ax + b) \to \C$. In fact, this morphism is injective, since $x^2 + ax + b$ is irreducible and must thus be the minimal polynomial of $z$ on $\R$ (meaning the kernel of the map $\R[x] \to \C$ is exactly $(x^2 + ax +b)$). This shows that $f$ is an injective homomorphism of $\R$-algebras. Since both $\R$-algebras are two-dimensional, $f$ is surjective and an isomorphism, and this concludes.
 
-\paragraph{3.2.C.} The discussion already given by Vakil in the case of $\mathbb{A}^1_\R$ or $\mathbb{A}_{\F_p}^1$ can be paralleled here: $\mathbb{A}^1_\Q$ is the set of points of $\overline{\Q}$ modulo the action of the absolute Galois group $\Gal(\overline{\Q}/\Q)$, plus the generic point $[(0)]$.
+\exercise{} The discussion already given by Vakil in the case of $\mathbb{A}^1_\R$ or $\mathbb{A}_{\F_p}^1$ can be paralleled here: $\mathbb{A}^1_\Q$ is the set of points of $\overline{\Q}$ modulo the action of the absolute Galois group $\Gal(\overline{\Q}/\Q)$, plus the generic point $[(0)]$.
 
-\paragraph{3.2.D.} Assume for the sake of contradiction that there are only finitely many points $\p_1, \dots, \p_n$. We can further assume that all $\p_i$s are not $(0)$. For all $i$, pick a non-zero polynomial $P_i \in \p_i$. Then, $P_1 \cdots P_n + 1$ is a polynomial that of positive degree, so not a unit. This means that $(P_1 \cdots P_n + 1)$ is not all of $k[x]$ and therefore is contained in a maximal ideal. Since a maximal ideal is prime, and we know $P_1 \cdots P_n + 1$ is not zero, $P_1 \cdots P_n + 1 \in \p_i$ for some $i$. This leads to $1 \in \p_i$, which is a contradiction.
+\exercise{} Assume for the sake of contradiction that there are only finitely many points $\p_1, \dots, \p_n$. We can further assume that all $\p_i$s are not $(0)$. For all $i$, pick a non-zero polynomial $P_i \in \p_i$. Then, $P_1 \cdots P_n + 1$ is a polynomial that of positive degree, so not a unit. This means that $(P_1 \cdots P_n + 1)$ is not all of $k[x]$ and therefore is contained in a maximal ideal. Since a maximal ideal is prime, and we know $P_1 \cdots P_n + 1$ is not zero, $P_1 \cdots P_n + 1 \in \p_i$ for some $i$. This leads to $1 \in \p_i$, which is a contradiction.
 
-\paragraph{3.2.E.} Let $\p$ be a prime ideal of $\C[x,y]$. If $\p = (0)$, we are done. If not, pick $f \in \p \setminus \{0\}$ of minimal degree (degree is defined as the maximal degree of a monomial where a monomial $x^n y^m$ would have degree $n+m$). Then, $f$ is irreducible, for if we have a factorization $f = ab$, then either $a$ or $b$ is in $\p$, but since $f$ is of minimal degree this can only happen when $a$ or $b$ is a unit. Then, if $\p = (f)$, again we are done. If not, pick $g \in \p\setminus (f)$. Then if $h \in \C[x,y]$ is a non-constant polynomial such that $g = hg_1$ and $f = hf_1$, since $\p$ is prime either $h \in \p$, but then $f = h$ by minimality and $g \in (f)$, which is not the case, so we must have $g_1, f_1 \in \p$ and $f = f_1$. We can then repeat the same reasoning with $g_1$ and $f$ until there is no non-constant polynomial $h$ dividing both $g_1$ and $f$ (this process must terminate eventually since the degree of $g$ is finite and goes down every time). We rename $g = g_1$. We can consider $f$ and $g$ as elements of $\C(x)[y]$. Let $d$ be a greatest common divisor of $f$ and $g$ in $\C(x)[y]$, and since greatest common divisors are well-defined up to multiplication by a unit, we can assume $d \in \C[x,y]$. The Euclidean Algorithm to compute the greatest common divisor shows that $d \in \p$. Then, $f = Ad$ with $A \in \C(x)[y]$. This means there is some polynomial $P \in \C[x]$ such that $d \mid Pf$ in $\C[x,y]$. In much the same way there is some $Q \in \C[x]$ such that $d \mid Qg$. If $d \notin \C[x]$, then there must be some irreducible element $p \in \C[x,y] \setminus \C[x]$ dividing $d$. Since $\C[x,y]$ is a unique factorization domain, irreducible elements are prime, so from $p \mid Pf$ we get $p \mid P$ or $p\mid f$. However, $p$ is not a polynomial in $x$ and therefore cannot divide $P$ (if you're unsure about this, reason in $\C(x)[y]$, where the degree only accounts for $y$. Thinking about the degree shows that you cannot remove $y$ by multiplying by some other polynomial in $x$ and $y$). Therefore $p \mid f$, and similarly $p \mid g$. This is a contradiction since we assumed $f$ and $g$ had no common factors. Therefore, $d \in \C[x]$. Since $d \in \p$, by primality and since $\C$ is a algebraically closed, $(x-a) \in \p$ for some $a \in \C$. Switching $x$ and $y$ around and carrying out the exact same reasoning shows that $(y-b) \in \p$ for some $b \in \C$. Therefore, $(x-a,y-b) \subset \p$, and we get $(x-a,y-b) = \p$ since $(x-a,y-b)$ is a maximal ideal.
+\exercise{} Let $\p$ be a prime ideal of $\C[x,y]$. If $\p = (0)$, we are done. If not, pick $f \in \p \setminus \{0\}$ of minimal degree (degree is defined as the maximal degree of a monomial where a monomial $x^n y^m$ would have degree $n+m$). Then, $f$ is irreducible, for if we have a factorization $f = ab$, then either $a$ or $b$ is in $\p$, but since $f$ is of minimal degree this can only happen when $a$ or $b$ is a unit. Then, if $\p = (f)$, again we are done. If not, pick $g \in \p\setminus (f)$. Then if $h \in \C[x,y]$ is a non-constant polynomial such that $g = hg_1$ and $f = hf_1$, since $\p$ is prime either $h \in \p$, but then $f = h$ by minimality and $g \in (f)$, which is not the case, so we must have $g_1, f_1 \in \p$ and $f = f_1$. We can then repeat the same reasoning with $g_1$ and $f$ until there is no non-constant polynomial $h$ dividing both $g_1$ and $f$ (this process must terminate eventually since the degree of $g$ is finite and goes down every time). We rename $g = g_1$. We can consider $f$ and $g$ as elements of $\C(x)[y]$. Let $d$ be a greatest common divisor of $f$ and $g$ in $\C(x)[y]$, and since greatest common divisors are well-defined up to multiplication by a unit, we can assume $d \in \C[x,y]$. The Euclidean Algorithm to compute the greatest common divisor shows that $d \in \p$. Then, $f = Ad$ with $A \in \C(x)[y]$. This means there is some polynomial $P \in \C[x]$ such that $d \mid Pf$ in $\C[x,y]$. In much the same way there is some $Q \in \C[x]$ such that $d \mid Qg$. If $d \notin \C[x]$, then there must be some irreducible element $p \in \C[x,y] \setminus \C[x]$ dividing $d$. Since $\C[x,y]$ is a unique factorization domain, irreducible elements are prime, so from $p \mid Pf$ we get $p \mid P$ or $p\mid f$. However, $p$ is not a polynomial in $x$ and therefore cannot divide $P$ (if you're unsure about this, reason in $\C(x)[y]$, where the degree only accounts for $y$. Thinking about the degree shows that you cannot remove $y$ by multiplying by some other polynomial in $x$ and $y$). Therefore $p \mid f$, and similarly $p \mid g$. This is a contradiction since we assumed $f$ and $g$ had no common factors. Therefore, $d \in \C[x]$. Since $d \in \p$, by primality and since $\C$ is a algebraically closed, $(x-a) \in \p$ for some $a \in \C$. Switching $x$ and $y$ around and carrying out the exact same reasoning shows that $(y-b) \in \p$ for some $b \in \C$. Therefore, $(x-a,y-b) \subset \p$, and we get $(x-a,y-b) = \p$ since $(x-a,y-b)$ is a maximal ideal.
 
-\paragraph{3.2.F.} Let $k$ be an algebraically closed field and $\m$ a maximal ideal of $k[x_1, \dots, x_n]$. Then, the Nullstellensatz $k[x_1,\dots,x_n]/\m$ is a finite field extension of $k$, so an algebraic extension of $k$, so it is field-isomorphic to $k$ since $k$ is algebraically closed. Let $\pi : k[x_1,\dots,x_n]/\m \xrightarrow{\sim} k$ be the isomorphism. We can further assume $\pi$ is a $k$-morphism, that is $\pi([a]) = a$ for all $a \in k$, since we can compose with an appropriate automorphism of $k$ at the end. Then, $\pi([x_i]) = a_i$, so $\pi([x_i] - [a_i]) = 0$, so $(x_1-a_1,\dots,x_n-a_n) \subset \m$, and the conclusion follows since $(x_1-a_1,\dots,x_n-a_n)$ is maximal.
+\exercise{} Let $k$ be an algebraically closed field and $\m$ a maximal ideal of $k[x_1, \dots, x_n]$. Then, the Nullstellensatz $k[x_1,\dots,x_n]/\m$ is a finite field extension of $k$, so an algebraic extension of $k$, so it is field-isomorphic to $k$ since $k$ is algebraically closed. Let $\pi : k[x_1,\dots,x_n]/\m \xrightarrow{\sim} k$ be the isomorphism. We can further assume $\pi$ is a $k$-morphism, that is $\pi([a]) = a$ for all $a \in k$, since we can compose with an appropriate automorphism of $k$ at the end. Then, $\pi([x_i]) = a_i$, so $\pi([x_i] - [a_i]) = 0$, so $(x_1-a_1,\dots,x_n-a_n) \subset \m$, and the conclusion follows since $(x_1-a_1,\dots,x_n-a_n)$ is maximal.
 
-\paragraph{3.2.G.} Multiplication by a nonzero $x\in A$ is a $k$-linear from $A \to A$. Since $A$ is an integral domain, it is injective. Since $A$ is finite-dimensional over $k$, it is surjective. This means that there is some $y \in A$ such that $xy=1$, in other words, $A$ is a field.
+\exercise{} Multiplication by a nonzero $x\in A$ is a $k$-linear from $A \to A$. Since $A$ is an integral domain, it is injective. Since $A$ is finite-dimensional over $k$, it is surjective. This means that there is some $y \in A$ such that $xy=1$, in other words, $A$ is a field.
 
-\paragraph{3.2.H.} The maximal ideals are $(X^2 - 2, X-Y)$ and $(X^2 - 2, X+Y)$. The residue field is $\Q(\sqrt{2})$ in both cases.
+\exercise{} The maximal ideals are $(X^2 - 2, X-Y)$ and $(X^2 - 2, X+Y)$. The residue field is $\Q(\sqrt{2})$ in both cases.
 
-\paragraph{3.2.I.} 
+\exercise{} 
 \begin{enumerate}
     \item We have a morphism of $\Q$-algebras $\mathrm{ev}_{(\pi,\pi^2)} : f(x,y) \mapsto f(\pi,\pi^2)$ whose kernel is precisely $\phi(\pi,\pi^2)$. Since $\pi$ is transcendental over $\Q$, $\mathrm{ev}_\pi : \applic{\Q[x]}{\Q[\pi]}{P(x)}{P(\pi)}$ is an isomorphism of $\Q$-algebras. Therefore the map $\mathrm{ev}_{(\pi,\pi^2)} : f(x,y) \mapsto f(\pi,\pi^2)$ can be broken down into the composition
     \begin{center}
@@ -481,11 +492,11 @@ Now pick a family $f^i = (f^i_p)_{p \in U_i} \in \Fsheaf^\sh(U_i)$ such that $f^
     \item \todo
 \end{enumerate}
 
-\paragraph{3.2.J.} Let $\p$ be an ideal of $A$ containing $I$. We have morphisms
+\exercise{} Let $\p$ be an ideal of $A$ containing $I$. We have morphisms
 $A \xrightarrow{\phi} A/I \xrightarrow{\pi} (A/I)/\phi(\p)$
 The kernel of $\pi\phi$ is precisely $\p$, since $\p \supset I$. Furthermore, $\pi \phi$ is surjective since $\pi$ and $\phi$ are. The first isomorphism theorem then gives $A/\p \simeq (A/I)/\phi(\p)$, so $A/\p$ is an integral domain if and only if $(A/I)/\phi(\p)$ is, which amounts to saying $\p$ is prime if and only if $\phi(\p)$ is prime. We have $\p \subset \phi^{-1}(\phi(\p))$. If $a \in \phi^{-1}(\phi(\p))$, then $\phi(a) = \phi(t)$ for $t \in \p$, so $\phi(a-t) = 0$ which means $a-t \in I \subset \p$, so $a \in \p$. Thus $\phi^{-1}(\phi(\p)) = \p$. Conversely, if $\p$ is an ideal of $A/I$, then $\phi^{-1}(\p)$ is an ideal of $A$. Surjectivity of $\phi$ gives $\phi(\phi^{-1}(\p)) = \p$, so previous discussion shows $\phi^{-1}(\p)$ is prime if and only if $\p$ is prime. The fact that $\phi^{-1}$ preserves order is a general fact about maps of sets.
 
-\paragraph{3.2.K.} Let $\phi : a \mapsto \frac{a}{1}$ be the localization morphism. Define maps
+\exercise{} Let $\phi : a \mapsto \frac{a}{1}$ be the localization morphism. Define maps
 \begin{center}
     \begin{tikzcd}[row sep = 0ex,/tikz/column 1/.append style={anchor=base east}
         ,/tikz/column 2/.append style={anchor=base west}]
@@ -505,16 +516,16 @@ and the other way around, if $\p$ is a prime ideal of $S^{-1}A$,
 but if $\frac{a}{s} \in \p$, then $\frac{a}{s} = \frac{1}{s} \frac{a}{1} = \frac{1}{s} \phi(a) \in (\p \cap \phi(A))$, so we have equality.
 and we are done.
 
-\paragraph{3.2.L.} We can define a map $\C[x,y] \to \C[x]_x$ by sending $x$ to $x$ and $y$ to $0$. Passing to the quotient gives a map $\C[x,y]/(xy) \to \C[x]_x$. Since $x + (xy)$ is still sent to $x$ which is invertible in $\C[x]_x$, we obtain a map $\phi : (\C[x,y]/(xy))_x \to \C[x]_x$. We check injectivity and surjectivity manually. Consider $\frac{f(x,y)}{x^n} \in \ker \phi$ (we omit writing $+(xy)$ for convenience). Then
+\exercise{} We can define a map $\C[x,y] \to \C[x]_x$ by sending $x$ to $x$ and $y$ to $0$. Passing to the quotient gives a map $\C[x,y]/(xy) \to \C[x]_x$. Since $x + (xy)$ is still sent to $x$ which is invertible in $\C[x]_x$, we obtain a map $\phi : (\C[x,y]/(xy))_x \to \C[x]_x$. We check injectivity and surjectivity manually. Consider $\frac{f(x,y)}{x^n} \in \ker \phi$ (we omit writing $+(xy)$ for convenience). Then
 \[\phi \left(\frac{f(x,y)}{x^n}\right) = \frac{1}{x^n} \phi \left(\frac{f(x,y)}{1}\right) = \frac{f(x,0)}{x^n}\]
 So $\frac{f(x,0)}{x^n} = 0$. This means $f(x,0) = 0$ in $\C[x]$, which in turns implies $f(x,y) = yg(x,y)$ for some $g(x,y) \in \C[x,y]$ (this can be seen by explicitly writing out what $f(x,0)$ is). Therefore, in $(\C[x,y]/(xy))_x$, we have
 \[\frac{x}{1} \frac{f(x,y)}{1} = \frac{xyg(x,y)}{1} = 0\]
 So $\frac{f(x,y)}{1} = 0$ since $\frac{x}{1}$ is invertible, and in turn $\frac{f(x,y)}{x^n} = 0$, so $\ker \phi = \{0\}$ and $\phi$ is injective. \\
 If $\frac{f(x)}{x^n} \in \C[x]_x$, then $\phi(\frac{f(x)}{x^n}) = \frac{f(x)}{x^n}$, so $\phi$ is surjective. This concludes.
 
-\paragraph{3.2.M.} We have used this implicitly in the previous exercises. Let $\p$ be a prime ideal of $A$. Consider the composition, $B \xrightarrow{\phi} A \xrightarrow{\pi} A/\p$. Its kernel is $\phi^{-1}(\p)$, so it induces an injective ring map $B/\phi^{-1}(\p) \hookrightarrow A/\p$. Since $\p$ is prime, $A/\p$ is an integral domain, so $B/\phi^{-1}(\p)$ also is, which shows $\phi^{-1}(\p)$ is prime.
+\exercise{} We have used this implicitly in the previous exercises. Let $\p$ be a prime ideal of $A$. Consider the composition, $B \xrightarrow{\phi} A \xrightarrow{\pi} A/\p$. Its kernel is $\phi^{-1}(\p)$, so it induces an injective ring map $B/\phi^{-1}(\p) \hookrightarrow A/\p$. Since $\p$ is prime, $A/\p$ is an integral domain, so $B/\phi^{-1}(\p)$ also is, which shows $\phi^{-1}(\p)$ is prime.
 
-\paragraph{3.2.N.} \begin{enumerate}
+\exercise{} \label{inclus_spec_quotient} \begin{enumerate}
     \item Let $\pi : B \to B/I$ be the canonical projection. Exercise \textbf{3.2.J.} tells us there is a bijection $\{\p \in \Spec B \mid I \subset \p\} \xrightarrow{\sim} \Spec B/I$, given by $\p \mapsto \pi(\p)$. Therefore we obtain a map
     \[\applic{\{\p \in \Spec B \mid I \subset \p\}}{\Spec B}{\p}{\pi^{-1}(\pi(\p))}\]
     since $\pi^{-1}(\pi(\p)) = \p + I = \p$, the map above really is the inclusion.
@@ -525,6 +536,226 @@ If $\frac{f(x)}{x^n} \in \C[x]_x$, then $\phi(\frac{f(x)}{x^n}) = \frac{f(x)}{x^
     And it was proven in exercise \textbf{3.2.K.} that $\phi^{-1}(\phi (\p)) = \p$, so the map above really is the inclusion.
 \end{enumerate}
 
-\paragraph{3.2.O.} 
+\exercise{} The map of rings $\C[y] \to \C[x]$ that sends $y$ to $x^2$ sends a polynomial in $y$ to a polynomial in $x^2$. It basically takes a function on $\C$ (a polynomial in $y$) and returns the same function pulled back by $x \mapsto y = x^2$. This map of rings gives a map of spectra in the opposite direction. Precisely, if $(x-a) \in \Spec \C[x]$, then the image of $(x-a)$ by this map is
+\[\{P \in \C[y] \mid (x-a) \mid P(x^2)\} = \{P \in \C[y] \mid P(a^2) = 0\} = (y - a^2)\]
+Therefore, the preimage of a point $(y-a) \in \Spec \C[y]$ is $(x \pm \sqrt{a}) \in \Spec \C[x]$ where $\sqrt{a}$ is a square root of $a$.
+
+\exercise{} \begin{enumerate}
+    \item Let $A,B$ be rings, $\phi : A \to B$ be a morphism of rings and $I \subset B$, $J \subset A$ be ideals such that $\phi(J) \subset I$. This last conditions means that the map $A \to B/I$ given by composing $\phi$ with the canonical projections passes to the quotient to give a map $A/J \to B/I$, which in turns induces a map of sets $\Spec B/I \to \Spec A/J$.
+    \item The image of the point $(a_1,\dots,a_m) \in k^m$ is
+    \[\{P \in k[y_1,\dots,y_n] \mid P(f_1,\dots,f_n) \in (x-a_1,\dots,x-a_m)\}\]
+    which is equal to
+    \[ \{P \in k[y_1,\dots,y_n] \mid P(f_1(a_1,\dots,a_m),\dots,f_n(a_1,\dots,a_m)) = 0\}\]
+    which is precisely the point $(f_1(a_1,\dots,a_m),\dots,f_n(a_1,\dots,a_m)) \in k^n$.
+\end{enumerate}
+
+\exercise{} We have
+\begin{align*}
+    \pi^{-1}([(p)]) & = \{I \in \A^n_\Z \mid \pi(I) = (p)\} \\
+    & = \{I \in \A^n_\Z \mid I \cap \Z = (p)\} \\
+    & = \{I \in \Spec \Z[x_1,\dots,x_n] \mid (p) \subset I\} \\
+    & \simeq \Spec \Z[x_1,\dots,x_n]/(p) \\
+    & \simeq \Spec \F_p[x_1,\dots,x_n] \\
+    & = \A^n_{\F_p}
+\end{align*}
+The third equality requires some thought: if $I \cap \Z = (p)$, then $(p) \subset I$. The other way around, if $(p) \subset I$, then $(p) \subset I \cap \Z$, and equality follows since $I\cap \Z$ is an ideal of $\Z$ and $(p)$ is a maximal ideal of $\Z$.
+The explicit bijection is given by
+\[\applic{\pi^{-1}([(p)])}{\A^n_{\F_p}}{I}{(I \!\!\! \mod p)}\]
+We have a bijection
+\[\pi^{-1}([(0)]) = \{I \in \A^n_\Z \mid I\cap \Z = \{0\}\} \leftrightarrow \A^n_\Q\]
+Given by $I \mapsto \Q I$ and $I \cap \Z[x_1,\dots,x_n] \mapsto I$.
+
+\exercise{} \begin{enumerate}
+    \item Any prime ideal $\p \in \Spec B$ contains $I$ since nilpotents are contained in all prime ideals. Therefore the inclusion $\Spec B/I \to \Spec B$ is a bijection since its image is prime ideals containing $I$, that is all prime ideals.
+    \item If $x,y$ are nilpotent with $x^n = 0$, $y^m = 0$, then $ax$ is also nilpotent for any $a \in B$ since $(axy)^n = 0$. Furthermore, $(x+y)^{n+m} = 0$ by binomial expansion (all terms are zero, look at exponents).
+\end{enumerate}
+
+\exercise{} Let $x \in A$. Prime ideals of $A_x$ correspond to prime ideals of $A$ not meeting $\{x^n \mid n\in \N\}$. If $x$ is not nilpotent then $A_x$ must not be the zero ring, so it must contain a maximal (therefore prime) ideal. This means there exists a prime ideal not containing $x$, which concludes.
+
+\exercise{} If $f(x) = \sum_{k \ge 0} a_k x^k$, we have
+\begin{align*}
+    f(x + \varepsilon) & = \sum_{k \ge 0} a_k (x+\varepsilon)^k \\
+    & = \sum_{k \ge 0} a_k \sum_{i=0}^k \binom{k}{i} \varepsilon^i x^{k-i} \\
+    & = \sum_{k \ge 0} a_k (x^k + k \varepsilon x^{k-1}) \\
+    & = \sum_{k \ge 0} a_k x^k + \varepsilon \sum_{k \ge 0} a_k k x^{k-1} \\
+    & = f(x) + \varepsilon f'(x)
+\end{align*}
+
+\subsection{Visualizing schemes: Generic points}
+
+No exercises here\dots
+
+\subsection{The underlying topological space of an affine scheme}
+
+\exercise{} Let $[\p] \in V(y,z)$. Then, $y \in \p$ so $xy \in \p$ and $z \in \p$ so $yz \in \p$, so $[\p] \in V(xy,yz)$.
+
+\exercise{} Let $[\p] \in \Spec A$. If $\p$ contains $S$, then it contains $(S)$, since $\p$ is an ideal. If $\p$ contains $(S)$, then it contains $S$ since $S \subset (S)$.
+
+\exercise{} \begin{enumerate}
+    \item We have $\varnothing = V(1)$ and $\Spec A = V(0)$.
+    \item Let $[\p] \in \cap_i V(I_i)$. Then, $I_i \subset \p$ for all $i$, so $\sum I_i \subset \p$, so $[\p] \in V(\sum_i I_i)$. Conversely, if $[\p] \in V(\sum_i I_i)$, then $I_i \subset \sum_j I_j \subset \p$, so $[\p] \in V(I_i)$ for all $i$ and $[\p] \in \cap_i V(I_i)$.
+    \item Let $[\p] \in V(I_1) \cup V(I_2)$. Then either $I_1 \subset \p$ or $I_2 \subset \p$, and in either case we deduce $I_1 I_2 \subset \p$, so $[\p] \in V(I_1 I_2)$. Conversely, if $[\p] \in V(I_1 I_2)$, then $I_1 I_2 \subset \p$. If $I_1 \subset \p$, we are done. If not, then there exists $a \in I_1 \setminus \p$. Then, if $b \in I_2$, $ab \in I_1 I_2 \subset \p$. Since $\p$ is prime and $a \notin \p$, we have $b \in \p$. Therefore, $I_2 \subset \p$.
+\end{enumerate}
+
+\exercise{} We have $\sqrt{I} = \pi^{-1}(\sqrt{(0)})$ where $\pi : A \to A/I$ is the canonical projection, therefore it is an ideal by exercise \textbf{3.2.R.}. Let $\p$ be a prime ideal. If $\sqrt{I} \subset \p$, we have $I \subset \sqrt{I} \subset \p$. Conversely, if $I \subset \p$, then if $a \in \sqrt{I}$, there is some $n \in \N^*$ such that $a^n \in I \subset \p$. Since $p$ is prime, either $a$ or $a^{n-1}$ is in $\p$, and by iterating this we obtain $a \in \p$, so $\sqrt{I} \subset \p$. This reasoning also shows any prime ideal is radical. \\
+We have $\sqrt{I} \subset \sqrt{\sqrt{I}}$. Conversely, if $a \in \sqrt{\sqrt{I}}$, then we have some $n \in \N^*$ such that $a^n \in \sqrt{I}$, so we have some $m \in \N^*$ such that $a^{nm} \in I$, so $a \in \sqrt{I}$, which proves $\sqrt{I} \subset \sqrt{\sqrt{I}}$.
+
+\exercise{} Assume $a \in \sqrt{\cap_{i=1}^n I_i}$. Then $a^k \in \cap_{i=1}^n I_i \subset \cap_{i=1}^n \sqrt{I_i}$ for some $k \in \N^*$. For each $i$, $a^k \in \sqrt{I_i}$, so $a \in \sqrt{\sqrt{I_i}} = \sqrt{I_i}$. This shows $a \in \cap_{i=1}^n \sqrt{I_i}$. Now assume $a \in \cap_{i=1}^n \sqrt{I_i}$. For each $i$ there exists $n_i \in \N^*$ such that $a^{n_i} \in I_i$. Therefore, $a^{\sum_j n_j} = \prod_j a^{n_j} \in I_i$ for each $i$, so $a^{\sum_j n_j} \in \cap_i^n I_i$, which proves $a \in \sqrt{\cap_{i=1}^n I_i}$.
+
+\exercise{} \label{intersection_prime_ideals}We have $\sqrt{I} = \pi^{-1}(\sqrt{(0)})$ where $\pi : A \to A/I$ is the canonical projection. Since $\sqrt{(0)}$ is precisely the nilpotents, we have $\sqrt{(0)} = \bigcap\limits_{\p \in \Spec A/I} \p$. Therefore, $\sqrt{I} = \bigcap\limits_{\p \in \Spec A/I} \pi^{-1}(\p)$. By exercise \ref{inclus_spec_quotient}, we get $\sqrt{I} = \bigcap\limits_{\begin{subarray}{c} \p \in \Spec A \\ I \subset \p \end{subarray}} \p$.
+
+\exercise{} Let $(f(x))$ be an ideal of $k[x]$, and $(p(x)) \in \A_k^1$ be a prime ideal generated by an irreducible polynomial. Then $[(p(x))] \in V(f(x)) \iff p(x) \mid f(x)$, so $V(f(x))$ is precisely the set of irreducible factors of $f(x)$. From this we deduce closed sets of $\A_k^1$ are precisely the finite sets of points other than $[(0)]$, and $\A_k^1$, since either $f$ has a finite (possibly zero) number of irreducible factors or $f=0$. This means $[(0)]$ is in every open set: it is dense in $\A_k^1$.
+
+\exercise{} \label{zariski_continu}Let $S \subset B$. We have
+\begin{align*}
+    \pi^{-1}(V(S)) = \{\p \in \Spec A \mid S \subset \phi^{-1}(\p)\} = \{\p \in \Spec A \mid \phi(S) \subset \p\} = V(\phi(S))
+\end{align*}
+Which shows $\pi$ is continuous. Therefore, $\Spec : \Ring \to \Top$ maps rings to topological spaces, and ring maps to continuous maps between theses spaces, that go the other way around. Furthermore, if $C \xrightarrow{\psi} B \xrightarrow{\phi} A$ are two ring maps, then we have $\Spec(\phi \circ \psi) = (\p \mapsto (\phi\circ \psi)^{-1} (\p)) = (\p \mapsto \phi^{-1}(\psi^{-1} (\p))) = \Spec(\phi) \circ \Spec (\psi)$, so $\Spec$ is a contravariant functor.
+
+\exercise{} \begin{enumerate}
+    \item We have the identification $\Spec B/I = \{\p \in \Spec B \mid I \subset \p \} = V(I)$, so $\Spec B/I$ is naturally a closed subset of $\Spec B$. Similarly,
+    \[\Spec S^{-1}B = \{\p \in \Spec B \mid S \cap \p = \varnothing \} = \{\p \in \Spec B \mid f \notin \p\} = (\Spec B) \setminus V(f)\]
+    So $\Spec S^{-1}B$ is naturally an open subset of $\Spec B$. We have $\Spec \Q = \{[(0)]\}$. It is identified with $\{[(0)]\} \in \Spec \Z$ since $\Q = (\Z \setminus \{0\})^{-1} \Z$. If $S \subset \Z$ is such that $S \subset \p \iff \p \ne (0)$, then $S$ must contain at least one non-zero integer $n \in S$. If $p$ is a prime not dividing $n$, then $n \notin (p)$, so $(p) \notin V(S)$, and this is a contradiction. Therefore $(\Spec \Q)^c$ cannot be of the form $V(S)$, so is not closed, and this shows $\Spec \Q$ is not open in $\Spec \Z$.
+    \item We have
+    \begin{align*}
+        V_{B/I}(J) & = \{\p \in \Spec B/I \mid J \subset \p\} \\
+        & = \{\p \in \Spec B \mid I \subset \p, J \subset \p\} \\
+        & = V_B (J) \cap V_B(I) \\
+        & = V_B(J) \cap \Spec B/I
+    \end{align*}
+    which shows the topology on $\Spec B/I$ is the subspace topology induced by $\Spec B$. Similarly,
+    \begin{align*}
+        V_{S^{-1}B}(J) & = \{\p \in \Spec S^{-1}B \mid J \subset \p\} \\
+        & = \{\p \in \Spec B \mid S\cap \p = \varnothing, J \subset \p\} \\
+        & = \{\p \in \Spec B \mid S\cap \p = \varnothing\} \cap \{\p \in \Spec B \mid  J \subset \p\}\\ 
+        & = \Spec S^{-1}B \cap V_B (J) 
+    \end{align*}
+    So the topology on $\Spec S^{-1}B$ is the subspace topology induced by $\Spec B$.
+\end{enumerate}
+
+\exercise{} \label{vanishing_on_ideal} By exercise \ref{intersection_prime_ideals}, we have:
+\begin{align*}
+    f \text{ vanishes on } I & \iff \forall \p \in \Spec B, ((I \subset \p) \implies f \in \p) \\
+    & \iff f \in \bigcap_{\begin{subarray}{c} \p \in \Spec B \\ I \subset \p \end{subarray} } \p \\
+    & \iff f \in \sqrt{I}
+\end{align*}
+
+\exercise{} We have $\Spec k[x]_{(x)} = \{[(0)],[(x)]\}$ (exercise \ref{spec_local_en_x}). The sets $\varnothing$ and $\Spec k[x]_{(x)}$ are closed. We have $\overline{\{[(0)]\}} = \Spec k[x]_{(x)}$ so $\{[(0)]\}$ cannot be closed. Furthermore, $\{[(x)]\} = V(x)$, so $\{[(x)]\}$ is closed. Therefore, $\Spec k[X]_{(x)}$ is homeomorphic to $\{0,1\}$ equipped with open sets $\{\varnothing, \{1\}, \{0,1\}\}$.
+
+\subsection{A base of the Zariski topology on $\Spec A$: Distinguished open sets}
+
+\exercise{} An Zariski-open set of $\Spec A$ is of the form $V(S)^c$ where $S \subset A$. Then,
+\[V(S)^c = V\left(\bigcup_{f \in S} f\right)^c = \left(\bigcap_{f \in S} V(f)\right)^c = \bigcup_{f \in S} V(f)^c = \bigcup_{f \in S} D(f)\]
+
+\exercise{} By the previous exercise, $\bigcup_{i \in J} D(f_i) = V(\{f_i \mid i\in J\})^c = V(\sum_{i\in J} (f_i))^c$. If $1 \in \sum_{i\in J} (f_i)$, then we obtain
+\[\bigcup_{i \in J} D(f_i) = V(A)^c = \varnothing^c = \Spec A\]
+Conversely, if $\bigcup_{i \in J} D(f_i) = \Spec A$, then $V(\sum_{i\in J} (f_i)) = \varnothing$. This is only possible if $\sum_{i\in J} (f_i) = A$, because if not, $\sum_{i\in J} (f_i)$ is contained in a maximal (and therefore prime) ideal.
+
+\exercise{} \label{distinguished_quasicompact} Assume $\Spec A = \bigcup_{i\in J} D(f_i)$. By the previous exercise, we obtain $1 \in \sum_{i\in J} (f_i)$, so there is some $n \in \N^*$ and $a_1, \dots,a_n \in A$, $i_1, \dots,i_n \in J$ such that $\sum_{k=1}^n a_k f_{i_k} = 1$. Therefore, by the previous exercise, $\Spec A = \bigcup_{k = 1}^n D(f_{i_k})$.
+
+\exercise{} We have
+\[D(f) \cap D(g) = (V(f) \cup V(g))^c = V(fg)^c = D(fg)\]
+
+\exercise{} I $D(f) \subset D(g)$, then $V(g) \subset V(f)$, so by exercise \ref{vanishing_on_ideal}, we obtain $f \in \sqrt{(g)}$ i.e. $f^n \in (g)$ for some $n \ge 1$. If $f^n \in (g)$ for some $n \ge 1$, then $f^n = gt$ for some $t \in A$, so $g(tf^{-n}) = 1$ in $A_f$, hence $g$ is invertible in $A_f$. If $g$ is invertible in $A_f$, and $\phi : A \to A_f$ is the localization morphism, then $D(f) = \phi^{-1}(\Spec A_f)$. Let $\phi^{-1}(\p) \in D(f)$. We know $g \notin \p$ in $A_f$ since a prime ideal cannot contain an invertible element, so $\phi^{-1}(\p) \in D(g)$, and this shows $D(f) \subset D(g)$.
+
+\exercise{} We have
+\[D(f) = \varnothing \iff V(f) = \Spec A \iff \forall \p \in \Spec A, f \in \p \iff f \in \bigcap_{\p \in \Spec A} \p = \mathfrak{N}\]
+
+\exercise{} Let $\phi : B \hookrightarrow A$ we an injective ring map. Then we have an induced map
+\[\phi^{-1} : \applic{\Spec A}{\Spec B}{\p}{\phi^{-1}(\p)}\]
+If $S\subset B$, we have shown $\phi^{-1}(V(S)) = V(\phi(S))$ in exercise \ref{zariski_continu}. We have
+\begin{align*}
+    \overline{\{\phi^{-1}(\p) \mid \p \in \Spec A\}} & = \bigcap_{\begin{subarray}{c}
+        S \subset B \\ \Im \phi^{-1} \subset V(S)
+    \end{subarray}} V(S)
+\end{align*}
+For $S \subset B$, notice that
+\begin{align*}
+    \Im \phi^{-1} \subset V(S)
+    & \iff \forall \p \in \Spec A, \phi^{-1}(\p) \in V(S) \\
+    & \iff \forall \p \in \Spec A, S \subset \phi^{-1}(\p) \\
+    & \iff \forall \p \in \Spec A, \phi(S) \subset \p \\
+    & \iff \phi(S) \subset \bigcap_{\p \in \Spec A} \p = \mathfrak{N}_A
+\end{align*}
+And since $\phi$ is injective, $\phi(x)$ is nilpotent if and only if $x$ is nilpotent, so we obtain
+\[
+    \overline{\{\phi^{-1}(\p) \mid \p \in \Spec A\}} = 
+    \bigcap_{\begin{subarray}{c}
+        S \subset B \\ \Im \phi^{-1} \subset V(S)
+    \end{subarray}} V(S)
+    = \bigcap_{\begin{subarray}{c}
+        S \subset \mathfrak{N}_B
+    \end{subarray}} V(S)
+    = V(\mathfrak{N}_B) = \Spec B
+\]
+This is because if $S \subset \mathfrak{N}_B$, then $V(\mathfrak{N}_B) \subset V(S)$. Hence the image of $\phi^{-1}$ is dense.
+\todo : redo proof with distinguished open sets, and see if it's shorter
+
+\subsection{Topological (and Noetherian) properties}
+
+\exercise{} We assume $n=2$ for convenience (the general case can then be proved by induction). The canonical projection $\pi_1 : A \to A_1$ is a ring map, so we have a continuous hence a continuous map
+\[\pi_1^{-1} : \applic{\Spec A_1}{\Spec A}{\p}{\pi_1^{-1}(\p) = \p \times A_2}\]
+Similarly, $\pi_2 : A \to A_2$ induces $\pi_2^{-1} : \Spec A_2 \to \Spec A$, and we can glue these maps together to obtain the continuous map
+\[f : \applic{\Spec A_1 \coprod \Spec A_2}{\Spec (A_1 \times A_2)}{\p}{
+    \begin{cases}
+        \p \times A_2 & \text{if $\p \in \Spec A_1$} \\
+        A_1 \times \p & \text{if $\p \in \Spec A_2$}
+    \end{cases}
+}\]
+We need to show it is a homeomorphism. We show it is bijective. If $f(\p) = f(\q)$, then we must have $\p, \q \in \Spec A_1$ or $\p, \q \in \Spec A_2$ (since a prime ideal is not the entire ring.) Applying a canonical projection yields $\p = \q$ in both cases, so $f$ is injective. To show it is surjective, consider $\p \in \Spec (A_1 \times A_2)$. If $(a,b) \in \p$, then $(a,1)\cdot(1,b) \in \p$. Since $\p$ is prime, we must have $(a,1) \in \p$ or $(1,b) \in \p$. Assume $(a,1) \in \p$. Then $(0,1) = (0,1)\cdot (a,1) \in \p$. Then, if $(x,y) \in \p$, for any $z \in A_2$, we have
+\[(x,z) = (1,0)\cdot (x,y) + (0,z)\cdot (0,1) \in \p\]
+Which shows $\p$ is of the form $\pi_1(\p) \times A_2$. In the other case where $(1,b) \in \p$, a similar reasoning shows that $\p = A_1 \times \pi_2(\p)$. This shows $f$ is surjective. \\
+We now show $f$ is open. We show it is open on $\Spec A_1$. Let $a \in A_1$, and consider $D(a) \subset \Spec A_1$. Then
+\begin{align*}
+    f(D(a)) & = \pi_1^{-1}(D(a)) \\
+    & = \{\p \in \Spec A \mid a \notin \pi_1 (\p)\} \\
+    & = \{\p \in \Spec A \mid \{a\} \times A_2 \cap \p = \varnothing\} \\
+    & = \Spec (\{a\}\times A_2)^{-1}A
+\end{align*}
+Since $\Spec (\{a\}\times A_2)^{-1}A$ is naturally an open subset of $\Spec A$, this shows $f(D(a))$ is open in $\Spec A$, and since distinguished open sets are a basis of the Zariski topology, we obtain that $f$ is open on $\Spec A_1$. Similarly one shows that $f$ is open on $\Spec A_2$, and this means $f$ is open. Since $f$ is bijective and open, it is a homeomorphism. Further,
+\begin{align*}
+    f(\Spec A_1) & = \{\p \times A_2 \mid \p \in \Spec A_1\} \\
+    & = \{\p \in \Spec A \mid (1,0) \cap \p = \varnothing\} \\
+    & = D((1,0))
+\end{align*}
+and similarly, $f(\Spec A_2) = D((0,1))$.
+
+\exercise{} \begin{enumerate}
+    \item If $U,V$ are open sets of an irreducible space $X$ such that $U \cap V = \varnothing$, then $U^c \cup V^c = X$, so either $U$ or $V$ must be empty. Therefore a non-empty open set intersects every other open set, i.e. it is dense.
+    \item Assume $Z$ is irreducible. Let $\overline{Z} = (X\cap \overline{Z}) \cup (Y\cap \overline{Z})$ where $A,B$ are closed in $X$. Then $\overline{Z} = (A \cup B) \cap \overline{Z}$. Therefore, $Z \subset A \cup B$, so $Z = (A \cap Z) \cup (B \cap Z)$. Since $Z$ is irreducible, we can assume without loss of generality $Z = A \cap Z$. Since $A$ is closed in $X$, we have $\overline{Z} \subset A$, so $A \cap \overline{Z} = \overline{Z}$, which means we have proven $\overline{Z}$ is irreducible. \\
+    Conversely, assume $\overline{Z}$ is irreducible, and let $A,B$ be closed subsets of $X$ such that $Z = (A \cap Z) \cup (B \cap Z)$. Then $Z = (A \cup B) \cap Z$, so $Z \subset A \cup B$. Since $A \cup B$ is closed, $\overline{Z} \subset A \cup B$, so we get $\overline{Z} = (A \cap \overline{Z}) \cup (B \cap \overline{Z})$ and by irreducibility and without loss of generality we may assume $\overline{Z} = A \cap \overline{Z}$, which yields $Z \subset \overline{Z} \subset A$, so $Z = Z \cap A$, and $Z$ is irreducible.
+\end{enumerate}
+
+\exercise{} Assume $A$ is an integral domain. Then $[(0)]$ is contained in every non-empty open set, since it is contained in every distinguished open set $D(f)$ where $f \ne 0$. This means two non-empty open sets of $\Spec A$ intersect, hence $\Spec A$ is irreducible.
+
+\exercise{} If a topological space $X$ is disconnected, then it can be written as the union of two non-empty disjoint closed sets $X = A \coprod B$. This means $X$ cannot be irreducible, which complets the proof by contraposition.
+
+\exercise{} Consider $\Spec \R[x,y]/(xy)$. Let $a + (xy)$ be an idempotent of $\R[x,y]/(xy)$. Then, $xy \mid a^2 - a = a(a-1)$. If $a + (xy)$ is not $0$ or $1$ in $\R[x,y]/(xy)$, then we obtain that $x \mid a$ and $y \mid a-1$, or $x \mid a-1$ and $y \mid a$. Both cases are impossible since either $a$ or $a-1$ has a nonzero constant term. Since the ring $\R[x,y]/(xy)$ has no idempotents besides $0$ and $1$, $\Spec \R[x,y]/(xy)$ is connected. However, we have $\Spec \R[x,y]/(xy) = \Spec \R[x,y]/(x) \cup \Spec \R[x,y]/(y)$, so $\Spec \R[x,y]/(xy)$ is reducible.
+
+\exercise{} \begin{enumerate}
+    \item Consider the sub-$k$-algebra of $k[a,b]$ given by $k[a^3,a^2 b,ab^2, b^3]$. Writing out products of the generators $a^3,a^2 b, ab^2, b^3$ allows one to show that
+    \[k[a^3,a^2 b,ab^2, b^3]\simeq k[w,x,y,z]/I\]
+    by identifying $w$ with $a^3$, $x$ with $a^2b$, $y$ with $ab^2$ and $z$ with $b^3$ (the relations imposed are exactly the ones given by $I$.)
+    \item \todo
+\end{enumerate}
+
+\exercise{} \begin{enumerate}
+    \item Exercise \ref{distinguished_quasicompact} shows that any cover of $\Spec A$ by distinguished open sets has a finite subcover. Since distinguished open sets are a base of the Zariski topology on $\Spec A$, this shows $\Spec A$ is quasi-compact.
+    \item \todo
+\end{enumerate}
+
+\exercise{} \begin{enumerate}
+    \item This is a well-known fact from point-set topology (\todo).
+    \item This is a well-known fact from point-set topology (\todo).
+\end{enumerate}
+
+\exercise{} Let $\m \in \Spec A$ be a maximal ideal. Then,
+\[\overline{\{\m\}} = \bigcap_{\begin{subarray}{c} S \subset A \\ \m \in V(S) \end{subarray} } V(S) = \bigcap_{S \subset \m} V(S) = V(\m) = \{\p \in \Spec A \mid \m \subset \p\} = \{\m\}\]
+Since $V$ is inclusion-reversing and $\m$ is a maximal ideal. Conversely, assume $\p \in \Spec A$ is closed. The same reasoning as above shows $\overline{\{\p\}} = V(\p)$, and if $\m$ is a maximal ideal containing $\p$, we have $\m \in V(\p)$. Therefore, $\p$ being closed implies it is maximal.
+
+\exercise{} \begin{enumerate}
+    \item 
+\end{enumerate}
+
 
 \end{document}

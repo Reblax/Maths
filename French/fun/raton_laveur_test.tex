@@ -1,0 +1,15 @@
+\documentclass{standalone}
+\usepackage{tikz}
+
+\begin{tikzpicture}[scale = 0.04]
+    \draw (0,0) -- (0,7.5);
+
+    \draw (0,0) -- (4,0) -- +(105:4);
+    \draw (6,0) -- (6,5);
+    \draw (8,0) -- (8,8) -- + (30:3.5) -- (8, 13) -- (8,15) arc[start angle=90, end angle = 180,radius=8];
+    \draw (1,0) -- (0,0) -- (-1,0) arc[start angle=270, end angle=90, radius=3] -- (0,6);
+    \draw (-1.7,0) -- (-1.7,6);
+
+    \fill (7.5,11) circle[radius=0.8];
+    \fill (4.5,11) circle[radius=0.8];
+\end{tikzpicture}
